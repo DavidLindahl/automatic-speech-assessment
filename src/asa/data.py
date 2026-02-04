@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import numpy as np
+
 import typer
 from torch.utils.data import Dataset
 
