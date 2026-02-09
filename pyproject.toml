@@ -7,7 +7,8 @@ name = "asa"
 version = "0.0.1"
 description = "This bachelor project studies how modern transformer-based models can be used for automatic assessment of spoken language."
 authors = [
-  { name = "DavidLindahl", email = "your@email.com" },
+  { name = "David Lindahl", email = "s234817@dtu.dk" },
+  { name = "Carl Svejstrup", email = "s234840@dtu.dk" },
 ]
 
 keywords = ["machine learning", "MLOps"]
