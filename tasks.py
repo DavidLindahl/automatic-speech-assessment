@@ -12,7 +12,17 @@ PYTHON_VERSION = "3.12"
 def preprocess_data(ctx: Context) -> None:
     """Preprocess data."""
     ctx.run(
-        f"uv run src/{PROJECT_NAME}/data.py data/raw data/processed",
+        f"uv run src/{PROJECT_NAME}/data.py preprocess data/raw data/processed",
+        echo=True,
+        pty=not WINDOWS,
+    )
+
+
+@task
+def download_data(ctx: Context) -> None:
+    """Download data from GCS."""
+    ctx.run(
+        f"uv run src/{PROJECT_NAME}/data.py download",
         echo=True,
         pty=not WINDOWS,
     )
