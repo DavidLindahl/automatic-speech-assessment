@@ -78,7 +78,13 @@ def download(
     # Ensure destination exists
     destination_path.mkdir(parents=True, exist_ok=True)
 
-    client = storage.Client()
+    # Try to create a client (checks for credentials first)
+    try:
+        client = storage.Client()
+    except Exception:
+        # If no credentials found, fall back to anonymous client
+        print("No credentials found. Using anonymous access...")
+        client = storage.Client.create_anonymous_client()
     bucket = client.bucket(bucket_name)
 
     blobs = bucket.list_blobs(
