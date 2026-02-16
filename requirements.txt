@@ -32,8 +32,6 @@ colorama==0.4.6
 comm==0.1.4
 contourpy==1.1.0
 coverage==7.3.0
-# Editable install with no version control (cp==2023.0)
--e /Users/davidlindahl/Documents/DTU/02002students
 cycler==0.11.0
 datasets==3.6.0
 debugpy==1.6.7.post1
