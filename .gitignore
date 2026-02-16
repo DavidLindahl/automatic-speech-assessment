@@ -193,3 +193,7 @@ demo_gpu_job.sh
 # Caches
 .ruff_cache
 memory/
+
+
+# Outputs
+outputs.txt
