@@ -35,6 +35,8 @@ dependencies = [
     "torchaudio>=2.6.0",
     "typer==0.15.1",
     "uvicorn==0.34.0",
+    "transformers>=4.45.0",
+    "accelerate>=0.26.0",
 ]
 
 [dependency-groups]
