@@ -10,7 +10,9 @@ from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 
 # ---- Config ----
 MODEL_ID = "Qwen/Qwen2-Audio-7B-Instruct"
-AUDIO_PATH = pathlib.Path("demo.wav")  # put your one .wav in repo root with this name
+AUDIO_PATH = (
+    pathlib.Path(__file__).resolve().parent.parent / "data" / "raw" / "demo.wav"
+)
 MAX_AUDIO_SECONDS = 5
 MAX_NEW_TOKENS = 256
 
