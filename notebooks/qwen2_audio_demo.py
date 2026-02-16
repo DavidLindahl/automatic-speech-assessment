@@ -12,29 +12,39 @@ from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 MODEL_ID = "Qwen/Qwen2-Audio-7B-Instruct"
 AUDIO_PATH = pathlib.Path("demo.wav")  # put your one .wav in repo root with this name
 MAX_AUDIO_SECONDS = 5
-MAX_NEW_TOKENS = 150
+MAX_NEW_TOKENS = 256
 
-SYSTEM_PROMPT = """You are an expert audio quality assessor. Evaluate the speech audio using the \
-ITU-R BS.2399-0 Sound Wheel framework. Consider ALL of the following perceptual dimensions:
+SYSTEM_PROMPT = (
+    "You are a professional audio engineer and speech quality assessor. "
+    "You evaluate speech recordings using the ITU-R BS.2399-0 Sound Wheel "
+    "framework, covering six perceptual dimensions: Loudness, Dynamics, "
+    "Timbre, Spatial, Transparency, and Artefacts. You always use precise "
+    "Sound Wheel descriptors in your assessments."
+)
 
-1. LOUDNESS: perceived loudness (soft ↔ loud)
-2. DYNAMICS: dynamic range (narrow ↔ wide), punch (weak ↔ strong), attack (slow ↔ fast), decay (slow ↔ fast)
-3. TIMBRE: brightness (dark ↔ bright), warmth (cold ↔ warm), harshness (smooth ↔ harsh), \
-sibilance (dull ↔ sibilant), fullness (thin ↔ full), boominess (tight ↔ boomy), \
-boxiness (open ↔ boxy), presence (distant ↔ present), clarity (muddy ↔ clear), \
-naturalness (unnatural ↔ natural), metallic, hollow, roughness, smoothness
-4. SPATIAL: width (narrow ↔ wide), depth (shallow ↔ deep), localization (imprecise ↔ precise), \
-envelopment (dry ↔ enveloping), distance (far ↔ close), stability (unstable ↔ stable)
-5. TRANSPARENCY: openness (closed ↔ open), veiled (transparent ↔ veiled), diffusion (focused ↔ diffuse)
-6. ARTEFACTS: noise (quiet ↔ noisy), distortion (clean ↔ distorted), clicking, hissing, buzzing, \
-humming, rattling, interference, echo, reverberation, flutter, warble, gating, pumping, breathing
+USER_PROMPT = """\
+Analyze the speech audio above using the ITU-R BS.2399-0 Sound Wheel framework.
 
-Provide your assessment as:
-1. A short paragraph (3-5 sentences) describing the speech quality using the Sound Wheel descriptors above.
-2. An overall quality label: Excellent / Good / Fair / Poor / Bad
-"""
+Use the following Sound Wheel descriptors where relevant:
+- LOUDNESS: loudness
+- DYNAMICS: attack, bass precision, punch, powerful
+- TIMBRE:
+  - Treble: treble strength, brilliance, tinny
+  - Midrange: midrange strength, nasal, canny
+  - Bass: bass strength, bass depth, boomy
+  - Colouration: boxy, timbral balance, full, homogeneous
+- SPATIAL:
+  - Spatial extent: depth, width, envelopment
+  - Localization: spatial balance, distance, externalisation, localisability
+  - Environment: reverbrance, clarity
+- TRANSPARENCY: presence, clean, detail, natural
+- ARTEFACTS:
+  - Signal related: shrill, rubbing, rough, buzzing, clipping, distortion, compression
+  - Noise: hissing, humming, bubbling, fluctuating
 
-USER_PROMPT = "Listen to this speech audio and assess its quality using the Sound Wheel framework."
+Respond with EXACTLY:
+1. A concise 1-2 sentence expert assessment using the Sound Wheel descriptors listed above.
+2. Quality label: Excellent / Good / Fair / Poor / Bad"""
 # ----------------
 
 
@@ -114,6 +124,11 @@ def main():
     text = processor.apply_chat_template(
         conversation, add_generation_prompt=True, tokenize=False
     )
+
+    # Debug: show the rendered prompt so we can verify system prompt is included
+    print("\n--- Rendered chat template ---")
+    print(text)
+    print("--- End template ---\n")
 
     # NOTE: processor expects "audio=" for Qwen2-Audio in many setups; keep it as list with one element
     inputs = processor(
