@@ -37,6 +37,7 @@ dependencies = [
     "uvicorn==0.34.0",
     "transformers>=4.45.0",
     "accelerate>=0.26.0",
+    "typing>=3.10.0.0",
 ]
 
 [dependency-groups]
