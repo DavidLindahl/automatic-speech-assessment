@@ -21,3 +21,4 @@ plugins:
 
 nav:
   - Home: index.md
+  - Caption Generator: caption_generator.md
