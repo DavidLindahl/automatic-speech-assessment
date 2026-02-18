@@ -3,10 +3,10 @@ import sys
 import json
 import unittest
 from unittest.mock import patch
+import asa.caption_generator as caption_generator
 
 # Add src to path to import local modules
 sys.path.append("src")
-from asa import caption_generator
 
 
 class TestCaptionGenerator(unittest.TestCase):
