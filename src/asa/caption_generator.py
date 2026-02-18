@@ -21,7 +21,7 @@ else:
     print("Warning: GEMINI_API_KEY environment variable not found. API calls may fail.")
 
 # Model configuration
-MODEL_NAME = "gemini-2.5-flash-preview-09-2025"
+MODEL_NAME = "gemini-2.5-flash-lite"
 
 app = typer.Typer()
 
@@ -152,33 +152,15 @@ Context:
     return clean_result
 
 
-@app.command()
-def process_dataset_json(
-    input: str = typer.Option(
-        "data/processed/mos_dataset.json",
-        "--input",
-        "-i",
-        help="Path to the input JSON file.",
-    ),
-    output: str = typer.Option(
-        "data/processed/mos_predictions.json",
-        "--output",
-        "-o",
-        help="Path to the output JSON file.",
-    ),
-):
+def process_single_file(input_path: str, output_path: str):
     """
-    Process dataset JSON, generate captions/evaluations using Gemini, and save results.
-    Support both MOS prediction (single utterance) and A/B testing (paired utterances).
+    Process a single dataset JSON file, generate captions/evaluations using Gemini, and save results.
     """
-    input_json_path = input
-    output_json_path = output
-
-    if not os.path.exists(input_json_path):
-        print(f"Error: Input file '{input_json_path}' not found.")
+    if not os.path.exists(input_path):
+        print(f"Error: Input file '{input_path}' not found.")
         return
 
-    with open(input_json_path, "r") as f:
+    with open(input_path, "r") as f:
         data = json.load(f)
 
     # If the input is a list of JSON objects (which is expected), process each item
@@ -190,7 +172,7 @@ def process_dataset_json(
 
     results = []
 
-    print(f"Processing {len(data)} items from {input_json_path}...")
+    print(f"Processing {len(data)} items from {input_path}...")
 
     for i, item in enumerate(data):
         # Create a new result dict rather than modifying inplace, to match target schema
@@ -204,10 +186,8 @@ def process_dataset_json(
 
             prompt = generate_mos_prediction_prompt(metadata)
             response = call_gemini_api(prompt)
-            # print(f"\n--- [DEBUG] Gemini Output for {identifier} ---")
-            # print(response)
-            # print("----------------------------------------------\n")
-            # Construct output item matching train_nisqa_llama_10k.json structure
+            # DEBUG:
+            print(response)
             if "audio_path" in item:
                 result_item["audios"] = [item["audio_path"]]
             elif "audios" in item:
@@ -280,13 +260,51 @@ def process_dataset_json(
             continue
 
         results.append(result_item)
+        print(f"Processed {i+1}/{len(data)} items.")
 
     # Save results
-    with open(output_json_path, "w") as f:
+    with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"Processing complete. Results saved to {output_json_path}")
+    print(f"Processing complete. Results saved to {output_path}")
+
+
+@app.command()
+def process_data(
+    data_dir: str = typer.Option(
+        "data/processed",
+        "--data-dir",
+        "-d",
+        help="Directory containing input JSON files (mos_dataset.json, ab_dataset.json).",
+    ),
+):
+    """
+    Process dataset JSONs (mos_dataset.json, ab_dataset.json) in the specified directory,
+    generate captions/evaluations using Gemini, and save to target files:
+    - train_nisqa_llama_10k.json
+    - train_nisqa_abtest_llama_10k.json
+    """
+    data_path = os.path.abspath(data_dir)
+    # 1. Process MOS Dataset
+    mos_input = os.path.join(data_path, "mos_dataset.json")
+    mos_output = os.path.join(data_path, "train_nisqa_llama_10k.json")
+
+    if os.path.exists(mos_input):
+        print(f"Found {mos_input}. Processing to {mos_output}...")
+        process_single_file(mos_input, mos_output)
+    else:
+        print(f"Skipping MOS dataset: {mos_input} not found.")
+
+    # 2. Process A/B Dataset
+    ab_input = os.path.join(data_path, "ab_dataset.json")
+    ab_output = os.path.join(data_path, "train_nisqa_abtest_llama_10k.json")
+
+    if os.path.exists(ab_input):
+        print(f"Found {ab_input}. Processing to {ab_output}...")
+        process_single_file(ab_input, ab_output)
+    else:
+        print(f"Skipping A/B dataset: {ab_input} not found.")
 
 
 if __name__ == "__main__":
-    typer.run(process_dataset_json)
+    app()

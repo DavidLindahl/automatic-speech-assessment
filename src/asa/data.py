@@ -7,6 +7,13 @@ import pandas as pd
 import torch
 import torchaudio
 from torch.utils.data import Dataset
+import sys
+
+# Add project root to sys.path to allow running as script
+# This allows 'import src.asa...' to work even when run as a standalone script
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 app = typer.Typer()
 
@@ -104,10 +111,40 @@ def download(
 
 
 @app.command()
-def preprocess(data_path: Path, output_folder: Path) -> None:
+def preprocess(
+    data_path: Path = typer.Argument(Path("data/raw")),
+    output_folder: Path = typer.Argument(Path("data/processed")),
+) -> None:
     print("Preprocessing data...")
-    dataset = MyDataset(data_path)
-    dataset.preprocess(output_folder)
+
+    # 1. Run Sampler
+    print("\n--- Step 1: Sampling Data ---")
+    # Use absolute import relying on sys.path hack
+    from src.asa.sampler import sample_data
+
+    nisqa_corpus_path = data_path / "NISQA_Corpus"
+
+    sample_data(nisqa_corpus_path, output_folder)
+
+    # 2. Run Caption Generator
+    print("\n--- Step 2: Generating Captions ---")
+    from src.asa.caption_generator import process_single_file
+
+    # Process MOS Dataset
+    mos_input = output_folder / "mos_dataset.json"
+    mos_output = output_folder / "train_nisqa_llama_10k.json"
+    if mos_input.exists():
+        print(f"Generating captions for MOS dataset: {mos_input} -> {mos_output}")
+        process_single_file(str(mos_input), str(mos_output))
+
+    # Process A/B Dataset
+    ab_input = output_folder / "ab_dataset.json"
+    ab_output = output_folder / "train_nisqa_abtest_llama_10k.json"
+    if ab_input.exists():
+        print(f"Generating captions for A/B dataset: {ab_input} -> {ab_output}")
+        process_single_file(str(ab_input), str(ab_output))
+
+    print("\nPreprocessing pipeline complete.")
 
 
 if __name__ == "__main__":
