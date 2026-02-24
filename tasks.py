@@ -9,10 +9,10 @@ PYTHON_VERSION = "3.12"
 
 # Project commands
 @task
-def preprocess_data(ctx: Context) -> None:
-    """Preprocess data."""
+def preprocess_sft(ctx: Context) -> None:
+    """Preprocess data for Supervised Fine-Tuning (SFT)."""
     ctx.run(
-        f"uv run src/{PROJECT_NAME}/data.py preprocess data/raw data/processed",
+        f"uv run src/{PROJECT_NAME}/data.py preprocess-sft data/raw data/processed",
         echo=True,
         pty=not WINDOWS,
     )

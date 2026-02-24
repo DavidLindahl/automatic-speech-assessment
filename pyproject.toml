@@ -35,10 +35,12 @@ dependencies = [
     "torchaudio==2.6.0",
     "typer==0.15.1",
     "uvicorn==0.34.0",
-    "transformers>=4.45.0",
+    "transformers>=4.44.0",
     "accelerate>=0.26.0",
     "typing>=3.10.0.0",
     "google-generativeai>=0.8.3",
+    "trl>=0.10.0",
+    "deepspeed>=0.18.6",
 ]
 
 [dependency-groups]
