@@ -66,7 +66,7 @@ print(f"Step 3: Loading model {MODEL_ID}...")
 dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float32 if not torch.cuda.is_available() else torch.float16
 model = Qwen2AudioForConditionalGeneration.from_pretrained(
     MODEL_ID,
-    torch_dtype=dtype,
+    dtype=dtype,
 )
 print(f"  ✅ Model loaded (dtype={dtype})\n")
 
