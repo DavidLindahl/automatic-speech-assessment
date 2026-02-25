@@ -25,6 +25,7 @@ module load cuda/11.8
 source .venv/bin/activate
 
 export PYTHONUNBUFFERED=1
+export TRITON_CACHE_DIR=/tmp/triton_cache
 
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
@@ -43,7 +44,7 @@ torchrun \
     --max-samples 500 \
     --batch-size 4 \
     --epochs 1 \
-    --eval-steps 50 \
+    --eval-steps 5 \
     --wandb-run-name "medium-test-500"
 
 echo "Training complete: $(date)"
