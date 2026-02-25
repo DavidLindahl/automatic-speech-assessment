@@ -96,6 +96,7 @@ training_args = TrainingArguments(
     optim="adamw_torch",
     gradient_checkpointing=True,
     remove_unused_columns=False,
+    deepspeed=None,
 )
 
 trainer = Trainer(
