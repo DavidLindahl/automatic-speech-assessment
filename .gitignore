@@ -199,3 +199,9 @@ memory/
 # Outputs
 outputs.txt
 already_done_data
+
+# Reulust folder
+results/
+data/
+wandb/
+logs/
