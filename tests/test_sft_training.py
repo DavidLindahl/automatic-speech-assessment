@@ -7,8 +7,11 @@ Run from project root:
   uv run notebooks/test_4_sft_training.py
 """
 
+
 import os
 import sys
+import shutil
+
 
 # Ensure we run from project root for relative paths
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
@@ -62,6 +65,11 @@ for k, v in batch.items():
 print("  ✅ Collator works\n")
 
 # ── 3. Model ─────────────────────────────────────────────────────────────
+if not torch.cuda.is_available():
+    print("❌ No GPU available — this test requires a GPU.")
+    sys.exit(1)
+
+
 print(f"Step 3: Loading model {MODEL_ID}...")
 dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float32 if not torch.cuda.is_available() else torch.float16
 model = Qwen2AudioForConditionalGeneration.from_pretrained(
@@ -104,3 +112,6 @@ trainer.train()
 
 print(f"\n✅ Full SFT pipeline works! (2 training steps completed)")
 print(f"  To run real training: python -m asa.supervised_finetune --max-samples 100")
+
+shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
+print("  Cleaned up test output directory.")
