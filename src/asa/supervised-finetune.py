@@ -107,6 +107,7 @@ def main(
         fp16=fp16,
         logging_steps=10,
         save_strategy="epoch",
+        save_only_model=True,  # Prevent giant 84GB FP32 optimizer checkpoints!
         optim="adamw_torch",
         gradient_checkpointing=True,
         deepspeed=deepspeed or None,

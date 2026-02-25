@@ -199,3 +199,6 @@ memory/
 # Outputs
 outputs.txt
 already_done_data
+
+results/
+jobs/
