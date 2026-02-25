@@ -48,8 +48,16 @@ def main(
         4, help="Number of update steps to accumulate before a backward pass."
     ),
     bf16: bool = typer.Option(
-        True,
+        False,
         help="Use bf16 mixed precision (recommended for A100/H100 HPC environments).",
+    ),
+    fp16: bool = typer.Option(
+        False,
+        help="Use fp16 mixed precision (recommended for V100 GPUs).",
+    ),
+    max_samples: int = typer.Option(
+        None,
+        help="If set, truncate dataset to this many samples (useful for debugging).",
     ),
     deepspeed: str = typer.Option(
         "default-zero2",
@@ -78,6 +86,10 @@ def main(
     # Load dataset natively (this handles audio binary loading securely behind the scenes)
     dataset = load_dataset("parquet", data_files=str(dataset_path), split="train")
 
+    if max_samples is not None:
+        dataset = dataset.select(range(min(max_samples, len(dataset))))
+        print(f"Debug mode: truncated dataset to {len(dataset)} samples.")
+
     # Pre-format conversations
     dataset = dataset.map(
         format_qwen_chat,
@@ -92,24 +104,31 @@ def main(
         learning_rate=lr,
         num_train_epochs=epochs,
         bf16=bf16,
+        fp16=fp16,
         logging_steps=10,
         save_strategy="epoch",
         optim="adamw_torch",
         gradient_checkpointing=True,
-        deepspeed=deepspeed,
+        deepspeed=deepspeed or None,
         # SFTTrainer will automatically route "text" and "audios" through the DataCollatorForLanguageModeling
         dataset_text_field="text",
         remove_unused_columns=False,  # Keep the 'audios' column natively supported by transformers
     )
 
     print(f"Loading model: {model_id} for Full Fine-Tuning")
-    torch_dtype = torch.bfloat16 if bf16 else torch.float32
+    if bf16:
+        torch_dtype = torch.bfloat16
+    elif fp16:
+        torch_dtype = torch.float16
+    else:
+        torch_dtype = torch.float32
 
     # Full fine-tuning (no PEFT/LoRA)
     model = transformers.Qwen2AudioForConditionalGeneration.from_pretrained(
         model_id,
         torch_dtype=torch_dtype,
-        device_map="auto",
+        # device_map="auto" is intentionally omitted: DeepSpeed manages device
+        # placement itself and will raise a RuntimeError if device_map is set.
     )
 
     from typing import Dict, List, Any
