@@ -73,7 +73,8 @@ class SFTDataset(Dataset):
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
 
-        print(f"SFTDataset: loaded {len(self.samples)} samples from {json_path}")
+        if int(os.environ.get("LOCAL_RANK", 0)) == 0:
+                print(f"SFTDataset: loaded {len(self.samples)} samples from {json_path}")
 
     # ── private ──────────────────────────────────────────────────────────
 

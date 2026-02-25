@@ -1,6 +1,10 @@
 {
   "zero_optimization": {
     "stage": 2,
+    "offload_optimizer": {
+      "device": "cpu",
+      "pin_memory": true
+    },
     "allgather_partitions": true,
     "allgather_bucket_size": 2e8,
     "reduce_scatter": true,
@@ -9,7 +13,10 @@
     "contiguous_gradients": true
   },
   "bf16": {
-    "enabled": true
+    "enabled": "auto"
+  },
+  "fp16": {
+    "enabled": "auto"
   },
   "gradient_clipping": 1.0,
   "train_micro_batch_size_per_gpu": "auto",
