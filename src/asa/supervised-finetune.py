@@ -5,7 +5,9 @@ Imports SFTDataset and Qwen2AudioCollator from data.py.
 Designed for multi-GPU training with DeepSpeed on HPC clusters.
 """
 
+import os
 from pathlib import Path
+from typing import Optional
 
 import torch
 import typer
@@ -50,19 +52,20 @@ def train(
     deepspeed: str = typer.Option(None, help="Path to DeepSpeed config JSON."),
     val_split: float = typer.Option(0.05, help="Fraction of data to use for validation (0 to disable)."),
     eval_steps: int = typer.Option(500, help="Run evaluation every N steps."),
-    wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor",help="Weights & Biases team/entity name."),
+    wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor", help="Weights & Biases team/entity name."),
     wandb_project: Optional[str] = typer.Option("qwen2-audio-sft-simple", help="Weights & Biases project name (None to disable)."),
     wandb_run_name: Optional[str] = typer.Option(None, help="Weights & Biases run name."),
 ):
     """Run supervised fine-tuning on Qwen2-Audio."""
-
+    local_rank = int(os.environ.get("LOCAL_RANK", 0))
+    is_main = local_rank == 0
     # ── 0. W&B setup ─────────────────────────────────────────────────────
-    if wandb_project:
+    if wandb_project and is_main:
         import wandb
         wandb.init(
-            project=wandb_project, 
-            name=wandb_run_name, 
-            entity=wandb_entity, 
+            project=wandb_project,
+            name=wandb_run_name,
+            entity=wandb_entity,
             config={
                 "model_id": model_id,
                 "learning_rate": lr,
@@ -72,37 +75,32 @@ def train(
                 "val_split": val_split,
                 "max_samples": max_samples,
                 "dtype": "bf16" if bf16 else "fp16" if fp16 else "fp32",
+                "deepspeed": deepspeed is not None,
             },
-        )   
-        report_to = "wandb"
-    else:
-        report_to = "none"
-
+        )
+    report_to = "wandb" if wandb_project else "none"
     # ── 1. Processor ─────────────────────────────────────────────────────
-    print(f"Loading processor: {model_id}")
+    if is_main:
+        print(f"Loading processor: {model_id}")
     processor = AutoProcessor.from_pretrained(model_id)
-
     # ── 2. Dataset + Collator ────────────────────────────────────────────
     full_dataset = SFTDataset(
         json_path=json_path,
         data_root=data_root,
         max_samples=max_samples,
     )
-
-    # Split dataset into train and validation
     if val_split > 0:
         val_size = int(len(full_dataset) * val_split)
         train_size = len(full_dataset) - val_size
         train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
-        print(f"Train: {len(train_dataset)}, Val: {len(val_dataset)}")
+        if is_main:
+            print(f"Train: {len(train_dataset)}, Val: {len(val_dataset)}")
     else:
         train_dataset = full_dataset
         val_dataset = None
-        print(f"Train: {len(train_dataset)}, Val: disabled")
-
-
+        if is_main:
+            print(f"Train: {len(train_dataset)}, Val: disabled")
     collator = Qwen2AudioCollator(processor)
-
     # ── 3. Model ─────────────────────────────────────────────────────────
     if bf16:
         dtype = torch.bfloat16
@@ -110,14 +108,13 @@ def train(
         dtype = torch.float16
     else:
         dtype = torch.float32
-
-    print(f"Loading model: {model_id} (dtype={dtype})")
+    if is_main:
+        print(f"Loading model: {model_id} (dtype={dtype})")
     model = Qwen2AudioForConditionalGeneration.from_pretrained(
         model_id,
         dtype=dtype,
     )
-
-   # ── 4. Training args ─────────────────────────────────────────────────
+    # ── 4. Training args ─────────────────────────────────────────────────
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
@@ -135,9 +132,8 @@ def train(
         deepspeed=deepspeed,
         remove_unused_columns=False,
         report_to=report_to,
-        run_name=wandb_run_name
+        run_name=wandb_run_name,
     )
-
     # ── 5. Train ─────────────────────────────────────────────────────────
     trainer = Trainer(
         model=model,
@@ -147,15 +143,14 @@ def train(
         data_collator=collator,
         processing_class=processor,
     )
-
-    print("Starting training...")
+    if is_main:
+        print("Starting training...")
     trainer.train()
-
-    print(f"Saving model to {output_dir}")
+    if is_main:
+        print(f"Saving model to {output_dir}")
     trainer.save_model(str(output_dir))
     processor.save_pretrained(str(output_dir))
-
-    if wandb_project:
+    if wandb_project and is_main:
         wandb.finish()
 
 if __name__ == "__main__":
