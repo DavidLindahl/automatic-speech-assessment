@@ -126,13 +126,12 @@ def train(
         logging_steps=10,
 
         # --- OPTIMIZED SAVING STRATEGY ---
-        save_strategy="steps",
-        save_steps=500,               # Increased to reduce I/O overhead
-        save_total_limit=1,           # Reduced to 1. Will keep 1 latest + 1 best (2 total)
-        save_only_model=True,
-        save_safetensors=True,        # Highly recommended: faster and safer disk writes
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
+        save_strategy="no",
+        # save_steps=500,               # Increased to reduce I/O overhead
+        # save_total_limit=1,           # Reduced to 1. Will keep 1 latest + 1 best (2 total)
+        # save_only_model=True,
+        # load_best_model_at_end=True,
+        # metric_for_best_model="eval_loss",
 
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else None,
