@@ -9,36 +9,37 @@
 \usepackage{xcolor}
 
 \title{Project Plan}
-\author{You}
+\author{Carl Schmidt-Svejstrup \& David Lindahl}
 
 \begin{document}
 \maketitle
 
 \section*{Motivation}
-Present the context and significance of the problem you aim to address.
-Explain why this topic matters within your field and what gap it fills.
-Discuss relevant prior work and how your project builds on it.
-This section should be approximately half to one page in length.
-Use this space to clarify the problem’s importance and real-world relevance.
+Current SOTA audio-assessment datasets like NISQA \& DNS contain MOS (Mean Opinion Scores) and other float values assessing quality; however, no current dataset exists that includes a text label describing the quality.\\
+Filling this gap and creating such a dataset could potentially help with noise-cancelling \& hearing aid research.
 
 \subsection*{Research Question}
-Formulate a clear and focused research question that guides your project.
-The question should be specific, answerable, and grounded in the scientific method \cite{scientific_method}.
-Briefly describe the hypothesis or assumptions underlying your investigation.
-Explain how answering this question will contribute new knowledge or insight.
+\textit{Is it possible to train an audio LLM so that, given human audio as input, it outputs a high-quality audio quality assessment?}\\
+
+Our hypothesis is that this is possible. Step one of this project will be to  re-implement the paper "Audio Large Language Models Can Be Descriptive Speech Quality Evaluator"\cite{chen2025audio}. From this standpoint, we will attempt to improve the model so that, instead of generating a "generic" string, it outputs something similar to an audio expert.\\
+
+Answering this research question could contribute new knowledge by bridging the gap between numerical quality scores and expert-level descriptive evaluations.
 
 \section*{Time plan}
-Present a time plan in the form of a Gantt chart outlining your project phases.
-Include milestones such as literature review, implementation, testing, and writing.
-Add a short risk analysis discussing possible delays in different phases.
-For each risk, briefly describe mitigation strategies or contingency plans.
-Ensure your plan is realistic and aligns with your available time and resources.
 
+In \autoref{fig:gantt} is our Gantt chart. We will update it dynamically, and you have access to our daily meetings and Gantt chart here:
+\href{https://docs.google.com/document/d/1wSG3lSkr7cuSwWMX_2JGA9z1oDuxmNTsCSVygoZOwdk}{Project Gantt Chart and Meeting Notes}
+
+\textbf{Risk analysis of possible delays:}
+\begin{itemize}
+    \item Re-implementing: The original paper does not include source code, but we do have access to their datasets and Swift scripts. Re-implementing in Python for more control over our experiment may be challenging and time-consuming.
+    \item Analyzing results \& continuing development: Historically, we have experienced delays when finalizing code and moving forward instead of making additional changes. This typically occurs after analyzing results and identifying mistakes or potential improvements.
+\end{itemize}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{time_plan.png}
-\caption{Example Gantt chart of the project plan.}
+\includegraphics[width=0.8\textwidth]{latex/figures/Gantt-chart.png}
+\caption{Example Gantt chart of the project plan.}\label{fig:gantt}
 \end{figure}
 
 \newpage
