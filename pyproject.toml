@@ -82,5 +82,10 @@ explicit = true
 [tool.ruff]
 line-length = 88
 
+[tool.pytest.ini_options]
+markers = [
+    "slow: tests that load a full model checkpoint (skip with -m 'not slow')",
+]
+
 [tool.coverage.run]
 omit = ["tests/*"]

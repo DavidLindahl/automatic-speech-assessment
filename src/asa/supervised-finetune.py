@@ -1,103 +1,121 @@
 """
-Supervised fine-tuning script for Qwen2Audio using TRL's SFTTrainer.
-Fine-tunes the model using Full Fine-Tuning on the Hub dataset.
-Designed to be run on HPC clusters using multi-GPU (e.g. Accelerate/Deepspeed).
+supervised-finetune.py — SFT training script for Qwen2-Audio.
+
+Imports SFTDataset and Qwen2AudioCollator from data.py.
+Designed for multi-GPU training with DeepSpeed on HPC clusters.
 """
 
+import os
 from pathlib import Path
-import torch
-import transformers
-import typer
-from transformers import AutoProcessor
-from datasets import load_dataset
-from trl import SFTConfig, SFTTrainer
+from typing import Optional
 
-# Configure typer
+import torch
+import typer
+from torch.utils.data import random_split
+from transformers import (
+    AutoProcessor,
+    Qwen2AudioForConditionalGeneration,
+    Trainer,
+    TrainingArguments,
+)
+
+from asa.data import Qwen2AudioCollator, SFTDataset
+
 app = typer.Typer()
 
 
-def format_qwen_chat(example, processor):
-    """
-    Minimal multi-modal mapping function.
-    Reads the 'messages' array and applies the Qwen2-Audio chat template.
-    Returns the processed 'text' alongside the already-casted 'audios'.
-    """
-    text = processor.apply_chat_template(
-        example["messages"], add_generation_prompt=False, tokenize=False
-    )
-    return {"text": text}
-
-
 @app.command()
-def main(
+def train(
     model_id: str = typer.Option(
         "Qwen/Qwen2-Audio-7B",
-        help="The Hugging Face model ID to fine-tune.",
+        help="HuggingFace model ID.",
     ),
-    dataset_type: str = typer.Option(
-        "mos",
-        help="Which dataset to fine-tune on: 'mos' (train_nisqa_llama_10k.parquet) or 'abtest' (train_nisqa_abtest_llama_10k.parquet).",
+    json_path: Path = typer.Option(
+        Path("data/processed/train_nisqa_llama_10k.json"),
+        help="Path to the JSONL training data.",
+    ),
+    data_root: Path = typer.Option(
+        Path("data"),
+        help="Root directory containing raw audio files.",
     ),
     output_dir: Path = typer.Option(
-        Path("results"), help="Directory to save the trained model."
+        Path("results/sft_warmup"),
+        help="Directory to save checkpoints.",
     ),
-    batch_size: int = typer.Option(4, help="Batch size per device during training."),
-    epochs: int = typer.Option(2, help="Total number of training epochs to perform."),
-    lr: float = typer.Option(1e-5, help="Learning rate for the optimizer."),
-    gradient_accumulation_steps: int = typer.Option(
-        4, help="Number of update steps to accumulate before a backward pass."
-    ),
-    bf16: bool = typer.Option(
-        False,
-        help="Use bf16 mixed precision (recommended for A100/H100 HPC environments).",
-    ),
-    fp16: bool = typer.Option(
-        False,
-        help="Use fp16 mixed precision (recommended for V100 GPUs).",
-    ),
-    max_samples: int = typer.Option(
-        None,
-        help="If set, truncate dataset to this many samples (useful for debugging).",
-    ),
-    deepspeed: str = typer.Option(
-        "default-zero2",
-        help="Path to deepspeed config JSON file or 'default-zero2' / 'default-zero3'.",
-    ),
+    batch_size: int = typer.Option(4, help="Per-device batch size."),
+    epochs: int = typer.Option(2, help="Number of training epochs."),
+    lr: float = typer.Option(1e-5, help="Learning rate."),
+    gradient_accumulation_steps: int = typer.Option(4, help="Gradient accumulation steps."),
+    bf16: bool = typer.Option(False, help="Use bf16 (A100/H100)."),
+    fp16: bool = typer.Option(False, help="Use fp16 (V100)."),
+    max_samples: Optional[int] = typer.Option(None, help="Limit dataset size for debugging."),
+    deepspeed: Optional[str] = typer.Option(None, help="Path to DeepSpeed config JSON."),
+    val_split: float = typer.Option(0.05, help="Fraction of data to use for validation (0 to disable)."),
+    eval_steps: int = typer.Option(500, help="Run evaluation every N steps."),
+    wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor", help="Weights & Biases team/entity name."),
+    wandb_project: Optional[str] = typer.Option("qwen2-audio-sft-simple", help="Weights & Biases project name (None to disable)."),
+    wandb_run_name: Optional[str] = typer.Option(None, help="Weights & Biases run name."),
 ):
-    """
-    Runs Full SFT to fine-tune Qwen2Audio.
-    """
-    print(f"Loading processor: {model_id}")
+    """Run supervised fine-tuning on Qwen2-Audio."""
+    local_rank = int(os.environ.get("LOCAL_RANK", 0))
+    is_main = local_rank == 0
+    # ── 0. W&B setup ─────────────────────────────────────────────────────
+    if wandb_project and is_main:
+        import wandb
+        wandb.init(
+            project=wandb_project,
+            name=wandb_run_name,
+            entity=wandb_entity,
+            config={
+                "model_id": model_id,
+                "learning_rate": lr,
+                "batch_size": batch_size,
+                "epochs": epochs,
+                "gradient_accumulation_steps": gradient_accumulation_steps,
+                "val_split": val_split,
+                "max_samples": max_samples,
+                "dtype": "bf16" if bf16 else "fp16" if fp16 else "fp32",
+                "deepspeed": deepspeed is not None,
+            },
+        )
+    report_to = "wandb" if wandb_project else "none"
+    # ── 1. Processor ─────────────────────────────────────────────────────
+    if is_main:
+        print(f"Loading processor: {model_id}")
     processor = AutoProcessor.from_pretrained(model_id)
-
-    if dataset_type == "mos":
-        dataset_path = Path("data/processed/train_nisqa_llama_10k.parquet")
-    elif dataset_type == "abtest":
-        dataset_path = Path("data/processed/train_nisqa_abtest_llama_10k.parquet")
-    else:
-        print(f"Unknown dataset type: {dataset_type}. Choose 'mos' or 'abtest'.")
-        raise typer.Exit(code=1)
-
-    if not dataset_path.exists():
-        print(f"Dataset not found at {dataset_path}. Please run preprocessing first.")
-        raise typer.Exit(code=1)
-
-    print(f"Loading dataset from: {dataset_path}")
-    # Load dataset natively (this handles audio binary loading securely behind the scenes)
-    dataset = load_dataset("parquet", data_files=str(dataset_path), split="train")
-
-    if max_samples is not None:
-        dataset = dataset.select(range(min(max_samples, len(dataset))))
-        print(f"Debug mode: truncated dataset to {len(dataset)} samples.")
-
-    # Pre-format conversations
-    dataset = dataset.map(
-        format_qwen_chat,
-        fn_kwargs={"processor": processor},
-        desc="Applying chat template",
+    # ── 2. Dataset + Collator ────────────────────────────────────────────
+    full_dataset = SFTDataset(
+        json_path=json_path,
+        data_root=data_root,
+        max_samples=max_samples,
     )
-
-    training_args = SFTConfig(
+    if val_split > 0:
+        val_size = int(len(full_dataset) * val_split)
+        train_size = len(full_dataset) - val_size
+        train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
+        if is_main:
+            print(f"Train: {len(train_dataset)}, Val: {len(val_dataset)}")
+    else:
+        train_dataset = full_dataset
+        val_dataset = None
+        if is_main:
+            print(f"Train: {len(train_dataset)}, Val: disabled")
+    collator = Qwen2AudioCollator(processor)
+    # ── 3. Model ─────────────────────────────────────────────────────────
+    if bf16:
+        dtype = torch.bfloat16
+    elif fp16:
+        dtype = torch.float16
+    else:
+        dtype = torch.float32
+    if is_main:
+        print(f"Loading model: {model_id} (dtype={dtype})")
+    model = Qwen2AudioForConditionalGeneration.from_pretrained(
+        model_id,
+        dtype=dtype,
+    )
+    # ── 4. Training args ─────────────────────────────────────────────────
+    training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
@@ -106,83 +124,42 @@ def main(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        save_strategy="epoch",
-        save_only_model=True,  # Prevent giant 84GB FP32 optimizer checkpoints!
+
+        # --- OPTIMIZED SAVING STRATEGY ---
+        save_strategy="no",
+        # save_steps=500,               # Increased to reduce I/O overhead
+        # save_total_limit=1,           # Reduced to 1. Will keep 1 latest + 1 best (2 total)
+        # save_only_model=True,
+        # load_best_model_at_end=True,
+        # metric_for_best_model="eval_loss",
+
+        eval_strategy="steps" if val_dataset is not None else "no",
+        eval_steps=eval_steps if val_dataset is not None else None,
         optim="adamw_torch",
         gradient_checkpointing=True,
-        deepspeed=deepspeed or None,
-        # SFTTrainer will automatically route "text" and "audios" through the DataCollatorForLanguageModeling
-        dataset_text_field="text",
-        remove_unused_columns=False,  # Keep the 'audios' column natively supported by transformers
+        deepspeed=deepspeed,
+        remove_unused_columns=False,
+        report_to=report_to,
+        run_name=wandb_run_name,
     )
-
-    print(f"Loading model: {model_id} for Full Fine-Tuning")
-    if bf16:
-        torch_dtype = torch.bfloat16
-    elif fp16:
-        torch_dtype = torch.float16
-    else:
-        torch_dtype = torch.float32
-
-    # Full fine-tuning (no PEFT/LoRA)
-    model = transformers.Qwen2AudioForConditionalGeneration.from_pretrained(
-        model_id,
-        torch_dtype=torch_dtype,
-        # device_map="auto" is intentionally omitted: DeepSpeed manages device
-        # placement itself and will raise a RuntimeError if device_map is set.
-    )
-
-    from typing import Dict, List, Any
-
-    class Qwen2AudioDataCollator:
-        def __init__(self, processor):
-            self.processor = processor
-
-        def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, Any]:
-            # Expects "text" and "audios" columns to be kept in dataset
-            texts = [feature["text"] for feature in features]
-
-            audios = []
-            for feature in features:
-                if "audios" in feature and feature["audios"] is not None:
-                    for audio in feature["audios"]:
-                        # Extract the raw array from the Hugging Face Audio feature dict
-                        audios.append(audio["array"])
-
-            if len(audios) == 0:
-                audios = None
-
-            batch = self.processor(
-                text=texts,
-                audio=audios,
-                sampling_rate=16000,
-                return_tensors="pt",
-                padding=True,
-            )
-
-            # Create labels for causal language modeling
-            labels = batch["input_ids"].clone()
-            labels[batch["attention_mask"] == 0] = -100
-            batch["labels"] = labels
-
-            return batch
-
-    print("Initializing SFTTrainer...")
-    trainer = SFTTrainer(
+    # ── 5. Train ─────────────────────────────────────────────────────────
+    trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=dataset,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        data_collator=collator,
         processing_class=processor,
-        data_collator=Qwen2AudioDataCollator(processor),
     )
-
-    print("Starting training...")
+    if is_main:
+        print("Starting training...")
     trainer.train()
-
-    print(f"Saving final model to {output_dir}")
+    if is_main:
+        print(f"Saving model to {output_dir}")
     trainer.save_model(str(output_dir))
     processor.save_pretrained(str(output_dir))
-
+    if wandb_project and is_main:
+        wandb.finish()
 
 if __name__ == "__main__":
     app()

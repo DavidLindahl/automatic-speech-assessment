@@ -25,8 +25,8 @@ MODEL_NAME = "gemini-2.5-flash-lite"
 
 app = typer.Typer()
 
-
-def call_gemini_api(prompt: str, temperature: float = 1.0, top_p: float = 0.95) -> str:
+# Temp and TopP is based on paper's second itteration
+def call_gemini_api(prompt: str, temperature: float = 1.1, top_p: float = 0.90) -> str:
     """
     Call the Google Gemini model with the given prompt.
 
