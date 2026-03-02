@@ -39,7 +39,7 @@ def train(
         help="Root directory containing raw audio files.",
     ),
     output_dir: Path = typer.Option(
-        Path("results/sft_warmup"),
+        Path("models/sft_warmup"),
         help="Directory to save checkpoints.",
     ),
     batch_size: int = typer.Option(4, help="Per-device batch size."),
