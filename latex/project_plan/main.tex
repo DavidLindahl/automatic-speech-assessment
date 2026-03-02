@@ -15,13 +15,16 @@
 \maketitle
 
 \section*{Motivation}
-Current SOTA audio-assessment datasets like NISQA \& DNS contain MOS (Mean Opinion Scores) and other float values assessing quality; however, no current dataset exists that includes a text label describing the quality.\\
-Filling this gap and creating such a dataset could potentially help with noise-cancelling \& hearing aid research.
+
+The motivation behind this project is to develop a model that can assess speech quality in a descriptive string, similar to an audio expert. Demonstrating this as a proof of concept — that AI can evaluate audio in a comparable manner to a human expert — could significantly reduce the cost of large-scale data labeling.
+
+Current SOTA audio-assessment datasets like NISQA contain MOS (Mean Opinion Scores) and other float values assessing quality; however, no current dataset exists that includes a text label describing the quality.\\
+Filling this gap by creating such a dataset could potentially support research in noise-cancelling and hearing aid development.
 
 \subsection*{Research Question}
-\textit{Is it possible to train an audio LLM so that, given human audio as input, it outputs a high-quality audio quality assessment?}\\
+\textit{Is it possible to train an audio LLM so that, given human audio as input, it outputs a high-quality audio assessment?}\\
 
-Our hypothesis is that this is possible. Step one of this project will be to  re-implement the paper "Audio Large Language Models Can Be Descriptive Speech Quality Evaluator"\cite{chen2025audio}. From this standpoint, we will attempt to improve the model so that, instead of generating a "generic" string, it outputs something similar to an audio expert.\\
+Our hypothesis is that this is possible. Step one of this project will be to  re-implement the paper "Audio Large Language Models Can Be Descriptive Speech Quality Evaluator"\cite{chen2025audio}. From this standpoint, we will attempt to improve the model so that, instead of generating a "generic" string, it outputs something similar to an audio experts, in relation to N's inquiry.\\
 
 Answering this research question could contribute new knowledge by bridging the gap between numerical quality scores and expert-level descriptive evaluations.
 
