@@ -33,7 +33,7 @@ def evaluate(
     dataset_paths: List[Path] = typer.Option(..., "--dataset-path", help="Paths to the test JSONL datasets."),
     model_path: Path = typer.Option(..., help="Path to the model checkpoint dir."),
     max_samples: Optional[int] = typer.Option(None, help="Max samples to evaluate (for testing)."),
-    output_dir: Path = typer.Option(Path("results/inference/sft"), help="Dir to save results."),
+    output_dir: Path = typer.Option(Path("results/evaluation/sft_warm_eval"), help="Dir to save results."),
     batch_size: int = typer.Option(4, help="Inference batch size.")
 ):
     """Run model inference and evaluate quality based on MOS and BLEU."""

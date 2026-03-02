@@ -54,7 +54,8 @@ echo "=========================================="
 nvidia-smi
 
 # Define which model to evaluate
-MODEL_PATH="results/sft"
+MODEL_PATH="results/models/sft_warmup"
+OUTPUT_PATH="results/evaluation/sft_warm_eval"
 
 # Define test datasets (you can add more here)
 DATASETS=(
@@ -66,6 +67,7 @@ DATASETS=(
 echo "Evaluating datasets: ${DATASETS[*]}"
 python src/asa/evaluate.py \
     --model-path "$MODEL_PATH" \
+    --output-dir "$OUTPUT_PATH" \
     --dataset-path "${DATASETS[0]}" \
     --dataset-path "${DATASETS[1]}" \
     --dataset-path "${DATASETS[2]}" \
