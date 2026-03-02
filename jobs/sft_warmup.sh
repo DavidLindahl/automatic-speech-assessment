@@ -41,10 +41,10 @@ torchrun \
     src/asa/supervised-finetune.py \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
-    --max-samples 500 \
+    --max-samples 5000 \
     --batch-size 4 \
-    --epochs 1 \
-    --eval-steps 5 \
-    --wandb-run-name "medium-test-500"
+    --epochs 2 \
+    --eval-steps 50 \
+    --wandb-run-name "sft-warmup"
 
 echo "Training complete: $(date)"
