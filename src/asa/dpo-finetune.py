@@ -134,7 +134,7 @@ def train(
 
     if is_main:
         print(f"Loading processor: {model_id}")
-    processor = AutoProcessor.from_pretrained(model_id)
+    processor = AutoProcessor.from_pretrained(model_id, fix_mistral_regex=True)
 
     full_dataset = DPODataset(
         json_path=json_path,

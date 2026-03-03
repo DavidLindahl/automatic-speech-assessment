@@ -11,7 +11,7 @@ MODEL_ID = "Qwen/Qwen2-Audio-7B"
 
 def test_dataset_and_collator_ab():
     print(f"\nLoading processor from {MODEL_ID}...")
-    processor = AutoProcessor.from_pretrained(MODEL_ID)
+    processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 
     # 1. Test Dataset Loading
     print("Loading dataset...")

@@ -82,7 +82,7 @@ def train(
     # ── 1. Processor ─────────────────────────────────────────────────────
     if is_main:
         print(f"Loading processor: {model_id}")
-    processor = AutoProcessor.from_pretrained(model_id)
+    processor = AutoProcessor.from_pretrained(model_id, fix_mistral_regex=True)
     # ── 2. Dataset + Collator ────────────────────────────────────────────
     full_dataset = SFTDataset(
         json_path=json_path,

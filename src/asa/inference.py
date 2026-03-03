@@ -51,7 +51,7 @@ def load_model(
         model.to(device)
     model.eval()
 
-    processor = AutoProcessor.from_pretrained(model_dir)
+    processor = AutoProcessor.from_pretrained(model_dir, fix_mistral_regex=True)
     return processor, model, device
 
 

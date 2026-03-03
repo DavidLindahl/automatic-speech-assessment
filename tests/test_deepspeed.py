@@ -47,7 +47,7 @@ if is_main:
 # ── 1. Processor ─────────────────────────────────────────────────────────
 if is_main:
     print(f"\nStep 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID)
+processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 if is_main:
     print("  ✅ Processor loaded")
 

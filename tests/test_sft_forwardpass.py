@@ -31,7 +31,7 @@ print("=== Test 4: Full SFT Training Pipeline ===\n")
 
 # ── 1. Processor ─────────────────────────────────────────────────────────
 print(f"Step 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID)
+processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 print("  ✅ Processor loaded\n")
 
 # ── 2. Dataset + Collator ────────────────────────────────────────────────

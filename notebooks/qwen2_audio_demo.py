@@ -80,7 +80,7 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Device: {device}")
 
-    processor = AutoProcessor.from_pretrained(MODEL_ID)
+    processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 
     # CPU-friendly default; if you get OOM on CPU, request more RAM OR use GPU queue and float16.
     if device == "cuda":

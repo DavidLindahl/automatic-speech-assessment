@@ -12,7 +12,7 @@ print("=== Test 3: Qwen2AudioCollator ===\n")
 
 # Load processor (downloads tokenizer, no model weights)
 print(f"Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID)
+processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 
 # Load 2 samples
 ds = SFTDataset(
