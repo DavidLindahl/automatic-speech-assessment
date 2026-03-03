@@ -1,99 +1,29 @@
-from pathlib import Path
-import os
-import json
-import typer
-import sys
+"""
+data.py — SFT data pipeline for Qwen2-Audio fine-tuning.
 
-# Add project root to sys.path to allow running as script
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
+Contains:
+  - SFTDataset: PyTorch Dataset that loads JSONL + WAV files on-the-fly
+  - Qwen2AudioCollator: batches samples and calls the Qwen2-Audio processor
+"""
+
+import json
+import os
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+import soundfile as sf
+import torch
+from torch.utils.data import Dataset
+import librosa
+
+import typer
+
+TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
+
+PROMPT_TEMPLATE = "<|audio_bos|><|AUDIO|><|audio_eos|>Please describe and evaluate the synthetic speech."
 
 app = typer.Typer()
-
-
-def convert_to_hf_dataset(json_path: Path, output_dir: Path, out_name: str):
-    """
-    Converts a JSON/JSONL file containing MOS or A/B text data into a Hugging Face Dataset.
-    Applies the Qwen2-Audio conversational format natively supported by TRL SFTTrainer:
-    [
-      {"role": "user", "content": [{"type": "audio"}, {"type": "text", "text": "..."}]},
-      {"role": "assistant", "content": [{"type": "text", "text": "..."}]}
-    ]
-    """
-    import datasets
-
-    if not json_path.exists():
-        print(f"Dataset JSON not found: {json_path}")
-        return
-
-    # 1. Load data
-    with open(json_path, "r", encoding="utf-8") as f:
-        try:
-            items = json.load(f)
-        except json.JSONDecodeError:
-            f.seek(0)
-            items = [json.loads(line.strip()) for line in f if line.strip()]
-
-    # 2. Transform to HF format
-    hf_data = {"messages": [], "audios": []}
-
-    global project_root
-
-    for item in items:
-        query_text = item.get(
-            "query", "Please describe and evaluate the synthetic speech<audio>."
-        )
-        # Remove the <audio> tag from the text prompt to avoid processor double-injecting <|audio_bos|>
-        query_text_clean = query_text.replace("<audio>", "").replace("  ", " ").strip()
-
-        response_text = item["response"]
-
-        user_content = []
-        audio_paths = []
-
-        # Determine local audio paths and add 'audio' type to user prompt
-        for audio_path_str in item.get("audios", []):
-            if "NISQA_Corpus" in audio_path_str:
-                rel_path = audio_path_str[audio_path_str.find("NISQA_Corpus") :]
-                local_path = Path(project_root) / "data" / "raw" / rel_path
-            else:
-                file_name = Path(audio_path_str).name
-                local_path = Path(project_root) / "data" / "raw" / file_name
-
-            if not local_path.exists():
-                print(
-                    f"WARNING: Audio file not found locally: {local_path} (mapped from {audio_path_str})"
-                )
-                continue
-
-            audio_paths.append(str(local_path))
-            user_content.append({"type": "audio"})
-
-        # Append instruction text
-        user_content.append({"type": "text", "text": query_text_clean})
-
-        # Build conversational messages array
-        messages = [
-            {"role": "user", "content": user_content},
-            {"role": "assistant", "content": [{"type": "text", "text": response_text}]},
-        ]
-
-        hf_data["messages"].append(messages)
-        hf_data["audios"].append(audio_paths)
-
-    # 3. Create Dataset and Cast Features
-    ds = datasets.Dataset.from_dict(hf_data)
-
-    # Cast audio path strings natively to Apache Arrow audio binaries with downsampling to 16kHz
-    ds = ds.cast_column(
-        "audios", datasets.Sequence(datasets.Audio(sampling_rate=16000))
-    )
-
-    # 4. Save to Disk
-    parquet_out = output_dir / f"{out_name}.parquet"
-    print(f"Exporting to {parquet_out} with {len(ds)} rows...")
-    ds.to_parquet(parquet_out)
 
 
 @app.command()
@@ -135,12 +65,12 @@ def download(
 
 
 @app.command()
-def preprocess_sft(
+def generate_captions(
     data_path: Path = typer.Argument(Path("data/raw")),
     output_folder: Path = typer.Argument(Path("data/processed")),
 ) -> None:
-    """Stage 1: Preprocesses dataset for Supervised Fine-Tuning (SFT)."""
-    print("Preprocessing data for SFT...")
+    """Stage 1: Preprocesses dataset for Supervised Fine-Tuning (SFT) and DPO."""
+    print("Preprocessing data for SFT/DPO...")
 
     # 1. Run Sampler
     print("\n--- Step 1: Sampling Data ---")
@@ -157,7 +87,6 @@ def preprocess_sft(
     # Process MOS Dataset
     mos_input = output_folder / "mos_dataset.json"
     mos_output = output_folder / "train_nisqa_llama_10k.json"
-    mos_parquet = output_folder / "train_nisqa_llama_10k.parquet"
     if mos_input.exists():
         if not mos_output.exists():
             print(f"Generating captions for MOS dataset: {mos_input} -> {mos_output}")
@@ -170,7 +99,6 @@ def preprocess_sft(
     # Process A/B Dataset
     ab_input = output_folder / "ab_dataset.json"
     ab_output = output_folder / "train_nisqa_abtest_llama_10k.json"
-    ab_parquet = output_folder / "train_nisqa_abtest_llama_10k.parquet"
     if ab_input.exists():
         if not ab_output.exists():
             print(f"Generating captions for A/B dataset: {ab_input} -> {ab_output}")
@@ -180,45 +108,225 @@ def preprocess_sft(
                 f"Captions for A/B dataset already exist at {ab_output}, skipping generation."
             )
 
-    # 3. Convert to HF Parquet
-    print("\n--- Step 3: Converting to HF Parquet Datasets ---")
 
-    if mos_input.exists():
-        if not mos_parquet.exists():
-            print("Converting MOS JSON to HF Parquet Dataset...")
-            convert_to_hf_dataset(mos_output, output_folder, "train_nisqa_llama_10k")
-        else:
-            print(
-                f"HF Parquet Dataset for MOS already exists at {mos_parquet}, skipping conversion."
+# ---------------------------------------------------------------------------
+# Audio helpers
+# ---------------------------------------------------------------------------
+
+
+def load_audio(path: str, target_sr: int = TARGET_SR) -> np.ndarray:
+    """Read a WAV file and return mono float32 array at target_sr."""
+    data, sr = sf.read(path, dtype="float32", always_2d=True)
+
+    # Convert to mono
+    if data.shape[1] > 1:
+        data = data.mean(axis=1)
+    else:
+        data = data[:, 0]
+
+    # Resample to target_sr if needed
+    if sr != target_sr:
+        data = librosa.resample(data, orig_sr=sr, target_sr=target_sr)
+
+    return data
+
+
+# ---------------------------------------------------------------------------
+# Dataset
+# ---------------------------------------------------------------------------
+
+
+class SFTDataset(Dataset):
+    """
+    Loads train_nisqa_llama_10k.json (JSONL) and serves samples for SFT.
+
+    Each sample returned by __getitem__:
+        {
+            "prompt":        str   — e.g. "<|audio_bos|><|AUDIO|><|audio_eos|>Evaluate the quality of this speech."
+            "response":      str   — the target text the model should produce
+            "audio":         np.ndarray (float32, mono, 16 kHz)
+            "sampling_rate": int
+        }
+    """
+
+    def __init__(
+        self,
+        json_path: str | Path,
+        data_root: str | Path,
+        max_samples: Optional[int] = None,
+    ):
+        self.data_root = Path(data_root)
+        self.samples = self._load_jsonl(Path(json_path))
+
+        if max_samples is not None:
+            self.samples = self.samples[:max_samples]
+
+        if int(os.environ.get("LOCAL_RANK", 0)) == 0:
+            print(f"SFTDataset: loaded {len(self.samples)} samples from {json_path}")
+
+    # ── private ──────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _load_jsonl(path: Path) -> list[dict]:
+        """Parse line-delimited JSON (one JSON object per '{...}' block)."""
+        text = path.read_text(encoding="utf-8")
+
+        items = []
+        decoder = json.JSONDecoder()
+        idx = 0
+        while idx < len(text):
+            # Skip whitespace
+            while idx < len(text) and text[idx] in " \t\n\r":
+                idx += 1
+            if idx >= len(text):
+                break
+            obj, end_idx = decoder.raw_decode(text, idx)
+            items.append(obj)
+            idx = end_idx
+        return items
+
+    def _resolve_audio_path(self, raw_path: str) -> Path:
+        """Map the JSON path (e.g. '/data/raw/NISQA_Corpus/...') to a local path."""
+        if "NISQA_Corpus" in raw_path:
+            rel = raw_path[raw_path.find("NISQA_Corpus") :]
+            return self.data_root / "raw" / rel
+        # Fallback: treat as relative to data_root
+        return self.data_root / raw_path.lstrip("/")
+
+    # ── public ───────────────────────────────────────────────────────────
+
+    def __len__(self) -> int:
+        return len(self.samples)
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.samples[idx]
+
+        # Resolve and load audio
+        audio_path = self._resolve_audio_path(item["audios"][0])
+        audio_array = load_audio(str(audio_path))
+
+        return {
+            "prompt": PROMPT_TEMPLATE,
+            "response": item["response"],
+            "audio": audio_array,
+            "sampling_rate": TARGET_SR,
+        }
+
+
+# ---------------------------------------------------------------------------
+# Collator
+# ---------------------------------------------------------------------------
+
+
+class Qwen2AudioCollator:
+    """
+    Collates a list of SFTDataset samples into a batch for the trainer.
+
+    1. Concatenates prompt + response into a single text string per sample
+    2. Calls processor(text=..., audios=...) to get input_ids + audio features
+    3. Creates labels: prompt tokens masked with -100, response tokens kept
+    """
+
+    def __init__(self, processor):
+        self.processor = processor
+
+    def _prepare_inputs(self, features):
+        """Return (prompts, full_texts, audios) for the processor."""
+        prompts = [f["prompt"] for f in features]
+        full_texts = [f["prompt"] + f["response"] for f in features]
+        audios = [f["audio"] for f in features]
+        return prompts, full_texts, audios
+
+    def _build_labels(self, batch, prompt_batch, features):
+        """Mask prompt and padding tokens with -100 in labels."""
+        labels = batch["input_ids"].clone()
+        for i in range(len(features)):
+            prompt_len = (
+                prompt_batch["input_ids"][i]
+                .ne(self.processor.tokenizer.pad_token_id)
+                .sum()
             )
+            labels[i, :prompt_len] = -100
+        labels[batch["attention_mask"] == 0] = -100
+        return labels
 
-    if ab_input.exists():
-        if not ab_parquet.exists():
-            print("Converting A/B JSON to HF Parquet Dataset...")
-            convert_to_hf_dataset(
-                ab_output, output_folder, "train_nisqa_abtest_llama_10k"
-            )
-        else:
-            print(
-                f"HF Parquet Dataset for A/B already exists at {ab_parquet}, skipping conversion."
-            )
+    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
+        prompts, full_texts, audios = self._prepare_inputs(features)
 
-    print("\nSFT Preprocessing pipeline complete.")
+        batch = self.processor(
+            text=full_texts,
+            audio=audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+        prompt_batch = self.processor(
+            text=prompts,
+            audio=audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        batch["labels"] = self._build_labels(batch, prompt_batch, features)
+        return batch
 
 
-@app.command()
-def preprocess_alld(
-    data_path: Path = typer.Argument(Path("data/processed")),
-    output_folder: Path = typer.Argument(Path("data/processed")),
-) -> None:
-    """Stage 2: Preprocesses dataset for ALLD (RLHF/DPO) pipeline."""
-    print("Generating preference data for ALLD (DPO)...")
-    # TODO: Implement step 2 data generation here:
-    # 1. Load SFT warmup checkpoint
-    # 2. Iterate over training meta information
-    # 3. Generate preferred/dispreferred completions (y_t and y_a) using expert LLM
-    # 4. Save to `data/processed/dpo_dataset.parquet`
-    print("\nALLD Preprocessing pipeline complete.")
+# ---------------------------------------------------------------------------
+# AB-Test Dataset
+# ---------------------------------------------------------------------------
+
+AUDIO_PLACEHOLDER = "<audio>"
+AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
+
+
+class SFTDatasetAB(SFTDataset):
+    """
+    A/B preference variant of SFTDataset.
+
+    Each JSONL row has *two* audio paths in ``audios`` and a query with two
+    ``<audio>`` placeholders.  Replaces each ``<audio>`` with the Qwen2-Audio
+    special-token sequence and returns both waveforms.
+    """
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.samples[idx]
+
+        prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+
+        audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
+        audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
+
+        return {
+            "prompt": prompt,
+            "response": item["response"],
+            "audio_a": audio_a,
+            "audio_b": audio_b,
+            "sampling_rate": TARGET_SR,
+        }
+
+
+# ---------------------------------------------------------------------------
+# AB-Test Collator
+# ---------------------------------------------------------------------------
+
+
+class Qwen2AudioCollatorAB(Qwen2AudioCollator):
+    """
+    A/B preference variant of Qwen2AudioCollator.
+
+    Each sample contributes *two* audios.  The Qwen2-Audio processor expects a
+    **flat** list of waveforms — it assigns them to ``<|AUDIO|>`` tokens
+    sequentially across the batch.
+    """
+
+    def _prepare_inputs(self, features):
+        """Return (prompts, full_texts, audios) — audios flattened."""
+        prompts = [f["prompt"] for f in features]
+        full_texts = [f["prompt"] + f["response"] for f in features]
+        # Flat list: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
+        audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
+        return prompts, full_texts, audios
 
 
 if __name__ == "__main__":
