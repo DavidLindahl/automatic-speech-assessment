@@ -272,5 +272,99 @@ class Qwen2AudioCollator:
         return batch
 
 
+class DPODataset(Dataset):
+    """
+    Loads DPO JSONL format (produced by generate_dpo_data.py).
+    Required keys: 'prompt', 'chosen', 'rejected', 'audios'
+    """
+
+    def __init__(
+        self,
+        json_path: str | Path,
+        data_root: str | Path,
+        max_samples: Optional[int] = None,
+    ):
+        self.data_root = Path(data_root)
+        self.samples = SFTDataset._load_jsonl(Path(json_path))
+
+        if max_samples is not None:
+            self.samples = self.samples[:max_samples]
+
+        if int(os.environ.get("LOCAL_RANK", 0)) == 0:
+            print(f"DPODataset: loaded {len(self.samples)} samples from {json_path}")
+
+    def _resolve_audio_path(self, raw_path: str) -> Path:
+        if "NISQA_Corpus" in raw_path:
+            rel = raw_path[raw_path.find("NISQA_Corpus") :]
+            return self.data_root / "raw" / rel
+        return self.data_root / raw_path.lstrip("/")
+
+    def __len__(self) -> int:
+        return len(self.samples)
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.samples[idx]
+        audio_path = self._resolve_audio_path(item["audios"][0])
+        audio_array = load_audio(str(audio_path))
+
+        return {
+            "prompt": PROMPT_TEMPLATE,
+            "chosen": item["chosen"],
+            "rejected": item["rejected"],
+            "audio": audio_array,
+            "sampling_rate": TARGET_SR,
+        }
+
+
+class Qwen2AudioDPOCollator:
+    """
+    Collates a list of DPODataset samples into a batch for custom DPOTrainer.
+    Stacks chosen and rejected inputs together so custom Trainer receives 2N batch size.
+    """
+
+    def __init__(self, processor):
+        self.processor = processor
+
+    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
+        prompts = [f["prompt"] for f in features]
+        chosen_texts = [f["prompt"] + f["chosen"] for f in features]
+        rejected_texts = [f["prompt"] + f["rejected"] for f in features]
+        audios = [f["audio"] for f in features]
+
+        # Stack chosen and rejected for batched deepspeed forward pass (batch size becomes 2N)
+        concat_texts = chosen_texts + rejected_texts
+        concat_audios = audios + audios
+
+        batch = self.processor(
+            text=concat_texts,
+            audio=concat_audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        concat_prompts = prompts + prompts
+        prompt_batch = self.processor(
+            text=concat_prompts,
+            audio=concat_audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        labels = batch["input_ids"].clone()
+        for i in range(len(concat_texts)):
+            prompt_len = (
+                prompt_batch["input_ids"][i]
+                .ne(self.processor.tokenizer.pad_token_id)
+                .sum()
+            )
+            labels[i, :prompt_len] = -100
+        labels[batch["attention_mask"] == 0] = -100
+
+        batch["labels"] = labels
+        return batch
+
+
 if __name__ == "__main__":
     app()
