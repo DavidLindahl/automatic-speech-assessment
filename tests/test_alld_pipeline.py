@@ -65,7 +65,7 @@ def test_alld_pipeline():
 
         # 3. Load Processors (Using lightweight or base names for the test)
         # Note: In a real test, this requires an internet connection or cached models.
-        audio_model_id = "Qwen/Qwen2-Audio-7B-Instruct"
+        audio_model_id = "models/sft_warmup" 
         text_model_id = "Qwen/Qwen2-7B-Instruct"
         
         print(f"Loading processor for {audio_model_id}...")
