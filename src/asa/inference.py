@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Iterable, List, Optional, Tuple
 
 import torch
+from tqdm import tqdm
 from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 
 from asa.data import PROMPT_TEMPLATE, load_audio
@@ -92,7 +93,7 @@ def run_inference(
     sr = processor.feature_extractor.sampling_rate
     all_responses: List[str] = []
 
-    for start in range(0, len(audio_paths), batch_size):
+    for start in tqdm(range(0, len(audio_paths), batch_size), desc="Running inference"):
         batch_paths = audio_paths[start : start + batch_size]
 
         texts = [PROMPT_TEMPLATE] * len(batch_paths)
