@@ -69,10 +69,10 @@ def test_alld_pipeline():
         text_model_id = "Qwen/Qwen2-7B-Instruct"
         
         print(f"Loading processor for {audio_model_id}...")
-        audio_processor = AutoProcessor.from_pretrained(audio_model_id)
+        audio_processor = AutoProcessor.from_pretrained(audio_model_id, fix_mistral_regex=True)
         
         print(f"Loading tokenizer for {text_model_id}...")
-        text_tokenizer = AutoTokenizer.from_pretrained(text_model_id)
+        text_tokenizer = AutoTokenizer.from_pretrained(text_model_id, fix_mistral_regex=True)
 
         # 4. Test the Collator
         collator = ALLDDPOCollator(audio_processor=audio_processor, text_tokenizer=text_tokenizer)

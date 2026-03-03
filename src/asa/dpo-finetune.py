@@ -28,14 +28,19 @@ from asa.data import DPODataset, ALLDDPOCollator
 app = typer.Typer()
 
 
+
 class ALLDDPOTrainer(Trainer):
     """Custom Trainer implementing the ALLD cross-modal DPO loss."""
     def __init__(self, ref_model, beta=0.4, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ref_model = ref_model
         self.beta = beta
-        if self.ref_model is not None:
-            self.ref_model.eval()
+        
+        # --- NEW: Safely move the reference model to the correct GPU ---
+        if ref_model is not None:
+            # We use the trainer's built-in accelerator to handle DeepSpeed & Multi-GPU
+            self.ref_model = self.accelerator.prepare_model(ref_model, evaluation_mode=True)
+        else:
+            self.ref_model = None
 
     def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
         # 1. Route the prefixed inputs to their respective dictionaries
