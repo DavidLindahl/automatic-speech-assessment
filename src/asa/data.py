@@ -230,14 +230,29 @@ class Qwen2AudioCollator:
     def __init__(self, processor):
         self.processor = processor
 
-    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
-        # Separate prompts and full texts, to
-        # distinguish between prompt and response tokens
+    def _prepare_inputs(self, features):
+        """Return (prompts, full_texts, audios) for the processor."""
         prompts = [f["prompt"] for f in features]
         full_texts = [f["prompt"] + f["response"] for f in features]
         audios = [f["audio"] for f in features]
+        return prompts, full_texts, audios
 
-        # Tokenize full sequences (prompt + response)
+    def _build_labels(self, batch, prompt_batch, features):
+        """Mask prompt and padding tokens with -100 in labels."""
+        labels = batch["input_ids"].clone()
+        for i in range(len(features)):
+            prompt_len = (
+                prompt_batch["input_ids"][i]
+                .ne(self.processor.tokenizer.pad_token_id)
+                .sum()
+            )
+            labels[i, :prompt_len] = -100
+        labels[batch["attention_mask"] == 0] = -100
+        return labels
+
+    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
+        prompts, full_texts, audios = self._prepare_inputs(features)
+
         batch = self.processor(
             text=full_texts,
             audio=audios,
@@ -245,8 +260,6 @@ class Qwen2AudioCollator:
             return_tensors="pt",
             padding=True,
         )
-
-        # Tokenize prompts alone to find where the response starts
         prompt_batch = self.processor(
             text=prompts,
             audio=audios,
@@ -255,21 +268,65 @@ class Qwen2AudioCollator:
             padding=True,
         )
 
-        # Build labels: mask prompt tokens with -100
-        labels = batch["input_ids"].clone()
-        for i in range(len(features)):
-            prompt_len = (
-                prompt_batch["input_ids"][i]
-                .ne(self.processor.tokenizer.pad_token_id)
-                .sum()
-            )
-            # Mask prompt tokens with -100 (ignore loss on prompt tokens)
-            labels[i, :prompt_len] = -100
-        # Also mask padding
-        labels[batch["attention_mask"] == 0] = -100
-
-        batch["labels"] = labels
+        batch["labels"] = self._build_labels(batch, prompt_batch, features)
         return batch
+
+
+# ---------------------------------------------------------------------------
+# AB-Test Dataset
+# ---------------------------------------------------------------------------
+
+AUDIO_PLACEHOLDER = "<audio>"
+AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
+
+
+class SFTDatasetAB(SFTDataset):
+    """
+    A/B preference variant of SFTDataset.
+
+    Each JSONL row has *two* audio paths in ``audios`` and a query with two
+    ``<audio>`` placeholders.  Replaces each ``<audio>`` with the Qwen2-Audio
+    special-token sequence and returns both waveforms.
+    """
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.samples[idx]
+
+        prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+
+        audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
+        audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
+
+        return {
+            "prompt": prompt,
+            "response": item["response"],
+            "audio_a": audio_a,
+            "audio_b": audio_b,
+            "sampling_rate": TARGET_SR,
+        }
+
+
+# ---------------------------------------------------------------------------
+# AB-Test Collator
+# ---------------------------------------------------------------------------
+
+
+class Qwen2AudioCollatorAB(Qwen2AudioCollator):
+    """
+    A/B preference variant of Qwen2AudioCollator.
+
+    Each sample contributes *two* audios.  The Qwen2-Audio processor expects a
+    **flat** list of waveforms — it assigns them to ``<|AUDIO|>`` tokens
+    sequentially across the batch.
+    """
+
+    def _prepare_inputs(self, features):
+        """Return (prompts, full_texts, audios) — audios flattened."""
+        prompts = [f["prompt"] for f in features]
+        full_texts = [f["prompt"] + f["response"] for f in features]
+        # Flat list: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
+        audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
+        return prompts, full_texts, audios
 
 
 class DPODataset(Dataset):
