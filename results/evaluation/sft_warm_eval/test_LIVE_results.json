@@ -929,10 +929,10 @@
       "col": 3.0,
       "loud": 1.8,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8. The overall quality is somewhat unnatural, indicating that the speech needs improvement in terms of noise reduction, distortion correction, and continuity. Additionally, the loudness is relatively quiet, which may affect the overall listening experience. With these factors in mind, I think it is a less-than-ideal synthesized speech.",
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8. The overall quality is somewhat unnatural.",
       "predicted_mos": 1.8,
       "mos_error": 0.19999999999999996,
-      "bleu": 5.3131932871193376e-155
+      "bleu": 6.689971755648496e-155
     },
     {
       "audios": [
