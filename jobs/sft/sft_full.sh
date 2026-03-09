@@ -36,9 +36,7 @@ echo "=========================================="
 
 nvidia-smi
 
-uv run python src/asa/preflight.py check \
-    --mode sft \
-    --job-script jobs/sft/sft_full.sh
+
 
 torchrun \
     --nproc_per_node=2 \

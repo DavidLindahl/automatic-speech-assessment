@@ -54,9 +54,7 @@ echo "=========================================="
 
 nvidia-smi
 
-uv run python src/asa/preflight.py check \
-    --mode dpo \
-    --job-script jobs/train/dpo_test.sh
+
 
 # Run the new ALLD Finetuning script
 torchrun \

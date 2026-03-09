@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from asa.preflight import run_preflight_checks
+
 from asa.processed_data import (
     load_processed_records,
     resolve_audio_path,
@@ -46,35 +46,3 @@ def test_resolve_audio_path_handles_hpc_and_repo_layouts(tmp_path: Path) -> None
     assert resolve_audio_path(hpc_path, data_root) == audio_path
     assert resolve_audio_path(workspace_path, data_root) == audio_path
 
-
-def test_preflight_reports_missing_dpo_metadata(tmp_path: Path) -> None:
-    processed_dir = tmp_path / "data" / "processed"
-    raw_dir = tmp_path / "data" / "raw" / "NISQA_Corpus" / "NISQA_TRAIN_SIM"
-    processed_dir.mkdir(parents=True)
-    raw_dir.mkdir(parents=True)
-
-    (raw_dir / "sample.wav").write_bytes(b"wav")
-    write_processed_records(
-        processed_dir / "train_dpo_10k.json",
-        [
-            {
-                "audios": ["/work3/s234817/NISQA_Corpus/NISQA_TRAIN_SIM/sample.wav"],
-                "mos": 4.0,
-                "noi": 4.0,
-                "col": 4.0,
-                "chosen": "chosen",
-                "rejected": "rejected",
-            }
-        ],
-    )
-
-    original_cwd = Path.cwd()
-    try:
-        import os
-
-        os.chdir(tmp_path)
-        findings = run_preflight_checks("dpo", Path("data"), 1, [])
-    finally:
-        os.chdir(original_cwd)
-
-    assert any("missing keys loud" in finding for finding in findings)

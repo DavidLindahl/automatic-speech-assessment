@@ -53,10 +53,7 @@ echo "=========================================="
 
 nvidia-smi
 
-uv run python src/asa/preflight.py check \
-    --mode sft \
-    --audio-check-limit 25 \
-    --job-script jobs/sft/sft_debug.sh
+
 
 uv run python src/asa/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \

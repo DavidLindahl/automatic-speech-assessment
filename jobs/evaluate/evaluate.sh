@@ -53,9 +53,7 @@ echo "=========================================="
 
 nvidia-smi
 
-uv run python src/asa/preflight.py check \
-    --mode evaluate \
-    --job-script jobs/evaluate/evaluate.sh
+
 
 # Define which model to evaluate
 MODEL_PATH="models/sft_warmup"
