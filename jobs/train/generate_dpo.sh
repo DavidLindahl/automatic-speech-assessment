@@ -52,7 +52,9 @@ echo "=========================================="
 
 nvidia-smi
 
-python src/asa/generate_dpo_data.py \
+
+
+uv run python src/asa/generate_dpo_data.py \
     --input-json data/processed/train_nisqa_llama_10k.json \
     --output-json data/processed/train_dpo_10k.json \
     --model-path models/sft_warmup \

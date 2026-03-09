@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC LSF job script — ALLD (DPO) Training Qwen2-Audio
-### Submit with: bsub < jobs/train/dpo_alld.sh
+### Submit with: bsub < jobs/train/dpo_test.sh
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
@@ -54,16 +54,18 @@ echo "=========================================="
 
 nvidia-smi
 
+
+
 # Run the new ALLD Finetuning script
 torchrun \
     --nproc_per_node=2 \
     src/asa/dpo-finetune.py \
+    --model-name alld_final \
     --model-id "models/sft_warmup" \
     --ref-model-id "Qwen/Qwen2-7B-Instruct" \
     --json-path "data/processed/train_dpo_10k.json" \
     --data-root "data" \
-    --output-dir "models/alld_final" \
-    --batch-size 1 \
+    --batch-size 2 \
     --epochs 2 \
     --lr 5e-6 \
     --beta 0.4 \

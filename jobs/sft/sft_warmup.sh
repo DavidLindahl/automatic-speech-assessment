@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC — SFT Medium Test (500 samples, ~1 hour)
-### Submit with: bsub < jobs/sft_medium.sh
+### Submit with: bsub < jobs/sft/sft_warmup.sh
 ### ============================================================
 
 #BSUB -q gpul40s
@@ -36,9 +36,12 @@ echo "=========================================="
 
 nvidia-smi
 
+
+
 torchrun \
     --nproc_per_node=2 \
     src/asa/supervised-finetune.py \
+    --model-name sft_warmup \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --max-samples 5000 \

@@ -52,6 +52,6 @@ echo "=========================================="
 
 nvidia-smi
 
-pytest tests/test_inference.py -v -s
+uv run pytest tests/test_inference.py -v -s
 
 echo "Inference test complete: $(date)"

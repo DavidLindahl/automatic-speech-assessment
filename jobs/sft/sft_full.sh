@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC — SFT Full Training (10k samples, 2 epochs)
-### Submit with: bsub < jobs/sft_full.sh
+### Submit with: bsub < jobs/sft/sft_full.sh
 ### ============================================================
 
 #BSUB -q gpul40s
@@ -36,9 +36,12 @@ echo "=========================================="
 
 nvidia-smi
 
+
+
 torchrun \
     --nproc_per_node=2 \
     src/asa/supervised-finetune.py \
+    --model-name sft_full \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --batch-size 4 \

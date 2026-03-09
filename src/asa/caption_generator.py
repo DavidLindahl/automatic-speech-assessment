@@ -13,6 +13,8 @@ import typer
 from typing import Dict, Optional
 import google.generativeai as genai
 
+from asa.processed_data import write_processed_records
+
 # Configure Gemini API
 # Assumes GEMINI_API_KEY is set in environment variables
 if "GEMINI_API_KEY" in os.environ:
@@ -24,6 +26,7 @@ else:
 MODEL_NAME = "gemini-2.5-flash-lite"
 
 app = typer.Typer()
+
 
 # Temp and TopP is based on paper's second itteration
 def call_gemini_api(prompt: str, temperature: float = 1.1, top_p: float = 0.90) -> str:
@@ -62,25 +65,22 @@ def generate_mos_prediction_prompt(
     Generate a prompt for MOS prediction based on the metadata.
 
     Args:
-        metadata: A dictionary containing 'mos', 'noi', 'col', 'dis', 'loud' values
+        metadata: A dictionary containing 'mos', 'noi', 'col', and 'loud' values
         example_data: Optional example data point to include in the prompt
         example_response: Optional example response to include in the prompt
 
     Returns:
         The formatted prompt string
     """
-    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are rating from 1 to 5. For all these factors, higher is better.
+    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are rating from 1 to 5. For all these factors, higher is better.
 (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
 (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
 (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
-(4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
-(5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
-I need you to generate a descriptive evaluation for this speech, including a description according to the score from (2) to (5), analyze how they influence the overall quality, and add the mos in the end."""
+(4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+I need you to generate a descriptive evaluation for this speech, including a description according to the score from noise, coloration, and loudness, analyze how they influence the overall quality, and add the mos in the end."""
 
-    # Example data from train_nisqa_llama_10k.json (Line 1)
-    # Note: 'dis' manually added to match prompt requirements and text description
-    default_example = {"mos": 1.8, "noi": 3.2, "col": 1.9, "loud": 3.3, "dis": 2.0}
-    default_response = "This synthesized speech has a moderate level of noise and volume. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. With an overall MOS score of 1.8, it falls into the somewhat unnatural category."
+    default_example = {"mos": 1.8, "noi": 3.2, "col": 1.9, "loud": 3.3}
+    default_response = "This synthesized speech has a moderate level of noise and volume. However, it suffers from significant distortion, which greatly impacts its overall quality. With an overall MOS score of 1.8, it falls into the somewhat unnatural category."
 
     # Add example if provided, otherwise use default
     data_to_use = example_data if example_data else default_example
@@ -103,19 +103,18 @@ def generate_ab_test_prompt(
     Generate a prompt for A/B testing based on the metadata of two speech samples.
 
     Args:
-        metadata_a: A dictionary containing 'mos', 'noi', 'col', 'dis', 'loud' values for Speech A
-        metadata_b: A dictionary containing 'mos', 'noi', 'col', 'dis', 'loud' values for Speech B
+        metadata_a: A dictionary containing 'mos', 'noi', 'col', and 'loud' values for Speech A
+        metadata_b: A dictionary containing 'mos', 'noi', 'col', and 'loud' values for Speech B
 
     Returns:
         The formatted prompt string
     """
-    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are rating from 1 to 5. For all these factors, higher is better.
+    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are rating from 1 to 5. For all these factors, higher is better.
 (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
 (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
 (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
-(4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
-(5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
-I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly select 1~3 aspects from (2)~(5) with an obvious gap (usually score difference more than 0.5), then compare them according to these distinctions. Finally, please give your preference with a reasonable analysis."""
+(4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly select 1~3 aspects from noise, coloration, and loudness with an obvious gap (usually score difference more than 0.5), then compare them according to these distinctions. Finally, please give your preference with a reasonable analysis."""
 
     # Add metadata for both speech samples
     prompt += f"\nSpeechA: {json.dumps(metadata_a)}"
@@ -196,9 +195,9 @@ def process_single_file(input_path: str, output_path: str):
                 result_item["audios"] = []
 
             result_item["response"] = response
-            result_item["query"] = (
-                "Please describe and evaluate the synthetic speech<audio>."
-            )
+            result_item[
+                "query"
+            ] = "Please describe and evaluate the synthetic speech<audio>."
 
             # Flatten metadata
             for k, v in metadata.items():
@@ -230,9 +229,9 @@ def process_single_file(input_path: str, output_path: str):
             result_item["audios"] = audios
 
             result_item["response"] = ab_result
-            result_item["query"] = (
-                "Please perform A/B preference test between<audio>and<audio>, including a tie."
-            )
+            result_item[
+                "query"
+            ] = "Please perform A/B preference test between<audio>and<audio>, including a tie."
 
             # Flatten metadata with A_ and B_ prefixes
             for k, v in metadata_a.items():
@@ -263,8 +262,7 @@ def process_single_file(input_path: str, output_path: str):
         print(f"Processed {i+1}/{len(data)} items.")
 
     # Save results
-    with open(output_path, "w") as f:
-        json.dump(results, f, indent=2)
+    write_processed_records(output_path, results)
 
     print(f"Processing complete. Results saved to {output_path}")
 
