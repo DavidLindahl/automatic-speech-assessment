@@ -9,6 +9,7 @@ import nltk
 from nltk.translate.bleu_score import sentence_bleu
 
 from asa.inference import ASAModel, load_model, run_inference
+from asa.processed_data import load_processed_records
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -36,6 +37,9 @@ def eval_mos(
     ),
     model_path: str = typer.Option(
         ASAModel.SFT, help="Hub repo ID or local checkpoint path."
+    ),
+    data_root: Path = typer.Option(
+        Path("data"), help="Root directory that contains the raw audio tree."
     ),
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to evaluate (for testing)."
@@ -65,12 +69,7 @@ def eval_mos(
 
     for dataset_path in dataset_paths:
         logging.info(f"Loading dataset from {dataset_path}")
-        data = []
-        with open(dataset_path, "r", encoding="utf-8") as f:
-            for line in f:
-                if not line.strip():
-                    continue
-                data.append(json.loads(line))
+        data = load_processed_records(dataset_path)
 
         if max_samples:
             data = data[:max_samples]
