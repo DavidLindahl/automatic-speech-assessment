@@ -41,6 +41,7 @@ nvidia-smi
 torchrun \
     --nproc_per_node=2 \
     src/asa/supervised-finetune.py \
+    --model-name sft_warmup \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --max-samples 5000 \

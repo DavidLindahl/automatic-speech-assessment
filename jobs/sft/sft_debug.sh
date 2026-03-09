@@ -56,8 +56,8 @@ nvidia-smi
 
 
 uv run python src/asa/supervised-finetune.py \
+    --model-name sft_debug_model \
     --model-id Qwen/Qwen2-Audio-7B \
-    --output-dir models/sft_debug \
     --batch-size 1 \
     --epochs 1 \
     --lr 1e-5 \

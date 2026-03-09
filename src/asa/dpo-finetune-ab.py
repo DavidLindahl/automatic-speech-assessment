@@ -123,7 +123,7 @@ def train(
     ref_model_id: str = typer.Option("Qwen/Qwen2-7B-Instruct", help="Path to Expert Text model (Reference)."),
     json_path: Path = typer.Option(Path("data/processed/train_dpo_abtest_10k.json"), help="DPO A/B dataset."),
     data_root: Path = typer.Option(Path("data"), help="Root directory for audios."),
-    output_dir: Path = typer.Option(Path("models/alld_ab_final"), help="Save directory."),
+    model_name: str = typer.Option(..., help="Name of the model to save (saved under models/<model_name>)."),
     batch_size: int = typer.Option(2, help="Per-device batch size."),
     epochs: int = typer.Option(2, help="Training epochs."),
     beta: float = typer.Option(0.4, help="DPO margin parameter beta."),
@@ -159,6 +159,11 @@ def train(
             },
         )
     report_to = "wandb" if wandb_project else "none"
+
+    output_dir = Path("models") / model_name
+    if is_main:
+        print(f"Model will be saved to: {output_dir}")
+        output_dir.mkdir(parents=True, exist_ok=True)
 
     dtype = torch.bfloat16 if bf16 else (torch.float16 if fp16 else torch.float32)
 

@@ -58,10 +58,10 @@ nvidia-smi
 torchrun \
     --nproc_per_node=2 \
     src/asa/dpo-finetune.py \
+    --model-name dpo_final \
     --model-id "models/sft_warmup" \
     --json-path "data/processed/train_dpo_10k.json" \
     --data-root "data" \
-    --output-dir "models/dpo_final" \
     --batch-size 1 \
     --epochs 2 \
     --lr 5e-6 \
