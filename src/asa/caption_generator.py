@@ -27,6 +27,7 @@ MODEL_NAME = "gemini-2.5-flash-lite"
 
 app = typer.Typer()
 
+
 # Temp and TopP is based on paper's second itteration
 def call_gemini_api(prompt: str, temperature: float = 1.1, top_p: float = 0.90) -> str:
     """
@@ -194,9 +195,9 @@ def process_single_file(input_path: str, output_path: str):
                 result_item["audios"] = []
 
             result_item["response"] = response
-            result_item["query"] = (
-                "Please describe and evaluate the synthetic speech<audio>."
-            )
+            result_item[
+                "query"
+            ] = "Please describe and evaluate the synthetic speech<audio>."
 
             # Flatten metadata
             for k, v in metadata.items():
@@ -228,9 +229,9 @@ def process_single_file(input_path: str, output_path: str):
             result_item["audios"] = audios
 
             result_item["response"] = ab_result
-            result_item["query"] = (
-                "Please perform A/B preference test between<audio>and<audio>, including a tie."
-            )
+            result_item[
+                "query"
+            ] = "Please perform A/B preference test between<audio>and<audio>, including a tie."
 
             # Flatten metadata with A_ and B_ prefixes
             for k, v in metadata_a.items():

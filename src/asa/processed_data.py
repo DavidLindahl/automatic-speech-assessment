@@ -48,7 +48,9 @@ def load_processed_records(path: str | Path) -> list[dict[str, Any]]:
     return records
 
 
-def write_processed_records(path: str | Path, records: Iterable[dict[str, Any]]) -> None:
+def write_processed_records(
+    path: str | Path, records: Iterable[dict[str, Any]]
+) -> None:
     """Write processed records in canonical JSONL form.
 
     Args:
@@ -94,5 +96,7 @@ def resolve_audio_path(raw_path: str, data_root: str | Path) -> Path:
 def ensure_record(item: Any, path: Path) -> dict[str, Any]:
     """Validate that a parsed payload item is a JSON object."""
     if not isinstance(item, dict):
-        raise TypeError(f"Expected JSON object records in {path}, got {type(item).__name__}")
+        raise TypeError(
+            f"Expected JSON object records in {path}, got {type(item).__name__}"
+        )
     return item

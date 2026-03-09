@@ -18,12 +18,15 @@ import librosa
 
 import typer
 
-from asa.processed_data import DPO_METADATA_FIELDS, load_processed_records, resolve_audio_path
+from asa.processed_data import (
+    DPO_METADATA_FIELDS,
+    load_processed_records,
+    resolve_audio_path,
+)
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
 PROMPT_TEMPLATE = "<|audio_bos|><|AUDIO|><|audio_eos|>Please describe and evaluate the synthetic speech."
-
 
 
 app = typer.Typer()
@@ -173,7 +176,6 @@ class SFTDataset(Dataset):
     def _load_jsonl(path: Path) -> list[dict]:
         """Load processed training records."""
         return load_processed_records(path)
-
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
         """Map stored audio paths to a local path."""
@@ -337,6 +339,7 @@ Input: {mos: 2.1, noi: 3.0, col: 2.5, loud: 4.0}
 Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
 """
 
+
 def build_expert_prompt(mos: float, noi: float, col: float, loud: float) -> str:
     """Combines the system prompt, few-shot examples, and the current batch's metadata."""
     current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
@@ -345,7 +348,7 @@ def build_expert_prompt(mos: float, noi: float, col: float, loud: float) -> str:
 
 class DPODataset(Dataset):
     """
-    Loads DPO JSONL format and extracts both audio (for the policy model) 
+    Loads DPO JSONL format and extracts both audio (for the policy model)
     and metadata scores (for the reference text model).
     """
 
@@ -383,8 +386,8 @@ class DPODataset(Dataset):
         meta_prompt = build_expert_prompt(**metadata)
 
         return {
-            "audio_prompt": PROMPT_TEMPLATE,     # For Policy Model
-            "meta_prompt": meta_prompt,          # For Reference Model
+            "audio_prompt": PROMPT_TEMPLATE,  # For Policy Model
+            "meta_prompt": meta_prompt,  # For Reference Model
             "chosen": item["chosen"],
             "rejected": item["rejected"],
             "audio": audio_array,
@@ -411,11 +414,7 @@ class ALLDDPOCollator:
         """Mask prompt and padding tokens with -100 in labels."""
         labels = batch["input_ids"].clone()
         for i in range(len(prompt_batch["input_ids"])):
-            prompt_len = (
-                prompt_batch["input_ids"][i]
-                .ne(tokenizer.pad_token_id)
-                .sum()
-            )
+            prompt_len = prompt_batch["input_ids"][i].ne(tokenizer.pad_token_id).sum()
             labels[i, :prompt_len] = -100
         labels[batch["attention_mask"] == 0] = -100
         return labels
@@ -443,7 +442,7 @@ class ALLDDPOCollator:
             return_tensors="pt",
             padding=True,
         )
-        
+
         policy_prompt_inputs = self.audio_processor(
             text=policy_prompts,
             audio=concat_audios,
@@ -454,9 +453,13 @@ class ALLDDPOCollator:
 
         batch["policy_input_ids"] = policy_inputs["input_ids"]
         batch["policy_attention_mask"] = policy_inputs["attention_mask"]
-        batch["policy_audio_values"] = policy_inputs.get("audio_values", None)  # Handle processor variations
+        batch["policy_audio_values"] = policy_inputs.get(
+            "audio_values", None
+        )  # Handle processor variations
         batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
-        batch["policy_labels"] = self._build_labels(policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer)
+        batch["policy_labels"] = self._build_labels(
+            policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer
+        )
 
         # ==========================================
         # 2. STREAM B: Reference Model (Text Only)
@@ -474,7 +477,7 @@ class ALLDDPOCollator:
             return_tensors="pt",
             padding=True,
         )
-        
+
         ref_prompt_inputs = self.text_tokenizer(
             concat_meta_prompts,
             return_tensors="pt",
@@ -483,9 +486,12 @@ class ALLDDPOCollator:
 
         batch["ref_input_ids"] = ref_inputs["input_ids"]
         batch["ref_attention_mask"] = ref_inputs["attention_mask"]
-        batch["ref_labels"] = self._build_labels(ref_inputs, ref_prompt_inputs, self.text_tokenizer)
+        batch["ref_labels"] = self._build_labels(
+            ref_inputs, ref_prompt_inputs, self.text_tokenizer
+        )
 
         return batch
+
 
 if __name__ == "__main__":
     app()

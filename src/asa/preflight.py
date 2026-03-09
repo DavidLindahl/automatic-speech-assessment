@@ -8,9 +8,15 @@ from typing import Iterable, Optional
 
 import typer
 
-from asa.processed_data import DPO_METADATA_FIELDS, load_processed_records, resolve_audio_path
+from asa.processed_data import (
+    DPO_METADATA_FIELDS,
+    load_processed_records,
+    resolve_audio_path,
+)
 
-app = typer.Typer(help="Validate datasets, checkpoints, and job script flags before submitting HPC jobs.")
+app = typer.Typer(
+    help="Validate datasets, checkpoints, and job script flags before submitting HPC jobs."
+)
 
 SCRIPT_FLAGS = {
     "src/asa/supervised-finetune.py": {
@@ -72,7 +78,11 @@ SCRIPT_FLAGS = {
 }
 
 DEFAULT_JOB_SCRIPTS = {
-    "sft": [Path("jobs/sft/sft_debug.sh"), Path("jobs/sft/sft_warmup.sh"), Path("jobs/sft/sft_full.sh")],
+    "sft": [
+        Path("jobs/sft/sft_debug.sh"),
+        Path("jobs/sft/sft_warmup.sh"),
+        Path("jobs/sft/sft_full.sh"),
+    ],
     "generate-dpo": [Path("jobs/train/generate_dpo.sh")],
     "dpo": [Path("jobs/train/dpo.sh"), Path("jobs/train/dpo_test.sh")],
     "evaluate": [Path("jobs/evaluate/evaluate.sh")],
@@ -136,7 +146,9 @@ def validate_records(
     for index, record in enumerate(records, start=1):
         missing = sorted(key for key in required_keys if key not in record)
         if missing:
-            findings.append(f"{dataset_path}: record {index} missing keys {', '.join(missing)}")
+            findings.append(
+                f"{dataset_path}: record {index} missing keys {', '.join(missing)}"
+            )
             break
 
     for index, record in enumerate(records[:audio_check_limit], start=1):
@@ -146,7 +158,9 @@ def validate_records(
             break
         resolved = resolve_audio_path(audios[0], data_root)
         if not resolved.exists():
-            findings.append(f"{dataset_path}: record {index} audio path does not exist after resolution: {resolved}")
+            findings.append(
+                f"{dataset_path}: record {index} audio path does not exist after resolution: {resolved}"
+            )
             break
 
     return findings
@@ -163,11 +177,15 @@ def validate_job_script(job_script: Path) -> list[str]:
         used_flags = set(re.findall(r"--[a-z0-9-]+", tail))
         invalid_flags = sorted(flag for flag in used_flags if flag not in allowed_flags)
         if invalid_flags:
-            findings.append(f"{job_script}: invalid flags for {entrypoint}: {', '.join(invalid_flags)}")
+            findings.append(
+                f"{job_script}: invalid flags for {entrypoint}: {', '.join(invalid_flags)}"
+            )
     return findings
 
 
-def run_preflight_checks(mode: str, data_root: Path, audio_check_limit: int, job_scripts: Iterable[Path]) -> list[str]:
+def run_preflight_checks(
+    mode: str, data_root: Path, audio_check_limit: int, job_scripts: Iterable[Path]
+) -> list[str]:
     """Run all configured preflight checks and return failures."""
     findings: list[str] = []
     for required_file in file_requirements(mode):
@@ -178,7 +196,9 @@ def run_preflight_checks(mode: str, data_root: Path, audio_check_limit: int, job
         if not dataset_path.exists():
             findings.append(f"Missing dataset: {dataset_path}")
             continue
-        findings.extend(validate_records(dataset_path, required_keys, data_root, audio_check_limit))
+        findings.extend(
+            validate_records(dataset_path, required_keys, data_root, audio_check_limit)
+        )
 
     for job_script in job_scripts:
         if not job_script.exists():
@@ -192,8 +212,12 @@ def run_preflight_checks(mode: str, data_root: Path, audio_check_limit: int, job
 @app.command()
 def check(
     mode: str = typer.Option("pipeline", help=f"One of: {', '.join(VALID_MODES)}."),
-    data_root: Path = typer.Option(Path("data"), help="Root directory that contains the raw audio tree."),
-    audio_check_limit: int = typer.Option(100, help="How many records per dataset to verify for audio path existence."),
+    data_root: Path = typer.Option(
+        Path("data"), help="Root directory that contains the raw audio tree."
+    ),
+    audio_check_limit: int = typer.Option(
+        100, help="How many records per dataset to verify for audio path existence."
+    ),
     job_script: Optional[list[Path]] = typer.Option(
         None,
         help="Optional job script paths to validate. Defaults to scripts for the selected mode.",
@@ -201,7 +225,9 @@ def check(
 ) -> None:
     """Validate pipeline prerequisites without mutating the workspace."""
     if mode not in VALID_MODES:
-        raise typer.BadParameter(f"Unsupported mode '{mode}'. Choose from {', '.join(VALID_MODES)}.")
+        raise typer.BadParameter(
+            f"Unsupported mode '{mode}'. Choose from {', '.join(VALID_MODES)}."
+        )
 
     scripts = job_script or DEFAULT_JOB_SCRIPTS[mode]
     findings = run_preflight_checks(mode, data_root, audio_check_limit, scripts)
@@ -211,7 +237,9 @@ def check(
             typer.echo(f"FAIL: {finding}")
         raise typer.Exit(code=1)
 
-    typer.echo(f"Preflight OK for mode '{mode}' across {len(list(scripts))} job script(s).")
+    typer.echo(
+        f"Preflight OK for mode '{mode}' across {len(list(scripts))} job script(s)."
+    )
 
 
 if __name__ == "__main__":

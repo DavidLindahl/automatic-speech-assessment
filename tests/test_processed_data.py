@@ -6,7 +6,11 @@ import json
 from pathlib import Path
 
 from asa.preflight import run_preflight_checks
-from asa.processed_data import load_processed_records, resolve_audio_path, write_processed_records
+from asa.processed_data import (
+    load_processed_records,
+    resolve_audio_path,
+    write_processed_records,
+)
 
 
 def test_load_processed_records_accepts_json_array(tmp_path: Path) -> None:
