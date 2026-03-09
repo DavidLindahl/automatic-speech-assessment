@@ -27,6 +27,9 @@ from asa.processed_data import (
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
 PROMPT_TEMPLATE = "<|audio_bos|><|AUDIO|><|audio_eos|>Please describe and evaluate the synthetic speech."
+PROMPT_TEMPLATE_AB = (
+    "Please perform A/B preference test between<audio>and<audio>, including a tie."
+)
 
 
 app = typer.Typer()
@@ -174,8 +177,22 @@ class SFTDataset(Dataset):
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
-        """Load processed training records."""
-        return load_processed_records(path)
+        """Parse line-delimited JSON (one JSON object per '{...}' block)."""
+        text = path.read_text(encoding="utf-8")
+
+        items = []
+        decoder = json.JSONDecoder()
+        idx = 0
+        while idx < len(text):
+            # Skip whitespace
+            while idx < len(text) and text[idx] in " \t\n\r":
+                idx += 1
+            if idx >= len(text):
+                break
+            obj, end_idx = decoder.raw_decode(text, idx)
+            items.append(obj)
+            idx = end_idx
+        return items
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
         """Map stored audio paths to a local path."""
@@ -340,7 +357,9 @@ Output: The volume of the speech is clear and adequately loud. However, there is
 """
 
 
-def build_expert_prompt(mos: float, noi: float, col: float, loud: float) -> str:
+def build_expert_prompt(
+    mos: float, noi: float, col: float, dis: float, loud: float
+) -> str:
     """Combines the system prompt, few-shot examples, and the current batch's metadata."""
     current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
     return EXPERT_SYSTEM_PROMPT + EXPERT_FEW_SHOT_EXAMPLES + current_input
