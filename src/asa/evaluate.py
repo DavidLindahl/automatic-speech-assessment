@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import List, Optional
 
 import typer
-import torch
 import nltk
 from nltk.translate.bleu_score import sentence_bleu
 

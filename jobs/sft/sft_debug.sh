@@ -2,7 +2,7 @@
 ### ============================================================
 ### DTU HPC LSF debug job — Qwen2-Audio SFT (100 samples)
 ### Single L40S 48GB — fast availability, OOM-safe at batch=1
-### Submit with: bsub < jobs/sft_debug.sh
+### Submit with: bsub < jobs/sft/sft_debug.sh
 ### ============================================================
 
 ### -- Queue: L40S 48GB (starts quickly, no reservation issues) --
@@ -53,20 +53,19 @@ echo "=========================================="
 
 nvidia-smi
 
-# Single-GPU debug run — no DeepSpeed, 100 samples, 1 epoch
-accelerate launch \
-    --num_processes 1 \
-    --mixed_precision bf16 \
-    src/asa/supervised-finetune.py \
+uv run python src/asa/preflight.py check \
+    --mode sft \
+    --audio-check-limit 25 \
+    --job-script jobs/sft/sft_debug.sh
+
+uv run python src/asa/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
-    --dataset-type mos \
-    --output-dir results/sft-debug \
+    --output-dir models/sft_debug \
     --batch-size 1 \
     --epochs 1 \
     --lr 1e-5 \
     --gradient-accumulation-steps 1 \
     --bf16 \
-    --max-samples 100 \
-    --deepspeed ""
+    --max-samples 100
 
 echo "Debug run complete: $(date)"

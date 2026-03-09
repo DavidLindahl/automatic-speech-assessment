@@ -1,7 +1,5 @@
 import json
 import tempfile
-import numpy as np
-import torch
 from pathlib import Path
 from transformers import AutoProcessor, AutoTokenizer
 
