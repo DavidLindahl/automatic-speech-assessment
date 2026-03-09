@@ -6,7 +6,6 @@ Contains:
   - Qwen2AudioCollator: batches samples and calls the Qwen2-Audio processor
 """
 
-import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -18,6 +17,13 @@ from torch.utils.data import Dataset
 import librosa
 
 import typer
+
+from asa.processed_data import (
+    DPO_METADATA_FIELDS,
+    DPO_METADATA_FIELDS_AB,
+    load_processed_records,
+    resolve_audio_path,
+)
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
@@ -190,12 +196,8 @@ class SFTDataset(Dataset):
         return items
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
-        """Map the JSON path (e.g. '/data/raw/NISQA_Corpus/...') to a local path."""
-        if "NISQA_Corpus" in raw_path:
-            rel = raw_path[raw_path.find("NISQA_Corpus") :]
-            return self.data_root / "raw" / rel
-        # Fallback: treat as relative to data_root
-        return self.data_root / raw_path.lstrip("/")
+        """Map stored audio paths to a local path."""
+        return resolve_audio_path(raw_path, self.data_root)
 
     # ── public ───────────────────────────────────────────────────────────
 
@@ -334,37 +336,77 @@ class Qwen2AudioCollatorAB(Qwen2AudioCollator):
 
 
 # --- ALLD Expert Text Prompt Templates ---
+# ==========================================
+# 1. SINGLE MOS PROMPTS (No 'dis' feature)
+# ==========================================
 
-EXPERT_SYSTEM_PROMPT = """ I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are
+DIMENSION_DEFINITIONS_MOS = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are
+rating from 1 to 5. For all these factors, higher is better.
+    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
+    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
+    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
+    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+"""
+
+EXPERT_TASK_MOS = """I need you to generate a descriptive evaluation for this speech, including a description according to
+the score from noise, coloration, and loudness, analyze how they influence the overall quality, and add the mos in the end.
+"""
+
+EXPERT_FEW_SHOT_EXAMPLES_MOS = """
+--- Example 1 ---
+Input: {mos: 4.5, noi: 5.0, col: 4.5, loud: 4.8}
+Output: This speech is highly intelligible and perfectly loud. There is no background noise, and there is only a very slight coloration that is barely noticeable. Taking all factors into account, the overall MOS is 4.5.
+
+--- Example 2 ---
+Input: {mos: 2.1, noi: 3.0, col: 2.5, loud: 4.0}
+Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
+"""
+
+def build_expert_prompt_MOS(
+    mos: float, noi: float, col: float, loud: float
+) -> str:
+    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
+    return DIMENSION_DEFINITIONS_MOS + EXPERT_TASK_MOS + EXPERT_FEW_SHOT_EXAMPLES_MOS + current_input
+
+
+# ==========================================
+# 2. A/B TEST PROMPTS (Includes 'dis' feature)
+# ==========================================
+
+DIMENSION_DEFINITIONS_AB = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are
 rating from 1 to 5. For all these factors, higher is better.
     (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
     (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
     (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
     (4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
     (5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
-I need you to generate a descriptive evaluation for this speech, including a description according to
-the score from (2) to (5), analyze how they influence the overall quality, and add the mos in the end.
-
 """
-EXPERT_FEW_SHOT_EXAMPLES = """
+
+EXPERT_TASK_AB = """I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly
+select 1 to 3 aspects from the sub-dimensions with an obvious gap (usually score difference more than 0.5), then
+compare them according to these distinctions. Finally, please give your preference with a reasonable
+analysis.
+"""
+
+# Restored the original examples that correctly use the 'dis' feature
+EXPERT_FEW_SHOT_EXAMPLES_AB = """
 --- Example 1 ---
-Input: {mos: 4.5, noi: 5.0, col: 4.5, dis: 5.0, loud: 4.8}
-Output: This speech is highly intelligible and perfectly loud. There is no background noise or discontinuity. There is only a very slight coloration that is barely noticeable. Taking all factors into account, the overall MOS is 4.5.
+Input: {A_mos: 1.8, A_noi: 3.2, A_col: 1.9, A_dis: 2.3, A_loud: 3.3, B_mos: 3.6, B_noi: 2.6, B_col: 2.8, B_dis: 4.0, B_loud: 3.7}
+Output: SpeechA and SpeechB have similar levels of distortion and loudness. However, SpeechB has better continuity than SpeechA. Although SpeechA is slightly cleaner, I would select SpeechB as better synthesized speech due to its significantly higher overall synthetic quality and better continuity.
 
 --- Example 2 ---
-Input: {mos: 2.1, noi: 3.0, col: 2.5, dis: 1.5, loud: 4.0}
-Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. Most severely, there is significant discontinuity with frequent stutters that disrupt the flow. Due to these heavy degradations, the overall MOS score is only 2.1.
+Input: {A_mos: 4.0, A_noi: 4.2, A_col: 3.7, A_dis: 3.9, A_loud: 4.1, B_mos: 1.6, B_noi: 2.4, B_col: 1.8, B_dis: 2.5, B_loud: 1.6}
+Output: SpeechA and SpeechB have significant gaps in several aspects. SpeechA has much lower noise, less distortion, and better continuity than SpeechB. Additionally, SpeechA is also much louder than SpeechB. Considering these substantial differences, I would select SpeechA as the better synthesized speech.
 """
 
-
-def build_expert_prompt(
-    mos: float, noi: float, col: float, dis: float, loud: float
+def build_expert_prompt_ab(
+    A_mos: float, A_noi: float, A_col: float, A_dis: float, A_loud: float,
+    B_mos: float, B_noi: float, B_col: float, B_dis: float, B_loud: float,
 ) -> str:
-    """Combines the system prompt, few-shot examples, and the current batch's metadata."""
-    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, dis: {dis}, loud: {loud}}}\nOutput:"
-    return EXPERT_SYSTEM_PROMPT + EXPERT_FEW_SHOT_EXAMPLES + current_input
+    current_input = f"\n--- Current Task ---\nInput: {{A_mos: {A_mos}, A_noi: {A_noi}, A_col: {A_col}, A_dis: {A_dis}, A_loud: {A_loud}, B_mos: {B_mos}, B_noi: {B_noi}, B_col: {B_col}, B_dis: {B_dis}, B_loud: {B_loud}}}\nOutput:"
+    return DIMENSION_DEFINITIONS_AB + EXPERT_TASK_AB + EXPERT_FEW_SHOT_EXAMPLES_AB + current_input
 
-
+    
 class DPODataset(Dataset):
     """
     Loads DPO JSONL format and extracts both audio (for the policy model)
@@ -388,25 +430,10 @@ class DPODataset(Dataset):
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
-        text = path.read_text(encoding="utf-8")
-        items = []
-        decoder = json.JSONDecoder()
-        idx = 0
-        while idx < len(text):
-            while idx < len(text) and text[idx] in " \t\n\r":
-                idx += 1
-            if idx >= len(text):
-                break
-            obj, end_idx = decoder.raw_decode(text, idx)
-            items.append(obj)
-            idx = end_idx
-        return items
+        return load_processed_records(path)
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
-        if "NISQA_Corpus" in raw_path:
-            rel = raw_path[raw_path.find("NISQA_Corpus") :]
-            return self.data_root / "raw" / rel
-        return self.data_root / raw_path.lstrip("/")
+        return resolve_audio_path(raw_path, self.data_root)
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -416,14 +443,8 @@ class DPODataset(Dataset):
         audio_path = self._resolve_audio_path(item["audios"][0])
         audio_array = load_audio(str(audio_path))
 
-        # Extract metadata for the reference model (assumes these exist in your JSON)
-        mos = item.get("mos", 3.0)
-        noi = item.get("noi", 3.0)
-        col = item.get("col", 3.0)
-        dis = item.get("dis", 3.0)
-        loud = item.get("loud", 3.0)
-
-        meta_prompt = build_expert_prompt(mos, noi, col, dis, loud)
+        metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS}
+        meta_prompt = build_expert_prompt_MOS(**metadata)
 
         return {
             "audio_prompt": PROMPT_TEMPLATE,  # For Policy Model
@@ -496,6 +517,120 @@ class ALLDDPOCollator:
         batch["policy_audio_values"] = policy_inputs.get(
             "audio_values", None
         )  # Handle processor variations
+        batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
+        batch["policy_labels"] = self._build_labels(
+            policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer
+        )
+
+        # ==========================================
+        # 2. STREAM B: Reference Model (Text Only)
+        # ==========================================
+        meta_prompts = [f["meta_prompt"] for f in features]
+        ref_chosen = [f["meta_prompt"] + f["chosen"] for f in features]
+        ref_rejected = [f["meta_prompt"] + f["rejected"] for f in features]
+
+        # 2N Batching for DeepSpeed
+        ref_texts = ref_chosen + ref_rejected
+        concat_meta_prompts = meta_prompts + meta_prompts
+
+        ref_inputs = self.text_tokenizer(
+            ref_texts,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        ref_prompt_inputs = self.text_tokenizer(
+            concat_meta_prompts,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        batch["ref_input_ids"] = ref_inputs["input_ids"]
+        batch["ref_attention_mask"] = ref_inputs["attention_mask"]
+        batch["ref_labels"] = self._build_labels(
+            ref_inputs, ref_prompt_inputs, self.text_tokenizer
+        )
+
+        return batch
+
+
+class DPODatasetAB(DPODataset):
+    """
+    A/B preference variant of DPODataset.
+    Each dual-audio sample is used for the policy model, while the reference
+    text model receives the A/B metadata to evaluate the chosen/rejected texts.
+    """
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.samples[idx]
+        
+        # dual audios
+        audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
+        audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
+
+        # dual metadata
+        metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS_AB}
+        meta_prompt = build_expert_prompt_ab(**metadata)
+
+        # Qwen2-Audio placeholder replacement
+        prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+
+        return {
+            "audio_prompt": prompt,        # For Policy Model
+            "meta_prompt": meta_prompt,    # For Reference Model
+            "chosen": item["chosen"],
+            "rejected": item["rejected"],
+            "audio_a": audio_a,
+            "audio_b": audio_b,
+            "sampling_rate": TARGET_SR,
+        }
+
+
+class ALLDDPOCollatorAB(ALLDDPOCollator):
+    """
+    A/B preference variant of ALLDDPOCollator.
+    The primary difference is flattening the dual `audio_a` and `audio_b` into
+    a single sequence so Qwen2-Audio's processor correctly maps them to the
+    two <|AUDIO|> tags in the prompt.
+    """
+
+    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
+        batch = {}
+
+        # ==========================================
+        # 1. STREAM A: Policy Model (Audio + Text)
+        # ==========================================
+        audio_prompts = [f["audio_prompt"] for f in features]
+        policy_chosen = [f["audio_prompt"] + f["chosen"] for f in features]
+        policy_rejected = [f["audio_prompt"] + f["rejected"] for f in features]
+        
+        # Flatten audios for AB tests: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
+        audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
+
+        # 2N Batching for DeepSpeed
+        policy_texts = policy_chosen + policy_rejected
+        policy_prompts = audio_prompts + audio_prompts
+        concat_audios = audios + audios
+
+        policy_inputs = self.audio_processor(
+            text=policy_texts,
+            audio=concat_audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        policy_prompt_inputs = self.audio_processor(
+            text=policy_prompts,
+            audio=concat_audios,
+            sampling_rate=TARGET_SR,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        batch["policy_input_ids"] = policy_inputs["input_ids"]
+        batch["policy_attention_mask"] = policy_inputs["attention_mask"]
+        batch["policy_audio_values"] = policy_inputs.get("audio_values", None)
         batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
         batch["policy_labels"] = self._build_labels(
             policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer

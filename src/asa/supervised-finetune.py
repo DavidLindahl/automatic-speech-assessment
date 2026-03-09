@@ -38,9 +38,9 @@ def train(
         Path("data"),
         help="Root directory containing raw audio files.",
     ),
-    output_dir: Path = typer.Option(
-        Path("models/sft_warmup"),
-        help="Directory to save checkpoints.",
+    model_name: str = typer.Option(
+        ...,
+        help="Name of the model to save (saved under models/<model_name>).",
     ),
     batch_size: int = typer.Option(4, help="Per-device batch size."),
     epochs: int = typer.Option(2, help="Number of training epochs."),
@@ -79,7 +79,14 @@ def train(
             },
         )
     report_to = "wandb" if wandb_project else "none"
-    # ── 1. Processor ─────────────────────────────────────────────────────
+    
+    # ── 1. Output Dir Setup ──────────────────────────────────────────────
+    output_dir = Path("models") / model_name
+    if is_main:
+        print(f"Model will be saved to: {output_dir}")
+        output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # ── 2. Processor ─────────────────────────────────────────────────────
     if is_main:
         print(f"Loading processor: {model_id}")
     processor = AutoProcessor.from_pretrained(model_id, fix_mistral_regex=True)

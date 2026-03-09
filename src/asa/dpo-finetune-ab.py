@@ -1,9 +1,9 @@
 """
-dpo-finetune.py — Alignment with LLM Distillation (ALLD) script.
+dpo-finetune-ab.py — Alignment with LLM Distillation (ALLD) script for A/B testing.
 
-Implements the cross-modal ALLD method from the paper:
-- Policy Model: Qwen2-Audio (trainable, processes audio + text)
-- Reference Model: Qwen2-Text (frozen, processes metadata + text)
+Implements the cross-modal ALLD method for A/B preference testing:
+- Policy Model: Qwen2-Audio (trainable, processes 2 audios + text)
+- Reference Model: Qwen2-Text (frozen, processes dual abstract metadata + text)
 """
 
 import os
@@ -22,20 +22,19 @@ from transformers import (
     TrainingArguments,
 )
 
-# Import the new dataset and dual-stream collator
-from asa.data import DPODataset, ALLDDPOCollator
+# Import the new A/B dataset and dual-stream A/B collator
+from asa.data import DPODatasetAB, ALLDDPOCollatorAB
 
 app = typer.Typer()
 
 
-
-class ALLDDPOTrainer(Trainer):
-    """Custom Trainer implementing the ALLD cross-modal DPO loss."""
+class ALLDDPOABTrainer(Trainer):
+    """Custom Trainer implementing the ALLD cross-modal DPO loss for A/B testing."""
     def __init__(self, ref_model, beta=0.4, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.beta = beta
         
-        # --- NEW: Safely move the reference model to the correct GPU ---
+        # --- Safely move the reference model to the correct GPU ---
         if ref_model is not None:
             # We use the trainer's built-in accelerator to handle DeepSpeed & Multi-GPU
             self.ref_model = self.accelerator.prepare_model(ref_model, evaluation_mode=True)
@@ -120,9 +119,9 @@ class ALLDDPOTrainer(Trainer):
 
 @app.command()
 def train(
-    model_id: str = typer.Option("models/sft_warmup", help="Path to SFT Audio model (Policy)."),
+    model_id: str = typer.Option("models/sft_warmup_ab", help="Path to SFT Audio model (Policy)."),
     ref_model_id: str = typer.Option("Qwen/Qwen2-7B-Instruct", help="Path to Expert Text model (Reference)."),
-    json_path: Path = typer.Option(Path("data/processed/train_dpo_10k.json"), help="DPO dataset."),
+    json_path: Path = typer.Option(Path("data/processed/train_dpo_abtest_10k.json"), help="DPO A/B dataset."),
     data_root: Path = typer.Option(Path("data"), help="Root directory for audios."),
     model_name: str = typer.Option(..., help="Name of the model to save (saved under models/<model_name>)."),
     batch_size: int = typer.Option(2, help="Per-device batch size."),
@@ -137,10 +136,10 @@ def train(
     val_split: float = typer.Option(0.05, help="Validation fraction."),
     eval_steps: int = typer.Option(100, help="Eval interval."),
     wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor", help="W&B entity."),
-    wandb_project: Optional[str] = typer.Option("qwen2-audio-alld", help="W&B project."),
-    wandb_run_name: Optional[str] = typer.Option("alld-finetune", help="W&B run name."),
+    wandb_project: Optional[str] = typer.Option("qwen2-audio-alld-ab", help="W&B project."),
+    wandb_run_name: Optional[str] = typer.Option("alld-ab-finetune", help="W&B run name."),
 ):
-    """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio."""
+    """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio for A/B Testing."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     is_main = local_rank == 0
 
@@ -176,8 +175,8 @@ def train(
         print(f"Loading Reference tokenizer: {ref_model_id}")
     text_tokenizer = AutoTokenizer.from_pretrained(ref_model_id)
 
-    # Prepare Dataset
-    full_dataset = DPODataset(
+    # Prepare A/B Dataset
+    full_dataset = DPODatasetAB(
         json_path=json_path,
         data_root=data_root,
         max_samples=max_samples,
@@ -191,8 +190,8 @@ def train(
         train_dataset = full_dataset
         val_dataset = None
 
-    # Initialize Dual-Stream Collator
-    collator = ALLDDPOCollator(audio_processor=audio_processor, text_tokenizer=text_tokenizer)
+    # Initialize Dual-Stream AB Collator
+    collator = ALLDDPOCollatorAB(audio_processor=audio_processor, text_tokenizer=text_tokenizer)
 
     # 1. Load Policy Model (Audio)
     if is_main:
@@ -224,7 +223,7 @@ def train(
         run_name=wandb_run_name,
     )
 
-    trainer = ALLDDPOTrainer(
+    trainer = ALLDDPOABTrainer(
         ref_model=ref_model,
         beta=beta,
         model=model,
@@ -235,11 +234,11 @@ def train(
     )
 
     if is_main:
-        print("Starting ALLD training...")
+        print("Starting ALLD A/B training...")
     trainer.train()
 
     if is_main:
-        print(f"Saving ALLD model to {output_dir}")
+        print(f"Saving ALLD A/B model to {output_dir}")
     trainer.save_model(str(output_dir))
     audio_processor.save_pretrained(str(output_dir))
 

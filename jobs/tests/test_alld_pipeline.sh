@@ -45,7 +45,7 @@ echo "=========================================="
 export PYTHONPATH=src
 
 # Run the test script
-python tests/test_alld_pipeline.py
+uv run python tests/test_alld_pipeline.py
 
 echo "=========================================="
 echo "Test complete: $(date)"

@@ -212,3 +212,5 @@ logs/
 *.synctex.gz
 *.bbl
 *.blg
+
+.claude/
