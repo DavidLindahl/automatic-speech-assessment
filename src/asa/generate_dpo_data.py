@@ -1,4 +1,3 @@
-import json
 import logging
 from pathlib import Path
 from typing import Optional
@@ -6,6 +5,7 @@ from typing import Optional
 import typer
 
 from asa.inference import load_model, run_inference
+from asa.processed_data import load_processed_records, resolve_audio_path, write_processed_records
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -16,6 +16,7 @@ def generate(
     input_json: Path = typer.Option(Path("data/processed/train_nisqa_llama_10k.json"), help="Input dataset."),
     output_json: Path = typer.Option(Path("data/processed/train_dpo_10k.json"), help="Output DPO dataset."),
     model_path: Path = typer.Option(Path("models/sft_warmup"), help="Path to the trained model."),
+    data_root: Path = typer.Option(Path("data"), help="Root directory that contains the raw audio tree."),
     batch_size: int = typer.Option(8, help="Inference batch size."),
     max_samples: Optional[int] = typer.Option(None, help="Max samples to process (for debugging).")
 ):
@@ -24,12 +25,7 @@ def generate(
     output_json.parent.mkdir(parents=True, exist_ok=True)
     
     logging.info(f"Loading input data from {input_json}")
-    data = []
-    with open(input_json, "r", encoding="utf-8") as f:
-        for line in f:
-            if not line.strip():
-                continue
-            data.append(json.loads(line))
+    data = load_processed_records(input_json)
             
     if max_samples:
         data = data[:max_samples]
@@ -40,13 +36,7 @@ def generate(
     
     audio_paths = []
     for item in data:
-        raw_path = item["audios"][0]
-        # Same path resolution as evaluate.py
-        if "/workspace/data/nisqa/" in raw_path:
-            resolved_path = raw_path.replace("/workspace/data/nisqa/", "data/raw/")
-        else:
-            resolved_path = raw_path
-        audio_paths.append(resolved_path)
+        audio_paths.append(str(resolve_audio_path(item["audios"][0], data_root)))
         
     logging.info(f"Running inference on {len(audio_paths)} samples with batch size {batch_size}...")
     predictions = run_inference(
@@ -69,9 +59,7 @@ def generate(
         dpo_data.append(dpo_item)
         
     logging.info(f"Saving DPO dataset to {output_json}")
-    with open(output_json, "w", encoding="utf-8") as f:
-        for item in dpo_data:
-            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+    write_processed_records(output_json, dpo_data)
             
     logging.info("Done.")
 

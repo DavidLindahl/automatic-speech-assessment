@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC LSF job script — Model Evaluation
-### Submit with: bsub < jobs/evaluate.sh
+### Submit with: bsub < jobs/evaluate/evaluate.sh
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
@@ -53,6 +53,10 @@ echo "=========================================="
 
 nvidia-smi
 
+uv run python src/asa/preflight.py check \
+    --mode evaluate \
+    --job-script jobs/evaluate/evaluate.sh
+
 # Define which model to evaluate
 MODEL_PATH="models/sft_warmup"
 OUTPUT_PATH="results/evaluation/sft_warm_eval"
@@ -65,7 +69,7 @@ DATASETS=(
 )
 
 echo "Evaluating datasets: ${DATASETS[*]}"
-python src/asa/evaluate.py \
+uv run python src/asa/evaluate.py \
     --model-path "$MODEL_PATH" \
     --output-dir "$OUTPUT_PATH" \
     --dataset-path "${DATASETS[0]}" \

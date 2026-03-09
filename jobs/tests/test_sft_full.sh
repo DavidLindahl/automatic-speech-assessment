@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC LSF job script — Qwen2-Audio SFT Smoke Test
-### Submit with: bsub < jobs/test_sft.sh
+### Submit with: bsub < jobs/tests/test_sft_full.sh
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
@@ -52,6 +52,6 @@ echo "=========================================="
 
 nvidia-smi
 
-python tests/test_sft_training.py
+uv run python tests/test_sft_full.py
 
 echo "Test complete: $(date)"

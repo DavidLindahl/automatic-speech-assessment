@@ -10,6 +10,7 @@ import nltk
 from nltk.translate.bleu_score import sentence_bleu
 
 from asa.inference import load_model, run_inference
+from asa.processed_data import load_processed_records, resolve_audio_path
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -32,6 +33,7 @@ def extract_mos(text: str) -> float:
 def evaluate(
     dataset_paths: List[Path] = typer.Option(..., "--dataset-path", help="Paths to the test JSONL datasets."),
     model_path: Path = typer.Option(..., help="Path to the model checkpoint dir."),
+    data_root: Path = typer.Option(Path("data"), help="Root directory that contains the raw audio tree."),
     max_samples: Optional[int] = typer.Option(None, help="Max samples to evaluate (for testing)."),
     output_dir: Path = typer.Option(Path("results/evaluation/sft_warm_eval"), help="Dir to save results."),
     batch_size: int = typer.Option(4, help="Inference batch size.")
@@ -51,12 +53,7 @@ def evaluate(
     
     for dataset_path in dataset_paths:
         logging.info(f"Loading dataset from {dataset_path}")
-        data = []
-        with open(dataset_path, "r", encoding="utf-8") as f:
-            for line in f:
-                if not line.strip():
-                    continue
-                data.append(json.loads(line))
+        data = load_processed_records(dataset_path)
                 
         if max_samples:
             data = data[:max_samples]
@@ -65,15 +62,7 @@ def evaluate(
         # Process audio paths securely
         audio_paths = []
         for item in data:
-            # Assuming format like `/workspace/data/nisqa/NISQA_Corpus/...`
-            raw_path = item["audios"][0]
-            # Replace the absolute reference to the current repository structure
-            if "/workspace/data/nisqa/" in raw_path:
-                resolved_path = raw_path.replace("/workspace/data/nisqa/", "data/raw/")
-            else:
-                resolved_path = raw_path
-            
-            audio_paths.append(resolved_path)
+            audio_paths.append(str(resolve_audio_path(item["audios"][0], data_root)))
             
         logging.info("Running inference...")
         predictions = run_inference(

@@ -6,7 +6,6 @@ Contains:
   - Qwen2AudioCollator: batches samples and calls the Qwen2-Audio processor
 """
 
-import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -18,6 +17,8 @@ from torch.utils.data import Dataset
 import librosa
 
 import typer
+
+from asa.processed_data import DPO_METADATA_FIELDS, load_processed_records, resolve_audio_path
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
@@ -170,31 +171,13 @@ class SFTDataset(Dataset):
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
-        """Parse line-delimited JSON (one JSON object per '{...}' block)."""
-        text = path.read_text(encoding="utf-8")
-
-        items = []
-        decoder = json.JSONDecoder()
-        idx = 0
-        while idx < len(text):
-            # Skip whitespace
-            while idx < len(text) and text[idx] in " \t\n\r":
-                idx += 1
-            if idx >= len(text):
-                break
-            obj, end_idx = decoder.raw_decode(text, idx)
-            items.append(obj)
-            idx = end_idx
-        return items
+        """Load processed training records."""
+        return load_processed_records(path)
 
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
-        """Map the JSON path (e.g. '/data/raw/NISQA_Corpus/...') to a local path."""
-        if "NISQA_Corpus" in raw_path:
-            rel = raw_path[raw_path.find("NISQA_Corpus") :]
-            return self.data_root / "raw" / rel
-        # Fallback: treat as relative to data_root
-        return self.data_root / raw_path.lstrip("/")
+        """Map stored audio paths to a local path."""
+        return resolve_audio_path(raw_path, self.data_root)
 
     # ── public ───────────────────────────────────────────────────────────
 
@@ -334,30 +317,29 @@ class Qwen2AudioCollatorAB(Qwen2AudioCollator):
 
 # --- ALLD Expert Text Prompt Templates ---
 
-EXPERT_SYSTEM_PROMPT = """ I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are
+EXPERT_SYSTEM_PROMPT = """ I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are
 rating from 1 to 5. For all these factors, higher is better.
     (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
     (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
     (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
-    (4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
-    (5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
 I need you to generate a descriptive evaluation for this speech, including a description according to
-the score from (2) to (5), analyze how they influence the overall quality, and add the mos in the end.
+the score from noise, coloration, and loudness, analyze how they influence the overall quality, and add the mos in the end.
 
 """
 EXPERT_FEW_SHOT_EXAMPLES = """
 --- Example 1 ---
-Input: {mos: 4.5, noi: 5.0, col: 4.5, dis: 5.0, loud: 4.8}
-Output: This speech is highly intelligible and perfectly loud. There is no background noise or discontinuity. There is only a very slight coloration that is barely noticeable. Taking all factors into account, the overall MOS is 4.5.
+Input: {mos: 4.5, noi: 5.0, col: 4.5, loud: 4.8}
+Output: This speech is highly intelligible and perfectly loud. There is no background noise, and there is only a very slight coloration that is barely noticeable. Taking all factors into account, the overall MOS is 4.5.
 
 --- Example 2 ---
-Input: {mos: 2.1, noi: 3.0, col: 2.5, dis: 1.5, loud: 4.0}
-Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. Most severely, there is significant discontinuity with frequent stutters that disrupt the flow. Due to these heavy degradations, the overall MOS score is only 2.1.
+Input: {mos: 2.1, noi: 3.0, col: 2.5, loud: 4.0}
+Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
 """
 
-def build_expert_prompt(mos: float, noi: float, col: float, dis: float, loud: float) -> str:
+def build_expert_prompt(mos: float, noi: float, col: float, loud: float) -> str:
     """Combines the system prompt, few-shot examples, and the current batch's metadata."""
-    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, dis: {dis}, loud: {loud}}}\nOutput:"
+    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
     return EXPERT_SYSTEM_PROMPT + EXPERT_FEW_SHOT_EXAMPLES + current_input
 
 
@@ -384,25 +366,10 @@ class DPODataset(Dataset):
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
-        text = path.read_text(encoding="utf-8")
-        items = []
-        decoder = json.JSONDecoder()
-        idx = 0
-        while idx < len(text):
-            while idx < len(text) and text[idx] in " \t\n\r":
-                idx += 1
-            if idx >= len(text):
-                break
-            obj, end_idx = decoder.raw_decode(text, idx)
-            items.append(obj)
-            idx = end_idx
-        return items
+        return load_processed_records(path)
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
-        if "NISQA_Corpus" in raw_path:
-            rel = raw_path[raw_path.find("NISQA_Corpus") :]
-            return self.data_root / "raw" / rel
-        return self.data_root / raw_path.lstrip("/")
+        return resolve_audio_path(raw_path, self.data_root)
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -412,14 +379,8 @@ class DPODataset(Dataset):
         audio_path = self._resolve_audio_path(item["audios"][0])
         audio_array = load_audio(str(audio_path))
 
-        # Extract metadata for the reference model (assumes these exist in your JSON)
-        mos = item.get("mos", 3.0)
-        noi = item.get("noi", 3.0)
-        col = item.get("col", 3.0)
-        dis = item.get("dis", 3.0)
-        loud = item.get("loud", 3.0)
-
-        meta_prompt = build_expert_prompt(mos, noi, col, dis, loud)
+        metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS}
+        meta_prompt = build_expert_prompt(**metadata)
 
         return {
             "audio_prompt": PROMPT_TEMPLATE,     # For Policy Model

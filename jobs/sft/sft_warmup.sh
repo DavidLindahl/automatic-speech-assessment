@@ -1,7 +1,7 @@
 #!/bin/sh
 ### ============================================================
 ### DTU HPC — SFT Medium Test (500 samples, ~1 hour)
-### Submit with: bsub < jobs/sft_medium.sh
+### Submit with: bsub < jobs/sft/sft_warmup.sh
 ### ============================================================
 
 #BSUB -q gpul40s
@@ -35,6 +35,10 @@ echo "Started  : $(date)"
 echo "=========================================="
 
 nvidia-smi
+
+uv run python src/asa/preflight.py check \
+    --mode sft \
+    --job-script jobs/sft/sft_warmup.sh
 
 torchrun \
     --nproc_per_node=2 \

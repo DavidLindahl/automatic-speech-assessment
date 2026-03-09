@@ -53,6 +53,10 @@ echo "=========================================="
 
 nvidia-smi
 
+uv run python src/asa/preflight.py check \
+    --mode dpo \
+    --job-script jobs/train/dpo.sh
+
 torchrun \
     --nproc_per_node=2 \
     src/asa/dpo-finetune.py \

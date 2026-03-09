@@ -9,17 +9,17 @@ from transformers import AutoProcessor, AutoTokenizer
 from asa.data import DPODataset, ALLDDPOCollator
 
 def create_mock_dpo_jsonl(file_path: Path):
-    """Creates a dummy DPO dataset with the ALLD metadata."""
+    """Creates a dummy DPO dataset with the current ALLD metadata."""
     mock_data = [
         {
             "audios": ["raw/demo.wav"], # Assumes data/raw/demo.wav exists
-            "mos": 4.5, "noi": 5.0, "col": 4.5, "dis": 5.0, "loud": 4.8,
+            "mos": 4.5, "noi": 5.0, "col": 4.5, "loud": 4.8,
             "chosen": "This speech is highly intelligible and perfectly loud.",
             "rejected": "The speech is okay I guess."
         },
         {
             "audios": ["raw/demo.wav"],
-            "mos": 2.1, "noi": 3.0, "col": 2.5, "dis": 1.5, "loud": 4.0,
+            "mos": 2.1, "noi": 3.0, "col": 2.5, "loud": 4.0,
             "chosen": "The volume is clear, but there is significant discontinuity.",
             "rejected": "This is a perfectly clean speech without any issues."
         }
@@ -57,6 +57,7 @@ def test_alld_pipeline():
         expected_keys = ["audio_prompt", "meta_prompt", "chosen", "rejected", "audio", "sampling_rate"]
         for key in expected_keys:
             assert key in sample, f"Missing key '{key}' in dataset sample!"
+        assert "dis" not in sample["meta_prompt"], "Meta prompt should not reference discontinued metadata."
             
         print("\n--- Snippet of the generated Expert Meta-Prompt ---")
         print(sample["meta_prompt"][-200:]) # Print the end to see the injected scores
