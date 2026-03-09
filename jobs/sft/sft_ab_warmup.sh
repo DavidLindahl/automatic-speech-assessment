@@ -11,7 +11,7 @@
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
-#BSUB -W 3:00
+#BSUB -W 10:00
 #BSUB -o logs/sft_ab_warmup_%J.out
 #BSUB -e logs/sft_ab_warmup_%J.err
 
