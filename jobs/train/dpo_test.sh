@@ -65,7 +65,7 @@ torchrun \
     --ref-model-id "Qwen/Qwen2-7B-Instruct" \
     --json-path "data/processed/train_dpo_10k.json" \
     --data-root "data" \
-    --batch-size 2 \
+    --batch-size 1 \
     --epochs 2 \
     --lr 5e-6 \
     --beta 0.4 \

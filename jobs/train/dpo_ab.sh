@@ -5,7 +5,7 @@
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
-#BSUB -q gpul40s
+#BSUB -q gpua40
 
 ### -- Job name --
 #BSUB -J qwen2-audio-dpo-ab
@@ -44,6 +44,8 @@ source .venv/bin/activate
 export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
 
+export HF_HOME="$PROJECT_DIR/.cache/huggingface"
+
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
 echo "Host     : $(hostname)"
@@ -62,13 +64,12 @@ torchrun \
     --model-id "models/sft_warmup_ab" \
     --json-path "data/processed/train_dpo_abtest_10k.json" \
     --data-root "data" \
-    --batch-size 1 \
+    --batch-size 2 \
     --epochs 2 \
     --lr 5e-6 \
     --beta 0.4 \
     --gradient-accumulation-steps 8 \
     --bf16 \
-    --eval-steps 100 \
     --deepspeed "configs/ds_zero2.json" \
     --wandb-run-name "dpo-ab-10k-2ep"
 
