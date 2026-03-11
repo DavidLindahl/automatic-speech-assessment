@@ -44,6 +44,8 @@ source .venv/bin/activate
 export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
 
+export HF_HOME="$PROJECT_DIR/.cache/huggingface"
+
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
 echo "Host     : $(hostname)"
@@ -62,15 +64,14 @@ torchrun \
     --model-id "models/sft_warmup" \
     --json-path "data/processed/train_dpo_10k.json" \
     --data-root "data" \
-    --batch-size 1 \
+    --batch-size 2 \
     --epochs 2 \
     --lr 5e-6 \
     --beta 0.4 \
     --gradient-accumulation-steps 8 \
     --bf16 \
-    --eval-steps 100 \
     --deepspeed "configs/ds_zero2.json" \
-    --wandb-run-name "dpo-10k-2ep"
+    --wandb-run-name "dpo-10k-3ep"
 
 echo "=========================================="
 echo "DPO Training complete: $(date)"

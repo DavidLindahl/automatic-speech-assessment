@@ -133,8 +133,8 @@ def train(
     fp16: bool = typer.Option(False, help="Use fp16."),
     max_samples: Optional[int] = typer.Option(None, help="Limit dataset size."),
     deepspeed: Optional[str] = typer.Option(None, help="Path to DeepSpeed config."),
-    val_split: float = typer.Option(0.05, help="Validation fraction."),
-    eval_steps: int = typer.Option(100, help="Eval interval."),
+    val_split: float = typer.Option(0, help="Validation fraction."), # Set to 0 to disable validation because of costum Trainer
+    eval_steps: int = typer.Option(0, help="Eval interval."), # Set to 0 to disable validation because of costum Trainer
     wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor", help="W&B entity."),
     wandb_project: Optional[str] = typer.Option("qwen2-audio-alld-ab", help="W&B project."),
     wandb_run_name: Optional[str] = typer.Option("alld-ab-finetune", help="W&B run name."),
