@@ -236,10 +236,13 @@ class Qwen2AudioCollator:
     def __init__(self, processor):
         self.processor = processor
 
+    
     def _prepare_inputs(self, features):
-        """Return (prompts, full_texts, audios) for the processor."""
         prompts = [f["prompt"] for f in features]
-        full_texts = [f["prompt"] + f["response"] for f in features]
+        
+        # ADD THE EOS TOKEN HERE:
+        eos_token = self.processor.tokenizer.eos_token
+        full_texts = [f["prompt"] + f["response"] + eos_token for f in features]
         audios = [f["audio"] for f in features]
         return prompts, full_texts, audios
 
@@ -329,9 +332,14 @@ class Qwen2AudioCollatorAB(Qwen2AudioCollator):
     def _prepare_inputs(self, features):
         """Return (prompts, full_texts, audios) — audios flattened."""
         prompts = [f["prompt"] for f in features]
-        full_texts = [f["prompt"] + f["response"] for f in features]
+        
+        # ADD THE EOS TOKEN HERE FOR A/B SFT:
+        eos_token = self.processor.tokenizer.eos_token
+        full_texts = [f["prompt"] + f["response"] + eos_token for f in features]
+        
         # Flat list: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
         audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
+        
         return prompts, full_texts, audios
 
 
@@ -486,9 +494,15 @@ class ALLDDPOCollator:
         # ==========================================
         # 1. STREAM A: Policy Model (Audio + Text)
         # ==========================================
+        
+        # GET THE EOS TOKEN FOR THE POLICY MODEL
+        audio_eos = self.audio_processor.tokenizer.eos_token
+
         audio_prompts = [f["audio_prompt"] for f in features]
-        policy_chosen = [f["audio_prompt"] + f["chosen"] for f in features]
-        policy_rejected = [f["audio_prompt"] + f["rejected"] for f in features]
+        
+        # APPEND EOS TOKEN TO THE RESPONSES
+        policy_chosen = [f["audio_prompt"] + f["chosen"] + audio_eos for f in features]
+        policy_rejected = [f["audio_prompt"] + f["rejected"] + audio_eos for f in features]
         audios = [f["audio"] for f in features]
 
         # 2N Batching for DeepSpeed
@@ -525,9 +539,15 @@ class ALLDDPOCollator:
         # ==========================================
         # 2. STREAM B: Reference Model (Text Only)
         # ==========================================
+        
+        # GET THE EOS TOKEN FOR THE REFERENCE MODEL
+        text_eos = self.text_tokenizer.eos_token
+        
         meta_prompts = [f["meta_prompt"] for f in features]
-        ref_chosen = [f["meta_prompt"] + f["chosen"] for f in features]
-        ref_rejected = [f["meta_prompt"] + f["rejected"] for f in features]
+        
+        # APPEND EOS TOKEN TO THE RESPONSES
+        ref_chosen = [f["meta_prompt"] + f["chosen"] + text_eos for f in features]
+        ref_rejected = [f["meta_prompt"] + f["rejected"] + text_eos for f in features]
 
         # 2N Batching for DeepSpeed
         ref_texts = ref_chosen + ref_rejected
@@ -600,9 +620,13 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         # ==========================================
         # 1. STREAM A: Policy Model (Audio + Text)
         # ==========================================
+        audio_eos = self.audio_processor.tokenizer.eos_token
+        
         audio_prompts = [f["audio_prompt"] for f in features]
-        policy_chosen = [f["audio_prompt"] + f["chosen"] for f in features]
-        policy_rejected = [f["audio_prompt"] + f["rejected"] for f in features]
+        
+        # FIX: Append EOS to chosen/rejected
+        policy_chosen = [f["audio_prompt"] + f["chosen"] + audio_eos for f in features]
+        policy_rejected = [f["audio_prompt"] + f["rejected"] + audio_eos for f in features]
         
         # Flatten audios for AB tests: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
         audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
@@ -639,9 +663,13 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         # ==========================================
         # 2. STREAM B: Reference Model (Text Only)
         # ==========================================
+        text_eos = self.text_tokenizer.eos_token
+        
         meta_prompts = [f["meta_prompt"] for f in features]
-        ref_chosen = [f["meta_prompt"] + f["chosen"] for f in features]
-        ref_rejected = [f["meta_prompt"] + f["rejected"] for f in features]
+        
+        # FIX: Append EOS to chosen/rejected
+        ref_chosen = [f["meta_prompt"] + f["chosen"] + text_eos for f in features]
+        ref_rejected = [f["meta_prompt"] + f["rejected"] + text_eos for f in features]
 
         # 2N Batching for DeepSpeed
         ref_texts = ref_chosen + ref_rejected
@@ -666,7 +694,3 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         )
 
         return batch
-
-
-if __name__ == "__main__":
-    app()
