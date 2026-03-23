@@ -3,107 +3,30 @@ requires = ["uv_build>=0.9.22,<0.10.0"]
 build-backend = "uv_build"
 
 [project]
-name = "asa"
-version = "0.0.1"
-description = "This bachelor project studies how modern transformer-based models can be used for automatic assessment of spoken language."
+name = "salmonn-bench"
+version = "0.1.0"
+description = "Zero-shot SALMONN benchmarking for speech quality evaluation."
 authors = [
   { name = "David Lindahl", email = "s234817@dtu.dk" },
-  { name = "Carl Svejstrup", email = "s234840@dtu.dk" },
-]
-
-keywords = ["machine learning", "MLOps"]
-classifiers = [
-  "Development Status :: 3 - Alpha",
-  "Programming Language :: Python :: 3",
 ]
 readme = "README.md"
-requires-python = ">=3.12"
-
+requires-python = ">=3.10,<3.13"
 dependencies = [
-    "click<8.2",
-    "fastapi==0.115.6",
-    "nltk>=3.8",
-    "google-cloud-storage>=2.0.0",
-    "invoke>=2.2.0",
-    "ipykernel>=7.2.0",
-    "ipython>=9.10.0",
-    "matplotlib>=3.10.8",
-    "numpy>=2.4.2",
-    "pandas>=3.0.0",
-    "ruff>=0.1.3",
-    "seaborn>=0.13.2",
-    "soundfile>=0.13.1",
-    "torch==2.6.0",
-    "torchaudio==2.6.0",
-    "typer==0.15.1",
-    "uvicorn==0.34.0",
-    "transformers>=4.44.0",
-    "accelerate>=0.26.0",
-    "typing>=3.10.0.0",
-    "google-generativeai>=0.8.3",
-    "trl>=0.12.0",
-    "deepspeed>=0.18.6",
-    "pyarrow>=15.0.0,<18.0.0",
-    "datasets>=3.0.0,<4.0.0",
-    "librosa>=0.11.0",
-    "annotated-doc>=0.0.4",
-    "dotenv>=0.9.9",
-    "gitdb>=4.0.12",
-    "gitpython>=3.1.46",
-    "httpcore>=1.0.9",
-    "httpx>=0.28.1",
-    "python-dotenv>=1.2.2",
-    "sentry-sdk>=2.54.0",
-    "smmap>=5.0.2",
-    "torchcodec>=0.10.0",
-    "typer-slim>=0.21.2",
-    "wandb>=0.25.0",
+  "accelerate==0.20.3",
+  "librosa>=0.10.2",
+  "nltk>=3.8",
+  "numpy<2.0.0",
+  "pandas>=2.0.0",
+  "peft==0.3.0",
+  "pyyaml>=6.0.2",
+  "scipy>=1.10.0",
+  "sentencepiece==0.1.97",
+  "soundfile>=0.12.1",
+  "torch==2.0.1",
+  "torchaudio==2.0.2",
+  "transformers==4.28.0",
+  "typer==0.15.1",
 ]
 
 [project.scripts]
-asa-infer = "asa.inference:app"
-asa-eval  = "asa.evaluate:app"
-
-[dependency-groups]
-dev = [
-    "coverage==7.6.9",
-    "invoke==2.2.0",
-    "pre-commit==4.1.0",
-    "pytest==8.3.4",
-    "ruff==0.1.3",
-    "mypy==1.19.1",
-    "mkdocs-material==9.7.1",
-    "mkdocstrings-python==2.0.1",
-]
-
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
-    { index = "pytorch-cu118", marker = "sys_platform == 'linux'" },
-]
-torchaudio = [
-    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
-    { index = "pytorch-cu118", marker = "sys_platform == 'linux'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cu118"
-url = "https://download.pytorch.org/whl/cu118"
-explicit = true
-
-[tool.ruff]
-line-length = 88
-
-[tool.pytest.ini_options]
-markers = [
-    "slow: tests that load a full model checkpoint (skip with -m 'not slow')",
-]
-
-[tool.coverage.run]
-omit = ["tests/*"]
+salmonn-bench = "salmonn_bench.cli:app"
