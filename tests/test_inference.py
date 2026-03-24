@@ -41,6 +41,7 @@ def _collect_audio_files(max_files: int = 3) -> list[Path]:
 # Test
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.slow
 def test_inference_smoke():
     """Load checkpoint → run inference → check we get plausible text back."""
@@ -52,12 +53,14 @@ def test_inference_smoke():
         pytest.skip(f"No .wav files found under: {_AUDIO_ROOT}")
 
     processor, model, device = load_model(_MODEL_DIR)
-    outputs = run_inference(model, processor, audio_files, device=device, max_new_tokens=256)
+    outputs = run_inference(
+        model, processor, audio_files, device=device, max_new_tokens=256
+    )
 
     assert len(outputs) == len(audio_files)
     for i, text in enumerate(outputs):
-        assert isinstance(text, str) and text.strip(), (
-            f"Empty output for {audio_files[i].name}"
-        )
+        assert (
+            isinstance(text, str) and text.strip()
+        ), f"Empty output for {audio_files[i].name}"
         # Print for manual inspection when running with -s
         print(f"  [{audio_files[i].name}] → {text.strip()}")

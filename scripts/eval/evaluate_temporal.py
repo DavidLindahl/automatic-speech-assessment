@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 app = typer.Typer(help="Evaluate fine-tuned Qwen2-Audio models on Temporal-ALLD.")
 
+
 def extract_timestamps(text: str):
     """Extract start and end timestamps from text containing <|XX.XX|> tokens."""
     matches = re.findall(r"<\|(\d+(?:\.\d+)?)\|>", text)
@@ -26,24 +27,28 @@ def extract_timestamps(text: str):
         return float(matches[0]), float(matches[-1])
     return 0.0, 0.0
 
-def calculate_tiou(pred_start: float, pred_end: float, true_start: float, true_end: float) -> float:
+
+def calculate_tiou(
+    pred_start: float, pred_end: float, true_start: float, true_end: float
+) -> float:
     """Calculate Temporal Intersection over Union (t-IoU)."""
     if pred_end <= pred_start or true_end <= true_start:
         return 0.0
-    
+
     intersection_start = max(pred_start, true_start)
     intersection_end = min(pred_end, true_end)
-    
+
     if intersection_start >= intersection_end:
         return 0.0
-        
+
     intersection = intersection_end - intersection_start
     union = (pred_end - pred_start) + (true_end - true_start) - intersection
-    
+
     if union <= 0.0:
         return 0.0
-        
+
     return intersection / union
+
 
 def extract_noise_type(text: str) -> str:
     """Extract noise type from the generated text."""
@@ -75,7 +80,7 @@ def eval_temporal(
 
     if output_dir is None:
         model_name = Path(model_path).name
-        if not model_name: 
+        if not model_name:
             model_name = "model"
         output_dir = Path(f"results/evaluation/{model_name}_temporal")
 
@@ -123,11 +128,11 @@ def eval_temporal(
         for i, (item, pred) in enumerate(zip(data, predictions)):
             pred = pred.strip()
             true_resp = item["response"]
-            
+
             # Ground truth extraction
             true_start, true_end = extract_timestamps(true_resp)
             true_noise = extract_noise_type(true_resp)
-            
+
             # Prediction extraction
             pred_start, pred_end = extract_timestamps(pred)
             pred_noise = extract_noise_type(pred)
@@ -135,9 +140,11 @@ def eval_temporal(
             # Metrics
             tiou_val = calculate_tiou(pred_start, pred_end, true_start, true_end)
             tiou_scores.append(tiou_val)
-            
+
             # Exact noise match or substring
-            is_correct = (true_noise.lower() in pred_noise.lower()) or (pred_noise.lower() in true_noise.lower() and len(pred_noise) > 3)
+            is_correct = (true_noise.lower() in pred_noise.lower()) or (
+                pred_noise.lower() in true_noise.lower() and len(pred_noise) > 3
+            )
             if is_correct:
                 correct_detection += 1
 
@@ -180,6 +187,7 @@ def eval_temporal(
             )
 
         logging.info(f"Saved detailed results to {out_file}\n")
+
 
 if __name__ == "__main__":
     app()

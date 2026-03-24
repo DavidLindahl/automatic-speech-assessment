@@ -9,11 +9,9 @@ Run from project root:
 
 import os
 import sys
-import shutil
 
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
-from pathlib import Path
 
 import torch
 from torch.utils.data import random_split
@@ -22,7 +20,8 @@ from transformers import (
     Qwen2AudioForConditionalGeneration,
 )
 
-from asa.data import Qwen2AudioCollator, SFTDataset
+from asa.datasets import SFTDataset
+from asa.collators import Qwen2AudioCollator
 
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 MAX_SAMPLES = 6
@@ -31,7 +30,7 @@ print("=== Test 4: Full SFT Training Pipeline ===\n")
 
 # ── 1. Processor ─────────────────────────────────────────────────────────
 print(f"Step 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+processor = AutoProcessor.from_pretrained(MODEL_ID)
 print("  ✅ Processor loaded\n")
 
 # ── 2. Dataset + Collator ────────────────────────────────────────────────
@@ -58,7 +57,8 @@ print("  ✅ Collator works\n")
 # ── 3. Model ─────────────────────────────────────────────────────────────
 if not torch.cuda.is_available():
     print("❌ No GPU available — this test requires a GPU.")
-    sys.exit(1)
+    import pytest
+    pytest.skip("No GPU available", allow_module_level=True)
 
 dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
 

@@ -13,7 +13,6 @@ import shutil
 
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
-from pathlib import Path
 
 import torch
 from torch.utils.data import random_split
@@ -24,7 +23,8 @@ from transformers import (
     TrainingArguments,
 )
 
-from asa.data import Qwen2AudioCollator, SFTDataset
+from asa.datasets import SFTDataset
+from asa.collators import Qwen2AudioCollator
 
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 MAX_SAMPLES = 6
@@ -40,7 +40,7 @@ if is_main:
 # ── 1. Processor ─────────────────────────────────────────────────────────
 if is_main:
     print(f"Step 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+processor = AutoProcessor.from_pretrained(MODEL_ID)
 if is_main:
     print("  ✅ Processor loaded\n")
 
@@ -73,7 +73,8 @@ if is_main:
 if not torch.cuda.is_available():
     if is_main:
         print("❌ No GPU available — this test requires a GPU.")
-    sys.exit(1)
+    import pytest
+    pytest.skip("No GPU available", allow_module_level=True)
 
 if is_main:
     print(f"Step 3: Loading model {MODEL_ID}...")
@@ -125,8 +126,10 @@ if is_main:
 trainer.train()
 
 if is_main:
-    print(f"\n✅ Full SFT pipeline works! (2 training steps completed)")
-    print(f"  To run real training: torchrun --nproc_per_node=2 src/asa/supervised-finetune.py --bf16 --deepspeed configs/ds_zero2.json")
+    print("\n✅ Full SFT pipeline works! (2 training steps completed)")
+    print(
+        "  To run real training: torchrun --nproc_per_node=2 src/asa/supervised-finetune.py --bf16 --deepspeed configs/ds_zero2.json"
+    )
 
 shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
 if is_main:

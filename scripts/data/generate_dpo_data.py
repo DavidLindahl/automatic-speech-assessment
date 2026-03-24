@@ -38,9 +38,7 @@ def generate(
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to process (for debugging)."
     ),
-    ab: bool = typer.Option(
-        False, help="Whether to run in A/B test inference mode."
-    ),
+    ab: bool = typer.Option(False, help="Whether to run in A/B test inference mode."),
 ):
     """Run inference to generate 'rejected' responses and create a DPO dataset."""
 
@@ -59,10 +57,12 @@ def generate(
     audio_paths = []
     if ab:
         for item in data:
-            audio_paths.append((
-                str(resolve_audio_path(item["audios"][0], data_root)),
-                str(resolve_audio_path(item["audios"][1], data_root))
-            ))
+            audio_paths.append(
+                (
+                    str(resolve_audio_path(item["audios"][0], data_root)),
+                    str(resolve_audio_path(item["audios"][1], data_root)),
+                )
+            )
     else:
         for item in data:
             audio_paths.append(str(resolve_audio_path(item["audios"][0], data_root)))

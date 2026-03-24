@@ -12,7 +12,7 @@ PYTHON_VERSION = "3.12"
 def preprocess_sft(ctx: Context) -> None:
     """Preprocess data for Supervised Fine-Tuning (SFT)."""
     ctx.run(
-        f"uv run src/{PROJECT_NAME}/data.py preprocess-sft data/raw data/processed",
+        "uv run scripts/data/data_cli.py generate-captions data/raw data/processed",
         echo=True,
         pty=not WINDOWS,
     )
@@ -22,7 +22,7 @@ def preprocess_sft(ctx: Context) -> None:
 def download_data(ctx: Context) -> None:
     """Download data from GCS."""
     ctx.run(
-        f"uv run src/{PROJECT_NAME}/data.py download",
+        "uv run scripts/data/data_cli.py download",
         echo=True,
         pty=not WINDOWS,
     )
@@ -31,7 +31,7 @@ def download_data(ctx: Context) -> None:
 @task
 def train(ctx: Context) -> None:
     """Train model."""
-    ctx.run(f"uv run src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run("uv run scripts/train/train.py", echo=True, pty=not WINDOWS)
 
 
 @task

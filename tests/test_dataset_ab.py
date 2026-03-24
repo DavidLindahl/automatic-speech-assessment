@@ -4,14 +4,15 @@ Downloads the processor (~10MB tokenizer, no GPU needed) and tests batching.
 """
 
 from transformers import AutoProcessor
-from asa.data import SFTDatasetAB, Qwen2AudioCollatorAB
+from asa.datasets import SFTDatasetAB
+from asa.collators import Qwen2AudioCollatorAB
 
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 
 
 def test_dataset_and_collator_ab():
     print(f"\nLoading processor from {MODEL_ID}...")
-    processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+    processor = AutoProcessor.from_pretrained(MODEL_ID)
 
     # 1. Test Dataset Loading
     print("Loading dataset...")

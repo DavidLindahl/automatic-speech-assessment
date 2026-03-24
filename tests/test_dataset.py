@@ -3,7 +3,7 @@ test_2_dataset.py — Test the SFTDataset class.
 Verifies JSONL parsing, audio path resolution, and sample structure.
 """
 
-from asa.data import SFTDataset
+from asa.datasets import SFTDataset
 
 print("=== Test 2: SFTDataset ===\n")
 

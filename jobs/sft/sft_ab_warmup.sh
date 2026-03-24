@@ -40,7 +40,7 @@ nvidia-smi
 # If OOM occurs, try reducing --batch-size or increasing ds_zero offloading.
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune-ab.py \
+    scripts/train/train.py --method sft --mode ab \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --max-samples 5000 \

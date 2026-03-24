@@ -1,12 +1,11 @@
 import json
 import tempfile
-import numpy as np
-import torch
 from pathlib import Path
 from transformers import AutoProcessor, AutoTokenizer
 
 # Import the newly written classes from your data module
-from asa.data import DPODataset, ALLDDPOCollator
+from asa.datasets import DPODataset
+from asa.collators import ALLDDPOCollator
 
 
 def create_mock_dpo_jsonl(file_path: Path):
@@ -73,7 +72,7 @@ def test_alld_pipeline():
         for key in expected_keys:
             assert key in sample, f"Missing key '{key}' in dataset sample!"
         assert (
-            "dis" not in sample["meta_prompt"]
+            "(4) dis:" not in sample["meta_prompt"]
         ), "Meta prompt should not reference discontinued metadata."
 
         print("\n--- Snippet of the generated Expert Meta-Prompt ---")
@@ -83,17 +82,17 @@ def test_alld_pipeline():
 
         # 3. Load Processors (Using lightweight or base names for the test)
         # Note: In a real test, this requires an internet connection or cached models.
-        audio_model_id = "models/sft_warmup"
+        audio_model_id = "Qwen/Qwen2-Audio-7B"
         text_model_id = "Qwen/Qwen2-7B-Instruct"
 
         print(f"Loading processor for {audio_model_id}...")
         audio_processor = AutoProcessor.from_pretrained(
-            audio_model_id, fix_mistral_regex=True
+            audio_model_id
         )
 
         print(f"Loading tokenizer for {text_model_id}...")
         text_tokenizer = AutoTokenizer.from_pretrained(
-            text_model_id, fix_mistral_regex=True
+            text_model_id
         )
 
         # 4. Test the Collator

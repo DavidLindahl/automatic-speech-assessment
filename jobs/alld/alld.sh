@@ -59,7 +59,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/dpo-finetune.py \
+    scripts/train/train.py --method dpo --mode mos \
     --model-name dpo_final \
     --model-id "models/sft_warmup" \
     --json-path "data/processed/train_dpo_10k.json" \

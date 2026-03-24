@@ -45,4 +45,3 @@ def test_resolve_audio_path_handles_hpc_and_repo_layouts(tmp_path: Path) -> None
 
     assert resolve_audio_path(hpc_path, data_root) == audio_path
     assert resolve_audio_path(workspace_path, data_root) == audio_path
-

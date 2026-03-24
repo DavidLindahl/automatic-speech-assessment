@@ -15,7 +15,8 @@ import typer
 from tqdm import tqdm
 from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 
-from asa.data import PROMPT_TEMPLATE, PROMPT_TEMPLATE_AB, load_audio
+from asa.datasets import PROMPT_TEMPLATE, PROMPT_TEMPLATE_AB
+from asa.audio import load_audio
 
 
 # ---------------------------------------------------------------------------
@@ -39,10 +40,16 @@ class ASAModel(str):
     SFT = "Leng2beat/speech-quality-assessement-qwen2audio-full-sft"
 
     # A/B preference model (two-audio comparative quality assessment)
-    SFT_AB = "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"  # TODO: update when pushed
+    SFT_AB = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"
+    )  # TODO: update when pushed
     # AALD distillation variants
-    AALD_AB = "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"  # TODO: update when pushed
-    AALD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
+    AALD_AB = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"
+    )  # TODO: update when pushed
+    AALD = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-aald"
+    )  # TODO: update when pushed
 
 
 def load_model(

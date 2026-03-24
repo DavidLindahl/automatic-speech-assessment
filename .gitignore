@@ -203,6 +203,7 @@ models/
 data/raw
 wandb/
 logs/
+notebooks/
 
 # Latex
 *.aux
@@ -214,3 +215,4 @@ logs/
 *.blg
 
 .claude/
+

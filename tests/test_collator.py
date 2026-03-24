@@ -4,7 +4,8 @@ Downloads the processor (~10MB tokenizer, no GPU needed) and tests batching.
 """
 
 from transformers import AutoProcessor
-from asa.data import SFTDataset, Qwen2AudioCollator
+from asa.datasets import SFTDataset
+from asa.collators import Qwen2AudioCollator
 
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 
@@ -12,7 +13,7 @@ print("=== Test 3: Qwen2AudioCollator ===\n")
 
 # Load processor (downloads tokenizer, no model weights)
 print(f"Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+processor = AutoProcessor.from_pretrained(MODEL_ID)
 
 # Load 2 samples
 ds = SFTDataset(
@@ -33,7 +34,7 @@ for key, tensor in batch.items():
 labels = batch["labels"][0]
 num_masked = (labels == -100).sum().item()
 num_total = labels.shape[0]
-print(f"\nLabel masking (sample 0):")
+print("\nLabel masking (sample 0):")
 print(f"  Total tokens:  {num_total}")
 print(f"  Masked (-100): {num_masked}  (prompt + padding)")
 print(f"  Active:        {num_total - num_masked}  (response tokens)")

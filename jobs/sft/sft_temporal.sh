@@ -38,7 +38,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/train.py --method sft --mode mos \
     --model-name sft_temporal \
     --json-path data/processed/train_temporal_alld.json \
     --bf16 \

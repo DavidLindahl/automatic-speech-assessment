@@ -40,7 +40,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/train.py --method sft --mode mos \
     --model-name sft_warmup \
     --bf16 \
     --deepspeed configs/ds_zero2.json \

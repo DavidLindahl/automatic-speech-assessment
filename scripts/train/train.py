@@ -1,9 +1,8 @@
 """
-dpo-finetune-ab.py — Alignment with LLM Distillation (ALLD) script for A/B testing.
+train.py — Unified training script for Qwen2-Audio (SFT & DPO, MOS & A/B testing).
 
-Implements the cross-modal ALLD method for A/B preference testing:
-- Policy Model: Qwen2-Audio (trainable, processes 2 audios + text)
-- Reference Model: Qwen2-Text (frozen, processes dual abstract metadata + text)
+Designed for multi-GPU training with DeepSpeed on HPC clusters.
+Consolidates previous separate scripts into a structured factory pattern.
 """
 
 import os
@@ -22,33 +21,36 @@ from transformers import (
     TrainingArguments,
 )
 
-# Import the new A/B dataset and dual-stream A/B collator
-from asa.data import DPODatasetAB, ALLDDPOCollatorAB
+from asa.datasets import SFTDataset, SFTDatasetAB, DPODataset, DPODatasetAB
+from asa.collators import (
+    Qwen2AudioCollator,
+    Qwen2AudioCollatorAB,
+    ALLDDPOCollator,
+    ALLDDPOCollatorAB,
+)
 
 app = typer.Typer()
 
 
-class ALLDDPOABTrainer(Trainer):
-    """Custom Trainer implementing the ALLD cross-modal DPO loss for A/B testing."""
+class ALLDDPOTrainer(Trainer):
+    """Custom Trainer implementing the ALLD cross-modal DPO loss."""
+
     def __init__(self, ref_model, beta=0.4, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.beta = beta
-        
-        # --- Safely move the reference model to the correct GPU ---
         if ref_model is not None:
-            # We use the trainer's built-in accelerator to handle DeepSpeed & Multi-GPU
-            self.ref_model = self.accelerator.prepare_model(ref_model, evaluation_mode=True)
+            self.ref_model = self.accelerator.prepare_model(
+                ref_model, evaluation_mode=True
+            )
         else:
             self.ref_model = None
 
     def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
-        # 1. Route the prefixed inputs to their respective dictionaries
         policy_inputs = {
             "input_ids": inputs["policy_input_ids"],
             "attention_mask": inputs["policy_attention_mask"],
-            "labels": inputs["policy_labels"]
+            "labels": inputs["policy_labels"],
         }
-        # Safely handle audio features depending on the exact Qwen2 version
         if "policy_audio_values" in inputs and inputs["policy_audio_values"] is not None:
             policy_inputs["audio_values"] = inputs["policy_audio_values"]
         if "policy_audio_features" in inputs and inputs["policy_audio_features"] is not None:
@@ -57,60 +59,52 @@ class ALLDDPOABTrainer(Trainer):
         ref_inputs = {
             "input_ids": inputs["ref_input_ids"],
             "attention_mask": inputs["ref_attention_mask"],
-            "labels": inputs["ref_labels"]
+            "labels": inputs["ref_labels"],
         }
 
-        # Batches are 2N (chosen first half, rejected second half)
         batch_size = policy_inputs["input_ids"].shape[0] // 2
-        
-        # 2. Forward pass active Policy Model (Audio LLM)
         outputs = model(**policy_inputs)
         policy_logits = outputs.logits
-        
-        # 3. Forward pass frozen Reference Model (Text LLM)
+
         with torch.no_grad():
             ref_outputs = self.ref_model(**ref_inputs)
             ref_logits = ref_outputs.logits
-            
+
         def get_logprobs(logits, labels):
-            # Shift to token prediction
             logits = logits[:, :-1, :]
             labels = labels[:, 1:]
-            
             loss_mask = labels != -100
             per_token_logprobs = -torch.nn.functional.cross_entropy(
                 logits.reshape(-1, logits.size(-1)),
                 labels.reshape(-1),
-                reduction="none"
+                reduction="none",
             ).view(labels.shape)
-            
             return (per_token_logprobs * loss_mask).sum(dim=1)
-            
+
         policy_logprobs = get_logprobs(policy_logits, policy_inputs["labels"])
         ref_logprobs = get_logprobs(ref_logits, ref_inputs["labels"])
-        
-        # Split logprobs into chosen and rejected halves
+
         policy_chosen = policy_logprobs[:batch_size]
         policy_rejected = policy_logprobs[batch_size:]
         ref_chosen = ref_logprobs[:batch_size]
         ref_rejected = ref_logprobs[batch_size:]
-        
-        # Calculate standard DPO loss using the cross-modal logprobs
+
         logits_diff = (policy_chosen - ref_chosen) - (policy_rejected - ref_rejected)
         loss = -torch.nn.functional.logsigmoid(self.beta * logits_diff).mean()
-        
-        # Extract logging metrics
+
         if self.state.is_world_process_zero:
             chosen_rewards = self.beta * (policy_chosen - ref_chosen).detach()
             rejected_rewards = self.beta * (policy_rejected - ref_rejected).detach()
             reward_accuracies = (chosen_rewards > rejected_rewards).float()
-            
-            self.log({
-                "rewards/chosen": chosen_rewards.mean().item(),
-                "rewards/rejected": rejected_rewards.mean().item(),
-                "rewards/accuracies": reward_accuracies.mean().item(),
-                "rewards/margins": (chosen_rewards - rejected_rewards).mean().item(),
-            })
+
+            self.log(
+                {
+                    "rewards/chosen": chosen_rewards.mean().item(),
+                    "rewards/rejected": rejected_rewards.mean().item(),
+                    "rewards/accuracies": reward_accuracies.mean().item(),
+                    "rewards/margins": (chosen_rewards - rejected_rewards).mean().item(),
+                }
+            )
 
         if return_outputs:
             return loss, outputs
@@ -119,27 +113,50 @@ class ALLDDPOABTrainer(Trainer):
 
 @app.command()
 def train(
-    model_id: str = typer.Option("models/sft_warmup_ab", help="Path to SFT Audio model (Policy)."),
-    ref_model_id: str = typer.Option("Qwen/Qwen2-7B-Instruct", help="Path to Expert Text model (Reference)."),
-    json_path: Path = typer.Option(Path("data/processed/train_dpo_abtest_10k.json"), help="DPO A/B dataset."),
-    data_root: Path = typer.Option(Path("data"), help="Root directory for audios."),
-    model_name: str = typer.Option(..., help="Name of the model to save (saved under models/<model_name>)."),
-    batch_size: int = typer.Option(2, help="Per-device batch size."),
-    epochs: int = typer.Option(2, help="Training epochs."),
-    beta: float = typer.Option(0.4, help="DPO margin parameter beta."),
-    lr: float = typer.Option(5e-6, help="Learning rate."),
-    gradient_accumulation_steps: int = typer.Option(8, help="Gradient accumulation."),
+    method: str = typer.Option(
+        "sft", help="Training method to use: 'sft' or 'dpo'."
+    ),
+    mode: str = typer.Option(
+        "mos", help="Data mode to use: 'mos' (standard) or 'ab' (preference)."
+    ),
+    model_id: str = typer.Option(
+        "Qwen/Qwen2-Audio-7B", help="HuggingFace model ID."
+    ),
+    ref_model_id: str = typer.Option(
+        "Qwen/Qwen2-7B-Instruct", help="Path to Expert Text model (Required for DPO)."
+    ),
+    json_path: Path = typer.Option(
+        Path("data/processed/train_nisqa_llama_10k.json"), help="Path to JSONL data."
+    ),
+    data_root: Path = typer.Option(
+        Path("data"), help="Root directory for raw audios."
+    ),
+    model_name: str = typer.Option(
+        ..., help="Name of the model to save."
+    ),
+    batch_size: int = typer.Option(4, help="Per-device batch size."),
+    epochs: int = typer.Option(2, help="Number of epochs."),
+    beta: float = typer.Option(0.4, help="DPO margin parameter (Required for DPO)."),
+    lr: float = typer.Option(1e-5, help="Learning rate."),
+    gradient_accumulation_steps: int = typer.Option(4, help="Grad accumulation steps."),
     bf16: bool = typer.Option(False, help="Use bf16."),
     fp16: bool = typer.Option(False, help="Use fp16."),
     max_samples: Optional[int] = typer.Option(None, help="Limit dataset size."),
-    deepspeed: Optional[str] = typer.Option(None, help="Path to DeepSpeed config."),
-    val_split: float = typer.Option(0, help="Validation fraction."), # Set to 0 to disable validation because of costum Trainer
-    eval_steps: int = typer.Option(0, help="Eval interval."), # Set to 0 to disable validation because of costum Trainer
+    deepspeed: Optional[str] = typer.Option(None, help="DeepSpeed config JSON."),
+    val_split: float = typer.Option(0.05, help="Validation fraction (0 to disable)."),
+    eval_steps: int = typer.Option(500, help="Eval interval."),
     wandb_entity: Optional[str] = typer.Option("speech-quality-DTU-bachelor", help="W&B entity."),
-    wandb_project: Optional[str] = typer.Option("qwen2-audio-alld-ab", help="W&B project."),
-    wandb_run_name: Optional[str] = typer.Option("alld-ab-finetune", help="W&B run name."),
+    wandb_project: Optional[str] = typer.Option("qwen2-audio-finetune", help="W&B project."),
+    wandb_run_name: Optional[str] = typer.Option(None, help="W&B run name."),
 ):
-    """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio for A/B Testing."""
+    """Unified entrypoint for tracking and running SFT/DPO pipelines over MOS/AB data."""
+    method = method.lower()
+    mode = mode.lower()
+    if method not in ["sft", "dpo"]:
+        raise ValueError(f"Unknown method {method}. Must be 'sft' or 'dpo'")
+    if mode not in ["mos", "ab"]:
+        raise ValueError(f"Unknown mode {mode}. Must be 'mos' or 'ab'")
+
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     is_main = local_rank == 0
 
@@ -150,12 +167,15 @@ def train(
             name=wandb_run_name,
             entity=wandb_entity,
             config={
+                "method": method,
+                "mode": mode,
                 "model_id": model_id,
-                "ref_model_id": ref_model_id,
                 "learning_rate": lr,
                 "batch_size": batch_size,
-                "beta": beta,
                 "epochs": epochs,
+                "val_split": val_split,
+                "max_samples": max_samples,
+                "deepspeed": deepspeed is not None,
             },
         )
     report_to = "wandb" if wandb_project else "none"
@@ -168,21 +188,28 @@ def train(
     dtype = torch.bfloat16 if bf16 else (torch.float16 if fp16 else torch.float32)
 
     if is_main:
-        print(f"Loading Policy processor: {model_id}")
+        print(f"Loading processor: {model_id}")
     audio_processor = AutoProcessor.from_pretrained(model_id)
 
-    if is_main:
-        print(f"Loading Reference tokenizer: {ref_model_id}")
-    text_tokenizer = AutoTokenizer.from_pretrained(ref_model_id)
+    text_tokenizer = None
+    if method == "dpo":
+        if is_main:
+            print(f"Loading Reference tokenizer: {ref_model_id}")
+        text_tokenizer = AutoTokenizer.from_pretrained(ref_model_id)
 
-    # Prepare A/B Dataset
-    full_dataset = DPODatasetAB(
+    # Factory Selection Maps
+    dataset_cls = {
+        "sft": {"mos": SFTDataset, "ab": SFTDatasetAB},
+        "dpo": {"mos": DPODataset, "ab": DPODatasetAB},
+    }[method][mode]
+
+    full_dataset = dataset_cls(
         json_path=json_path,
         data_root=data_root,
         max_samples=max_samples,
     )
-    
-    if val_split > 0:
+
+    if val_split > 0 and method == "sft":
         val_size = int(len(full_dataset) * val_split)
         train_size = len(full_dataset) - val_size
         train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
@@ -190,18 +217,22 @@ def train(
         train_dataset = full_dataset
         val_dataset = None
 
-    # Initialize Dual-Stream AB Collator
-    collator = ALLDDPOCollatorAB(audio_processor=audio_processor, text_tokenizer=text_tokenizer)
+    if method == "sft":
+        collator_cls = {"mos": Qwen2AudioCollator, "ab": Qwen2AudioCollatorAB}[mode]
+        collator = collator_cls(processor=audio_processor)
+    else:
+        collator_cls = {"mos": ALLDDPOCollator, "ab": ALLDDPOCollatorAB}[mode]
+        collator = collator_cls(audio_processor=audio_processor, text_tokenizer=text_tokenizer)
 
-    # 1. Load Policy Model (Audio)
     if is_main:
         print(f"Loading Policy Model (Audio): {model_id} (dtype={dtype})")
     model = Qwen2AudioForConditionalGeneration.from_pretrained(model_id, dtype=dtype)
-    
-    # 2. Load Reference Model (Text)
-    if is_main:
-        print(f"Loading Reference Model (Text): {ref_model_id} (dtype={dtype})")
-    ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, dtype=dtype)
+
+    ref_model = None
+    if method == "dpo":
+        if is_main:
+            print(f"Loading Reference Model (Text): {ref_model_id} (dtype={dtype})")
+        ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, dtype=dtype)
 
     training_args = TrainingArguments(
         output_dir=str(output_dir),
@@ -218,27 +249,37 @@ def train(
         optim="adamw_torch",
         gradient_checkpointing=True,
         deepspeed=deepspeed,
-        remove_unused_columns=False, # Essential: keep custom prefix columns in batch
+        remove_unused_columns=False,
         report_to=report_to,
         run_name=wandb_run_name,
     )
 
-    trainer = ALLDDPOABTrainer(
-        ref_model=ref_model,
-        beta=beta,
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-        eval_dataset=val_dataset,
-        data_collator=collator,
-    )
+    if method == "sft":
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            data_collator=collator,
+            processing_class=audio_processor,  # Required for proper collator internal handling
+        )
+    else:
+        trainer = ALLDDPOTrainer(
+            ref_model=ref_model,
+            beta=beta,
+            model=model,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            data_collator=collator,
+        )
 
     if is_main:
-        print("Starting ALLD A/B training...")
+        print(f"Starting {method.upper()} {mode.upper()} training...")
     trainer.train()
 
     if is_main:
-        print(f"Saving ALLD A/B model to {output_dir}")
+        print(f"Saving {method.upper()} model to {output_dir}")
     trainer.save_model(str(output_dir))
     audio_processor.save_pretrained(str(output_dir))
 

@@ -81,7 +81,7 @@ def main():
     print(f"Device: {device}")
 
     print(f"Loading processor and model: {MODEL_ID}")
-    processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+    processor = AutoProcessor.from_pretrained(MODEL_ID)
 
     if device == "cuda":
         dtype = torch.float16

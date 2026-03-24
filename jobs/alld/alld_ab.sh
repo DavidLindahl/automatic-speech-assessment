@@ -59,7 +59,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/dpo-finetune-ab.py \
+    scripts/train/train.py --method dpo --mode ab \
     --model-name dpo_ab_final \
     --model-id "models/sft_warmup_ab" \
     --json-path "data/processed/train_dpo_abtest_10k.json" \

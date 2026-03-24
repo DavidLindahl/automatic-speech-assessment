@@ -1,14 +1,14 @@
 #!/bin/sh
 ### ============================================================
-### DTU HPC LSF job script — Generate DPO Dataset
-### Submit with: bsub < jobs/train/generate_dpo.sh
+### DTU HPC LSF job script — Model Evaluation
+### Submit with: bsub < jobs/evaluate/evaluate.sh
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
-#BSUB -q gpul40s
+#BSUB -q gpua40
 
 ### -- Job name --
-#BSUB -J generate-dpo-data
+#BSUB -J evaluate-model
 
 ### -- CPU cores (min 4 per GPU) --
 #BSUB -n 4
@@ -23,12 +23,12 @@
 #BSUB -R "rusage[mem=32GB]"
 #BSUB -M 32GB
 
-### -- Walltime --
-#BSUB -W 6:00
+### -- Walltime (evaluation can take a while) --
+#BSUB -W 4:00
 
 ### -- Output / error files --
-#BSUB -o logs/generate_dpo_%J.out
-#BSUB -e logs/generate_dpo_%J.err
+#BSUB -o logs/evaluate_%J.out
+#BSUB -e logs/evaluate_%J.err
 
 # -- end of LSF options --
 
@@ -38,6 +38,7 @@ PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
 cd "$PROJECT_DIR"
 
 mkdir -p logs
+mkdir -p results/inference/dpo
 
 module load cuda/11.8 || true
 
@@ -54,13 +55,27 @@ nvidia-smi
 
 
 
-uv run python src/asa/generate_dpo_data.py \
-    --input-json data/processed/train_nisqa_llama_10k.json \
-    --output-json data/processed/train_dpo_10k.json \
-    --model-path models/sft_warmup \
+# Define which model to evaluate
+MODEL_PATH="models/dpo_final"
+OUTPUT_PATH="results/evaluation/dpo_final"
+
+# Define test datasets (you can add more here)
+DATASETS=(
+    "data/processed/test_FOR.json"
+    "data/processed/test_LIVE.json"
+    "data/processed/test_P501.json"
+)
+
+echo "Evaluating datasets: ${DATASETS[*]}"
+uv run python scripts/eval/evaluate.py \
+    --model-path "$MODEL_PATH" \
+    --output-dir "$OUTPUT_PATH" \
+    --dataset-path "${DATASETS[0]}" \
+    --dataset-path "${DATASETS[1]}" \
+    --dataset-path "${DATASETS[2]}" \
     --batch-size 8
 
 echo ""
 echo "=========================================="
-echo "Dataset generation complete: $(date)"
+echo "Evaluation complete: $(date)"
 echo "=========================================="

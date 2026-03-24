@@ -9,7 +9,6 @@ It supports both individual speech quality evaluation (MOS prediction) and A/B t
 
 import os
 import json
-import typer
 from typing import Dict, Optional
 import google.generativeai as genai
 
@@ -24,8 +23,6 @@ else:
 
 # Model configuration
 MODEL_NAME = "gemini-2.5-flash-lite"
-
-app = typer.Typer()
 
 
 # Temp and TopP is based on paper's second itteration
@@ -265,44 +262,3 @@ def process_single_file(input_path: str, output_path: str):
     write_processed_records(output_path, results)
 
     print(f"Processing complete. Results saved to {output_path}")
-
-
-@app.command()
-def process_data(
-    data_dir: str = typer.Option(
-        "data/processed",
-        "--data-dir",
-        "-d",
-        help="Directory containing input JSON files (mos_dataset.json, ab_dataset.json).",
-    ),
-):
-    """
-    Process dataset JSONs (mos_dataset.json, ab_dataset.json) in the specified directory,
-    generate captions/evaluations using Gemini, and save to target files:
-    - train_nisqa_llama_10k.json
-    - train_nisqa_abtest_llama_10k.json
-    """
-    data_path = os.path.abspath(data_dir)
-    # 1. Process MOS Dataset
-    mos_input = os.path.join(data_path, "mos_dataset.json")
-    mos_output = os.path.join(data_path, "train_nisqa_llama_10k.json")
-
-    if os.path.exists(mos_input):
-        print(f"Found {mos_input}. Processing to {mos_output}...")
-        process_single_file(mos_input, mos_output)
-    else:
-        print(f"Skipping MOS dataset: {mos_input} not found.")
-
-    # 2. Process A/B Dataset
-    ab_input = os.path.join(data_path, "ab_dataset.json")
-    ab_output = os.path.join(data_path, "train_nisqa_abtest_llama_10k.json")
-
-    if os.path.exists(ab_input):
-        print(f"Found {ab_input}. Processing to {ab_output}...")
-        process_single_file(ab_input, ab_output)
-    else:
-        print(f"Skipping A/B dataset: {ab_input} not found.")
-
-
-if __name__ == "__main__":
-    app()

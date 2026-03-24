@@ -22,7 +22,8 @@ from transformers import (
     TrainingArguments,
 )
 
-from asa.data import Qwen2AudioCollator, SFTDataset
+from asa.datasets import SFTDataset
+from asa.collators import Qwen2AudioCollator
 
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 MAX_SAMPLES = 6
@@ -38,7 +39,8 @@ if is_main:
 
 if not torch.cuda.is_available():
     print("❌ No GPU available.")
-    sys.exit(1)
+    import pytest
+    pytest.skip("No GPU available", allow_module_level=True)
 
 if is_main:
     print(f"  GPUs available: {torch.cuda.device_count()}")
@@ -47,7 +49,7 @@ if is_main:
 # ── 1. Processor ─────────────────────────────────────────────────────────
 if is_main:
     print(f"\nStep 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
+processor = AutoProcessor.from_pretrained(MODEL_ID)
 if is_main:
     print("  ✅ Processor loaded")
 
@@ -115,8 +117,8 @@ trainer = Trainer(
 trainer.train()
 
 if is_main:
-    print(f"\n✅ DeepSpeed ZeRO-2 training works! (2 steps completed)")
-    print(f"  To run real training: bsub < jobs/sft_hpc.sh")
+    print("\n✅ DeepSpeed ZeRO-2 training works! (2 steps completed)")
+    print("  To run real training: bsub < jobs/sft_hpc.sh")
 
     # Clean up only from main process
     shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
