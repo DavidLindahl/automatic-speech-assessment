@@ -6,6 +6,7 @@ Contains:
   - Qwen2AudioCollator: batches samples and calls the Qwen2-Audio processor
 """
 
+import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -236,10 +237,9 @@ class Qwen2AudioCollator:
     def __init__(self, processor):
         self.processor = processor
 
-    
     def _prepare_inputs(self, features):
         prompts = [f["prompt"] for f in features]
-        
+
         # ADD THE EOS TOKEN HERE:
         eos_token = self.processor.tokenizer.eos_token
         full_texts = [f["prompt"] + f["response"] + eos_token for f in features]
@@ -332,14 +332,14 @@ class Qwen2AudioCollatorAB(Qwen2AudioCollator):
     def _prepare_inputs(self, features):
         """Return (prompts, full_texts, audios) — audios flattened."""
         prompts = [f["prompt"] for f in features]
-        
+
         # ADD THE EOS TOKEN HERE FOR A/B SFT:
         eos_token = self.processor.tokenizer.eos_token
         full_texts = [f["prompt"] + f["response"] + eos_token for f in features]
-        
+
         # Flat list: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
         audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
-        
+
         return prompts, full_texts, audios
 
 
@@ -370,11 +370,15 @@ Input: {mos: 2.1, noi: 3.0, col: 2.5, loud: 4.0}
 Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
 """
 
-def build_expert_prompt_MOS(
-    mos: float, noi: float, col: float, loud: float
-) -> str:
+
+def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> str:
     current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
-    return DIMENSION_DEFINITIONS_MOS + EXPERT_TASK_MOS + EXPERT_FEW_SHOT_EXAMPLES_MOS + current_input
+    return (
+        DIMENSION_DEFINITIONS_MOS
+        + EXPERT_TASK_MOS
+        + EXPERT_FEW_SHOT_EXAMPLES_MOS
+        + current_input
+    )
 
 
 # ==========================================
@@ -407,14 +411,28 @@ Input: {A_mos: 4.0, A_noi: 4.2, A_col: 3.7, A_dis: 3.9, A_loud: 4.1, B_mos: 1.6,
 Output: SpeechA and SpeechB have significant gaps in several aspects. SpeechA has much lower noise, less distortion, and better continuity than SpeechB. Additionally, SpeechA is also much louder than SpeechB. Considering these substantial differences, I would select SpeechA as the better synthesized speech.
 """
 
+
 def build_expert_prompt_ab(
-    A_mos: float, A_noi: float, A_col: float, A_dis: float, A_loud: float,
-    B_mos: float, B_noi: float, B_col: float, B_dis: float, B_loud: float,
+    A_mos: float,
+    A_noi: float,
+    A_col: float,
+    A_dis: float,
+    A_loud: float,
+    B_mos: float,
+    B_noi: float,
+    B_col: float,
+    B_dis: float,
+    B_loud: float,
 ) -> str:
     current_input = f"\n--- Current Task ---\nInput: {{A_mos: {A_mos}, A_noi: {A_noi}, A_col: {A_col}, A_dis: {A_dis}, A_loud: {A_loud}, B_mos: {B_mos}, B_noi: {B_noi}, B_col: {B_col}, B_dis: {B_dis}, B_loud: {B_loud}}}\nOutput:"
-    return DIMENSION_DEFINITIONS_AB + EXPERT_TASK_AB + EXPERT_FEW_SHOT_EXAMPLES_AB + current_input
+    return (
+        DIMENSION_DEFINITIONS_AB
+        + EXPERT_TASK_AB
+        + EXPERT_FEW_SHOT_EXAMPLES_AB
+        + current_input
+    )
 
-    
+
 class DPODataset(Dataset):
     """
     Loads DPO JSONL format and extracts both audio (for the policy model)
@@ -494,15 +512,17 @@ class ALLDDPOCollator:
         # ==========================================
         # 1. STREAM A: Policy Model (Audio + Text)
         # ==========================================
-        
+
         # GET THE EOS TOKEN FOR THE POLICY MODEL
         audio_eos = self.audio_processor.tokenizer.eos_token
 
         audio_prompts = [f["audio_prompt"] for f in features]
-        
+
         # APPEND EOS TOKEN TO THE RESPONSES
         policy_chosen = [f["audio_prompt"] + f["chosen"] + audio_eos for f in features]
-        policy_rejected = [f["audio_prompt"] + f["rejected"] + audio_eos for f in features]
+        policy_rejected = [
+            f["audio_prompt"] + f["rejected"] + audio_eos for f in features
+        ]
         audios = [f["audio"] for f in features]
 
         # 2N Batching for DeepSpeed
@@ -539,12 +559,12 @@ class ALLDDPOCollator:
         # ==========================================
         # 2. STREAM B: Reference Model (Text Only)
         # ==========================================
-        
+
         # GET THE EOS TOKEN FOR THE REFERENCE MODEL
         text_eos = self.text_tokenizer.eos_token
-        
+
         meta_prompts = [f["meta_prompt"] for f in features]
-        
+
         # APPEND EOS TOKEN TO THE RESPONSES
         ref_chosen = [f["meta_prompt"] + f["chosen"] + text_eos for f in features]
         ref_rejected = [f["meta_prompt"] + f["rejected"] + text_eos for f in features]
@@ -583,7 +603,7 @@ class DPODatasetAB(DPODataset):
 
     def __getitem__(self, idx: int) -> Dict[str, Any]:
         item = self.samples[idx]
-        
+
         # dual audios
         audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
         audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
@@ -596,8 +616,8 @@ class DPODatasetAB(DPODataset):
         prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
 
         return {
-            "audio_prompt": prompt,        # For Policy Model
-            "meta_prompt": meta_prompt,    # For Reference Model
+            "audio_prompt": prompt,  # For Policy Model
+            "meta_prompt": meta_prompt,  # For Reference Model
             "chosen": item["chosen"],
             "rejected": item["rejected"],
             "audio_a": audio_a,
@@ -621,13 +641,15 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         # 1. STREAM A: Policy Model (Audio + Text)
         # ==========================================
         audio_eos = self.audio_processor.tokenizer.eos_token
-        
+
         audio_prompts = [f["audio_prompt"] for f in features]
-        
+
         # FIX: Append EOS to chosen/rejected
         policy_chosen = [f["audio_prompt"] + f["chosen"] + audio_eos for f in features]
-        policy_rejected = [f["audio_prompt"] + f["rejected"] + audio_eos for f in features]
-        
+        policy_rejected = [
+            f["audio_prompt"] + f["rejected"] + audio_eos for f in features
+        ]
+
         # Flatten audios for AB tests: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
         audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
 
@@ -664,9 +686,9 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         # 2. STREAM B: Reference Model (Text Only)
         # ==========================================
         text_eos = self.text_tokenizer.eos_token
-        
+
         meta_prompts = [f["meta_prompt"] for f in features]
-        
+
         # FIX: Append EOS to chosen/rejected
         ref_chosen = [f["meta_prompt"] + f["chosen"] + text_eos for f in features]
         ref_rejected = [f["meta_prompt"] + f["rejected"] + text_eos for f in features]
