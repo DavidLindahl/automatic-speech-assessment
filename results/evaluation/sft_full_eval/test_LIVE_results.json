@@ -1,9 +1,9 @@
 {
   "metrics": {
     "samples": 200,
-    "mae": 0.44599999999999995,
-    "mse": 0.3499999999999999,
-    "bleu": 0.1088508130900164
+    "mae": 0.35,
+    "mse": 0.21239999999999998,
+    "bleu": 0.11410203449834108
   },
   "results": [
     {
@@ -33,9 +33,9 @@
       "col": 1.8,
       "loud": 2.6,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
       "bleu": 3.740484218809078e-78
     },
     {
@@ -49,10 +49,10 @@
       "col": 3.2,
       "loud": 2.3,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.40000000000000036,
-      "bleu": 0.18731107713279088
+      "predicted_response": "The synthesized speech is relatively clean but suffers from moderate distortion and discontinuity, and it is also somewhat quiet. Overall, its MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003,
+      "bleu": 4.538405647851022e-155
     },
     {
       "audios": [
@@ -65,10 +65,10 @@
       "col": 1.7,
       "loud": 3.1,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 1.0,
-      "bleu": 2.23451899928512e-78
+      "bleu": 2.44758726848316e-78
     },
     {
       "audios": [
@@ -81,9 +81,9 @@
       "col": 2.2,
       "loud": 3.4,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.6000000000000001,
       "bleu": 0.3187200248324143
     },
     {
@@ -97,10 +97,10 @@
       "col": 2.1,
       "loud": 3.6,
       "dis": 3.0,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate discontinuity and significant distortion, which affects its overall quality. Although it has a reasonable loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_mos": 2.8,
       "mos_error": 0.3999999999999999,
-      "bleu": 0.18652239976380042
+      "bleu": 0.10478669242648608
     },
     {
       "audios": [
@@ -113,10 +113,10 @@
       "col": 2.1,
       "loud": 2.4,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 0.09241573578487643
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.1268089138072009
     },
     {
       "audios": [
@@ -129,10 +129,10 @@
       "col": 2.3,
       "loud": 2.6,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.2999999999999998,
-      "bleu": 0.2577229450699086
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0999999999999996,
+      "bleu": 0.21826714919708284
     },
     {
       "audios": [
@@ -193,9 +193,9 @@
       "col": 2.5,
       "loud": 3.0,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0,
       "bleu": 0.12302940193512721
     },
     {
@@ -209,10 +209,10 @@
       "col": 2.4,
       "loud": 1.3,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 5.839629652253369e-155
+      "predicted_response": "The synthesized speech is relatively clean but suffers from moderate distortion and discontinuity, and it is also somewhat quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 7.4452230246171185e-155
     },
     {
       "audios": [
@@ -241,10 +241,10 @@
       "col": 1.6,
       "loud": 2.3,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
-      "bleu": 0.2097257149401187
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 0.21243241299173296
     },
     {
       "audios": [
@@ -289,9 +289,9 @@
       "col": 2.0,
       "loud": 2.3,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.5999999999999999,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
       "bleu": 0.17645034848121072
     },
     {
@@ -305,9 +305,9 @@
       "col": 2.1,
       "loud": 2.8,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018,
       "bleu": 0.27021732648475527
     },
     {
@@ -321,10 +321,10 @@
       "col": 2.8,
       "loud": 2.1,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.7999999999999998,
-      "bleu": 4.565621685821496e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.27975647036620965
     },
     {
       "audios": [
@@ -369,10 +369,10 @@
       "col": 3.0,
       "loud": 2.8,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion. Although it has a relatively low noise level, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.4,
-      "bleu": 0.1358581334060732
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate discontinuity and significant distortion, which affects its overall quality. Although it has a reasonable loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.1364350386676696
     },
     {
       "audios": [
@@ -385,10 +385,10 @@
       "col": 3.5,
       "loud": 2.2,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.2000000000000002,
-      "bleu": 0.10663316104269249
+      "predicted_response": "The synthesized speech is relatively clean but suffers from moderate distortion and discontinuity, and it is also somewhat quiet. Overall, its MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003,
+      "bleu": 3.797285303204701e-155
     },
     {
       "audios": [
@@ -401,10 +401,10 @@
       "col": 1.8,
       "loud": 3.0,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.7999999999999998,
-      "bleu": 5.842180666625363e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 5.461387459229665e-155
     },
     {
       "audios": [
@@ -417,10 +417,10 @@
       "col": 2.6,
       "loud": 1.9,
       "dis": 4.5,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.20000000000000018,
-      "bleu": 1.845701457575193e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.6000000000000001,
+      "bleu": 1.9117227181844069e-78
     },
     {
       "audios": [
@@ -433,10 +433,10 @@
       "col": 2.8,
       "loud": 3.6,
       "dis": 4.5,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.5999999999999996,
-      "bleu": 5.346888706325608e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. However, it suffers from a somewhat quiet volume. Considering these factors, I would rate its overall MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.0,
+      "bleu": 0.20811572484297505
     },
     {
       "audios": [
@@ -449,10 +449,10 @@
       "col": 2.8,
       "loud": 3.7,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 0.5999999999999996,
-      "bleu": 2.3145135316945984e-78
+      "bleu": 2.5373996081337815e-78
     },
     {
       "audios": [
@@ -465,9 +465,9 @@
       "col": 1.7,
       "loud": 2.5,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018,
       "bleu": 3.5127052469408176e-78
     },
     {
@@ -481,10 +481,10 @@
       "col": 1.7,
       "loud": 1.3,
       "dis": 3.6,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.5999999999999996,
-      "bleu": 0.08808970139101546
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.12070985030570962
     },
     {
       "audios": [
@@ -513,9 +513,9 @@
       "col": 2.5,
       "loud": 1.2,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
       "bleu": 3.065953352532248e-78
     },
     {
@@ -529,10 +529,10 @@
       "col": 2.6,
       "loud": 3.0,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.3999999999999995,
-      "bleu": 5.3988337051836215e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 4.647886259055351e-155
     },
     {
       "audios": [
@@ -545,10 +545,10 @@
       "col": 2.6,
       "loud": 2.8,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.7999999999999998,
-      "bleu": 6.1773539527177615e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 6.5105836445193885e-155
     },
     {
       "audios": [
@@ -561,10 +561,10 @@
       "col": 1.7,
       "loud": 2.0,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
-      "bleu": 2.5270714277540745e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 2.568175498735308e-78
     },
     {
       "audios": [
@@ -593,10 +593,10 @@
       "col": 2.0,
       "loud": 2.3,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is somewhat unnatural, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and noticeable distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_mos": 2.8,
       "mos_error": 0.3999999999999999,
-      "bleu": 0.14078424716291074
+      "bleu": 7.429487808474195e-155
     },
     {
       "audios": [
@@ -609,9 +609,9 @@
       "col": 1.8,
       "loud": 1.8,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018,
       "bleu": 0.21970466860084348
     },
     {
@@ -625,10 +625,10 @@
       "col": 1.8,
       "loud": 2.3,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 0.10446278261011067
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively soft volume, its overall quality is affected by these factors, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.13815084490183663
     },
     {
       "audios": [
@@ -657,9 +657,9 @@
       "col": 2.5,
       "loud": 3.2,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
       "bleu": 2.568175498735308e-78
     },
     {
@@ -689,10 +689,10 @@
       "col": 1.6,
       "loud": 2.3,
       "dis": 2.8,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 0.12656494026948834
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively soft volume, its overall quality is affected by these factors, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.15612734376432705
     },
     {
       "audios": [
@@ -721,10 +721,10 @@
       "col": 2.0,
       "loud": 2.1,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.0,
-      "bleu": 0.21503943336429396
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.21243241299173296
     },
     {
       "audios": [
@@ -737,10 +737,10 @@
       "col": 2.4,
       "loud": 2.2,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 2.3450028874337663e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 2.5174051697880756e-78
     },
     {
       "audios": [
@@ -769,10 +769,10 @@
       "col": 1.8,
       "loud": 1.6,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 2.483857700421416e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 2.438262957034111e-78
     },
     {
       "audios": [
@@ -801,10 +801,10 @@
       "col": 2.7,
       "loud": 2.6,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.0,
-      "bleu": 7.488581301031071e-155
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 2.477413939165496e-78
     },
     {
       "audios": [
@@ -817,9 +817,9 @@
       "col": 2.3,
       "loud": 2.8,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.5999999999999999,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
       "bleu": 3.791386861335335e-78
     },
     {
@@ -833,10 +833,10 @@
       "col": 3.0,
       "loud": 2.2,
       "dis": 3.8,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 3.3350131588797867e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 3.397376846411507e-78
     },
     {
       "audios": [
@@ -849,9 +849,9 @@
       "col": 1.6,
       "loud": 2.9,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
       "bleu": 2.7966642588867083e-78
     },
     {
@@ -881,10 +881,10 @@
       "col": 2.2,
       "loud": 2.3,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 2.3114900453303663e-78
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these mixed performance factors, I would rate its overall MOS score as 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0,
+      "bleu": 3.065953352532248e-78
     },
     {
       "audios": [
@@ -897,10 +897,10 @@
       "col": 2.4,
       "loud": 2.4,
       "dis": 3.8,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.19999999999999973,
-      "bleu": 8.40583356731324e-155
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.15760386724532313
     },
     {
       "audios": [
@@ -913,9 +913,9 @@
       "col": 2.2,
       "loud": 2.9,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
       "bleu": 2.1309275821990635e-78
     },
     {
@@ -945,10 +945,10 @@
       "col": 1.9,
       "loud": 2.3,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.20337173970907862
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.20690996611611379
     },
     {
       "audios": [
@@ -961,10 +961,10 @@
       "col": 3.0,
       "loud": 3.1,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.0,
-      "bleu": 0.14509053645909442
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.12800508577705003
     },
     {
       "audios": [
@@ -977,10 +977,10 @@
       "col": 1.7,
       "loud": 3.0,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.11870579915941971
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.13750902305262408
     },
     {
       "audios": [
@@ -1009,9 +1009,9 @@
       "col": 2.4,
       "loud": 2.5,
       "dis": 4.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018,
       "bleu": 0.10926857823700986
     },
     {
@@ -1025,10 +1025,10 @@
       "col": 3.3,
       "loud": 3.7,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 5.879003336501402e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.20000000000000018,
+      "bleu": 6.306848856741297e-155
     },
     {
       "audios": [
@@ -1041,10 +1041,10 @@
       "col": 2.2,
       "loud": 2.5,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate discontinuity and significant distortion, which affects its overall quality. Although it has a reasonable loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_mos": 2.8,
       "mos_error": 0.3999999999999999,
-      "bleu": 0.2130931749764531
+      "bleu": 0.17377208785560805
     },
     {
       "audios": [
@@ -1057,10 +1057,10 @@
       "col": 3.9,
       "loud": 2.8,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate volume. Although it has some distortion, its overall quality is still good, with an MOS score of 4.0. I think it is a qualified synthesized speech.",
-      "predicted_mos": 4.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 0.14778067718345736
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.2440281407130427
     },
     {
       "audios": [
@@ -1137,10 +1137,10 @@
       "col": 1.9,
       "loud": 3.1,
       "dis": 2.8,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.2130931749764531
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.2165592412275546
     },
     {
       "audios": [
@@ -1153,10 +1153,10 @@
       "col": 2.5,
       "loud": 2.0,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and significant distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a relatively unnatural synthesized speech with an overall MOS of 2.8.",
       "predicted_mos": 2.8,
       "mos_error": 0.20000000000000018,
-      "bleu": 2.2138798761144273e-78
+      "bleu": 2.205394170438928e-78
     },
     {
       "audios": [
@@ -1169,9 +1169,9 @@
       "col": 1.8,
       "loud": 1.4,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.6000000000000001,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
       "bleu": 3.32581303494184e-78
     },
     {
@@ -1201,10 +1201,10 @@
       "col": 1.3,
       "loud": 1.3,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.0,
-      "bleu": 0.14385017556508675
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.23011994804024855
     },
     {
       "audios": [
@@ -1217,10 +1217,10 @@
       "col": 1.3,
       "loud": 1.4,
       "dis": 1.4,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, discontinuous, and severely distorted. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 0.28770035113017345
+      "bleu": 0.29003954043420627
     },
     {
       "audios": [
@@ -1233,10 +1233,10 @@
       "col": 2.6,
       "loud": 2.6,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is somewhat unnatural, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.0,
-      "bleu": 2.274164480191569e-78
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these mixed performance factors, I would rate its overall MOS score as 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.24292822352556934
     },
     {
       "audios": [
@@ -1249,10 +1249,10 @@
       "col": 2.4,
       "loud": 1.9,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 1.2999999999999998,
-      "bleu": 5.962963206727583e-155
+      "bleu": 5.735129326785544e-155
     },
     {
       "audios": [
@@ -1265,10 +1265,10 @@
       "col": 3.7,
       "loud": 1.5,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.5999999999999996,
-      "bleu": 5.3988337051836215e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 5.143731687720263e-155
     },
     {
       "audios": [
@@ -1281,10 +1281,10 @@
       "col": 2.5,
       "loud": 2.5,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.5999999999999996,
-      "bleu": 0.1249460963944697
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.1288325818415598
     },
     {
       "audios": [
@@ -1297,10 +1297,10 @@
       "col": 2.5,
       "loud": 2.8,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.1999999999999997,
-      "bleu": 2.1265660881898582e-78
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.18486615216367264
     },
     {
       "audios": [
@@ -1313,10 +1313,10 @@
       "col": 2.1,
       "loud": 2.5,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion. Although it has a relatively low noise level, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 0.11610083023532244
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.12913533075470382
     },
     {
       "audios": [
@@ -1329,10 +1329,10 @@
       "col": 2.9,
       "loud": 1.9,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.7999999999999998,
-      "bleu": 5.943821916972524e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 6.268598639915875e-155
     },
     {
       "audios": [
@@ -1345,10 +1345,10 @@
       "col": 2.2,
       "loud": 3.3,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.2999999999999998,
-      "bleu": 0.1611460882448325
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.10000000000000009,
+      "bleu": 0.16626120728772673
     },
     {
       "audios": [
@@ -1361,10 +1361,10 @@
       "col": 2.6,
       "loud": 3.4,
       "dis": 3.8,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 0.7999999999999998,
-      "bleu": 0.14018081843765173
+      "bleu": 0.2614633792688037
     },
     {
       "audios": [
@@ -1377,10 +1377,10 @@
       "col": 1.9,
       "loud": 1.4,
       "dis": 2.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
-      "bleu": 2.3114900453303663e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 2.3517049499659848e-78
     },
     {
       "audios": [
@@ -1393,10 +1393,10 @@
       "col": 2.7,
       "loud": 2.4,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 0.7999999999999998,
-      "bleu": 0.18398732411042557
+      "bleu": 0.2673633758455344
     },
     {
       "audios": [
@@ -1409,10 +1409,10 @@
       "col": 2.5,
       "loud": 3.3,
       "dis": 4.5,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these mixed performance factors, I would rate its overall MOS score as 2.8.",
       "predicted_mos": 2.8,
       "mos_error": 0.20000000000000018,
-      "bleu": 0.28401099841859384
+      "bleu": 2.2963750861224765e-78
     },
     {
       "audios": [
@@ -1425,10 +1425,10 @@
       "col": 2.5,
       "loud": 2.5,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.5999999999999996,
-      "bleu": 5.385545599504515e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 5.3578676132153855e-155
     },
     {
       "audios": [
@@ -1457,10 +1457,10 @@
       "col": 2.2,
       "loud": 2.0,
       "dis": 4.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 2.715514971834882e-78
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and significant distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a relatively unnatural synthesized speech with an overall MOS of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.6000000000000001,
+      "bleu": 6.4122177274971495e-155
     },
     {
       "audios": [
@@ -1473,10 +1473,10 @@
       "col": 1.6,
       "loud": 1.3,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.19999999999999996,
-      "bleu": 2.722761210232969e-78
+      "bleu": 3.1061897247294867e-78
     },
     {
       "audios": [
@@ -1521,10 +1521,10 @@
       "col": 2.2,
       "loud": 1.7,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 1.1999999999999997,
-      "bleu": 3.4932006746043417e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998,
+      "bleu": 3.5500546233726613e-155
     },
     {
       "audios": [
@@ -1537,10 +1537,10 @@
       "col": 2.0,
       "loud": 1.2,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 3.2498889806932417e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0,
+      "bleu": 3.3799090345868916e-78
     },
     {
       "audios": [
@@ -1585,10 +1585,10 @@
       "col": 2.5,
       "loud": 2.6,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate volume. Although it has some distortion, its overall quality is still good, with an MOS score of 4.0.",
-      "predicted_mos": 4.0,
-      "mos_error": 1.4,
-      "bleu": 4.398861887883625e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.13144312778782383
     },
     {
       "audios": [
@@ -1601,9 +1601,9 @@
       "col": 2.3,
       "loud": 1.5,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
       "bleu": 2.8995996567524986e-78
     },
     {
@@ -1617,10 +1617,10 @@
       "col": 2.8,
       "loud": 1.9,
       "dis": 3.8,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 2.5270714277540745e-78
+      "predicted_response": "The synthesized speech is relatively clean but suffers from moderate distortion and discontinuity, and it is also somewhat quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 2.9354622423639842e-78
     },
     {
       "audios": [
@@ -1633,10 +1633,10 @@
       "col": 1.7,
       "loud": 1.4,
       "dis": 2.6,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.0,
-      "bleu": 2.483857700421416e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 2.438262957034111e-78
     },
     {
       "audios": [
@@ -1649,10 +1649,10 @@
       "col": 1.9,
       "loud": 2.1,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate volume. Although it has some distortion, its overall quality is still good, with an MOS score of 4.0. I think it is a qualified synthesized speech.",
-      "predicted_mos": 4.0,
-      "mos_error": 1.6,
-      "bleu": 6.2857699451930304e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.4,
+      "bleu": 5.817225940743193e-155
     },
     {
       "audios": [
@@ -1665,9 +1665,9 @@
       "col": 1.9,
       "loud": 2.9,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.30000000000000004,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.5,
       "bleu": 0.20337173970907862
     },
     {
@@ -1681,10 +1681,10 @@
       "col": 2.0,
       "loud": 3.1,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.7999999999999998,
-      "bleu": 6.742886490861049e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 6.690657733631589e-155
     },
     {
       "audios": [
@@ -1697,10 +1697,10 @@
       "col": 1.5,
       "loud": 1.7,
       "dis": 2.7,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 0.28970277405356853
+      "bleu": 0.34259638924297264
     },
     {
       "audios": [
@@ -1713,10 +1713,10 @@
       "col": 1.7,
       "loud": 2.4,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.35363976006120196
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.3590404023454787
     },
     {
       "audios": [
@@ -1745,10 +1745,10 @@
       "col": 3.5,
       "loud": 2.8,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.19999999999999973,
-      "bleu": 2.5947372063098086e-78
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998,
+      "bleu": 6.006183623720718e-155
     },
     {
       "audios": [
@@ -1761,9 +1761,9 @@
       "col": 1.8,
       "loud": 1.7,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.30000000000000004,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.10000000000000009,
       "bleu": 2.953821249995488e-78
     },
     {
@@ -1793,10 +1793,10 @@
       "col": 1.8,
       "loud": 1.9,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.15848577707621822
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.11863398361177073
     },
     {
       "audios": [
@@ -1825,9 +1825,9 @@
       "col": 1.3,
       "loud": 2.7,
       "dis": 2.0,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
       "bleu": 0.46682340042205916
     },
     {
@@ -1921,10 +1921,10 @@
       "col": 1.9,
       "loud": 1.4,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 0.12919496801027514
+      "bleu": 0.11074131394029281
     },
     {
       "audios": [
@@ -1937,10 +1937,10 @@
       "col": 1.9,
       "loud": 2.3,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 2.902214485171525e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.14134641571854578
     },
     {
       "audios": [
@@ -1953,10 +1953,10 @@
       "col": 1.4,
       "loud": 1.8,
       "dis": 2.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, discontinuous, and severely distorted. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 2.9959615621893485e-78
+      "bleu": 0.2404315522172745
     },
     {
       "audios": [
@@ -1985,10 +1985,10 @@
       "col": 1.3,
       "loud": 1.3,
       "dis": 2.8,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.3999999999999999,
-      "bleu": 3.606542553646074e-78
+      "bleu": 2.4057414482465727e-78
     },
     {
       "audios": [
@@ -2017,10 +2017,10 @@
       "col": 2.1,
       "loud": 1.4,
       "dis": 3.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 2.427154408681538e-78
+      "bleu": 0.18970277612614705
     },
     {
       "audios": [
@@ -2049,10 +2049,10 @@
       "col": 1.3,
       "loud": 2.0,
       "dis": 2.3,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.4.",
+      "predicted_mos": 1.4,
       "mos_error": 0.19999999999999996,
-      "bleu": 3.9035249473443743e-78
+      "bleu": 0.12424166064987055
     },
     {
       "audios": [
@@ -2081,10 +2081,10 @@
       "col": 1.3,
       "loud": 1.5,
       "dis": 1.9,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 5.852294898714179e-155
+      "bleu": 2.050022156888044e-78
     },
     {
       "audios": [
@@ -2097,9 +2097,9 @@
       "col": 1.4,
       "loud": 1.9,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
       "bleu": 0.2638548135474381
     },
     {
@@ -2113,10 +2113,10 @@
       "col": 2.2,
       "loud": 1.7,
       "dis": 3.6,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 0.1117533483636058
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively low volume, its overall quality is affected by these factors, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.10041908126103855
     },
     {
       "audios": [
@@ -2129,10 +2129,10 @@
       "col": 2.4,
       "loud": 1.5,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 2.5270714277540745e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 2.483857700421416e-78
     },
     {
       "audios": [
@@ -2161,10 +2161,10 @@
       "col": 2.9,
       "loud": 1.5,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 0.1308613527030366
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.12876689524369925
     },
     {
       "audios": [
@@ -2177,10 +2177,10 @@
       "col": 1.9,
       "loud": 1.5,
       "dis": 2.5,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 0.14463972129203845
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 3.32581303494184e-78
     },
     {
       "audios": [
@@ -2209,10 +2209,10 @@
       "col": 2.0,
       "loud": 1.5,
       "dis": 2.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
-      "bleu": 3.8252281516433167e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0,
+      "bleu": 3.8874473860258524e-78
     },
     {
       "audios": [
@@ -2273,10 +2273,10 @@
       "col": 1.4,
       "loud": 1.4,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.0,
-      "bleu": 0.14134641571854578
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.138751801078459
     },
     {
       "audios": [
@@ -2321,10 +2321,10 @@
       "col": 3.6,
       "loud": 3.6,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 7.287531746184033e-155
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0,
+      "bleu": 2.709097285643523e-78
     },
     {
       "audios": [
@@ -2337,10 +2337,10 @@
       "col": 2.5,
       "loud": 2.7,
       "dis": 3.3,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and significant distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a relatively unnatural synthesized speech with an overall MOS of 2.8.",
       "predicted_mos": 2.8,
       "mos_error": 0.09999999999999964,
-      "bleu": 0.31664648301486426
+      "bleu": 0.3306177302761605
     },
     {
       "audios": [
@@ -2417,10 +2417,10 @@
       "col": 1.8,
       "loud": 2.7,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
-      "bleu": 2.860671209342588e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 3.0398033643017393e-78
     },
     {
       "audios": [
@@ -2433,10 +2433,10 @@
       "col": 2.4,
       "loud": 2.3,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.0,
-      "bleu": 0.10704604894593339
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.14776306152678012
     },
     {
       "audios": [
@@ -2449,9 +2449,9 @@
       "col": 2.2,
       "loud": 3.2,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.9999999999999998,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
       "bleu": 0.27438665347201435
     },
     {
@@ -2465,10 +2465,10 @@
       "col": 1.9,
       "loud": 2.5,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
-      "predicted_mos": 2.8,
-      "mos_error": 0.3999999999999999,
-      "bleu": 6.2474296653172126e-155
+      "predicted_response": "The synthesized speech is relatively clean but suffers from moderate distortion and discontinuity, and it is also somewhat quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.35583721225439024
     },
     {
       "audios": [
@@ -2481,10 +2481,10 @@
       "col": 2.2,
       "loud": 2.1,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
-      "bleu": 3.2293097254024107e-78
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively low volume, its overall quality is affected by these factors, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 2.161155741048593e-78
     },
     {
       "audios": [
@@ -2497,10 +2497,10 @@
       "col": 2.4,
       "loud": 1.8,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 0.12092555992625884
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.11870579915941971
     },
     {
       "audios": [
@@ -2513,10 +2513,10 @@
       "col": 1.8,
       "loud": 3.2,
       "dis": 3.6,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 0.36972851673016954
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.17876071874216873
     },
     {
       "audios": [
@@ -2529,10 +2529,10 @@
       "col": 2.2,
       "loud": 2.6,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 0.5999999999999996,
-      "bleu": 6.08714939065202e-155
+      "bleu": 6.6421770760989345e-155
     },
     {
       "audios": [
@@ -2577,9 +2577,9 @@
       "col": 1.9,
       "loud": 1.3,
       "dis": 3.0,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
       "bleu": 0.1885647409466401
     },
     {
@@ -2593,10 +2593,10 @@
       "col": 2.0,
       "loud": 1.9,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.7999999999999998,
-      "bleu": 0.12424166064987055
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 3.4793001353885463e-78
     },
     {
       "audios": [
@@ -2609,9 +2609,9 @@
       "col": 2.5,
       "loud": 3.4,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.2000000000000002,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003,
       "bleu": 2.4516421455844055e-78
     },
     {
@@ -2625,10 +2625,10 @@
       "col": 2.3,
       "loud": 2.7,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 1.1999999999999997,
-      "bleu": 0.3264196329076877
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.4185838238187631
     },
     {
       "audios": [
@@ -2641,9 +2641,9 @@
       "col": 1.6,
       "loud": 1.3,
       "dis": 1.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
       "bleu": 0.26765226160005684
     },
     {
@@ -2657,10 +2657,10 @@
       "col": 1.7,
       "loud": 1.7,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 2.389956598150066e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 2.438262957034111e-78
     },
     {
       "audios": [
@@ -2673,10 +2673,10 @@
       "col": 1.5,
       "loud": 1.2,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.0.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 0.16574624158406065
+      "bleu": 2.5440820113049894e-78
     },
     {
       "audios": [
@@ -2705,10 +2705,10 @@
       "col": 1.5,
       "loud": 1.5,
       "dis": 2.7,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
+      "predicted_response": "The synthesized speech is extremely quiet, noisy, discontinuous, and severely distorted. Overall, its MOS score is 1.0, indicating very unnatural quality.",
       "predicted_mos": 1.0,
       "mos_error": 0.0,
-      "bleu": 0.2236289703114802
+      "bleu": 0.13725861056573666
     },
     {
       "audios": [
@@ -2721,10 +2721,10 @@
       "col": 2.0,
       "loud": 1.3,
       "dis": 2.4,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.0,
-      "bleu": 0.35668376829411225
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.6000000000000001,
+      "bleu": 3.6907987648949124e-78
     },
     {
       "audios": [
@@ -2737,10 +2737,10 @@
       "col": 2.1,
       "loud": 2.4,
       "dis": 2.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.2.",
-      "predicted_mos": 1.2,
-      "mos_error": 0.40000000000000013,
-      "bleu": 0.10970708491897556
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0,
+      "bleu": 0.10961992702738824
     },
     {
       "audios": [
@@ -2753,9 +2753,9 @@
       "col": 2.1,
       "loud": 1.8,
       "dis": 2.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.40000000000000013,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
       "bleu": 0.23626187156344589
     },
     {
@@ -2769,10 +2769,10 @@
       "col": 1.7,
       "loud": 1.7,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.2.",
-      "predicted_mos": 1.2,
-      "mos_error": 0.40000000000000013,
-      "bleu": 3.2498889806932417e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 3.1232857070852597e-78
     },
     {
       "audios": [
@@ -2785,9 +2785,9 @@
       "col": 1.6,
       "loud": 1.9,
       "dis": 3.1,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.10000000000000009,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.30000000000000004,
       "bleu": 0.1803938045902358
     },
     {
@@ -2801,10 +2801,10 @@
       "col": 1.9,
       "loud": 3.0,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 1.1999999999999997,
-      "bleu": 0.1249460963944697
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.12655765704978986
     },
     {
       "audios": [
@@ -2817,10 +2817,10 @@
       "col": 3.1,
       "loud": 3.2,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 0.7999999999999998,
-      "bleu": 3.0519850924785605e-78
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.0,
+      "bleu": 0.13072010980679707
     },
     {
       "audios": [
@@ -2833,10 +2833,10 @@
       "col": 2.7,
       "loud": 4.0,
       "dis": 4.3,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate volume. Although it has some distortion, its overall quality is still good, with an MOS score of 4.0. I think it is a qualified synthesized speech.",
-      "predicted_mos": 4.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 0.10176523358537859
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.0,
+      "bleu": 0.38774282145128575
     },
     {
       "audios": [
@@ -2849,10 +2849,10 @@
       "col": 3.5,
       "loud": 3.6,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is very clean, clear, and continuous, with minimal distortion. It also has a suitable loudness level. Overall, I think it is a high-quality synthesized speech with an overall MOS of 4.6.",
-      "predicted_mos": 4.6,
-      "mos_error": 0.7999999999999998,
-      "bleu": 0.27039777221233924
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.0,
+      "bleu": 0.3500136510186253
     },
     {
       "audios": [
@@ -2865,10 +2865,10 @@
       "col": 2.3,
       "loud": 3.8,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.0,
-      "bleu": 5.6213197033861974e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 5.712273295803765e-155
     },
     {
       "audios": [
@@ -2881,10 +2881,10 @@
       "col": 3.4,
       "loud": 3.2,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.0,
-      "bleu": 0.5055412722363436
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.6515366202853992
     },
     {
       "audios": [
@@ -2897,10 +2897,10 @@
       "col": 2.1,
       "loud": 4.0,
       "dis": 4.7,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 1.0,
-      "bleu": 0.19428216366708123
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and noticeable distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.0,
+      "bleu": 0.22915295704820032
     },
     {
       "audios": [
@@ -2913,10 +2913,10 @@
       "col": 2.5,
       "loud": 3.7,
       "dis": 4.0,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 1.0,
-      "bleu": 5.231227430537486e-155
+      "bleu": 5.7563867899378584e-155
     },
     {
       "audios": [
@@ -2929,9 +2929,9 @@
       "col": 1.6,
       "loud": 2.8,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7999999999999998,
       "bleu": 0.36633708348328065
     },
     {
@@ -2945,10 +2945,10 @@
       "col": 2.2,
       "loud": 2.3,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.0,
-      "bleu": 2.483857700421416e-78
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 2.438262957034111e-78
     },
     {
       "audios": [
@@ -2993,10 +2993,10 @@
       "col": 2.3,
       "loud": 3.4,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is somewhat clean but has noticeable discontinuity and moderate distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_response": "The synthesized speech is somewhat clean but suffers from moderate distortion and discontinuity, and it is also relatively quiet. Given these factors, I would rate its overall MOS score as 2.8.",
       "predicted_mos": 2.8,
       "mos_error": 0.40000000000000036,
-      "bleu": 0.40528534360112195
+      "bleu": 1.8076482435791445e-78
     },
     {
       "audios": [
@@ -3009,10 +3009,10 @@
       "col": 3.0,
       "loud": 2.5,
       "dis": 4.1,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
       "predicted_mos": 3.8,
       "mos_error": 0.5999999999999996,
-      "bleu": 0.2960878687609646
+      "bleu": 0.3235400674789707
     },
     {
       "audios": [
@@ -3025,10 +3025,10 @@
       "col": 2.3,
       "loud": 4.1,
       "dis": 4.6,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.3999999999999999,
-      "bleu": 5.455575215534421e-155
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.0,
+      "bleu": 5.2791087409596815e-155
     },
     {
       "audios": [
@@ -3041,10 +3041,10 @@
       "col": 3.4,
       "loud": 3.1,
       "dis": 4.2,
-      "predicted_response": "The synthesized speech is relatively clean and continuous, with a moderate level of distortion. Although it's not perfect in terms of loudness, I think it is an average synthesized speech with overall MOS of 3.8.",
-      "predicted_mos": 3.8,
-      "mos_error": 0.5999999999999996,
-      "bleu": 0.2516546237169354
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.29345212739736104
     },
     {
       "audios": [
@@ -3073,10 +3073,10 @@
       "col": 2.9,
       "loud": 2.1,
       "dis": 3.4,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.0,
-      "bleu": 0.30766914974992887
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.30374899709317604
     },
     {
       "audios": [
@@ -3089,10 +3089,10 @@
       "col": 2.0,
       "loud": 3.6,
       "dis": 3.7,
-      "predicted_response": "The synthesized speech is somewhat clean but has moderate distortion and discontinuity, and it is also relatively quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
-      "predicted_mos": 3.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 0.10085167559661873
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average loudness, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.6000000000000001,
+      "bleu": 3.3681934024055204e-78
     },
     {
       "audios": [
@@ -3105,9 +3105,9 @@
       "col": 2.2,
       "loud": 2.4,
       "dis": 2.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
       "bleu": 0.11436433361427001
     },
     {
@@ -3121,10 +3121,10 @@
       "col": 1.7,
       "loud": 2.9,
       "dis": 3.9,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 0.18480593431598488
+      "predicted_response": "The synthesized speech is somewhat clean but has moderate discontinuity and noticeable distortion, which affects its overall quality. Although it is understandable in terms of loudness, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.09647414103335798
     },
     {
       "audios": [
@@ -3153,10 +3153,10 @@
       "col": 1.7,
       "loud": 1.5,
       "dis": 3.5,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor synthetic quality.",
-      "predicted_mos": 1.0,
-      "mos_error": 0.0,
-      "bleu": 0.45359393336810816
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 3.0052113220051886e-78
     },
     {
       "audios": [
@@ -3169,10 +3169,10 @@
       "col": 1.4,
       "loud": 1.4,
       "dis": 4.4,
-      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. Overall, it has a MOS score of 1.0, indicating very poor quality.",
-      "predicted_mos": 1.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.4.",
+      "predicted_mos": 1.4,
       "mos_error": 0.19999999999999996,
-      "bleu": 2.646552716000527e-78
+      "bleu": 0.36609005270125766
     },
     {
       "audios": [
@@ -3185,9 +3185,9 @@
       "col": 1.8,
       "loud": 2.3,
       "dis": 3.2,
-      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
-      "predicted_mos": 1.8,
-      "mos_error": 0.19999999999999996,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
       "bleu": 0.2042736320733995
     },
     {
