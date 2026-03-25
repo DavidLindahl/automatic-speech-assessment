@@ -180,6 +180,21 @@ class SFTDataset(Dataset):
     # ── private ──────────────────────────────────────────────────────────
 
     @staticmethod
+    def _load_jsonl(path: Path) -> list[dict]:
+        """Parse line-delimited JSON (one JSON object per line).
+
+        Keeps memory usage reasonable by reading line-by-line.
+        """
+        items: list[dict] = []
+        with path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                items.append(json.loads(line))
+        return items
+
+    @staticmethod
     def _is_valid(item):
         if not item.get("audios") or not isinstance(item["audios"], list) or len(item["audios"]) == 0:
             return False
