@@ -5,7 +5,7 @@
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
-#BSUB -q gpua40
+#BSUB -q gpul40s
 
 ### -- Job name --
 #BSUB -J evaluate-model

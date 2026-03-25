@@ -7,6 +7,7 @@ Contains:
 """
 
 import os
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -24,6 +25,7 @@ from asa.processed_data import (
     load_processed_records,
     resolve_audio_path,
 )
+
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
@@ -167,6 +169,7 @@ class SFTDataset(Dataset):
     ):
         self.data_root = Path(data_root)
         self.samples = self._load_jsonl(Path(json_path))
+        self.samples = [item for item in self.samples if self._is_valid(item)]
 
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
@@ -177,23 +180,20 @@ class SFTDataset(Dataset):
     # ── private ──────────────────────────────────────────────────────────
 
     @staticmethod
-    def _load_jsonl(path: Path) -> list[dict]:
-        """Parse line-delimited JSON (one JSON object per '{...}' block)."""
-        text = path.read_text(encoding="utf-8")
-
-        items = []
-        decoder = json.JSONDecoder()
-        idx = 0
-        while idx < len(text):
-            # Skip whitespace
-            while idx < len(text) and text[idx] in " \t\n\r":
-                idx += 1
-            if idx >= len(text):
-                break
-            obj, end_idx = decoder.raw_decode(text, idx)
-            items.append(obj)
-            idx = end_idx
-        return items
+    def _is_valid(item):
+        if not item.get("audios") or not isinstance(item["audios"], list) or len(item["audios"]) == 0:
+            return False
+        # Check if the path exists
+        raw_path = item["audios"][0]
+        candidate = Path(raw_path)
+        if candidate.exists():
+            return True
+        normalized = raw_path.replace("\\", "/")
+        if "NISQA_Corpus/" in normalized:
+            relative = normalized.split("NISQA_Corpus/", maxsplit=1)[1]
+            root = Path("data")
+            return (root / "raw" / "NISQA_Corpus" / relative).exists()
+        return False
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
         """Map stored audio paths to a local path."""

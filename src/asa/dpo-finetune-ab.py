@@ -196,12 +196,12 @@ def train(
     # 1. Load Policy Model (Audio)
     if is_main:
         print(f"Loading Policy Model (Audio): {model_id} (dtype={dtype})")
-    model = Qwen2AudioForConditionalGeneration.from_pretrained(model_id, dtype=dtype)
+    model = Qwen2AudioForConditionalGeneration.from_pretrained(model_id, torch_dtype=dtype)
     
     # 2. Load Reference Model (Text)
     if is_main:
         print(f"Loading Reference Model (Text): {ref_model_id} (dtype={dtype})")
-    ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, dtype=dtype)
+    ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, torch_dtype=dtype)
 
     training_args = TrainingArguments(
         output_dir=str(output_dir),

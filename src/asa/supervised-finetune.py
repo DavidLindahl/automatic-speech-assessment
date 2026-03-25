@@ -119,7 +119,7 @@ def train(
         print(f"Loading model: {model_id} (dtype={dtype})")
     model = Qwen2AudioForConditionalGeneration.from_pretrained(
         model_id,
-        dtype=dtype,
+        torch_dtype=dtype,
     )
     # ── 4. Training args ─────────────────────────────────────────────────
     training_args = TrainingArguments(
