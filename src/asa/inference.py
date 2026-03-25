@@ -139,7 +139,7 @@ def run_inference(
 
             batch = processor(
                 text=batch_prompts,
-                audio=audios,
+                audios=audios,
                 sampling_rate=sr,
                 return_tensors="pt",
                 padding=True,
@@ -171,7 +171,7 @@ def run_inference(
 
             batch = processor(
                 text=batch_texts,
-                audio=audios,
+                audios=audios,
                 sampling_rate=sr,
                 return_tensors="pt",
                 padding=True,

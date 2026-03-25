@@ -279,14 +279,14 @@ class Qwen2AudioCollator:
 
         batch = self.processor(
             text=full_texts,
-            audio=audios,
+            audios=audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
         )
         prompt_batch = self.processor(
             text=prompts,
-            audio=audios,
+            audios=audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
