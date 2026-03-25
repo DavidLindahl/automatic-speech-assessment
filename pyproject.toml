@@ -58,6 +58,7 @@ dependencies = [
     "torchcodec>=0.10.0",
     "typer-slim>=0.21.2",
     "wandb>=0.25.0",
+    "google-genai>=1.68.0",
 ]
 
 [project.scripts]
