@@ -117,7 +117,14 @@ I need you to generate a descriptive evaluation for this speech, including a des
 
 
 def generate_ab_test_prompt(
-    metadata_a: Dict[str, float], metadata_b: Dict[str, float]
+    metadata_a: Dict[str, float],
+    metadata_b: Dict[str, float],
+    example_1_a: Optional[Dict] = None,
+    example_1_b: Optional[Dict] = None,
+    example_1_response: Optional[str] = None,
+    example_2_a: Optional[Dict] = None,
+    example_2_b: Optional[Dict] = None,
+    example_2_response: Optional[str] = None,
 ) -> str:
     """
     Generate a prompt for A/B testing based on the metadata of two speech samples.
@@ -137,10 +144,29 @@ def generate_ab_test_prompt(
 (5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
 I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly select 1~3 aspects from (2)~(5) with an obvious gap (usually score difference more than 0.5), then compare them according to these distinctions. Finally, please give your preference with a reasonable analysis."""
 
+    def_ex1_a = {"mos": 1.8, "noi": 3.2, "col": 1.9, "dis": 2.3, "loud": 3.3}
+    def_ex1_b = {"mos": 3.6, "noi": 2.6, "col": 2.8, "dis": 4.0, "loud": 3.7}
+    def_ex1_res = "SpeechA and SpeechB have similar levels of distortion and loudness. However, SpeechB has better continuity than SpeechA. Although SpeechA is slightly cleaner, I would select SpeechB as better synthesized speech due to its significantly higher overall synthetic quality and better continuity."
+
+    def_ex2_a = {"mos": 1.0, "noi": 2.9, "col": 2.9, "dis": 1.2, "loud": 3.2}
+    def_ex2_b = {"mos": 4.0, "noi": 3.7, "col": 3.4, "dis": 4.0, "loud": 4.0}
+    def_ex2_res = "SpeechA and SpeechB are similarly somewhat noisy. But due to SpeechA's severe discontinuity and significant distortion, I think SpeechB has higher synthesis quality than SpeechA."
+
+    ex1_a = example_1_a if example_1_a else def_ex1_a
+    ex1_b = example_1_b if example_1_b else def_ex1_b
+    ex1_res = example_1_response if example_1_response else def_ex1_res
+
+    ex2_a = example_2_a if example_2_a else def_ex2_a
+    ex2_b = example_2_b if example_2_b else def_ex2_b
+    ex2_res = example_2_response if example_2_response else def_ex2_res
+
+    prompt += f"\nFor example:\nSpeechA: {json.dumps(ex1_a)}\nSpeechB: {json.dumps(ex1_b)}\nThen you should output: {ex1_res}"
+    prompt += f"\n\nAnother example:\nSpeechA: {json.dumps(ex2_a)}\nSpeechB: {json.dumps(ex2_b)}\nThen you should output: {ex2_res}"
+
     # Add metadata for both speech samples
-    prompt += f"\nSpeechA: {json.dumps(metadata_a)}"
+    prompt += f"\n\nNow the input is:\nSpeechA: {json.dumps(metadata_a)}"
     prompt += f"\nSpeechB: {json.dumps(metadata_b)}"
-    prompt += "\nPlease provide your comparison and determine which speech is better:"
+    prompt += "\nPlease provide your comparison and determine which speech is better (only output the evaluation):"
 
     return prompt
 
