@@ -46,6 +46,7 @@ torchrun \
     --batch-size 4 \
     --epochs 2 \
     --eval-steps 100 \
+    --model-name "sft_ab_full" \
     --wandb-run-name "full-ab-10k-2ep"
 
 echo "Training complete: $(date)"
