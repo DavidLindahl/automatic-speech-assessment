@@ -53,4 +53,15 @@ Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
 a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
 started with Machine Learning Operations (MLOps).
 
+## QualiSpeech
+
+To download the QualiSpeech dataset locally for inspection, run:
+
+```bash
+uv run scripts/download_quali_speech.py --output-dir data/raw/QualiSpeech
+```
+
+This downloads the dataset snapshot from Hugging Face, extracts `wav_part1.zip`,
+and verifies that the CSV splits are present.
+
 ````
