@@ -182,6 +182,8 @@ dtu-mlops-484217-948b8cf79e45.json
 
 # Data – track data/raw/demo.wav but ignore NISQA corpus and processed data
 data/raw/NISQA_Corpus/
+data-temp/
+data/QualiSpeech/
 data/.DS_Store
 
 # HPC job artifacts

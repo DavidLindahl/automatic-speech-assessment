@@ -105,6 +105,7 @@ line-length = 88
 markers = [
     "slow: tests that load a full model checkpoint (skip with -m 'not slow')",
 ]
+pythonpath = ["src"]
 
 [tool.coverage.run]
 omit = ["tests/*"]

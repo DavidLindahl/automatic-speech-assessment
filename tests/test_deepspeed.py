@@ -1,19 +1,14 @@
-"""
-test_5_deepspeed.py — Test DeepSpeed ZeRO-2 training with 2 GPUs.
-Runs 2 training steps to verify the full distributed pipeline.
+"""DeepSpeed distributed training smoke test.
 
-Launch via job script:
-  bsub < jobs/test_deepspeed.sh
+This test is intentionally marked ``slow`` and is designed for 2-GPU
+Linux environments launched under ``torchrun``.
 """
 
+from pathlib import Path
 import os
-import sys
-import shutil
 
-os.chdir(os.path.join(os.path.dirname(__file__), ".."))
-
+import pytest
 import torch
-import torch.distributed as dist
 from torch.utils.data import random_split
 from transformers import (
     AutoProcessor,
@@ -24,104 +19,77 @@ from transformers import (
 
 from asa.data import Qwen2AudioCollator, SFTDataset
 
+pytestmark = pytest.mark.slow
+
 MODEL_ID = "Qwen/Qwen2-Audio-7B"
 MAX_SAMPLES = 6
 BATCH_SIZE = 1
-OUTPUT_DIR = "results/deepspeed_test"
 
-# Only print from main process in distributed training
-local_rank = int(os.environ.get("LOCAL_RANK", 0))
-is_main = local_rank == 0
 
-if is_main:
-    print("=== Test 5: DeepSpeed ZeRO-2 Training ===\n")
+def test_deepspeed_zero2_training_smoke(tmp_path: Path) -> None:
+    """Run a minimal ZeRO-2 training smoke test in distributed GPU mode."""
+    if not torch.cuda.is_available():
+        pytest.skip("CUDA is required for the DeepSpeed smoke test.")
 
-if not torch.cuda.is_available():
-    print("❌ No GPU available.")
-    sys.exit(1)
+    if torch.cuda.device_count() < 2:
+        pytest.skip("At least 2 GPUs are required for this test.")
 
-if is_main:
-    print(f"  GPUs available: {torch.cuda.device_count()}")
-    print(f"  Local rank: {local_rank}")
+    world_size = int(os.environ.get("WORLD_SIZE", "1"))
+    if world_size < 2:
+        pytest.skip("Run under torchrun with WORLD_SIZE>=2 to execute this test.")
 
-# ── 1. Processor ─────────────────────────────────────────────────────────
-if is_main:
-    print(f"\nStep 1: Loading processor from {MODEL_ID}...")
-processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
-if is_main:
-    print("  ✅ Processor loaded")
+    project_root = Path(__file__).resolve().parent.parent
+    dataset_path = project_root / "data" / "processed" / "train_nisqa_llama_10k.json"
+    data_root = project_root / "data"
+    ds_config = project_root / "configs" / "ds_zero2.json"
 
-# ── 2. Dataset ───────────────────────────────────────────────────────────
-if is_main:
-    print("\nStep 2: Creating dataset...")
-full_dataset = SFTDataset(
-    json_path="data/processed/train_nisqa_llama_10k.json",
-    data_root="data",
-    max_samples=MAX_SAMPLES,
-)
-val_size = max(1, int(len(full_dataset) * 0.33))
-train_size = len(full_dataset) - val_size
-train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
-if is_main:
-    print(f"  Train: {len(train_dataset)}, Val: {len(val_dataset)}")
+    if not dataset_path.exists():
+        pytest.skip(f"Dataset not found: {dataset_path}")
 
-collator = Qwen2AudioCollator(processor)
-if is_main:
-    print("  ✅ Dataset ready")
+    processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 
-# ── 3. Model ─────────────────────────────────────────────────────────────
-dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
-if is_main:
-    print(f"\nStep 3: Loading model {MODEL_ID} (dtype={dtype})...")
-model = Qwen2AudioForConditionalGeneration.from_pretrained(
-    MODEL_ID,
-    dtype=dtype,
-)
-model.config.use_cache = False
-if is_main:
-    print("  ✅ Model loaded")
+    full_dataset = SFTDataset(
+        json_path=dataset_path,
+        data_root=data_root,
+        max_samples=MAX_SAMPLES,
+    )
+    val_size = max(1, int(len(full_dataset) * 0.33))
+    train_size = len(full_dataset) - val_size
+    train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
 
-# ── 4. Training with DeepSpeed ───────────────────────────────────────────
-if is_main:
-    print("\nStep 4: Running 2 training steps with DeepSpeed ZeRO-2...")
-training_args = TrainingArguments(
-    output_dir=OUTPUT_DIR,
-    per_device_train_batch_size=BATCH_SIZE,
-    gradient_accumulation_steps=1,
-    learning_rate=1e-5,
-    num_train_epochs=1,
-    max_steps=2,
-    bf16=(dtype == torch.bfloat16),
-    fp16=(dtype == torch.float16),
-    logging_steps=1,
-    save_strategy="no",
-    eval_strategy="steps",
-    eval_steps=2,
-    optim="adamw_torch",
-    gradient_checkpointing=True,
-    deepspeed="configs/ds_zero2.json",
-    remove_unused_columns=False,
-)
+    collator = Qwen2AudioCollator(processor)
 
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=train_dataset,
-    eval_dataset=val_dataset,
-    data_collator=collator,
-    processing_class=processor,
-)
+    dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+    model = Qwen2AudioForConditionalGeneration.from_pretrained(
+        MODEL_ID,
+        torch_dtype=dtype,
+    )
+    model.config.use_cache = False
 
-trainer.train()
+    output_dir = tmp_path / "deepspeed_test"
+    training_args = TrainingArguments(
+        output_dir=str(output_dir),
+        per_device_train_batch_size=BATCH_SIZE,
+        max_steps=2,
+        logging_steps=1,
+        save_strategy="no",
+        eval_strategy="no",
+        bf16=(dtype == torch.bfloat16),
+        fp16=(dtype == torch.float16),
+        gradient_checkpointing=True,
+        deepspeed=str(ds_config),
+        remove_unused_columns=False,
+        report_to="none",
+    )
 
-if is_main:
-    print(f"\n✅ DeepSpeed ZeRO-2 training works! (2 steps completed)")
-    print(f"  To run real training: bsub < jobs/sft_hpc.sh")
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        data_collator=collator,
+        processing_class=processor,
+    )
 
-    # Clean up only from main process
-    shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
-    print("  Cleaned up test output directory.")
-
-# Clean up distributed process group
-if dist.is_initialized():
-    dist.destroy_process_group()
+    trainer.train()
+    assert output_dir.exists()
