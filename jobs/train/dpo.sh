@@ -4,7 +4,7 @@
 ### Submit with: bsub < jobs/train/dpo.sh
 ### ============================================================
 
-### -- Queue: L40S 48GB --
+### -- Queue: A40 40GB --
 #BSUB -q gpua40
 
 ### -- Job name --
@@ -36,7 +36,7 @@ PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
 cd "$PROJECT_DIR"
 
 mkdir -p logs
-mkdir -p models/dpo_final
+mkdir -p models/dpo_hf_warmup_fix
 
 module load cuda/11.8 || true
 source .venv/bin/activate
@@ -60,8 +60,8 @@ nvidia-smi
 torchrun \
     --nproc_per_node=2 \
     src/asa/dpo-finetune.py \
-    --model-name dpo_final \
-    --model-id "models/sft_warmup" \
+    --model-name dpo_hf_warmup_fix \
+    --model-id Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup \
     --json-path "data/processed/train_dpo_10k.json" \
     --data-root "data" \
     --batch-size 2 \
@@ -71,7 +71,7 @@ torchrun \
     --gradient-accumulation-steps 8 \
     --bf16 \
     --deepspeed "configs/ds_zero2.json" \
-    --wandb-run-name "dpo-10k-3ep"
+    --wandb-run-name "dpo-10k-2ep-hf-warmup-fix"
 
 echo "=========================================="
 echo "DPO Training complete: $(date)"
