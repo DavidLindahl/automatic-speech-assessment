@@ -33,7 +33,7 @@ for key, tensor in batch.items():
 labels = batch["labels"][0]
 num_masked = (labels == -100).sum().item()
 num_total = labels.shape[0]
-print(f"\nLabel masking (sample 0):")
+print("\nLabel masking (sample 0):")
 print(f"  Total tokens:  {num_total}")
 print(f"  Masked (-100): {num_masked}  (prompt + padding)")
 print(f"  Active:        {num_total - num_masked}  (response tokens)")

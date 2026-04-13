@@ -133,10 +133,11 @@ class ALLDDPOTrainer(Trainer):
 @app.command()
 def train(
     model_id: str = typer.Option(
-        "models/sft_warmup", help="Path to SFT Audio model (Policy)."
+        "Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup",
+        help="Path to SFT Audio model (Policy).",
     ),
     ref_model_id: str = typer.Option(
-        "Qwen/Qwen2-7B-Instruct", help="Path to Expert Text model (Reference)."
+        "Qwen/Qwen2-7B", help="Path to Expert Text model (Reference)."
     ),
     json_path: Path = typer.Option(
         Path("data/processed/train_dpo_10k.json"), help="DPO dataset."
