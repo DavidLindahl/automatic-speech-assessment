@@ -8,6 +8,7 @@ Contains:
 
 import json
 import os
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -25,6 +26,7 @@ from asa.processed_data import (
     load_processed_records,
     resolve_audio_path,
 )
+
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
@@ -168,6 +170,7 @@ class SFTDataset(Dataset):
     ):
         self.data_root = Path(data_root)
         self.samples = self._load_jsonl(Path(json_path))
+        self.samples = [item for item in self.samples if self._is_valid(item)]
 
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
@@ -179,22 +182,38 @@ class SFTDataset(Dataset):
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
-        """Parse line-delimited JSON (one JSON object per '{...}' block)."""
-        text = path.read_text(encoding="utf-8")
+        """Parse line-delimited JSON (one JSON object per line).
 
-        items = []
-        decoder = json.JSONDecoder()
-        idx = 0
-        while idx < len(text):
-            # Skip whitespace
-            while idx < len(text) and text[idx] in " \t\n\r":
-                idx += 1
-            if idx >= len(text):
-                break
-            obj, end_idx = decoder.raw_decode(text, idx)
-            items.append(obj)
-            idx = end_idx
+        Keeps memory usage reasonable by reading line-by-line.
+        """
+        items: list[dict] = []
+        with path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                items.append(json.loads(line))
         return items
+
+    @staticmethod
+    def _is_valid(item):
+        if (
+            not item.get("audios")
+            or not isinstance(item["audios"], list)
+            or len(item["audios"]) == 0
+        ):
+            return False
+        # Check if the path exists
+        raw_path = item["audios"][0]
+        candidate = Path(raw_path)
+        if candidate.exists():
+            return True
+        normalized = raw_path.replace("\\", "/")
+        if "NISQA_Corpus/" in normalized:
+            relative = normalized.split("NISQA_Corpus/", maxsplit=1)[1]
+            root = Path("data")
+            return (root / "raw" / "NISQA_Corpus" / relative).exists()
+        return False
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
         """Map stored audio paths to a local path."""
@@ -264,14 +283,14 @@ class Qwen2AudioCollator:
 
         batch = self.processor(
             text=full_texts,
-            audio=audios,
+            audios=audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
         )
         prompt_batch = self.processor(
             text=prompts,
-            audio=audios,
+            audios=audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
@@ -499,6 +518,9 @@ class ALLDDPOCollator:
 
     def _build_labels(self, batch, prompt_batch, tokenizer):
         """Mask prompt and padding tokens with -100 in labels."""
+        if prompt_batch is None or "input_ids" not in prompt_batch:
+            return None  # Should not happen with correct processor calls
+
         labels = batch["input_ids"].clone()
         for i in range(len(prompt_batch["input_ids"])):
             prompt_len = prompt_batch["input_ids"][i].ne(tokenizer.pad_token_id).sum()
@@ -532,7 +554,7 @@ class ALLDDPOCollator:
 
         policy_inputs = self.audio_processor(
             text=policy_texts,
-            audio=concat_audios,
+            audios=concat_audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
@@ -540,7 +562,7 @@ class ALLDDPOCollator:
 
         policy_prompt_inputs = self.audio_processor(
             text=policy_prompts,
-            audio=concat_audios,
+            audios=concat_audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
@@ -660,7 +682,7 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
 
         policy_inputs = self.audio_processor(
             text=policy_texts,
-            audio=concat_audios,
+            audios=concat_audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,
@@ -668,7 +690,7 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
 
         policy_prompt_inputs = self.audio_processor(
             text=policy_prompts,
-            audio=concat_audios,
+            audios=concat_audios,
             sampling_rate=TARGET_SR,
             return_tensors="pt",
             padding=True,

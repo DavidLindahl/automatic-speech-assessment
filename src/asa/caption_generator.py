@@ -9,21 +9,40 @@ It supports both individual speech quality evaluation (MOS prediction) and A/B t
 
 import os
 import json
+import sys
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 import typer
-from typing import Dict, Optional
-import google.generativeai as genai
+import pandas as pd
+from google import genai
+from google.genai import types
+
+if __package__ is None or __package__ == "":
+    sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from asa.processed_data import write_processed_records
 
 # Configure Gemini API
 # Assumes GEMINI_API_KEY is set in environment variables
-if "GEMINI_API_KEY" in os.environ:
-    genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-else:
-    print("Warning: GEMINI_API_KEY environment variable not found. API calls may fail.")
+_GEMINI_CLIENT: Optional[genai.Client] = None
+
+
+def get_client() -> genai.Client:
+    """Return a singleton Gemini client configured from env."""
+    global _GEMINI_CLIENT
+    if _GEMINI_CLIENT is not None:
+        return _GEMINI_CLIENT
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print(
+            "Warning: GEMINI_API_KEY environment variable not found. API calls may fail."
+        )
+    _GEMINI_CLIENT = genai.Client(api_key=api_key)
+    return _GEMINI_CLIENT
+
 
 # Model configuration
-MODEL_NAME = "gemini-2.5-flash-lite"
+MODEL_NAME = "gemini-3.1-flash-lite-preview"
 
 app = typer.Typer()
 
@@ -42,15 +61,16 @@ def call_gemini_api(prompt: str, temperature: float = 1.1, top_p: float = 0.90) 
         The model's response as a string
     """
     try:
-        model = genai.GenerativeModel(
-            MODEL_NAME,
-            generation_config=genai.GenerationConfig(
+        client = get_client()
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=prompt,
+            config=types.GenerateContentConfig(
                 temperature=temperature,
                 top_p=top_p,
             ),
         )
-        response = model.generate_content(prompt)
-        return response.text
+        return response.text or ""
     except Exception as e:
         print(f"Error calling Gemini API: {e}")
         return f"Error: {str(e)}"
@@ -109,12 +129,13 @@ def generate_ab_test_prompt(
     Returns:
         The formatted prompt string
     """
-    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are rating from 1 to 5. For all these factors, higher is better.
+    prompt = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are rating from 1 to 5. For all these factors, higher is better.
 (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
 (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
 (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
-(4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
-I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly select 1~3 aspects from noise, coloration, and loudness with an obvious gap (usually score difference more than 0.5), then compare them according to these distinctions. Finally, please give your preference with a reasonable analysis."""
+(4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
+(5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly select 1~3 aspects from (2)~(5) with an obvious gap (usually score difference more than 0.5), then compare them according to these distinctions. Finally, please give your preference with a reasonable analysis."""
 
     # Add metadata for both speech samples
     prompt += f"\nSpeechA: {json.dumps(metadata_a)}"
@@ -195,9 +216,9 @@ def process_single_file(input_path: str, output_path: str):
                 result_item["audios"] = []
 
             result_item["response"] = response
-            result_item[
-                "query"
-            ] = "Please describe and evaluate the synthetic speech<audio>."
+            result_item["query"] = (
+                "Please describe and evaluate the synthetic speech<audio>."
+            )
 
             # Flatten metadata
             for k, v in metadata.items():
@@ -229,9 +250,9 @@ def process_single_file(input_path: str, output_path: str):
             result_item["audios"] = audios
 
             result_item["response"] = ab_result
-            result_item[
-                "query"
-            ] = "Please perform A/B preference test between<audio>and<audio>, including a tie."
+            result_item["query"] = (
+                "Please perform A/B preference test between<audio>and<audio>, including a tie."
+            )
 
             # Flatten metadata with A_ and B_ prefixes
             for k, v in metadata_a.items():
@@ -265,6 +286,145 @@ def process_single_file(input_path: str, output_path: str):
     write_processed_records(output_path, results)
 
     print(f"Processing complete. Results saved to {output_path}")
+
+
+META_FIELDS = ("mos", "noi", "col", "dis", "loud")
+
+
+def row_to_meta(row: pd.Series) -> Dict[str, float]:
+    """Convert a CSV row into a metadata dict."""
+    return {field: float(row[field]) for field in META_FIELDS}
+
+
+def sample_ab_pairs_for_corpus(
+    corpus: str,
+    data_root: Path,
+    pairs_per_corpus: Optional[int],
+    min_mos_gap: float,
+    seed: int,
+) -> List[Dict[str, Any]]:
+    """Sample non-overlapping A/B pairs from one NISQA corpus with MOS-gap filtering."""
+    csv_path = data_root / corpus / f"{corpus}_file.csv"
+    if not csv_path.exists():
+        raise FileNotFoundError(f"Missing CSV file: {csv_path}")
+
+    df = pd.read_csv(csv_path).sample(frac=1, random_state=seed).reset_index(drop=True)
+    used_indices = set()
+    pairs: List[Dict[str, Any]] = []
+
+    for idx in range(len(df)):
+        if idx in used_indices:
+            continue
+        if pairs_per_corpus is not None and len(pairs) >= pairs_per_corpus:
+            break
+
+        row_a = df.iloc[idx]
+        for idx_b in range(idx + 1, len(df)):
+            if idx_b in used_indices:
+                continue
+            row_b = df.iloc[idx_b]
+            if abs(float(row_a["mos"]) - float(row_b["mos"])) < min_mos_gap:
+                continue
+
+            used_indices.update((idx, idx_b))
+            if float(row_a["mos"]) > float(row_b["mos"]):
+                winner = "A"
+            elif float(row_b["mos"]) > float(row_a["mos"]):
+                winner = "B"
+            else:
+                winner = "TIE"
+
+            pairs.append(
+                {
+                    "audio_a_path": str(data_root / corpus / row_a["filepath_deg"]),
+                    "audio_b_path": str(data_root / corpus / row_b["filepath_deg"]),
+                    "meta_a": row_to_meta(row_a),
+                    "meta_b": row_to_meta(row_b),
+                    "winner": winner,
+                }
+            )
+            break
+
+    return pairs
+
+
+DEFAULT_AB_TEST_CORPORA = ["NISQA_TEST_P501", "NISQA_VAL_LIVE", "NISQA_TEST_FOR"]
+
+
+@app.command()
+def generate_ab_test_set(
+    data_root: Path = typer.Option(
+        Path("data/raw/NISQA_Corpus"),
+        help="Root folder containing NISQA corpus subfolders.",
+    ),
+    corpora: str = typer.Option(
+        ",".join(DEFAULT_AB_TEST_CORPORA),
+        help="Comma-separated corpus names to sample A/B pairs from.",
+    ),
+    min_mos_gap: float = typer.Option(
+        0.5, help="Minimum MOS gap required between SpeechA and SpeechB."
+    ),
+    seed: int = typer.Option(42, help="Random seed for pair sampling."),
+    pairs_output: Path = typer.Option(
+        Path("data/processed/ab-test-set-pairs.json"),
+        help="Path to save sampled raw A/B pairs.",
+    ),
+    captions_output: Path = typer.Option(
+        Path("data/processed/ab-test-set-captions.json"),
+        help="Path to save generated A/B caption records (JSONL).",
+    ),
+    max_samples: Optional[int] = typer.Option(
+        None,
+        help="Cap number of pairs to caption. Useful for test runs (e.g. --max-samples 5).",
+    ),
+) -> None:
+    """Sample out-of-domain AB pairs and generate captions."""
+    selected_corpora = [c.strip() for c in corpora.split(",") if c.strip()]
+    if not selected_corpora:
+        raise typer.BadParameter("No corpora provided.")
+
+    pair_limit = None
+    all_pairs: List[Dict[str, Any]] = []
+
+    for i, corpus in enumerate(selected_corpora):
+        corpus_pairs = sample_ab_pairs_for_corpus(
+            corpus=corpus,
+            data_root=data_root,
+            pairs_per_corpus=pair_limit,
+            min_mos_gap=min_mos_gap,
+            seed=seed + i,
+        )
+        all_pairs.extend(corpus_pairs)
+        print(f"Sampled {len(corpus_pairs)} A/B pairs from {corpus}")
+
+    pairs_output.parent.mkdir(parents=True, exist_ok=True)
+    pairs_output.write_text(json.dumps(all_pairs, indent=2), encoding="utf-8")
+    print(f"Saved {len(all_pairs)} raw pairs to {pairs_output}")
+
+    pairs_to_caption = all_pairs if max_samples is None else all_pairs[:max_samples]
+    print(
+        f"Generating Gemini captions for {len(pairs_to_caption)}/{len(all_pairs)} A/B pairs..."
+    )
+    results = []
+    for i, item in enumerate(pairs_to_caption, start=1):
+        ab_prompt = generate_ab_test_prompt(item["meta_a"], item["meta_b"])
+        ab_result = call_gemini_api(ab_prompt)
+        ab_summary = summarize_ab_test(ab_result)
+
+        result_item: Dict[str, Any] = {
+            "audios": [item["audio_a_path"], item["audio_b_path"]],
+            "response": ab_result,
+            "query": "Please perform A/B preference test between<audio>and<audio>, including a tie.",
+            "winner": item["winner"],
+            "winner_predicted": ab_summary,
+        }
+        result_item.update({f"A_{k}": v for k, v in item["meta_a"].items()})
+        result_item.update({f"B_{k}": v for k, v in item["meta_b"].items()})
+        results.append(result_item)
+        print(f"Processed {i}/{len(pairs_to_caption)}")
+
+    write_processed_records(captions_output, results)
+    print(f"Saved A/B caption dataset to {captions_output}")
 
 
 @app.command()

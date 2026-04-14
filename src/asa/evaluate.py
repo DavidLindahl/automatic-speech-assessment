@@ -16,6 +16,59 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 app = typer.Typer(help="Evaluate fine-tuned Qwen2-Audio models on standard datasets.")
 
 
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    model_path: Optional[str] = typer.Option(
+        None, help="Hub repo ID or local checkpoint path (global default)."
+    ),
+    output_dir: Optional[Path] = typer.Option(
+        None, help="Global output directory for evaluation results."
+    ),
+    data_root: Optional[Path] = typer.Option(
+        None, help="Global data root to resolve audio paths."
+    ),
+    dataset_paths: Optional[List[Path]] = typer.Option(
+        None, "--dataset-path", help="Paths to the test JSONL datasets (global)."
+    ),
+    batch_size: int = typer.Option(4, "--batch-size", help="Global inference batch size."),
+    max_samples: Optional[int] = typer.Option(
+        None, "--max-samples", help="Global max samples to evaluate (for testing)."
+    ),
+):
+    """Top-level callback to accept global options that subcommands can inherit."""
+    ctx.ensure_object(dict)
+    if model_path is not None:
+        ctx.obj["model_path"] = model_path
+    if output_dir is not None:
+        ctx.obj["output_dir"] = output_dir
+    if data_root is not None:
+        ctx.obj["data_root"] = data_root
+    if dataset_paths is not None:
+        ctx.obj["dataset_paths"] = dataset_paths
+    ctx.obj["batch_size"] = batch_size
+    ctx.obj["max_samples"] = max_samples
+
+    # If user passed dataset paths at top-level and didn't invoke a subcommand,
+    # run the default `eval-mos` command for convenience (keeps backwards-compatibility
+    # with scripts that passed options at the top level).
+    if ctx.invoked_subcommand is None:
+        if ctx.obj.get("dataset_paths"):
+            # Call eval_mos with the collected globals; subcommand flags override.
+            eval_mos(
+                ctx,
+                dataset_paths=ctx.obj.get("dataset_paths"),
+                model_path=ctx.obj.get("model_path", None),
+                data_root=ctx.obj.get("data_root", Path("data")),
+                max_samples=ctx.obj.get("max_samples", None),
+                output_dir=ctx.obj.get("output_dir", None),
+                batch_size=ctx.obj.get("batch_size", 4),
+            )
+        else:
+            # No subcommand and no dataset paths: show help
+            print("No subcommand provided. Use --help to list available commands.")
+
+
 def extract_mos(text: str) -> float:
     """Extract numeric MOS score from generated text."""
     # Look for explicit MOS mentions e.g., "MOS of 4.3" or "MOS score is 4.3"
@@ -32,11 +85,12 @@ def extract_mos(text: str) -> float:
 
 @app.command()
 def eval_mos(
+    ctx: typer.Context,
     dataset_paths: List[Path] = typer.Option(
         ..., "--dataset-path", help="Paths to the test JSONL datasets."
     ),
-    model_path: str = typer.Option(
-        ASAModel.SFT, help="Hub repo ID or local checkpoint path."
+    model_path: Optional[str] = typer.Option(
+        None, help="Hub repo ID or local checkpoint path (overrides global)."
     ),
     data_root: Path = typer.Option(
         Path("data"), help="Root directory that contains the raw audio tree."
@@ -58,6 +112,15 @@ def eval_mos(
     except LookupError:
         nltk.download("punkt", quiet=True)
 
+    # Resolve model_path: prefer the command option, then the global, then default
+    if model_path is None:
+        model_path = ctx.obj.get("model_path", None)
+    if model_path is None:
+        model_path = ASAModel.SFT
+
+    # Resolve output_dir: prefer command option, then global, then default
+    if output_dir is None:
+        output_dir = ctx.obj.get("output_dir", None)
     if output_dir is None:
         model_name = Path(model_path).name
         output_dir = Path(f"results/evaluation/{model_name}_mos")
@@ -201,11 +264,12 @@ def extract_winner(text: str) -> str:
 
 @app.command()
 def eval_ab(
+    ctx: typer.Context,
     dataset_paths: List[Path] = typer.Option(
         ..., "--dataset-path", help="Paths to A/B test JSONL datasets."
     ),
-    model_path: str = typer.Option(
-        ASAModel.SFT_AB, help="Path or Hub ID to the model checkpoint."
+    model_path: Optional[str] = typer.Option(
+        None, help="Path or Hub ID to the model checkpoint (overrides global)."
     ),
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to evaluate (for testing)."
@@ -223,6 +287,15 @@ def eval_ab(
     except LookupError:
         nltk.download("punkt", quiet=True)
 
+    # Resolve model_path: prefer the command option, then the global, then default
+    if model_path is None:
+        model_path = ctx.obj.get("model_path", None)
+    if model_path is None:
+        model_path = ASAModel.SFT_AB
+
+    # Resolve output_dir: prefer command option, then global, then default
+    if output_dir is None:
+        output_dir = ctx.obj.get("output_dir", None)
     if output_dir is None:
         model_name = Path(model_path).name
         output_dir = Path(f"results/evaluation/{model_name}_ab")

@@ -5,7 +5,7 @@
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
-#BSUB -q gpua40
+#BSUB -q gpua10
 
 ### -- Job name --
 #BSUB -J evaluate-model
@@ -56,8 +56,8 @@ nvidia-smi
 
 
 # Define which model to evaluate
-MODEL_PATH="models/sft_warmup"
-OUTPUT_PATH="results/evaluation/sft_warm_eval"
+MODEL_PATH="models/sft_full"
+OUTPUT_PATH="results/evaluation/sft_full_eval"
 
 # Define test datasets (you can add more here)
 DATASETS=(

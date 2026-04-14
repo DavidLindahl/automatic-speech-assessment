@@ -37,7 +37,7 @@ dependencies = [
     "torchaudio==2.6.0",
     "typer==0.15.1",
     "uvicorn==0.34.0",
-    "transformers>=4.44.0",
+    "transformers==4.48.3",
     "accelerate>=0.26.0",
     "typing>=3.10.0.0",
     "google-generativeai>=0.8.3",
@@ -58,6 +58,7 @@ dependencies = [
     "torchcodec>=0.10.0",
     "typer-slim>=0.21.2",
     "wandb>=0.25.0",
+    "google-genai>=1.68.0",
 ]
 
 [project.scripts]
@@ -104,6 +105,7 @@ line-length = 88
 markers = [
     "slow: tests that load a full model checkpoint (skip with -m 'not slow')",
 ]
+pythonpath = ["src"]
 
 [tool.coverage.run]
 omit = ["tests/*"]

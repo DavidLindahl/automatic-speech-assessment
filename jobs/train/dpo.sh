@@ -5,10 +5,10 @@
 ### ============================================================
 
 ### -- Queue: L40S 48GB --
-#BSUB -q gpul40s
+#BSUB -q gpua40
 
 ### -- Job name --
-#BSUB -J qwen2-audio-dpo
+#BSUB -J qwen2-audio-dpo-a40
 
 ### -- CPU cores (min 4 per GPU) --
 #BSUB -n 8

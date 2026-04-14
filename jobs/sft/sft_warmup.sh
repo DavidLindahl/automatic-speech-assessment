@@ -4,16 +4,16 @@
 ### Submit with: bsub < jobs/sft/sft_warmup.sh
 ### ============================================================
 
-#BSUB -q gpul40s
-#BSUB -J sft-medium
+#BSUB -q gpua40
+#BSUB -J sft-warmup
 #BSUB -n 8
 #BSUB -gpu "num=2:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
 #BSUB -W 3:00
-#BSUB -o logs/sft_medium_%J.out
-#BSUB -e logs/sft_medium_%J.err
+#BSUB -o logs/sft_warmup_%J.out
+#BSUB -e logs/sft_warmup_%J.err
 
 set -euo pipefail
 
