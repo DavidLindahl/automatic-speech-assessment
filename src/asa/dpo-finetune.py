@@ -93,7 +93,9 @@ class ALLDDPOTrainer(Trainer):
                 reduction="none",
             ).view(labels.shape)
 
-            return (per_token_logprobs * loss_mask).sum(dim=1)
+            return (per_token_logprobs * loss_mask).sum(dim=1) / loss_mask.sum(
+                dim=1
+            ).clamp(min=1)
 
         policy_logprobs = get_logprobs(policy_logits, policy_inputs["labels"])
         ref_logprobs = get_logprobs(ref_logits, ref_inputs["labels"])

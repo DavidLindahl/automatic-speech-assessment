@@ -38,9 +38,12 @@ def generate(
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to process (for debugging)."
     ),
-    ab: bool = typer.Option(
-        False, help="Whether to run in A/B test inference mode."
+    ab: bool = typer.Option(False, help="Whether to run in A/B test inference mode."),
+    do_sample: bool = typer.Option(
+        True, help="Enable nucleus sampling for diverse rejecteds."
     ),
+    temperature: float = typer.Option(1.1, help="Sampling temperature (paper: 1.1)."),
+    top_p: float = typer.Option(0.9, help="Nucleus sampling top_p (paper: 0.9)."),
 ):
     """Run inference to generate 'rejected' responses and create a DPO dataset."""
 
@@ -59,10 +62,12 @@ def generate(
     audio_paths = []
     if ab:
         for item in data:
-            audio_paths.append((
-                str(resolve_audio_path(item["audios"][0], data_root)),
-                str(resolve_audio_path(item["audios"][1], data_root))
-            ))
+            audio_paths.append(
+                (
+                    str(resolve_audio_path(item["audios"][0], data_root)),
+                    str(resolve_audio_path(item["audios"][1], data_root)),
+                )
+            )
     else:
         for item in data:
             audio_paths.append(str(resolve_audio_path(item["audios"][0], data_root)))
@@ -77,6 +82,9 @@ def generate(
         ab_mode=ab,
         device=device,
         batch_size=batch_size,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
     )
 
     logging.info("Formatting DPO dataset...")

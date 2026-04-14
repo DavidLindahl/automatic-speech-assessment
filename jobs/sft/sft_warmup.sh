@@ -5,13 +5,13 @@
 ### ============================================================
 
 #BSUB -q gpua40
-#BSUB -J sft-warmup
+#BSUB -J sft-warmup-full
 #BSUB -n 8
 #BSUB -gpu "num=2:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
-#BSUB -W 3:00
+#BSUB -W 8:00
 #BSUB -o logs/sft_warmup_%J.out
 #BSUB -e logs/sft_warmup_%J.err
 
@@ -44,10 +44,10 @@ torchrun \
     --model-name sft_warmup \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
-    --max-samples 5000 \
     --batch-size 4 \
     --epochs 2 \
+    --val-split 0.05 \
     --eval-steps 50 \
-    --wandb-run-name "sft-warmup"
+    --wandb-run-name "sft-warmup-full-10k"
 
 echo "Training complete: $(date)"

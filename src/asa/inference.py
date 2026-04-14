@@ -39,10 +39,16 @@ class ASAModel(str):
     SFT = "Leng2beat/speech-quality-assessement-qwen2audio-full-sft"
 
     # A/B preference model (two-audio comparative quality assessment)
-    SFT_AB = "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"  # TODO: update when pushed
+    SFT_AB = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"
+    )  # TODO: update when pushed
     # AALD distillation variants
-    AALD_AB = "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"  # TODO: update when pushed
-    AALD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
+    AALD_AB = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"
+    )  # TODO: update when pushed
+    AALD = (
+        "Leng2beat/speech-quality-assessement-qwen2audio-aald"
+    )  # TODO: update when pushed
 
 
 def load_model(
@@ -93,6 +99,9 @@ def run_inference(
     device: Optional[str] = None,
     max_new_tokens: int = 100,
     batch_size: int = 4,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> List[str]:
     """Generate text responses for a list of audio files.
 
@@ -101,13 +110,16 @@ def run_inference(
 
     Parameters
     ----------
-    audio_paths    : In normal mode — paths to ``.wav`` files.
-                     In A/B mode — an iterable of ``(path_a, path_b)`` tuples.
+    audio_paths    : In normal mode, paths to ``.wav`` files.
+                     In A/B mode, an iterable of ``(path_a, path_b)`` tuples.
     ab_mode        : When ``True``, treat ``audio_paths`` as pairs
                      (A/B comparative preference format).
     device         : Inferred from model parameters if not given.
     max_new_tokens : Generation budget per sample.
     batch_size     : Number of files (or pairs) to process at once.
+    do_sample      : When ``True``, enable stochastic decoding.
+    temperature    : Softmax temperature used when ``do_sample`` is ``True``.
+    top_p          : Nucleus sampling cutoff used when ``do_sample`` is ``True``.
 
     Returns
     -------
@@ -119,6 +131,16 @@ def run_inference(
     audio_paths = list(audio_paths)
     sr = processor.feature_extractor.sampling_rate
     all_responses: List[str] = []
+
+    gen_kwargs = {"max_new_tokens": max_new_tokens}
+    if do_sample:
+        gen_kwargs.update(
+            {
+                "do_sample": True,
+                "temperature": temperature,
+                "top_p": top_p,
+            }
+        )
 
     if ab_mode:
         # ------------------------------------------------------------------
@@ -149,7 +171,7 @@ def run_inference(
             input_len = batch["input_ids"].shape[1]
 
             with torch.no_grad():
-                out_ids = model.generate(**batch, max_new_tokens=max_new_tokens)
+                out_ids = model.generate(**batch, **gen_kwargs)
 
             response_ids = out_ids[:, input_len:]
             decoded = processor.batch_decode(response_ids, skip_special_tokens=True)
@@ -181,7 +203,7 @@ def run_inference(
             input_len = batch["input_ids"].shape[1]
 
             with torch.no_grad():
-                out_ids = model.generate(**batch, max_new_tokens=max_new_tokens)
+                out_ids = model.generate(**batch, **gen_kwargs)
 
             # Strip prompt tokens so we only return the model's response
             response_ids = out_ids[:, input_len:]
@@ -211,6 +233,15 @@ def infer(
     ),
     max_new_tokens: int = typer.Option(100, help="Max tokens to generate per sample."),
     batch_size: int = typer.Option(4, help="Batch size."),
+    do_sample: bool = typer.Option(
+        False, "--do-sample", help="Enable stochastic decoding."
+    ),
+    temperature: float = typer.Option(
+        1.0, "--temperature", help="Softmax temperature when --do-sample is set."
+    ),
+    top_p: float = typer.Option(
+        1.0, "--top-p", help="Nucleus sampling cutoff when --do-sample is set."
+    ),
     output: Optional[Path] = typer.Option(
         None, "--output", "-o", help="Write responses to a text file (one per line)."
     ),
@@ -232,6 +263,9 @@ def infer(
             ab_mode=True,
             max_new_tokens=max_new_tokens,
             batch_size=batch_size,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
         )
     else:
         responses = run_inference(
@@ -240,6 +274,9 @@ def infer(
             audio_paths,
             max_new_tokens=max_new_tokens,
             batch_size=batch_size,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
         )
 
     for path, response in zip(
