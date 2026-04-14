@@ -1,130 +1,240 @@
 # Session handoff — DPO collapse fix
 
+Written for the agent running on the DTU HPC node
+(`/work3/s234817/automatic-speech-assessment`). Everything below is what the
+previous session did off-cluster and what still has to happen on-cluster.
+
 ## Current branch
 
-`fix/dpo-collapse-warmup` (commit `988a640`, not pushed)
+`fix/dpo-collapse-warmup` — pushed to origin, two commits on top of `main`:
 
-## Context
+- `988a640` fix: address DPO mode collapse at length-bias and data-gen layers
+- `b89a2ce` docs: add session handoff with post-warmup checklist
 
-The `dpo_hf_warmup_fix` run collapsed: 5 unique predictions and MOS=3.2
-across 680 eval samples on FOR/LIVE/P501. Root cause is two compounding bugs,
-both fixed on this branch at the warmup layer:
-
-1. `ALLDDPOTrainer.get_logprobs` summed log-probs instead of averaging. In the
-   cross-modal ALLD setup the reference sees a different prompt than the policy,
-   so the standard DPO length cancellation fails and the ~10-word mean length
-   gap between `rejected` and `chosen` leaks a free gradient signal. Fixed by
-   dividing by the per-sequence unmasked token count.
-2. `run_inference` had no sampling knobs, so `generate_dpo_data.py` built the
-   DPO rejected set using greedy decoding from an already-collapsed `sft_warmup`
-   (only 248 unique rejecteds across 10k pairs, mean rejected is 10 words
-   longer than chosen). Fixed by exposing `do_sample` / `temperature` / `top_p`
-   and defaulting `generate_dpo_data.py` to the paper Appendix B values
-   (`True`, `1.1`, `0.9`).
-
-A separate third issue is that `sft_warmup` was trained on only 5k samples with
-no val split and already collapsed to 8 unique outputs before DPO ever ran.
-`jobs/sft/sft_warmup.sh` has been retargeted at the full 10k with
-`--val-split 0.05`, job renamed `sft-warmup-full`, walltime bumped to 8h.
-
-## Changes already shipped on this branch
-
-- `src/asa/dpo-finetune.py` — length-normalised log-probs in `get_logprobs`
-- `src/asa/inference.py` — new `do_sample` / `temperature` / `top_p` params on
-  `run_inference` and the `asa-infer` CLI (defaults preserve greedy)
-- `src/asa/generate_dpo_data.py` — sampling flags with paper defaults, threaded
-  into `run_inference`
-- `jobs/sft/sft_warmup.sh` — full 10k corpus, `--val-split 0.05`, 8h walltime,
-  renamed job and W&B run
-
-Verification: `uv run ruff check` clean on all four files; all 65 non-slow
-tests pass.
-
-## What to do next — ordered
-
-### 1. Submit the warmup job (manual, HPC-only)
-
-On `/work3/s234817/automatic-speech-assessment`:
+Start by syncing:
 
 ```bash
-git fetch && git checkout fix/dpo-collapse-warmup
-bsub < jobs/sft/sft_warmup.sh
-bstat                    # watch status
-tail -f logs/sft_warmup_<jobid>.out
+cd /work3/s234817/automatic-speech-assessment
+git fetch
+git checkout fix/dpo-collapse-warmup
+git pull
 ```
 
-### 2. Evaluate the new warmup checkpoint
+## Context — why the previous DPO run was broken
 
-Before touching DPO, run the MOS evaluation against FOR, LIVE, and P501 and
-confirm the new warmup is healthy:
+The `dpo_hf_warmup_fix` run in `results/evaluation/dpo_hf_warmup_fix_eval/`
+collapsed catastrophically: only **5 unique predicted strings and a single
+predicted MOS (3.2) across 680 eval samples** on FOR / LIVE / P501. Diagnosis
+(full analysis in the prior chat) identified three compounding problems:
 
-- strictly more than 100 unique predicted strings across 680 eval samples
-  (old warmup: 8)
-- predicted MOS spans at least the `[1.4, 4.6]` range seen in `sft_full_eval`
-- MAE comparable to or better than `sft_full_eval` (0.67). If warmup MAE is
-  worse than 1.0, something is still wrong — do not proceed to DPO.
+1. **Length bias in the DPO loss.** `ALLDDPOTrainer.get_logprobs` in
+   `src/asa/dpo-finetune.py` summed per-token log-probs instead of averaging.
+   In standard DPO this partly cancels because policy and reference share the
+   prompt, but in ALLD the reference sees the meta-info text prompt while the
+   policy sees the audio prompt, so cancellation breaks. Combined with a
+   training set where `rejected` is on average **10 words longer** than
+   `chosen` (43.6 vs 33.6), this leaked a free gradient signal from length
+   alone. Easiest way to minimise the loss was to collapse to a short generic
+   string — exactly what happened.
 
-### 3. Regenerate DPO pairs (post-warmup)
+2. **Greedy DPO-data generation.** `src/asa/generate_dpo_data.py` builds
+   `rejected` by calling `run_inference` on the `sft_warmup` checkpoint. But
+   `run_inference` had **no sampling knobs**, so it was greedy. Sampling
+   greedily from an already-collapsed warmup produced only **248 unique
+   rejected strings across 10000 pairs** (top rejected string appears 1744×).
+   The paper (Appendix B) explicitly uses `temperature=1.1, top_p=0.9` for
+   DPO data generation.
 
-Run `uv run src/asa/generate_dpo_data.py` against the new `models/sft_warmup`.
-The defaults now match the paper (`do_sample=True`, `temperature=1.1`,
-`top_p=0.9`). Sanity-check the output file:
+3. **SFT warmup was already collapsed.** The old `sft_warmup.sh` trained on
+   `--max-samples 5000` for 2 epochs with no val split. The resulting checkpoint
+   produces only **8 unique outputs across 680 eval samples** (see
+   `results/evaluation/sft_warm_eval/`). Every subsequent DPO pass was
+   amplifying a collapsed base.
 
-- unique rejected strings should be in the thousands, not 248
-- mean length gap `|rejected - chosen|` in words should shrink substantially
+## Fixes already shipped on this branch
 
-### 4. Tighten DPO hyperparams
+Four files modified, 65 non-slow tests pass, ruff clean:
 
-Edit `jobs/train/dpo.sh`:
+- **`src/asa/dpo-finetune.py`** — length-normalised log-probs. `get_logprobs`
+  now divides by `loss_mask.sum(dim=1).clamp(min=1)`.
+- **`src/asa/inference.py`** — `run_inference` now accepts `do_sample`,
+  `temperature`, `top_p`. Defaults preserve greedy so `asa-infer` and
+  `evaluate.py` behaviour is unchanged. Threaded through the Typer `infer`
+  command.
+- **`src/asa/generate_dpo_data.py`** — same three flags added, defaults set to
+  the paper's Appendix B values (`True`, `1.1`, `0.9`). Defaults here are
+  diverse sampling, not greedy.
+- **`jobs/sft/sft_warmup.sh`** — `--max-samples 5000` removed, `--val-split 0.05`
+  added, walltime 3h → 8h, job renamed `sft-warmup-full`, W&B run
+  `sft-warmup-full-10k`.
 
-- `--lr 5e-6` → `--lr 1e-6`
-- `--epochs 2` → `--epochs 1`
-- Pass through `--save-strategy steps --save-steps 100 --save-total-limit 3`
-  (requires exposing these CLI flags in `src/asa/dpo-finetune.py` — currently
-  `save_strategy="no"` is hardcoded at around line 250)
+## What you (the HPC agent) need to do — in order
 
-### 5. Re-enable DPO validation
+### Step 1. Submit the warmup retrain
 
-In `src/asa/dpo-finetune.py`:
+```bash
+bsub < jobs/sft/sft_warmup.sh
+bstat
+```
 
-- flip `val_split=0` default back to `val_split=0.05` (currently disabled with
-  a comment claiming the custom Trainer can't eval — verify; `compute_loss`
-  overrides are compatible with standard `Trainer.evaluate`)
-- add a lightweight callback that logs on each eval step: mean generated length,
-  number of unique generations on a tiny held-out subset. Collapse shows up as
-  unique-count → 1 before loss ever goes weird.
+Watch it with `tail -f logs/sft_warmup_<jobid>.out`. Job trains Qwen2-Audio on
+the full 10k NISQA set for 2 epochs on 2× A40 with DeepSpeed Zero-2. Expect
+several hours. When it finishes, the checkpoint lands in `models/sft_warmup/`
+(same name as before — the old one is overwritten). W&B run name is
+`sft-warmup-full-10k` under project `qwen2-audio-sft-simple`.
 
-### 6. Submit DPO training
+### Step 2. Evaluate the new warmup before doing anything else
+
+Submit `jobs/evaluate/evaluate-sft-mos.sh` against the new
+`models/sft_warmup/` for all three test sets (FOR, LIVE, P501). Results land
+in `results/evaluation/sft_warm_eval/` (overwriting old).
+
+**Hard gates before moving on to DPO** (compare against the previous baseline
+numbers in the git history of `results/evaluation/sft_warm_eval/`):
+
+- **>100 unique predicted strings** across 680 samples (previous: 8)
+- Predicted MOS spans at least `[1.4, 4.6]` (previous: same range but only 8
+  distinct values)
+- **MAE ≤ 0.75** across the three test sets (previous: ~1.0, full SFT: 0.67)
+
+If any of those fails, stop and report — something else is wrong. Do not
+regenerate DPO data from a still-collapsed warmup.
+
+### Step 3. Regenerate the DPO training pairs
+
+From the repo root:
+
+```bash
+uv run src/asa/generate_dpo_data.py \
+    --input-json data/processed/train_nisqa_llama_10k.json \
+    --output-json data/processed/train_dpo_10k.json \
+    --model-path models/sft_warmup \
+    --data-root data \
+    --batch-size 8
+```
+
+The defaults now include `--do-sample`, `--temperature 1.1`, `--top-p 0.9`, so
+you don't need to pass those explicitly. Note this **overwrites**
+`data/processed/train_dpo_10k.json` — if you want to keep the old file for
+comparison, rename it first.
+
+**Sanity-check the new file.** Expected improvements over the old pairs:
+
+- Unique `rejected` strings should be in the low thousands, not 248
+- Mean word-length gap `len(rejected) - len(chosen)` should drop from ~10
+  toward 0
+- `chosen == response` should still be true for all 10k records (that part is
+  the paper's `y_t`, unchanged)
+
+Quick check:
+
+```python
+import json
+from collections import Counter
+decoder = json.JSONDecoder()
+text = open('data/processed/train_dpo_10k.json').read()
+records, idx = [], 0
+while idx < len(text):
+    while idx < len(text) and text[idx] in ' \n\r\t,': idx += 1
+    if idx >= len(text): break
+    obj, idx = decoder.raw_decode(text, idx)
+    records.append(obj)
+print(f'records: {len(records)}')
+print(f'unique rejected: {len(Counter(r["rejected"] for r in records))}')
+import statistics as s
+cw = [len(r['chosen'].split()) for r in records]
+rw = [len(r['rejected'].split()) for r in records]
+print(f'mean chosen words: {s.mean(cw):.1f}, mean rejected words: {s.mean(rw):.1f}')
+print(f'mean(rejected - chosen) words: {s.mean([b - a for a, b in zip(cw, rw)]):.1f}')
+```
+
+### Step 4. Tighten the DPO hyperparameters and re-enable validation
+
+Before re-submitting DPO, make the following code/config changes. These are
+**not yet on the branch** — you have to edit them:
+
+**`src/asa/dpo-finetune.py`**
+
+- Change the `val_split` default from `0` back to `0.05`. The existing comment
+  claims eval is disabled because of the custom Trainer, but `compute_loss`
+  overrides are compatible with `Trainer.evaluate` — verify once, then re-enable.
+- Currently `save_strategy="no"` is hardcoded inside `TrainingArguments(...)`.
+  Either expose it via a CLI flag or just change it to `save_strategy="steps"`,
+  `save_steps=100`, `save_total_limit=3` so you can rewind if collapse starts.
+- Optionally add a simple eval callback that logs, on every eval step, the
+  number of unique generations and the mean generated length on a tiny held-out
+  subset. Mode collapse shows up as unique-count → 1 before the loss does
+  anything visible.
+
+**`jobs/train/dpo.sh`**
+
+- `--lr 5e-6` → `--lr 1e-6`. Cross-modal log-prob gradients are noisier than
+  plain DPO.
+- `--epochs 2` → `--epochs 1`.
+- Bump the job name / W&B run name so logs don't clobber the old run
+  (`dpo_hf_warmup_fix` → e.g. `dpo_warmup_v2`).
+- If you expose the save flags in the script, pass them through.
+
+### Step 5. Submit DPO
 
 ```bash
 bsub < jobs/train/dpo.sh
 ```
 
-Watch `rewards/accuracies`, `rewards/margins`, and eval output diversity in W&B
-(`speech-quality-DTU-bachelor/qwen2-audio-alld`). Kill early if diversity drops.
+Watch W&B project `qwen2-audio-alld` (entity `speech-quality-DTU-bachelor`).
+Kill early if `rewards/accuracies` saturates at 1.0 in the first 100 steps
+while eval output diversity collapses — that's the length-exploit signature
+returning, and means the normalisation didn't fully fix it.
 
-### 7. Optional — paper fidelity
+### Step 6. Evaluate the new DPO model
+
+Run the same eval as step 2 but against the new DPO checkpoint. The
+comparison the bachelor project cares about is `sft_full_eval` (MAE 0.67) vs.
+the new DPO run. A successful DPO should match or beat SFT on MAE **and**
+produce BLEU > 10 on the descriptive responses (old run: ~0.005).
+
+### Step 7 (optional, paper fidelity)
 
 Add the `dis` (discontinuity) dimension to the single-MOS expert prompt in
-`src/asa/data.py` (`DIMENSION_DEFINITIONS_MOS`, `EXPERT_FEW_SHOT_EXAMPLES_MOS`,
-`build_expert_prompt_MOS`, and `DPO_METADATA_FIELDS` in
-`src/asa/processed_data.py`). The paper's Appendix B uses all 5 dimensions for
-MOS prediction as well. This does not fix collapse; it just aligns the
-reimplementation with the paper.
+`src/asa/data.py` — paper's Appendix B uses all 5 dimensions even for the MOS
+task. Files/symbols to update:
 
-## Known gotchas discovered during this session
+- `DIMENSION_DEFINITIONS_MOS`, `EXPERT_TASK_MOS`, `EXPERT_FEW_SHOT_EXAMPLES_MOS`,
+  `build_expert_prompt_MOS` in `src/asa/data.py`
+- `DPO_METADATA_FIELDS` in `src/asa/processed_data.py`
 
-- `supervised-finetune.py` hardcodes `save_strategy="no"`. The warmup run only
-  persists final weights via the explicit `trainer.save_model(...)` call after
-  training ends. There is no "best checkpoint" available for DPO init — you
-  always get end-of-run weights. If warmup eval loss starts climbing, you have
-  no good checkpoint to roll back to.
-- `run_inference` still defaults to greedy. `generate_dpo_data.py` now defaults
-  to sampling, but the `asa-infer` CLI and `evaluate.py` still call
-  `run_inference` without sampling — that is intentional for evaluation
-  (deterministic, reproducible) but worth remembering.
-- `results/evaluation/sft_warm_eval/` already shows the warmup was collapsed
-  (8 unique preds). Use those numbers as the baseline the retrained warmup must
-  beat.
-- `wandb/` folder is missing locally — W&B runs live online under
-  `speech-quality-DTU-bachelor/qwen2-audio-dpo` and `qwen2-audio-sft-simple`.
+This does not fix anything; it just matches the paper exactly.
+
+## Gotchas to remember
+
+- `src/asa/supervised-finetune.py` hardcodes `save_strategy="no"`. The warmup
+  job only persists end-of-run weights via `trainer.save_model(...)` — there
+  is no "best eval loss" checkpoint to recover. If the retrained warmup still
+  looks bad, the only option is to retrain again with a smaller LR, not roll
+  back a step.
+- `run_inference` still defaults to greedy. That is intentional: `evaluate.py`
+  and `asa-infer` need deterministic output. Only `generate_dpo_data.py`
+  defaults to sampling.
+- The old `results/evaluation/sft_warm_eval/` files show the baseline to beat
+  (8 unique preds, MAE ~1.0). The new evaluation will overwrite them — stash
+  them somewhere first if you want side-by-side comparison.
+- `wandb/` is not checked into the repo; all run history lives at
+  `speech-quality-DTU-bachelor/qwen2-audio-sft-simple` (SFT) and
+  `speech-quality-DTU-bachelor/qwen2-audio-alld` (DPO).
+- DPO and warmup use different queues: warmup is `gpul40s` / L40S 48GB
+  (retargeted to `gpua40` in the current script — verify that's still what
+  you want before submitting), DPO is `gpua40` / A40 40GB.
+
+## Summary task list
+
+| # | Status | What |
+|---|--------|------|
+| 1 | todo | `bsub < jobs/sft/sft_warmup.sh` |
+| 2 | todo | Evaluate new warmup on FOR/LIVE/P501; gate on MAE ≤ 0.75 and >100 unique preds |
+| 3 | todo | Regenerate `train_dpo_10k.json` with sampling |
+| 4 | todo | Edit `dpo-finetune.py` (val_split=0.05, save_strategy=steps) + `jobs/train/dpo.sh` (lr 1e-6, epochs 1) |
+| 5 | todo | `bsub < jobs/train/dpo.sh` |
+| 6 | todo | Evaluate new DPO model; compare against sft_full (MAE 0.67, BLEU 0.10) |
+| 7 | optional | Add `dis` dimension to MOS expert prompt for paper fidelity |
+
+Report back with the step 2 and step 6 numbers — those are the gates.
