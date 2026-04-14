@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+from collections import Counter
 from pathlib import Path
 from typing import List, Optional
 
@@ -31,7 +32,9 @@ def main(
     dataset_paths: Optional[List[Path]] = typer.Option(
         None, "--dataset-path", help="Paths to the test JSONL datasets (global)."
     ),
-    batch_size: int = typer.Option(4, "--batch-size", help="Global inference batch size."),
+    batch_size: int = typer.Option(
+        4, "--batch-size", help="Global inference batch size."
+    ),
     max_samples: Optional[int] = typer.Option(
         None, "--max-samples", help="Global max samples to evaluate (for testing)."
     ),
@@ -200,12 +203,21 @@ def eval_mos(
         mse = sum(e**2 for e in mos_errors) / len(mos_errors)
         avg_bleu = sum(bleu_scores) / len(bleu_scores)
 
+        predicted_responses = [r["predicted_response"] for r in results]
+        unique_predictions = len(set(predicted_responses))
+        top_prediction_frequency = max(Counter(predicted_responses).values()) / max(
+            len(predicted_responses), 1
+        )
+
         logging.info("=" * 40)
         logging.info(f"EVALUATION RESULTS FOR {dataset_path.name}:")
         logging.info(f"Samples evaluated: {len(data)}")
         logging.info(f"MOS MAE (Mean Absolute Error): {mae:.4f}")
         logging.info(f"MOS MSE (Mean Squared Error):  {mse:.4f}")
         logging.info(f"Average BLEU Score:            {avg_bleu:.4f}")
+        logging.info(
+            f"Unique predictions: {unique_predictions} | Top prediction frequency: {top_prediction_frequency:.4f}"
+        )
         logging.info("=" * 40)
 
         dataset_name = dataset_path.stem
@@ -219,6 +231,8 @@ def eval_mos(
                         "mae": mae,
                         "mse": mse,
                         "bleu": avg_bleu,
+                        "unique_predictions": unique_predictions,
+                        "top_prediction_frequency": top_prediction_frequency,
                     },
                     "results": results,
                 },
