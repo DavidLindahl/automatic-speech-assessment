@@ -1,0 +1,62 @@
+index,filename_deg,model_used,mos,duration_seconds,gt_start,gt_end,pred_start,pred_end,iou,start_abs_err,end_abs_err,description,raw_response
+0,c09587_3_235_2_7_001-ch6-speaker_seg101.wav,gemini-3.1-pro-preview,1.8,8.0,6.567,7.792,6.0,8.0,0.6124999999999998,0.5670000000000002,0.20800000000000018,clipping distortion,"{
+  ""start_time_sec"": 6.0,
+  ""end_time_sec"": 8.0,
+  ""description"": ""clipping distortion""
+}"
+1,c01477_4_958_2_7_001-ch6-speaker_seg98.wav,gemini-3.1-pro-preview,1.8,8.0,3.156,5.796,0.0,8.0,0.33,3.156,2.2039999999999997,reverberation,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 8.0,
+  ""description"": ""reverberation""
+}"
+2,c00442_som_03502_02012401285_seg.wav,gemini-3.1-pro-preview,2.2,10.325,7.096,8.14,0.0,10.32,0.10116279069767446,7.096,2.1799999999999997,Room acoustics with noticeable reverberation,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 10.32,
+  ""description"": ""Room acoustics with noticeable reverberation""
+}"
+3,c05041_book_04474_chp_0040_reader_10730_1_seg.wav,gemini-3.1-pro-preview,1.8,12.0,0.697,1.862,0.0,0.1,0.0,0.697,1.762,Failed to parse model JSON output.,"API_ERROR: 504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'Deadline expired before operation could complete.', 'status': 'DEADLINE_EXCEEDED'}}"
+4,c04335_book_00839_chp_0013_reader_10759_4_seg.wav,gemini-3.1-pro-preview,1.8,7.0,4.041,5.979,0.0,7.0,0.2768571428571428,4.041,1.021,"A high-pitched, continuous tone is present throughout the clip.","{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 7.0,
+  ""description"": ""A high-pitched, continuous tone is present throughout the clip.""
+}"
+5,c03722_4_148_2_7_001-ch6-speaker_seg55.wav,gemini-3.1-pro-preview,1.6,11.0,3.506,4.712,0.0,11.0,0.10963636363636363,3.506,6.288,A continuous high-pitched ringing tone.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 11.0,
+  ""description"": ""A continuous high-pitched ringing tone.""
+}"
+6,c01865_1_965_2_7_001-ch6-speaker_seg9.wav,gemini-3.1-pro-preview,2.0,6.0,2.72,4.906,0.0,6.0,0.36433333333333323,2.72,1.0940000000000003,low-pass filter effect,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 6.0,
+  ""description"": ""low-pass filter effect""
+}"
+7,c01344_3_726_2_7_001-ch6-speaker_seg46.wav,gemini-3.1-pro-preview,1.2,10.0,0.0,3.3,0.0,10.0,0.32999999999999996,0.0,6.7,background noise,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 10.0,
+  ""description"": ""background noise""
+}"
+8,c09808_4_448_2_7_001-ch6-speaker_seg92.wav,gemini-3.1-pro-preview,1.6,9.0,3.278,5.738,4.0,6.0,0.6385011021307864,0.722,0.26199999999999957,"A robotic, metallic sound effect.","{
+  ""start_time_sec"": 4.0,
+  ""end_time_sec"": 6.0,
+  ""description"": ""A robotic, metallic sound effect.""
+}"
+9,c08926_mim_03397_00063835793_seg.wav,gemini-3.1-pro-preview,1.0,8.192,1.178,2.728,1.5,2.5,0.6451612903225805,0.32200000000000006,0.2280000000000002,short burst of noise,"{
+  ""start_time_sec"": 1.5,
+  ""end_time_sec"": 2.5,
+  ""description"": ""short burst of noise""
+}"
+10,c01174_1_965_2_7_001-ch6-speaker_seg20.wav,gemini-3.1-pro-preview,1.4,6.0,0.005,1.271,2.0,3.0,0.0,1.995,1.729,fast forward or rewind sound,"{
+  ""start_time_sec"": 2.0,
+  ""end_time_sec"": 3.0,
+  ""description"": ""fast forward or rewind sound""
+}"
+11,c09216_scm_03397_00578627240_seg.wav,gemini-3.1-pro-preview,2.0,8.96,1.172,4.129,0.0,8.96,0.3300223214285714,1.172,4.831000000000001,A continuous high-pitched tone.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 8.96,
+  ""description"": ""A continuous high-pitched tone.""
+}"
+12,c07888_3_509_2_7_001-ch6-speaker_seg69.wav,gemini-3.1-pro-preview,1.8,12.0,10.267,11.38,8.0,12.0,0.27825000000000033,2.2669999999999995,0.6199999999999992,"A high-pitched, continuous tone.","{
+  ""start_time_sec"": 8.0,
+  ""end_time_sec"": 12.0,
+  ""description"": ""A high-pitched, continuous tone.""
+}"
