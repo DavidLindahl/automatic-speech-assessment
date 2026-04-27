@@ -1,17 +1,28 @@
-<<<<<<< HEAD
 # CLAUDE.md — Automatic Speech Assessment (ASA)
 
 In-repo playbook for Claude Code when operating inside this project. This file is **standalone** — it duplicates the relevant parts of `AGENTS.md` so a fresh Claude session doesn't need to read two files to get started.
 
 ## What this project does
 
-ASA is a bachelor project fine-tuning **Qwen2-Audio-7B** for automatic assessment of synthetic/recorded speech quality. Three training paradigms:
+ASA is a bachelor project fine-tuning **Qwen2-Audio-7B** for automatic assessment of synthetic/recorded speech quality. Active scope: **MOS-style descriptive quality assessment**, with descriptive natural-language outputs evaluated by BLEU + MOS regression metrics.
 
-1. **SFT** (`src/asa/supervised-finetune.py`) — single-audio MOS-style quality prediction.
-2. **SFT-AB** (`src/asa/supervised-finetune-ab.py`) — comparative A/B preference on paired audio samples (including ties).
-3. **DPO** (`src/asa/dpo-finetune.py`) — Direct Preference Optimization. Uses the ALLD dual-stream method: a trainable Qwen2-Audio policy and a frozen Qwen2-7B text reference model, batched by `ALLDDPOCollator`.
+Training paradigms in active use:
+
+1. **SFT** (`src/asa/supervised-finetune.py`) — single-audio MOS-style quality prediction. Primary path.
+2. **DPO** (`src/asa/dpo-finetune.py`) — Direct Preference Optimization. Uses the ALLD dual-stream method: a trainable Qwen2-Audio policy and a frozen Qwen2-7B text reference model, batched by `ALLDDPOCollator`.
+
+**A/B preference is dropped from the bachelor scope.** `supervised-finetune-ab.py`, `dpo-finetune-ab.py`, and the AB caption generator remain in the tree but are not actively developed. Don't propose new A/B work, don't update A/B scripts unless explicitly asked.
 
 Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/data.py`). Inference + FastAPI service live in `src/asa/inference.py` and `src/asa/api.py`. Evaluation CLI is `src/asa/evaluate.py` (typer-based).
+
+## Workflow split: laptop vs HPC
+
+Two distinct surfaces. Don't conflate them.
+
+- **Laptop (this repo, `~/code/dtu/automatic-speech-assessment/`)** — all code changes happen here. Read files locally, edit locally, run tests/lint locally, commit, push to `main`.
+- **HPC (DTU LSF cluster, via `ssh dtu`)** — all training, evaluation, and log inspection happens here. Submit jobs with `bsub`, monitor with `bjobs`/`bstat`, tail logs in `/work3/s234817/automatic-speech-assessment/logs/`. The HPC checkout pulls from the same remote, so `git pull` after a push gets the latest code there.
+
+Operational rule: when a question is "what does the code do / let me change it" → laptop. When a question is "what's the job doing / did it crash / what does the log say" → ssh to HPC.
 
 ## Directory map
 
@@ -19,20 +30,21 @@ Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/data.py`). Infere
 automatic-speech-assessment/
 ├── src/asa/                         # All source code
 │   ├── supervised-finetune.py       # SFT training entry point
-│   ├── supervised-finetune-ab.py    # SFT A/B training entry point
+│   ├── supervised-finetune-ab.py    # A/B SFT — DEPRECATED, do not extend
 │   ├── dpo-finetune.py              # DPO training entry point
+│   ├── dpo-finetune-ab.py           # A/B DPO — DEPRECATED, do not extend
 │   ├── data.py                      # Datasets + collators (Qwen2AudioCollator, ALLDDPOCollator)
 │   ├── processed_data.py            # JSONL loaders, audio path resolution
 │   ├── inference.py                 # load_model / run_inference API
 │   ├── evaluate.py                  # MOS/BLEU eval CLI
 │   ├── api.py                       # FastAPI service
-│   ├── caption_generator.py         # Caption/prompt generation for AB data
+│   ├── caption_generator.py         # Caption/prompt generation (legacy AB-flavoured)
 │   ├── generate_dpo_data.py         # Build DPO training pairs
 │   └── visualize.py                 # Plotting utilities
 │
 ├── jobs/                            # LSF bsub scripts — COPY, DON'T REWRITE
-│   ├── sft/         sft_full.sh, sft_warmup.sh, sft_ab_full.sh, sft_ab_warmup.sh, sft_debug.sh
-│   ├── train/       dpo.sh, dpo_ab.sh, dpo_test.sh, generate_dpo.sh
+│   ├── sft/         sft_full.sh, sft_warmup.sh, sft_debug.sh  (sft_ab_* exist but deprecated)
+│   ├── train/       dpo.sh, dpo_test.sh, generate_dpo.sh      (dpo_ab.sh exists but deprecated)
 │   ├── evaluate/    evaluate-sft-mos.sh
 │   └── upload_*.sh  # push checkpoints to HF Hub
 │
@@ -42,11 +54,10 @@ automatic-speech-assessment/
 ├── data/
 │   ├── raw/                         # Original datasets (FOR, LIVE, P501, NISQA, ...)
 │   ├── processed/                   # JSONL used by training/eval
-│   │   ├── train_nisqa_llama_10k.json
-│   │   ├── train_nisqa_abtest_llama_10k.json
+│   │   ├── train_nisqa_llama_10k.json     # SFT training set (active)
 │   │   ├── train_dpo_10k.json
 │   │   ├── test_FOR.json, test_LIVE.json, test_P501.json
-│   │   └── ab-test-set-captions.json
+│   │   └── train_nisqa_abtest_llama_10k.json  # A/B — frozen, not used
 │   └── inference/                   # Inference inputs
 │
 ├── models/                          # Saved checkpoints (sft_full, sft_warmup, dpo_final, ...)
@@ -81,7 +92,15 @@ uv run invoke --list                  # list project tasks
 uv run pre-commit run --all-files     # all pre-commit hooks
 ```
 
-Code style: line length 120, f-strings, type hints, Google docstrings, no inline comments unless absolutely necessary. If you add new tooling, update both this file and `AGENTS.md`.
+Code style: **line length 88** (enforced by ruff and pre-commit), f-strings, type hints, Google docstrings, no inline comments unless absolutely necessary. If you add new tooling, update both this file and `AGENTS.md`.
+
+## Decoding and BLEU policy
+
+Settled defaults — change only with explicit reason:
+
+- **Evaluation (`asa-eval`)**: `do_sample=True, temperature=0.7, top_p=0.9`. Greedy and beam are not the default; greedy collapses to repeated templates, beam is parked for a later A/B comparison study.
+- **DPO data generation** (sampling π_θ for rejected completions): `temperature=1.1, top_p=0.9`. Encourages enough diversity in the negatives that DPO has a real signal. The previous `temp=1.0, top_p=1.0` setting led to length-bias reward hacking — do not revert.
+- **BLEU metric**: `sacrebleu.corpus_bleu` reported on a 0–100 scale. The earlier `nltk.sentence_bleu` per-sample average is wrong by a factor of ~100x and unsmoothed — do not use for headline numbers.
 
 ## HPC specifics
 
@@ -96,18 +115,16 @@ export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
 ```
 
-Home dir quota is ~30 GB — never write large artifacts to `~`. Everything lives under `/work3/s234817/`. Check with `getquota_zhome.sh`.
+Home dir quota is ~30 GB — never write large artifacts to `~`. Everything lives under `/work3/s234817/`. Check with `getquota_zhome.sh`. /work3 quota is 100 GB; check with `getquota_work3.sh`.
 
 ## Submitting jobs
 
 Claude is authorized to submit jobs freely when the user asks. Prefer copying an existing script in `jobs/` over writing a new one — they already encode the right queue, modules, env vars, and log paths.
 
 ```bash
-bsub < jobs/sft/sft_full.sh              # SFT full (10k, 2 ep, 2x L40S)
+bsub < jobs/sft/sft_full.sh              # SFT full
 bsub < jobs/sft/sft_warmup.sh            # SFT warmup
-bsub < jobs/sft/sft_ab_full.sh           # A/B SFT
-bsub < jobs/train/dpo.sh                 # DPO (2x A40)
-bsub < jobs/train/dpo_ab.sh              # A/B DPO
+bsub < jobs/train/dpo.sh                 # DPO
 bsub < jobs/evaluate/evaluate-sft-mos.sh # MOS evaluation
 ```
 
@@ -115,11 +132,14 @@ Queues in use:
 
 | Queue | Hardware | Used for |
 |-------|----------|----------|
-| `gpul40s` | L40S 48 GB | SFT training |
-| `gpua40`  | A40 40 GB  | DPO training |
+| `gpuh100` | H100 80 GB | **All training runs (SFT and DPO)** — default for any new training job |
 | `gpua10`  | A10        | Lightweight eval |
+| `gpul40s` | L40S 48 GB | Legacy SFT runs only — do not submit new training here |
+| `gpua40`  | A40 40 GB  | Legacy DPO runs only — do not submit new training here |
 
-Typical training resource ask: `#BSUB -n 8`, `#BSUB -gpu "num=2:mode=exclusive_process"`, `#BSUB -R "rusage[mem=64GB]"`, `#BSUB -M 64GB`, `#BSUB -W 24:00`.
+**Training submission rule:** every new training run (SFT, DPO, continuation) goes to `gpuh100`. Older `jobs/sft/*.sh` and `jobs/train/*.sh` scripts that target `gpul40s` or `gpua40` predate this rule — when reusing them, swap the queue to `gpuh100` and commit the change before submitting. Don't carry stale queues forward.
+
+Typical training resource ask on H100: `#BSUB -n 8`, `#BSUB -gpu "num=1:mode=exclusive_process"` (single H100 has enough VRAM for SFT+DPO at typical batch sizes), `#BSUB -R "rusage[mem=64GB]"`, `#BSUB -M 64GB`, `#BSUB -W 24:00`. Bump to `num=2` only if VRAM forces it.
 
 Every job script writes:
 ```
@@ -129,14 +149,14 @@ logs/<name>_<LSB_JOBID>.err
 
 ## Example: reference SFT submit script
 
-This is `jobs/sft/sft_full.sh`. Copy it when creating new SFT variants:
+This is the recommended template for new SFT runs (H100, single GPU is usually enough). The on-disk `jobs/sft/sft_full.sh` may still target `gpul40s` from older work — swap the queue when copying.
 
 ```sh
 #!/bin/sh
-#BSUB -q gpul40s
+#BSUB -q gpuh100
 #BSUB -J sft-full
 #BSUB -n 8
-#BSUB -gpu "num=2:mode=exclusive_process"
+#BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
@@ -157,9 +177,7 @@ export TRITON_CACHE_DIR=/tmp/triton_cache
 
 nvidia-smi
 
-torchrun \
-    --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+python src/asa/supervised-finetune.py \
     --model-name sft_full \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
@@ -186,7 +204,7 @@ tail -f logs/<name>_<jobid>.out
 ## W&B
 
 - **Entity**: `speech-quality-DTU-bachelor`
-- **Projects**: `qwen2-audio-sft-simple` (SFT), `qwen2-audio-dpo` (DPO).
+- **Projects**: `qwen2-audio-sft-simple` (SFT), `qwen2-audio-alld` (DPO/ALLD).
 - Pass `--wandb-run-name "<name>"` on the training CLI.
 - Local cache in `wandb/`. Offline runs are synced when connectivity returns — don't delete.
 
@@ -194,8 +212,8 @@ tail -f logs/<name>_<jobid>.out
 
 | Location | Contents |
 |----------|----------|
-| `models/<name>/` | Checkpoints (`sft_full`, `sft_warmup`, `dpo_final`, `dpo_ab_final`, ...) |
-| `results/evaluation/<run>/` | JSON metric summaries per test set (FOR / LIVE / P501) |
+| `models/<name>/` | Checkpoints (`sft_full`, `sft_warmup`, `dpo_final`, ...) |
+| `results/evaluation/<run>/` | JSON metric summaries per test set (FOR / LIVE / P501 / nisqa_indomain) |
 | `results/inference/<dataset>/` | Per-sample predictions |
 | `results/analysis/` | Plots, summary tables |
 | `logs/` | Job stdout/stderr |
@@ -205,7 +223,8 @@ tail -f logs/<name>_<jobid>.out
 From `src/asa/inference.py`:
 
 - `Leng2beat/speech-quality-assessement-qwen2audio-full-sft`
-- `Leng2beat/speech-quality-assessement-qwen2audio-sft-ab`
+- `Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup-baseline`
+- `Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup-plus1epoch`
 - Additional ALLD variants planned.
 
 DPO reference model: `Qwen/Qwen2-7B` (text-only, frozen).
@@ -215,114 +234,16 @@ DPO reference model: `Qwen/Qwen2-7B` (text-only, frozen).
 - **`PYTHONUNBUFFERED=1`** — without this, jobs look hung because stdout buffers until completion.
 - **`TRITON_CACHE_DIR=/tmp/triton_cache`** — avoids venv bloat and permission issues.
 - **DeepSpeed Zero-2 + CPU offload** — reduces VRAM but increases CPU RAM. If you see OOM kills, bump `rusage[mem=...]`.
-- **BF16 vs FP16** — A40/L40S support BF16; V100 does not. Don't use `--bf16` on V100 queues.
+- **BF16 vs FP16** — A40/L40S/H100 support BF16; V100 does not. Don't use `--bf16` on V100 queues.
 - **Batch size** — SFT typically 4/device, DPO typically 2/device. Halve if OOM.
 - **Audio sample rate** — Qwen2-Audio requires 16 kHz. `data.py` resamples; don't bypass it.
-- **Evaluation queues** — eval jobs submitted to non-GPU queues silently fail with "No Nvidia-GPUs found" (see old `NONAME_*.out`). Use `gpua10` at minimum.
-- **Unstaged work** — the `supervised-finetune-ab.py` / other files may have in-flight changes. `git status` first; ask before `git restore`.
-- **Branch hygiene** — current branch is `main`. Don't force-push. Don't `--no-verify` past a failing pre-commit — fix it.
+- **Evaluation queues** — eval jobs submitted to non-GPU queues silently fail with "No Nvidia-GPUs found". Use `gpua10` at minimum.
+- **Unstaged work** — files like `supervised-finetune.py` may have in-flight changes. `git status` first; ask before `git restore`.
+- **Branch hygiene** — don't force-push. Don't `--no-verify` past a failing pre-commit — fix it.
 
 ## When in doubt
 
-- Read `AGENTS.md` for the short tooling cheatsheet (it's the same content as above, in shorter form).
-- Read the most recent `logs/*.err` file to understand the last job's failure mode.
+- Read `AGENTS.md` for the short tooling cheatsheet.
+- Read the most recent `logs/*.err` file (via ssh) to understand the last job's failure mode.
 - Check `git log --oneline -20` and `git status` before making changes — work is often in flight.
 - Ask the user rather than guessing queue, walltime, or checkpoint paths.
-=======
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project
-
-`asa` (automatic-speech-assessment) — DTU bachelor project on using transformer audio LLMs (primarily Qwen2-Audio, with SALMONN as a reference) for automatic speech quality assessment. Authors: David Lindahl, Carl Svejstrup. Active research direction is shifting from MOS / A/B preference prediction toward timestamp-localized descriptions of distortions (see `temporal.localization` branch).
-
-## Toolchain
-
-- Python 3.12, managed entirely with `uv` (do not use bare `pip`/`python`)
-- Torch is platform-pinned via `[tool.uv.sources]`: CPU wheels on darwin, CUDA 11.8 wheels on linux
-- Linting/formatting: `ruff` (line length 88, enforced via pre-commit)
-- Task runner: `invoke` (see `tasks.py`)
-- Tests: `pytest` (slow tests are marked `@pytest.mark.slow` — they load full Qwen2-Audio checkpoints)
-
-## Common commands
-
-```bash
-# Run any python entrypoint
-uv run <path/to/script.py>
-
-# Tests
-uv run pytest tests/                           # all tests
-uv run pytest tests/test_collator.py -k name   # single test
-uv run pytest -m "not slow"                    # skip checkpoint-loading tests
-uv run invoke test                             # tests + coverage report
-
-# Lint / format
-uv run ruff check . --fix
-uv run ruff format .
-uv run pre-commit run --all-files
-
-# Invoke tasks
-uv run invoke --list
-uv run invoke preprocess-sft   # data.py preprocess-sft data/raw data/processed
-uv run invoke download-data    # pulls from GCS bucket nisqa-dataset
-uv run invoke train
-
-# Datasets
-uv run scripts/download_quali_speech.py --output-dir data/raw/QualiSpeech
-
-# Docs
-uv run mkdocs serve --config-file docs/mkdocs.yaml
-
-# Docker (HPC / cloud training)
-uv run invoke docker-build
-```
-
-Installed console scripts: `asa-infer` (`asa.inference:app`), `asa-eval` (`asa.evaluate:app`).
-
-## Architecture
-
-The real code lives in `src/asa/`. The `model.py` / `train.py` files at the package root are stubs from the cookiecutter template — they are not the active training path. Actual training and inference go through the dedicated entrypoint scripts below.
-
-### Data pipeline (`src/asa/data.py`, `processed_data.py`)
-
-- `SFTDataset` loads JSONL records + WAV files on the fly. Two prompt modes:
-  - Single-clip SFT: `PROMPT_TEMPLATE` ("Please describe and evaluate the synthetic speech")
-  - A/B preference: `PROMPT_TEMPLATE_AB` (two `<audio>` slots + tie option)
-- `Qwen2AudioCollator` batches samples and calls the HF `Qwen2-Audio` processor. Audio is resampled to 16 kHz mono (`TARGET_SR`).
-- `processed_data.load_processed_records` accepts JSON array, JSONL, or object-stream JSON. Metadata field tuples (`DPO_METADATA_FIELDS`, `..._AB`) define which MOS/NOI/COL/DIS/LOUD scores are propagated through the pipeline — keep these in sync if you add a metric.
-- Raw data is downloaded from GCS bucket `nisqa-dataset`; `download_quali_speech.py` fetches the QualiSpeech HF snapshot.
-
-### Training entrypoints (multiple, by objective)
-
-The package contains *parallel* training scripts rather than a single `train.py` with flags. Pick the one matching the objective:
-
-- `supervised-finetune.py` / `supervised-finetune-ab.py` — SFT on single clips vs. A/B pairs
-- `dpo-finetune.py` / `dpo-finetune-ab.py` — DPO variants
-- `generate_dpo_data.py`, `generate_temporal_data.py`, `distill_temporal_targets.py` — synthetic / temporal label generation
-- `caption_generator.py` — generates natural-language captions used as SFT targets
-- `train.py` (root) — stub, do not extend; add new objectives as their own entrypoint script following the existing pattern
-
-DeepSpeed config for multi-GPU runs lives in `configs/ds_zero2.json`. HPC launch wrappers are in `jobs/sft/*.sh`, `jobs/train/*.sh`, `jobs/evaluate/`.
-
-### Evaluation & inference
-
-- `evaluate.py` — general eval (`asa-eval` Typer app)
-- `evaluate_temporal.py` — temporal-localization specific metrics
-- `inference.py` — `asa-infer` Typer app
-- `api.py` — FastAPI server wrapper (see `dockerfiles/api.dockerfile`)
-
-### Branch layout
-
-The repo has many active branches reflecting parallel experiments: `main`, `temporal.localization` (timestamp-output direction — currently the active scope), `dpo-ab`, `dpo_implementation`, `feature/hf-data-pipeline`, `Tain_Warmpup`, `Clean-slate`, `refactor`, etc. When making changes, check which branch you are on and whether the work belongs there before committing.
-
-## Conventions (from AGENTS.md)
-
-- Line length 120 in human-written files, but ruff formats to 88 — let ruff win on autoformatted files
-- f-strings only
-- Type hints on all public functions
-- Google-style docstrings; every function and class should have one
-- Do not add inline comments unless absolutely necessary
-- Update `docs/` (mkdocs) when adding user-facing functionality
-- Update `AGENTS.md` if a new tool or command is added to the project
->>>>>>> 94e203b5523127d553d6963e104eed50cb6d64e5
