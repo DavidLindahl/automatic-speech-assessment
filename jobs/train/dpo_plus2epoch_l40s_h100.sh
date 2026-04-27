@@ -50,7 +50,7 @@ torchrun \
     --epochs 1 \
     --lr 1e-6 \
     --beta 0.4 \
-    --gradient-accumulation-steps 8 \
+    --gradient-accumulation-steps 16 \
     --bf16 \
     --deepspeed "configs/ds_zero2.json" \
     --wandb-run-name "dpo-plus2epoch-l40s-h100"
