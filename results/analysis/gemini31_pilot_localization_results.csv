@@ -1,62 +1,193 @@
-index,filename_deg,model_used,mos,duration_seconds,gt_start,gt_end,pred_start,pred_end,iou,start_abs_err,end_abs_err,description,raw_response
-0,c09587_3_235_2_7_001-ch6-speaker_seg101.wav,gemini-3.1-pro-preview,1.8,8.0,6.567,7.792,6.0,8.0,0.6124999999999998,0.5670000000000002,0.20800000000000018,clipping distortion,"{
-  ""start_time_sec"": 6.0,
-  ""end_time_sec"": 8.0,
-  ""description"": ""clipping distortion""
-}"
-1,c01477_4_958_2_7_001-ch6-speaker_seg98.wav,gemini-3.1-pro-preview,1.8,8.0,3.156,5.796,0.0,8.0,0.33,3.156,2.2039999999999997,reverberation,"{
-  ""start_time_sec"": 0.0,
-  ""end_time_sec"": 8.0,
-  ""description"": ""reverberation""
-}"
-2,c00442_som_03502_02012401285_seg.wav,gemini-3.1-pro-preview,2.2,10.325,7.096,8.14,0.0,10.32,0.10116279069767446,7.096,2.1799999999999997,Room acoustics with noticeable reverberation,"{
-  ""start_time_sec"": 0.0,
-  ""end_time_sec"": 10.32,
-  ""description"": ""Room acoustics with noticeable reverberation""
-}"
-3,c05041_book_04474_chp_0040_reader_10730_1_seg.wav,gemini-3.1-pro-preview,1.8,12.0,0.697,1.862,0.0,0.1,0.0,0.697,1.762,Failed to parse model JSON output.,"API_ERROR: 504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'Deadline expired before operation could complete.', 'status': 'DEADLINE_EXCEEDED'}}"
-4,c04335_book_00839_chp_0013_reader_10759_4_seg.wav,gemini-3.1-pro-preview,1.8,7.0,4.041,5.979,0.0,7.0,0.2768571428571428,4.041,1.021,"A high-pitched, continuous tone is present throughout the clip.","{
+index,filename_deg,mix_filename,model_used,mos,duration_seconds,gt_start,gt_end,pred_start,pred_end,iou,start_abs_err,end_abs_err,description,raw_response
+0,c05603_2_267_2_7_001-ch6-speaker_seg31.wav,0000_mix_c05603_2_267_2_7_001-ch6-speaker_seg31.wav,gemini-3.1-pro-preview,2.2,7.0,0.972,2.119,0.0,7.0,0.1638571428571429,0.972,4.881,The entire clip is degraded.,"{
   ""start_time_sec"": 0.0,
   ""end_time_sec"": 7.0,
-  ""description"": ""A high-pitched, continuous tone is present throughout the clip.""
+  ""description"": ""The entire clip is degraded.""
 }"
-5,c03722_4_148_2_7_001-ch6-speaker_seg55.wav,gemini-3.1-pro-preview,1.6,11.0,3.506,4.712,0.0,11.0,0.10963636363636363,3.506,6.288,A continuous high-pitched ringing tone.,"{
+1,c09855_1_585_2_7_001-ch6-speaker_seg47.wav,0001_mix_c09855_1_585_2_7_001-ch6-speaker_seg47.wav,gemini-3.1-pro-preview,1.8,12.0,4.14,6.584,0.0,12.0,0.20366666666666666,4.14,5.416,background noise,"{
   ""start_time_sec"": 0.0,
-  ""end_time_sec"": 11.0,
-  ""description"": ""A continuous high-pitched ringing tone.""
-}"
-6,c01865_1_965_2_7_001-ch6-speaker_seg9.wav,gemini-3.1-pro-preview,2.0,6.0,2.72,4.906,0.0,6.0,0.36433333333333323,2.72,1.0940000000000003,low-pass filter effect,"{
-  ""start_time_sec"": 0.0,
-  ""end_time_sec"": 6.0,
-  ""description"": ""low-pass filter effect""
-}"
-7,c01344_3_726_2_7_001-ch6-speaker_seg46.wav,gemini-3.1-pro-preview,1.2,10.0,0.0,3.3,0.0,10.0,0.32999999999999996,0.0,6.7,background noise,"{
-  ""start_time_sec"": 0.0,
-  ""end_time_sec"": 10.0,
+  ""end_time_sec"": 12.0,
   ""description"": ""background noise""
 }"
-8,c09808_4_448_2_7_001-ch6-speaker_seg92.wav,gemini-3.1-pro-preview,1.6,9.0,3.278,5.738,4.0,6.0,0.6385011021307864,0.722,0.26199999999999957,"A robotic, metallic sound effect.","{
+2,c09654_book_08293_chp_0014_reader_07695_0_seg.wav,0002_mix_c09654_book_08293_chp_0014_reader_07695_0_seg.wav,gemini-3.1-pro-preview,1.0,10.0,5.947,7.028,5.0,8.0,0.3603333333333332,0.9470000000000001,0.9720000000000004,robotic voice distortion,"{
+  ""start_time_sec"": 5.0,
+  ""end_time_sec"": 8.0,
+  ""description"": ""robotic voice distortion""
+}"
+3,c06672_book_07845_chp_0002_reader_11959_6_seg.wav,0003_mix_c06672_book_07845_chp_0002_reader_11959_6_seg.wav,gemini-3.1-pro-preview,1.0,6.0,1.817,3.431,1.0,3.0,0.48663101604278075,0.817,0.43100000000000005,robotic distortion and pitch shift,"{
+  ""start_time_sec"": 1.00,
+  ""end_time_sec"": 3.00,
+  ""description"": ""robotic distortion and pitch shift""
+}"
+4,c08528_1_1037_2_7_001-ch6-speaker_seg27.wav,0004_mix_c08528_1_1037_2_7_001-ch6-speaker_seg27.wav,gemini-3.1-pro-preview,1.8,12.0,1.553,3.703,1.0,4.0,0.7166666666666667,0.5529999999999999,0.29700000000000015,robotic distortion and heavy compression artifacts,"{
+  ""start_time_sec"": 1.0,
+  ""end_time_sec"": 4.0,
+  ""description"": ""robotic distortion and heavy compression artifacts""
+}"
+5,c04747_sof_01208_00933725532_seg.wav,0005_mix_c04747_sof_01208_00933725532_seg.wav,gemini-3.1-pro-preview,2.2,6.912,1.36,2.553,0.0,6.91,0.17264833574529664,1.36,4.357,The entire clip is degraded.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 6.91,
+  ""description"": ""The entire clip is degraded.""
+}"
+6,c06795_book_09669_chp_0017_reader_11208_38_seg.wav,0006_mix_c06795_book_09669_chp_0017_reader_11208_38_seg.wav,gemini-3.1-pro-preview,1.8,6.0,4.054,5.202,0.0,6.0,0.19133333333333327,4.054,0.798,The entire clip is degraded.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 6.0,
+  ""description"": ""The entire clip is degraded.""
+}"
+7,c09033_1_1230_2_7_001-ch6-speaker_seg67.wav,0007_mix_c09033_1_1230_2_7_001-ch6-speaker_seg67.wav,gemini-3.1-pro-preview,1.25,9.0,4.657,5.773,4.0,6.0,0.5579999999999998,0.657,0.2270000000000003,water pouring sound,"{
   ""start_time_sec"": 4.0,
   ""end_time_sec"": 6.0,
-  ""description"": ""A robotic, metallic sound effect.""
+  ""description"": ""water pouring sound""
 }"
-9,c08926_mim_03397_00063835793_seg.wav,gemini-3.1-pro-preview,1.0,8.192,1.178,2.728,1.5,2.5,0.6451612903225805,0.32200000000000006,0.2280000000000002,short burst of noise,"{
-  ""start_time_sec"": 1.5,
-  ""end_time_sec"": 2.5,
-  ""description"": ""short burst of noise""
-}"
-10,c01174_1_965_2_7_001-ch6-speaker_seg20.wav,gemini-3.1-pro-preview,1.4,6.0,0.005,1.271,2.0,3.0,0.0,1.995,1.729,fast forward or rewind sound,"{
-  ""start_time_sec"": 2.0,
-  ""end_time_sec"": 3.0,
-  ""description"": ""fast forward or rewind sound""
-}"
-11,c09216_scm_03397_00578627240_seg.wav,gemini-3.1-pro-preview,2.0,8.96,1.172,4.129,0.0,8.96,0.3300223214285714,1.172,4.831000000000001,A continuous high-pitched tone.,"{
+8,c03086_2_973_2_7_001-ch6-speaker_seg32.wav,0008_mix_c03086_2_973_2_7_001-ch6-speaker_seg32.wav,gemini-3.1-pro-preview,1.8,9.0,1.101,2.16,0.0,9.0,0.11766666666666668,1.101,6.84,constant background noise and slight distortion,"{
   ""start_time_sec"": 0.0,
-  ""end_time_sec"": 8.96,
-  ""description"": ""A continuous high-pitched tone.""
+  ""end_time_sec"": 9.0,
+  ""description"": ""constant background noise and slight distortion""
 }"
-12,c07888_3_509_2_7_001-ch6-speaker_seg69.wav,gemini-3.1-pro-preview,1.8,12.0,10.267,11.38,8.0,12.0,0.27825000000000033,2.2669999999999995,0.6199999999999992,"A high-pitched, continuous tone.","{
-  ""start_time_sec"": 8.0,
+9,c03155_3_503_2_7_001-ch6-speaker_seg86.wav,0009_mix_c03155_3_503_2_7_001-ch6-speaker_seg86.wav,gemini-3.1-pro-preview,1.8,8.0,5.279,7.705,0.0,8.0,0.30325,5.279,0.29499999999999993,background noise and slight echo,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 8.0,
+  ""description"": ""background noise and slight echo""
+}"
+10,c07660_book_08190_chp_0018_reader_06260_4_seg.wav,0010_mix_c07660_book_08190_chp_0018_reader_06260_4_seg.wav,gemini-3.1-pro-preview,2.0,12.0,1.901,3.827,0.0,12.0,0.1605,1.901,8.173,No clear localized degradation found; entire clip seems normal.,"{
+  ""start_time_sec"": 0.0,
   ""end_time_sec"": 12.0,
-  ""description"": ""A high-pitched, continuous tone.""
+  ""description"": ""No clear localized degradation found; entire clip seems normal.""
+}"
+11,c07986_1_907_2_7_001-ch6-speaker_seg29.wav,0011_mix_c07986_1_907_2_7_001-ch6-speaker_seg29.wav,gemini-3.1-pro-preview,2.0,9.0,5.853,8.288,4.0,9.0,0.4870000000000001,1.8529999999999998,0.7119999999999997,robotic distortion and stuttering,"{
+  ""start_time_sec"": 4.0,
+  ""end_time_sec"": 9.0,
+  ""description"": ""robotic distortion and stuttering""
+}"
+12,c09251_book_02442_chp_0017_reader_05337_10_seg.wav,0012_mix_c09251_book_02442_chp_0017_reader_05337_10_seg.wav,gemini-3.1-pro-preview,2.2,7.0,2.106,3.114,2.0,6.0,0.252,0.10599999999999987,2.886,robotic metallic distortion,"{
+  ""start_time_sec"": 2.00,
+  ""end_time_sec"": 6.00,
+  ""description"": ""robotic metallic distortion""
+}"
+13,c01224_4_288_2_7_001-ch6-speaker_seg1.wav,0013_mix_c01224_4_288_2_7_001-ch6-speaker_seg1.wav,gemini-3.1-pro-preview,2.0,12.0,1.099,2.881,0.0,12.0,0.1485,1.099,9.119,constant background noise and slight muffling,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 12.0,
+  ""description"": ""constant background noise and slight muffling""
+}"
+14,c09260_1_1230_2_7_001-ch6-speaker_seg44.wav,0014_mix_c09260_1_1230_2_7_001-ch6-speaker_seg44.wav,gemini-3.1-pro-preview,1.2,9.0,6.225,8.726,6.0,9.0,0.8336666666666671,0.22499999999999964,0.27399999999999913,robotic distortion and vocoder effect,"{
+  ""start_time_sec"": 6.00,
+  ""end_time_sec"": 9.00,
+  ""description"": ""robotic distortion and vocoder effect""
+}"
+15,c01274_1_996_2_7_001-ch6-speaker_seg118.wav,0015_mix_c01274_1_996_2_7_001-ch6-speaker_seg118.wav,gemini-3.1-pro-preview,2.1111111111111103,9.0,6.716,7.975,0.0,9.0,0.13988888888888884,6.716,1.0250000000000004,"No clear localized degradation found, assuming full clip.","{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 9.0,
+  ""description"": ""No clear localized degradation found, assuming full clip.""
+}"
+16,c03478_4_1036_2_7_001-ch6-speaker_seg91.wav,0016_mix_c03478_4_1036_2_7_001-ch6-speaker_seg91.wav,gemini-3.1-pro-preview,2.2,9.0,2.099,3.422,0.0,9.0,0.147,2.099,5.577999999999999,reverberation,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 9.0,
+  ""description"": ""reverberation""
+}"
+17,c09403_book_00262_chp_0002_reader_10280_8_seg.wav,0017_mix_c09403_book_00262_chp_0002_reader_10280_8_seg.wav,gemini-3.1-pro-preview,1.4,10.0,6.175,7.649,6.0,8.0,0.7370000000000001,0.17499999999999982,0.351,loud static noise burst,"{
+  ""start_time_sec"": 6.00,
+  ""end_time_sec"": 8.00,
+  ""description"": ""loud static noise burst""
+}"
+18,c03765_1_1014_2_7_001-ch6-speaker_seg2.wav,0018_mix_c03765_1_1014_2_7_001-ch6-speaker_seg2.wav,gemini-3.1-pro-preview,2.0,6.0,1.249,2.25,0.0,6.0,0.1668333333333333,1.249,3.75,No clear localized degradation found; audio seems generally clean.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 6.0,
+  ""description"": ""No clear localized degradation found; audio seems generally clean.""
+}"
+19,c00001_3_640_2_7_001-ch6-speaker_seg49.wav,0019_mix_c00001_3_640_2_7_001-ch6-speaker_seg49.wav,gemini-3.1-pro-preview,1.6,9.0,0.503,2.029,0.0,0.1,0.0,0.503,1.9289999999999998,Failed to parse model JSON output.,"API_ERROR: 504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'Deadline expired before operation could complete.', 'status': 'DEADLINE_EXCEEDED'}}"
+20,c04477_3_61_2_7_001-ch6-speaker_seg74.wav,0020_mix_c04477_3_61_2_7_001-ch6-speaker_seg74.wav,gemini-3.1-pro-preview,1.2,9.0,3.082,6.447,3.0,6.0,0.8465332172903974,0.08199999999999985,0.44700000000000006,telephone bandwidth reduction effect,"{
+  ""start_time_sec"": 3.00,
+  ""end_time_sec"": 6.00,
+  ""description"": ""telephone bandwidth reduction effect""
+}"
+21,c09193_4_965_2_7_001-ch6-speaker_seg29.wav,0021_mix_c09193_4_965_2_7_001-ch6-speaker_seg29.wav,gemini-3.1-pro-preview,2.2,10.0,0.005,1.273,0.0,10.0,0.1268,0.005,8.727,constant background noise,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 10.0,
+  ""description"": ""constant background noise""
+}"
+22,c09160_4_725_2_7_001-ch6-speaker_seg41.wav,0022_mix_c09160_4_725_2_7_001-ch6-speaker_seg41.wav,gemini-3.1-pro-preview,1.0,8.0,2.981,4.208,2.0,4.0,0.4615036231884058,0.9809999999999999,0.20800000000000018,Loud static noise and distortion,"{
+  ""start_time_sec"": 2.0,
+  ""end_time_sec"": 4.0,
+  ""description"": ""Loud static noise and distortion""
+}"
+23,c00154_tsp_2_FH_01.wav,0023_mix_c00154_tsp_2_FH_01.wav,gemini-3.1-pro-preview,1.0,8.206,1.385,2.583,0.0,8.206,0.1459907384840361,1.385,5.622999999999999,robotic voice distortion,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 8.21,
+  ""description"": ""robotic voice distortion""
+}"
+24,c01572_4_1138_2_7_001-ch6-speaker_seg34.wav,0024_mix_c01572_4_1138_2_7_001-ch6-speaker_seg34.wav,gemini-3.1-pro-preview,1.4,11.0,8.527,9.554,8.0,11.0,0.34233333333333366,0.5269999999999992,1.4459999999999997,muffled telephone-like distortion,"{
+  ""start_time_sec"": 8.00,
+  ""end_time_sec"": 11.00,
+  ""description"": ""muffled telephone-like distortion""
+}"
+25,c06077_4_757_2_7_001-ch6-speaker_seg10.wav,0025_mix_c06077_4_757_2_7_001-ch6-speaker_seg10.wav,gemini-3.1-pro-preview,2.0,8.0,6.198,7.839,0.0,8.0,0.205125,6.198,0.1609999999999996,"No clear localized degradation found, assuming full clip.","{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 8.0,
+  ""description"": ""No clear localized degradation found, assuming full clip.""
+}"
+26,c06996_sof_07508_00972724754_seg.wav,0026_mix_c06996_sof_07508_00972724754_seg.wav,gemini-3.1-pro-preview,1.8,7.851,1.465,2.787,0.0,0.1,0.0,1.465,2.687,Failed to parse model JSON output.,"API_ERROR: 504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'Deadline expired before operation could complete.', 'status': 'DEADLINE_EXCEEDED'}}"
+27,c03436_book_03892_chp_0014_reader_02864_14_seg.wav,0027_mix_c03436_book_03892_chp_0014_reader_02864_14_seg.wav,gemini-3.1-pro-preview,1.6,9.0,3.805,4.867,3.5,5.5,0.5309999999999999,0.30500000000000016,0.633,robotic vocoder effect on speech,"{
+  ""start_time_sec"": 3.50,
+  ""end_time_sec"": 5.50,
+  ""description"": ""robotic vocoder effect on speech""
+}"
+28,c07671_book_08493_chp_0013_reader_04220_0_seg.wav,0028_mix_c07671_book_08493_chp_0013_reader_04220_0_seg.wav,gemini-3.1-pro-preview,2.2,10.0,8.152,9.469,8.0,10.0,0.6585000000000001,0.15199999999999925,0.5310000000000006,"A sudden burst of loud, distorted noise.","{
+  ""start_time_sec"": 8.0,
+  ""end_time_sec"": 10.0,
+  ""description"": ""A sudden burst of loud, distorted noise.""
+}"
+29,c05114_4_14_2_7_001-ch6-speaker_seg32.wav,0029_mix_c05114_4_14_2_7_001-ch6-speaker_seg32.wav,gemini-3.1-pro-preview,1.2,12.0,8.429,9.582,0.0,12.0,0.09608333333333337,8.429,2.4179999999999993,choppy audio with frequent dropouts and stuttering,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 12.0,
+  ""description"": ""choppy audio with frequent dropouts and stuttering""
+}"
+30,c02340_som_09334_00885508549_seg.wav,0030_mix_c02340_som_09334_00885508549_seg.wav,gemini-3.1-pro-preview,2.2,6.144,1.585,2.801,1.5,3.0,0.8106666666666668,0.08499999999999996,0.19899999999999984,speech distortion,"{
+  ""start_time_sec"": 1.50,
+  ""end_time_sec"": 3.00,
+  ""description"": ""speech distortion""
+}"
+31,c07563_book_04113_chp_0059_reader_04379_38_seg.wav,0031_mix_c07563_book_04113_chp_0059_reader_04379_38_seg.wav,gemini-3.1-pro-preview,1.4,12.0,7.573,10.524,7.0,12.0,0.5901999999999997,0.5730000000000004,1.4760000000000009,robotic vocoder-like distortion,"{
+  ""start_time_sec"": 7.00,
+  ""end_time_sec"": 12.00,
+  ""description"": ""robotic vocoder-like distortion""
+}"
+32,c07430_4_497_2_7_001-ch6-speaker_seg10.wav,0032_mix_c07430_4_497_2_7_001-ch6-speaker_seg10.wav,gemini-3.1-pro-preview,1.2,11.0,5.397,6.503,5.0,7.0,0.5529999999999999,0.39700000000000024,0.4969999999999999,telephone effect,"{
+  ""start_time_sec"": 5.0,
+  ""end_time_sec"": 7.0,
+  ""description"": ""telephone effect""
+}"
+33,c01879_4_285_2_7_001-ch6-speaker_seg52.wav,0033_mix_c01879_4_285_2_7_001-ch6-speaker_seg52.wav,gemini-3.1-pro-preview,2.0,8.0,1.35,4.23,2.0,4.0,0.6944444444444443,0.6499999999999999,0.23000000000000043,robotic vocoder-like distortion,"{
+  ""start_time_sec"": 2.0,
+  ""end_time_sec"": 4.0,
+  ""description"": ""robotic vocoder-like distortion""
+}"
+34,c08927_2_183_2_7_001-ch6-speaker_seg91.wav,0034_mix_c08927_2_183_2_7_001-ch6-speaker_seg91.wav,gemini-3.1-pro-preview,1.57142857142857,6.0,0.532,1.702,0.0,1.0,0.27497062279670975,0.532,0.702,A short burst of static noise.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 1.0,
+  ""description"": ""A short burst of static noise.""
+}"
+35,c05041_book_04474_chp_0040_reader_10730_1_seg.wav,0035_mix_c05041_book_04474_chp_0040_reader_10730_1_seg.wav,gemini-3.1-pro-preview,1.8,12.0,0.744,1.937,0.0,2.0,0.5965,0.744,0.06299999999999994,loud static or rain noise,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 2.0,
+  ""description"": ""loud static or rain noise""
+}"
+36,c00721_2_1309_2_7_001-ch6-speaker_seg31.wav,0036_mix_c00721_2_1309_2_7_001-ch6-speaker_seg31.wav,gemini-3.1-pro-preview,1.4,7.0,2.079,3.859,0.0,7.0,0.2542857142857143,2.079,3.141,Continuous background noise and slight distortion,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 7.0,
+  ""description"": ""Continuous background noise and slight distortion""
+}"
+37,c08707_book_07315_chp_0003_reader_06589_17_seg.wav,0037_mix_c08707_book_07315_chp_0003_reader_06589_17_seg.wav,gemini-3.1-pro-preview,1.0,11.0,5.704,7.088,5.0,7.0,0.6206896551724139,0.7039999999999997,0.08800000000000008,alien-like distortion and robotic noise,"{
+  ""start_time_sec"": 5.00,
+  ""end_time_sec"": 7.00,
+  ""description"": ""alien-like distortion and robotic noise""
+}"
+38,c02026_tsp_2_FI_16.wav,0038_mix_c02026_tsp_2_FI_16.wav,gemini-3.1-pro-preview,2.2,9.548,5.42,6.454,0.0,9.548,0.10829493087557601,5.42,3.0940000000000003,The entire clip is degraded.,"{
+  ""start_time_sec"": 0.0,
+  ""end_time_sec"": 9.55,
+  ""description"": ""The entire clip is degraded.""
+}"
+39,c01754_wef_04310_01062799133_seg.wav,0039_mix_c01754_wef_04310_01062799133_seg.wav,gemini-3.1-pro-preview,1.8,9.472,1.596,3.201,7.2,8.2,0.0,5.604,4.998999999999999,stutter or repetition of a word,"{
+  ""start_time_sec"": 7.20,
+  ""end_time_sec"": 8.20,
+  ""description"": ""stutter or repetition of a word""
 }"

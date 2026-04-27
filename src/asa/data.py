@@ -8,7 +8,6 @@ Contains:
 
 import json
 import os
-import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -30,7 +29,9 @@ from asa.processed_data import (
 
 TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
-PROMPT_TEMPLATE = "<|audio_bos|><|AUDIO|><|audio_eos|>Please describe and evaluate the synthetic speech."
+AUDIO_PLACEHOLDER = "<audio>"
+AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
+PROMPT_TEMPLATE = f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech."
 PROMPT_TEMPLATE_AB = (
     "Please perform A/B preference test between<audio>and<audio>, including a tie."
 )
@@ -167,8 +168,10 @@ class SFTDataset(Dataset):
         json_path: str | Path,
         data_root: str | Path,
         max_samples: Optional[int] = None,
+        use_query_prompt: bool = False,
     ):
         self.data_root = Path(data_root)
+        self.use_query_prompt = use_query_prompt
         self.samples = self._load_jsonl(Path(json_path))
         self.samples = [item for item in self.samples if self._is_valid(item)]
 
@@ -219,6 +222,21 @@ class SFTDataset(Dataset):
         """Map stored audio paths to a local path."""
         return resolve_audio_path(raw_path, self.data_root)
 
+    @staticmethod
+    def _query_to_prompt(query: Any) -> str:
+        """Convert a record query string into a Qwen2-Audio prompt."""
+        if not isinstance(query, str):
+            return PROMPT_TEMPLATE
+
+        text = " ".join(query.strip().split())
+        if not text:
+            return PROMPT_TEMPLATE
+        if AUDIO_PLACEHOLDER in text:
+            return text.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+        if "<|AUDIO|>" in text:
+            return text
+        return f"{AUDIO_SPECIAL}{text}"
+
     # ── public ───────────────────────────────────────────────────────────
 
     def __len__(self) -> int:
@@ -230,9 +248,12 @@ class SFTDataset(Dataset):
         # Resolve and load audio
         audio_path = self._resolve_audio_path(item["audios"][0])
         audio_array = load_audio(str(audio_path))
+        prompt = PROMPT_TEMPLATE
+        if self.use_query_prompt:
+            prompt = self._query_to_prompt(item.get("query"))
 
         return {
-            "prompt": PROMPT_TEMPLATE,
+            "prompt": prompt,
             "response": item["response"],
             "audio": audio_array,
             "sampling_rate": TARGET_SR,
@@ -303,9 +324,6 @@ class Qwen2AudioCollator:
 # ---------------------------------------------------------------------------
 # AB-Test Dataset
 # ---------------------------------------------------------------------------
-
-AUDIO_PLACEHOLDER = "<audio>"
-AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
 
 
 class SFTDatasetAB(SFTDataset):

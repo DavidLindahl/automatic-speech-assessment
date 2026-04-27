@@ -49,7 +49,7 @@ uv run python src/asa/generate_nisqa_sim_lowmos_active.py --help
 Build a static HTML inspector for browsing waveform overlays and audio playback:
 
 ```bash
-uv run python src/asa/build_temporal_inspector_site.py \
+uv run python notebooks/build_temporal_inspector_site.py \
   --manifest-path data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv
 ```
 
@@ -64,3 +64,24 @@ Serve the site locally:
 cd data/processed/nisqa_sim_mix_lowmos_active_3000/inspector
 uv run python -m http.server 8000
 ```
+
+## Build Temporal Training JSONL
+
+Reuse existing NISQA captions and inject temporal targets without new Gemini calls:
+
+```bash
+uv run python src/asa/build_nisqa_temporal_json.py \
+  --manifest-path data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv \
+  --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+  --mixes-dir data/processed/nisqa_sim_mix_lowmos_active_3000 \
+  --output-jsonl data/processed/train_nisqa_temporal_mix_3000.json
+```
+
+The output keeps familiar keys like `audios`, `response`, `query`, and `mos`, and adds temporal fields from the
+manifest (`mix_deg_segments`, `source_degradation_types`, `mix_filename`). Each response is timestamp-supervised in
+this form:
+
+`... interrupted by <degradation phrase> occurring between <|start|> and <|end|>.`
+
+When fine-tuning, pass `--use-query-prompt` so the model sees the timestamp-localization instruction in each record's
+`query` field.
