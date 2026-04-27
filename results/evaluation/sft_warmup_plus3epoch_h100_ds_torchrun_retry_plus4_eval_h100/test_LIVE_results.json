@@ -1,0 +1,3212 @@
+{
+  "metrics": {
+    "samples": 200,
+    "mae": 0.38199999999999995,
+    "mse": 0.2576,
+    "bleu": 0.1628753650273246,
+    "unique_predictions": 26,
+    "top_prediction_frequency": 0.31
+  },
+  "results": [
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00057_chp_0006_reader_07339_47_seg_live_phone_6.wav"
+      ],
+      "response": "This synthesized speech has somewhat acceptable noise level and moderate discontinuity. However, it is somewhat distorted, and the volume is a bit quiet. Considering these aspects, I think the overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.3,
+      "col": 2.2,
+      "loud": 2.2,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.13564429699965128
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00057_chp_0006_reader_07339_47_seg_live_phone_605.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and is somewhat discontinuous, with noticeable distortion. Although the loudness is somewhat quiet, the overall MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.5,
+      "col": 1.8,
+      "loud": 2.6,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.22257036737035285
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00057_chp_0006_reader_07339_47_seg_live_skype_6.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level and continuity. However, it is relatively soft and moderately distorted, which affects its overall quality. With an overall MOS score of 3.2, it falls into the category of being neither natural nor unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.9,
+      "col": 3.2,
+      "loud": 2.3,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech has good continuity and moderate volume, but it is somewhat noisy and moderately distorted. Overall, I would rate its MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.0,
+      "bleu": 1.8110582649204548e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00057_chp_0006_reader_07339_47_seg_live_skype_605.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although the loudness is soft but understandable, the overall MOS score is only 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.4,
+      "col": 1.7,
+      "loud": 3.1,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 3.0052113220051886e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00102_chp_0003_reader_05654_28_seg_live_phone_10.wav"
+      ],
+      "response": "This synthesized speech has moderate levels of noise, discontinuity, and distortion. Although it is neither loud nor quiet, its overall quality is impacted by these factors, resulting in an overall MOS score of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.2,
+      "col": 2.2,
+      "loud": 3.4,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0,
+      "bleu": 2.589855134464394e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00102_chp_0003_reader_05654_28_seg_live_phone_609.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and noisy with moderate distortion and discontinuity. Although it is understandable in terms of loudness, its overall quality is somewhat compromised. I would rate its overall MOS score as 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.6,
+      "col": 2.1,
+      "loud": 3.6,
+      "dis": 3.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.10940783817859052
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00102_chp_0003_reader_05654_28_seg_live_skype_10.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate noise level. However, it suffers from significant distortion and is somewhat quiet, which affects its overall quality. With an overall MOS score of 2.8, it still needs improvement to be considered a natural-sounding speech.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.6,
+      "col": 2.1,
+      "loud": 2.4,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 1.5033905413634705e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00102_chp_0003_reader_05654_28_seg_live_skype_609.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it suffers from somewhat noisy and slightly distorted. Additionally, it is significantly quiet. Overall, I think the synthesized speech is somewhat unnatural with an overall MOS of 2.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.7,
+      "noi": 3.1,
+      "col": 2.3,
+      "loud": 2.6,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average performance in terms of noise level and loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0999999999999996,
+      "bleu": 0.1949274977582591
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00394_chp_0013_reader_05142_21_seg_live_phone_28.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and moderately discontinuous, with significant distortion. Although its loudness is relatively soft, the overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.6,
+      "col": 2.4,
+      "loud": 2.4,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.4688667947646316
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00394_chp_0013_reader_05142_21_seg_live_skype_28.wav"
+      ],
+      "response": "This synthesized speech has a good continuity. However, it is somewhat noisy and significantly distorted, and the volume is extremely quiet. The overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.6,
+      "col": 2.5,
+      "loud": 1.7,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.2567945254237733
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00394_chp_0013_reader_05142_21_seg_live_skype_627.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of continuity. However, it is somewhat noisy, has significant distortion, and is relatively quiet. Overall, the MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.1,
+      "col": 2.1,
+      "loud": 2.2,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
+      "bleu": 3.54560682746376e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00488_chp_0002_reader_01577_48_seg_live_phone_35.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean and has moderate continuity, but suffers from significant distortion and is a bit soft in volume. The overall MOS score is 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 3.5,
+      "col": 2.5,
+      "loud": 3.0,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0,
+      "bleu": 0.23323926099539177
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00488_chp_0002_reader_01577_48_seg_live_skype_35.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate noise level, but it suffers from significant distortion and is extremely quiet. I think it is a poorly qualified synthesized speech with overall MOS of 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.5,
+      "col": 2.4,
+      "loud": 1.3,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 4.666818598566774e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00488_chp_0002_reader_01577_48_seg_live_skype_634.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has moderate distortion. Although it is relatively quiet and has some discontinuity, the overall MOS score is only 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.3,
+      "col": 2.6,
+      "loud": 1.8,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.4631716874883595
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00578_chp_0039_reader_09021_2_seg_live_phone_40.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and some discontinuity, along with significant distortion. Although it is somewhat soft, the overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.5,
+      "col": 1.6,
+      "loud": 2.3,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.3321813675113908
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00578_chp_0039_reader_09021_2_seg_live_skype_40.wav"
+      ],
+      "response": "This synthesized speech has a relatively poor overall quality, with noticeable distortion and discontinuity. The noise level is somewhat noisy, and the loudness is significantly quiet. Although it has some understandable parts, the overall MOS score is about 2.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.5,
+      "noi": 3.1,
+      "col": 2.4,
+      "loud": 2.1,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.7,
+      "bleu": 0.13876623502301508
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00625_chp_0018_reader_07723_17_seg_live_phone_46.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it suffers from a moderate level of distortion and noise. Moreover, the volume is somewhat quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.7,
+      "col": 2.2,
+      "loud": 2.2,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.8,
+      "bleu": 4.322199397079539e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00625_chp_0018_reader_07723_17_seg_live_skype_46.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is somewhat noisy and significantly quiet. Additionally, it contains moderate distortion. Considering these factors, I think the overall MOS score of 2.4 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.2,
+      "col": 2.0,
+      "loud": 2.3,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.17165629355358047
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00693_chp_0015_reader_09533_52_seg_live_phone_49.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, and it has significant distortion. Although the loudness is soft but understandable, the overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.3,
+      "col": 2.1,
+      "loud": 2.8,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.4163612759270387
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_00693_chp_0015_reader_09533_52_seg_live_skype_49.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, it suffers from somewhat noisy and moderately distorted. Additionally, it is extremely quiet. Considering these factors, I think it is an average synthesized speech with an overall MOS of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 2.9,
+      "col": 2.8,
+      "loud": 2.1,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.20000000000000018,
+      "bleu": 1.781612016326748e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01230_chp_0016_reader_09245_26_seg_live_phone_73.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it is not extremely quiet, its overall quality is affected by these issues, resulting in an overall MOS score of 1.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.7,
+      "noi": 2.9,
+      "col": 1.6,
+      "loud": 2.0,
+      "dis": 2.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.10000000000000009,
+      "bleu": 0.36636918496792215
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01230_chp_0016_reader_09245_26_seg_live_skype_73.wav"
+      ],
+      "response": "This synthesized speech is noisy and quiet, with moderate discontinuity and significant distortion. The overall MOS score is about 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 1.9,
+      "col": 2.0,
+      "loud": 2.0,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.24346231042316377
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01239_chp_0008_reader_10191_3_seg_live_phone_74.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level and moderate distortion. Although it is slightly discontinuous and quiet, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 3.9,
+      "col": 3.0,
+      "loud": 2.8,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech has a moderate level of noise and distortion, and is somewhat discontinuous. Although it is not extremely quiet, its overall quality is affected by these issues, resulting in an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.7999999999999998,
+      "bleu": 3.001271408086676e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01239_chp_0008_reader_10191_3_seg_live_skype_74.wav"
+      ],
+      "response": "This synthesized speech has moderate continuity and acceptable sound quality, but it is somewhat noisy and relatively quiet. Despite these issues, the distortion is moderate. Considering these factors, I think it is an average synthesized speech with an overall MOS of 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 2.4,
+      "col": 3.5,
+      "loud": 2.2,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003,
+      "bleu": 0.07230459272356753
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01759_chp_0038_reader_07365_1_seg_live_phone_92.wav"
+      ],
+      "response": "This synthesized speech has moderate distortion and discontinuity, and is neither clean nor noisy. Although the loudness is just soft but understandable, its overall quality is impacted, resulting in an overall MOS score of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.6,
+      "col": 1.8,
+      "loud": 3.0,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 1.802061697310904e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01759_chp_0038_reader_07365_1_seg_live_skype_92.wav"
+      ],
+      "response": "This synthesized speech has good continuity and is relatively clear of discontinuity. However, it suffers from somewhat noisy background and moderate distortion. Additionally, the volume is extremely quiet, which may affect its overall quality. Given these factors, I would rate its overall MOS score as 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.1,
+      "col": 2.6,
+      "loud": 1.9,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0,
+      "bleu": 1.2947329652516182e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01779_chp_0037_reader_02322_4_seg_live_phone_94.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate loudness. However, it suffers from moderate distortion and a somewhat noisy background, which affects its overall quality. Given these factors, I would rate the overall MOS score of this synthesized speech as 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.5,
+      "col": 2.8,
+      "loud": 3.6,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.40000000000000036,
+      "bleu": 0.07399720512597328
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_01779_chp_0037_reader_02322_4_seg_live_skype_94.wav"
+      ],
+      "response": "This synthesized speech is somewhat natural, but it is affected by noticeable noise and moderate distortion. Additionally, it has some discontinuity and a relatively soft volume. Considering these factors, I think the overall MOS score of 3.2 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 2.9,
+      "col": 2.8,
+      "loud": 3.7,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.10736868093256279
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02044_chp_0000_reader_04921_5_seg_live_phone_106.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it suffers from somewhat noisy and significant distortion. Additionally, the volume is relatively quiet. Considering these factors, I would rate its overall MOS score as 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.8,
+      "col": 1.7,
+      "loud": 2.5,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 2.8788070523776705e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02044_chp_0000_reader_04921_5_seg_live_skype_106.wav"
+      ],
+      "response": "This synthesized speech has a somewhat unnatural quality with an overall MOS score of 2.2. It is somewhat noisy, and the presence of significant distortion affects its overall quality. The audio also has moderate discontinuity and is extremely quiet, which further detracts from the listening experience.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.7,
+      "col": 1.7,
+      "loud": 1.3,
+      "dis": 3.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973,
+      "bleu": 1.4125281923379573e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02113_chp_0007_reader_01566_4_seg_live_phone_107.wav"
+      ],
+      "response": "This synthesized speech is relatively quiet and severely distorted. Although it has a good continuity, the overall MOS score is only 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.8,
+      "col": 1.8,
+      "loud": 1.4,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.3521082926433174
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02113_chp_0007_reader_01566_4_seg_live_skype_107.wav"
+      ],
+      "response": "This synthesized speech is quiet and has moderate distortion, and somewhat noisy. However, it has good continuity. The overall MOS score is about 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 2.8,
+      "col": 2.5,
+      "loud": 1.2,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.23114663823833642
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02124_chp_0064_reader_02632_19_seg_live_phone_108.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it contains somewhat distortion and is somewhat noisy. The volume is a bit soft, which might affect its overall quality. With these characteristics, I would say the overall MOS score is about 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 2.9,
+      "col": 2.6,
+      "loud": 3.0,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 6.549511701887425e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02124_chp_0064_reader_02632_19_seg_live_skype_108.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, because it contains somewhat distortion and is somewhat noisy, I think its overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.3,
+      "col": 2.6,
+      "loud": 2.8,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.8000000000000003,
+      "bleu": 6.095007414522404e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02131_chp_0074_reader_02552_12_seg_live_phone_109.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a relatively low noise level. However, it is quiet and contains significant distortion, which greatly impacts its overall quality. The overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.8,
+      "col": 1.7,
+      "loud": 2.0,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.13591283068903587
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02131_chp_0074_reader_02552_12_seg_live_skype_109.wav"
+      ],
+      "response": "This synthesized speech is somewhat quiet and has noticeable noise, along with moderate distortion and discontinuity. The overall MOS score is 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.6,
+      "col": 2.1,
+      "loud": 1.5,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.27048170758554296
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02226_chp_0004_reader_04372_25_seg_live_phone_114.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is somewhat noisy and contains significant distortion. Additionally, the volume is relatively quiet. Considering these factors, I think its overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.9,
+      "col": 2.0,
+      "loud": 2.3,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech has a moderate level of continuity and acceptable loudness, but it suffers from somewhat noisy and significantly distorted audio quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.18930100779730336
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02226_chp_0004_reader_04372_25_seg_live_skype_114.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has moderate discontinuity, along with noticeable distortion. Although it is understandable but quiet, I think it is a somewhat unnatural synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.3,
+      "col": 1.8,
+      "loud": 1.8,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.18626377747884038
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02252_chp_0007_reader_09010_12_seg_live_phone_117.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has noticeable issues. It has a somewhat noisy background and moderate distortion, which affects its overall quality. Additionally, the speech is moderately discontinuous and somewhat quiet, which may impact its clarity. Given these factors, the overall MOS score of 2.2 is reasonable, indicating that the speech is somewhat unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.8,
+      "col": 1.8,
+      "loud": 2.3,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.07225801892763936
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02252_chp_0007_reader_09010_12_seg_live_skype_117.wav"
+      ],
+      "response": "This synthesized speech has moderate distortion and is somewhat discontinuous. Additionally, it contains noticeable noise and is relatively quiet. Considering these factors, I think the overall MOS score of 2.8 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.7,
+      "col": 2.4,
+      "loud": 2.0,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.10766529816403307
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02397_chp_0011_reader_08260_16_seg_live_phone_125.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, it contains moderate distortion, somewhat noisy, and a relatively soft volume, which affect the overall quality. I will give its overall MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.0,
+      "col": 2.5,
+      "loud": 3.2,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.10520256165025643
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02397_chp_0011_reader_08260_16_seg_live_skype_125.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is extremely quiet and noisy with significant distortion. The overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 1.3,
+      "col": 2.4,
+      "loud": 1.7,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.29456425448249246
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02442_chp_0005_reader_01031_5_seg_live_phone_128.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has noticeable issues, including somewhat noisy, severely distorted, and significantly discontinuous. Although it is somewhat quiet, the overall MOS score is only 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.5,
+      "col": 1.6,
+      "loud": 2.3,
+      "dis": 2.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.2569961178058428
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02442_chp_0005_reader_01031_5_seg_live_skype_128.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, because it contains somewhat noisy and significantly distorted, and is extremely quiet, I will give its overall MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.8,
+      "col": 2.5,
+      "loud": 1.7,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.13851287938178208
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02477_chp_0003_reader_10633_36_seg_live_phone_130.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and is somewhat discontinuous, with significant distortion. Although its loudness is somewhat quiet, the overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.9,
+      "col": 2.0,
+      "loud": 2.1,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.3186248655650221
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02477_chp_0003_reader_10633_36_seg_live_skype_130.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate noise level, but is somewhat quiet and slightly distorted. Given these mixed characteristics, I think it is a relatively unnatural synthesized speech with an overall MOS of 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.3,
+      "col": 2.4,
+      "loud": 2.2,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 4.664513529351841e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02485_chp_0021_reader_02882_4_seg_live_phone_131.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level and slight discontinuity. Although it is somewhat distorted, its loudness is a bit quiet. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.4,
+      "col": 2.6,
+      "loud": 2.3,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 4.697816027523965e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02485_chp_0021_reader_02882_4_seg_live_skype_131.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, because it contains somewhat distortion and noise, and the volume is extremely quiet, I think its overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 2.6,
+      "col": 1.8,
+      "loud": 1.6,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.11309529242967958
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02609_chp_0012_reader_07138_7_seg_live_phone_143.wav"
+      ],
+      "response": "This synthesized speech is neither clean nor noisy and has moderate distortion, with slight discontinuity and a soft volume. With these mixed performance, I think it is a mediocre synthesized speech with overall MOS of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.0,
+      "col": 2.0,
+      "loud": 2.6,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.2,
+      "bleu": 1.8949565797402668e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02609_chp_0012_reader_07138_7_seg_live_skype_143.wav"
+      ],
+      "response": "This synthesized speech has a relatively good continuity and a somewhat clean background. However, it suffers from significant distortion and is somewhat quiet. With these mixed performance characteristics, I would rate its overall MOS score as 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.7,
+      "col": 2.7,
+      "loud": 2.6,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 1.9219016649613433e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02764_chp_0011_reader_02612_26_seg_live_phone_151.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and some discontinuity. Although it is somewhat loud, it suffers from significant distortion, which impacts its overall quality. The overall MOS score is 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.5,
+      "col": 2.3,
+      "loud": 2.8,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.178179372747616
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02764_chp_0011_reader_02612_26_seg_live_skype_151.wav"
+      ],
+      "response": "This synthesized speech is moderately clean but has some discontinuity and is somewhat quiet. Although it has moderate distortion, I think its overall MOS is 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.2,
+      "col": 3.0,
+      "loud": 2.2,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 3.7080457548432765e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02844_chp_0032_reader_08819_39_seg_live_phone_153.wav"
+      ],
+      "response": "This synthesized speech is moderately discontinuous and somewhat noisy with significant distortion, but it has an acceptable volume. Overall, the MOS score is 2.2, indicating somewhat unnatural quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.3,
+      "col": 1.6,
+      "loud": 2.9,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 3.684913285822723e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02844_chp_0032_reader_08819_39_seg_live_skype_153.wav"
+      ],
+      "response": "This synthesized speech is relatively free of discontinuity and has a moderate noise level. However, it suffers from significant distortion and is extremely quiet, resulting in an overall MOS score of 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 3.4,
+      "col": 1.9,
+      "loud": 1.7,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 3.3214749094241155e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02857_chp_0013_reader_08034_7_seg_live_phone_155.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level and some distortion, and it is slightly discontinuous. Although the loudness is a bit quiet, the overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.0,
+      "col": 2.2,
+      "loud": 2.3,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.16641016379160822
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02857_chp_0013_reader_08034_7_seg_live_skype_155.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of continuity, but it is somewhat noisy and has significant distortion. Additionally, the loudness is relatively quiet. Given these factors, the overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.1,
+      "col": 2.4,
+      "loud": 2.4,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively soft volume, these issues detract from its overall quality, resulting in an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.0,
+      "bleu": 2.6343629753991493e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02876_chp_0001_reader_01444_3_seg_live_phone_156.wav"
+      ],
+      "response": "This synthesized speech has good continuity. However, it contains somewhat distortion and is somewhat noisy, which affects its overall quality. The volume is relatively quiet, but still understandable. With these characteristics, I will give its overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.0,
+      "col": 2.2,
+      "loud": 2.9,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.07399720512597328
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02876_chp_0001_reader_01444_3_seg_live_skype_156.wav"
+      ],
+      "response": "This synthesized speech has moderate continuity and a relatively low level of distortion. However, it suffers from a somewhat noisy background and is extremely quiet. Overall, the MOS score of this speech is 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.2,
+      "col": 3.0,
+      "loud": 1.8,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 5.738209572742825e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02908_chp_0019_reader_07242_19_seg_live_phone_159.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with noticeable distortion. Although the volume is relatively soft, the overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.1,
+      "col": 1.9,
+      "loud": 2.3,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.378786561257948
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_02908_chp_0019_reader_07242_19_seg_live_skype_159.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate volume. However, it is somewhat noisy and moderately distorted, which affects its overall quality. With these mixed characteristics, I would rate its overall MOS score as 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.9,
+      "col": 3.0,
+      "loud": 3.1,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.11005431208295215
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03028_chp_0038_reader_09352_4_seg_live_phone_167.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has moderate distortion, noise and discontinuity. It is soft but understandable, the overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.6,
+      "col": 1.7,
+      "loud": 3.0,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.25944320225692963
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03028_chp_0038_reader_09352_4_seg_live_skype_167.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, and has significant distortion. The volume is also relatively quiet. Despite these issues, its overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.7,
+      "col": 2.8,
+      "loud": 2.4,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.3206359017390121
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03245_chp_0008_reader_05578_2_seg_live_phone_187.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is somewhat noisy and significantly distorted, and also relatively quiet. I think it is a mediocre synthesized speech with overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.9,
+      "col": 2.4,
+      "loud": 2.5,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.11224612339727033
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03245_chp_0008_reader_05578_2_seg_live_skype_187.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of continuity and a relatively low noise level, although it is neither clean nor natural. It also has a moderate distortion. The volume is soft but understandable. The overall MOS score is about 3.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.6,
+      "noi": 3.8,
+      "col": 3.3,
+      "loud": 3.7,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.0,
+      "bleu": 0.1495582520779937
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03293_chp_0002_reader_11118_9_seg_live_phone_191.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion, which impacts its overall quality. Although its loudness is relatively soft, I think its overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.0,
+      "col": 2.2,
+      "loud": 2.5,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0,
+      "bleu": 0.24650796671734243
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03293_chp_0002_reader_11118_9_seg_live_skype_191.wav"
+      ],
+      "response": "This synthesized speech has moderate continuity and relatively clean sound, but it is a bit quiet and has moderate distortion. With these mixed performance, I think it is a mediocre synthesized speech with overall MOS of 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.3,
+      "col": 3.9,
+      "loud": 2.8,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech has good continuity and moderate volume, but it is somewhat noisy and moderately distorted. Overall, I would rate its MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.0,
+      "bleu": 2.4171345339054324e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03324_chp_0017_reader_05437_8_seg_live_phone_192.wav"
+      ],
+      "response": "This synthesized speech has good continuity and acceptable volume. However, it contains moderate noise level and significant distortion, which affects its overall quality. The overall MOS score is about 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.2,
+      "col": 2.4,
+      "loud": 3.4,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.2,
+      "bleu": 0.15095821135268425
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03324_chp_0017_reader_05437_8_seg_live_skype_192.wav"
+      ],
+      "response": "This synthesized speech is somewhat discontinuity-free and has a relatively low level of distortion. However, it is somewhat noisy and quiet, which might affect the overall quality. With an overall MOS score of 2.4, it still sounds somewhat unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.6,
+      "col": 2.6,
+      "loud": 2.0,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.1467274292491757
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03558_chp_0002_reader_00480_34_seg_live_phone_204.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has moderate distortion. Although it has relatively good continuity, the volume is somewhat quiet. Considering these factors, I think the overall MOS score of 1.8 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 3.3,
+      "col": 2.1,
+      "loud": 2.4,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.2728186791868864
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03558_chp_0002_reader_00480_34_seg_live_skype_204.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, and also contains significant distortion. Although it has moderate loudness, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.7,
+      "col": 2.3,
+      "loud": 2.3,
+      "dis": 2.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.565361573648609
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03571_chp_0009_reader_02596_8_seg_live_phone_205.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion, which impacts its overall quality. However, its loudness is acceptable. Considering these factors, I would rate its overall MOS score as 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.5,
+      "col": 1.9,
+      "loud": 3.1,
+      "dis": 2.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.18840174848119393
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03571_chp_0009_reader_02596_8_seg_live_skype_205.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of distortion and discontinuity, and is somewhat noisy. The volume is also relatively quiet. Despite these issues, it still maintains an overall MOS score of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.6,
+      "col": 2.5,
+      "loud": 2.0,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech has good continuity and moderate volume, but it is somewhat noisy and moderately distorted. Overall, I would rate its MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.20000000000000018,
+      "bleu": 2.197555388859429e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03893_chp_0004_reader_06273_20_seg_live_phone_222.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and somewhat noisy with moderately discontinuity. It also contains significant distortion. The overall MOS score is about 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 2.1,
+      "col": 1.8,
+      "loud": 1.4,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.24769802565621082
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03893_chp_0004_reader_06273_20_seg_live_skype_222.wav"
+      ],
+      "response": "This synthesized speech is relatively quiet and has some discontinuity. Although it has moderate distortion and low noise level, I think it is a poor synthesized speech with overall MOS of 1.8",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 1.7,
+      "col": 2.3,
+      "loud": 2.0,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 2.8149240333226973e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03968_chp_0007_reader_10257_9_seg_live_phone_228.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and noisy with significant distortion. Although it has moderate discontinuity, the overall MOS score is only 1.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 1.4,
+      "col": 1.3,
+      "loud": 1.3,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.3846106301756451
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_03968_chp_0007_reader_10257_9_seg_live_skype_228.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet, noisy and discontinuous, with severely distorted sound. Overall, it is very unnatural and its MOS score is 1.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.3,
+      "col": 1.3,
+      "loud": 1.4,
+      "dis": 1.4,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.3049185491146653
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04245_chp_0028_reader_05868_34_seg_live_phone_243.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate noise level. However, it is somewhat quiet and has significant distortion, which may affect the overall quality. With these mixed characteristics, I would rate its overall MOS score as 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.6,
+      "col": 2.6,
+      "loud": 2.6,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 1.877940077644941e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04245_chp_0028_reader_05868_34_seg_live_skype_243.wav"
+      ],
+      "response": "This synthesized speech has good continuity, and its noise level is relatively acceptable. However, it is somewhat quiet and contains significant distortion, which impacts its overall quality. With these characteristics, I would rate its overall MOS score as 2.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.5,
+      "noi": 3.5,
+      "col": 2.4,
+      "loud": 1.9,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.2999999999999998,
+      "bleu": 5.082942240741299e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04288_chp_0092_reader_11224_0_seg_live_skype_249.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a relatively low noise level, and is moderately clear of distortion. However, it is extremely quiet, which impacts its overall quality. Given these characteristics, I would rate its overall MOS score as 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 4.3,
+      "col": 3.7,
+      "loud": 1.5,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.14477892393394307
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04329_chp_0002_reader_07963_0_seg_live_skype_252.wav"
+      ],
+      "response": "This synthesized speech has a relatively low noise level, however, it suffers from moderate distortion and discontinuity. Additionally, the loudness is a bit quiet. Given these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 4.4,
+      "col": 2.5,
+      "loud": 2.5,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is relatively clean and has a moderate volume, but it suffers from noticeable distortion and discontinuity. Given these mixed performance factors, I would rate its overall MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.0,
+      "bleu": 3.141732061441805e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04366_chp_0011_reader_05727_123_seg_live_skype_254.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and has good continuity. However, it suffers from noticeable distortion and is somewhat quiet. With these characteristics, I would give its overall MOS score as 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 4.1,
+      "col": 2.5,
+      "loud": 2.8,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.3642077792766302
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04471_chp_0004_reader_08310_45_seg_live_phone_261.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has moderate discontinuity, with significant distortion. Although its loudness is relatively soft, the overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.6,
+      "col": 2.1,
+      "loud": 2.5,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.4631716874883595
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04471_chp_0004_reader_08310_45_seg_live_skype_261.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a low noise level. However, it is quiet and slightly distorted, which affects the overall quality. I will give its overall MOS score as 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 4.4,
+      "col": 2.9,
+      "loud": 1.9,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat soft volume, I think it is an average synthesized speech with an overall MOS of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.6000000000000001,
+      "bleu": 6.370489183226175e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04471_chp_0006_reader_08006_13_seg_live_phone_262.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean and has good continuity, but it is slightly quiet and contains significant distortion. With these characteristics, I think it is a mediocre synthesized speech with an overall MOS of 3.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.5,
+      "noi": 3.9,
+      "col": 2.2,
+      "loud": 3.3,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.10000000000000009,
+      "bleu": 2.079931379609132e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04471_chp_0006_reader_08006_13_seg_live_skype_262.wav"
+      ],
+      "response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. However, its overall loudness is understandable. Given these mixed results, I think it is a mediocre synthesized speech with an overall MOS of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.7,
+      "col": 2.6,
+      "loud": 3.4,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is still good, with an MOS score of 4.0.",
+      "predicted_mos": 4.0,
+      "mos_error": 1.0,
+      "bleu": 5.953976414327045e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04475_chp_0006_reader_11006_13_seg_live_phone_264.wav"
+      ],
+      "response": "This synthesized speech has somewhat clean background but suffers from moderate distortion and discontinuity. Unfortunately, it is also extremely quiet. Considering these factors, the overall MOS score is 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.0,
+      "col": 1.9,
+      "loud": 1.4,
+      "dis": 2.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.16056203777653805
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04475_chp_0006_reader_11006_13_seg_live_skype_264.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and continuous, but it has a somewhat low volume and noticeable distortion. Overall, I would rate its MOS quality as 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 4.5,
+      "col": 2.7,
+      "loud": 2.4,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.24727997687684689
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04633_chp_0003_reader_07326_34_seg_live_phone_267.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and continuous, but it has some distortion. The volume is a bit soft but understandable. Given these characteristics, I think it is an average synthesized speech with an overall MOS of 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 4.5,
+      "col": 2.5,
+      "loud": 3.3,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.20000000000000018,
+      "bleu": 1.7434442171551185e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04633_chp_0003_reader_07326_34_seg_live_skype_267.wav"
+      ],
+      "response": "This synthesized speech has a relatively low volume but is clean and continuous. However, it suffers from significant distortion, which affects its overall quality. With an overall MOS score of 3.2, it falls into the category of being neither natural nor unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 4.1,
+      "col": 2.5,
+      "loud": 2.5,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is still good, with an MOS score of 4.0.",
+      "predicted_mos": 4.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 2.207486813627752e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04756_chp_0030_reader_07309_27_seg_live_phone_273.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with severe distortion. Although its volume is relatively understandable, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.9,
+      "col": 1.7,
+      "loud": 1.7,
+      "dis": 2.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.5054091115759235
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04756_chp_0030_reader_07309_27_seg_live_skype_273.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a moderate noise level, but it is significantly quiet and contains noticeable distortion. With these mixed results, I would give its overall MOS score as 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.7,
+      "col": 2.2,
+      "loud": 2.0,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 2.18742033050206e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04849_chp_0028_reader_02852_44_seg_live_phone_277.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and severely discontinuous, with significant distortion. Although the noise level is relatively low, the overall MOS score is only 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 3.2,
+      "col": 1.6,
+      "loud": 1.3,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.2536152344751313
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_04849_chp_0028_reader_02852_44_seg_live_skype_277.wav"
+      ],
+      "response": "This synthesized speech has a good continuity and relatively low noise level. However, it suffers from significant distortion and is somewhat quiet. Considering these factors, I think its overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.9,
+      "col": 1.9,
+      "loud": 2.4,
+      "dis": 4.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 0.1056151020439284
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05149_chp_0018_reader_04006_16_seg_live_phone_298.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean but has significant distortion and discontinuity, and is extremely quiet. With these factors in mind, I would rate its overall MOS score as 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 3.0,
+      "col": 2.1,
+      "loud": 1.3,
+      "dis": 3.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0,
+      "bleu": 0.12950596401944844
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05149_chp_0018_reader_04006_16_seg_live_skype_298.wav"
+      ],
+      "response": "This synthesized speech has a relatively poor overall quality with an MOS of 2.6. It suffers from somewhat noisy background and moderately discontinuous playback, which may affect the listening experience. Additionally, the speech contains significant distortion, making it less clear. However, its volume is extremely quiet, which may also impact the overall quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.3,
+      "col": 2.2,
+      "loud": 1.7,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, but it suffers from moderate distortion and a somewhat soft volume. Overall, I would rate its MOS score as 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998,
+      "bleu": 1.0555177560746606e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05236_chp_0029_reader_03534_10_seg_live_phone_301.wav"
+      ],
+      "response": "This synthesized speech is relatively clean, but it has moderate discontinuity and significant distortion. Unfortunately, it is also extremely quiet. Considering these factors, the overall MOS score is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 3.8,
+      "col": 2.0,
+      "loud": 1.2,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0,
+      "bleu": 0.19290741634629793
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05236_chp_0029_reader_03534_10_seg_live_skype_301.wav"
+      ],
+      "response": "This synthesized speech has a good continuity, but it is somewhat noisy and has significant distortion. Additionally, the volume is extremely quiet. With these mixed performance, I will give its overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.7,
+      "col": 2.7,
+      "loud": 1.8,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.15964409166234625
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05399_chp_0024_reader_00405_37_seg_live_phone_308.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and has good continuity. However, it suffers from significant distortion and is extremely quiet, which greatly impacts its overall quality. With an overall MOS score of 1.2, it falls into the category of very unnatural speech.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 4.0,
+      "col": 2.7,
+      "loud": 1.2,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
+      "bleu": 1.7550243304851473e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05399_chp_0024_reader_00405_37_seg_live_skype_308.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a relatively low noise level. However, it suffers from noticeable distortion and is somewhat quiet. Considering these factors, I think it is a somewhat unnatural synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.9,
+      "col": 2.5,
+      "loud": 2.6,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat soft volume, I think it is an average synthesized speech with an overall MOS of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 1.0,
+      "bleu": 0.2393543527080517
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05610_chp_0011_reader_10418_27_seg_live_phone_317.wav"
+      ],
+      "response": "This synthesized speech is relatively clean but quiet and has some discontinuity, with moderate distortion. The overall MOS score is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 3.0,
+      "col": 2.3,
+      "loud": 1.5,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.222408245490146
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05610_chp_0011_reader_10418_27_seg_live_skype_317.wav"
+      ],
+      "response": "This synthesized speech has a relatively low noise level and moderate distortion. However, it suffers from discontinuity and is extremely quiet. Considering these factors, the overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 4.0,
+      "col": 2.8,
+      "loud": 1.9,
+      "dis": 3.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.15750456547581557
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05632_chp_0003_reader_10435_6_seg_live_phone_318.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level. However, because it contains significant distortion and discontinuity, and it is extremely quiet, I think its overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 3.4,
+      "col": 1.7,
+      "loud": 1.4,
+      "dis": 2.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.11309529242967958
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05632_chp_0003_reader_10435_6_seg_live_skype_318.wav"
+      ],
+      "response": "This synthesized speech has relatively good continuity and moderate noise level. However, it suffers from noticeable distortion and is somewhat quiet, which affects its overall quality. The overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.6,
+      "col": 1.9,
+      "loud": 2.1,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.4,
+      "bleu": 2.568175498735308e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05872_chp_0020_reader_03783_7_seg_live_phone_329.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion, and it is also relatively quiet. The overall MOS score is only 1.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.5,
+      "noi": 3.2,
+      "col": 1.9,
+      "loud": 2.9,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.30000000000000004,
+      "bleu": 0.419793811546288
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_05872_chp_0020_reader_03783_7_seg_live_skype_329.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and some distortion, and it is somewhat discontinuous. Although the loudness is just soft but understandable, I think the overall MOS score of 2.8 reflects its somewhat unnatural quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.8,
+      "col": 2.0,
+      "loud": 3.1,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 2.2408084771793954e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06046_chp_0031_reader_00242_4_seg_live_phone_337.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and has significant distortion, with noticeable discontinuity and moderate noise level. Overall, its MOS score is 1.0, indicating very poor synthetic quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.1,
+      "col": 1.5,
+      "loud": 1.7,
+      "dis": 2.7,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.12153916569379042
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06046_chp_0031_reader_00242_4_seg_live_skype_337.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although the volume is understandable but not clear, the overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.9,
+      "col": 1.7,
+      "loud": 2.4,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.5322345711737491
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06071_chp_0024_reader_09091_4_seg_live_phone_340.wav"
+      ],
+      "response": "This synthesized speech has a moderate noise level. However, it is somewhat discontinuous, significantly distorted, and relatively quiet. The overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 3.0,
+      "col": 1.9,
+      "loud": 2.3,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.23758933475618624
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06071_chp_0024_reader_09091_4_seg_live_skype_340.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate distortion level. However, it suffers from a somewhat noisy background and relatively quiet volume. Given these factors, I would rate its overall MOS score as 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.3,
+      "col": 3.5,
+      "loud": 2.8,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.0,
+      "bleu": 2.0596359801865932e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06173_chp_0059_reader_02516_27_seg_live_phone_347.wav"
+      ],
+      "response": "This is a quiet and somewhat discontinuous speech with severe distortion. Though it has a relatively low noise level, the overall MOS score is only 1.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.5,
+      "noi": 3.0,
+      "col": 1.8,
+      "loud": 1.7,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.10000000000000009,
+      "bleu": 0.25791919781995043
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06173_chp_0059_reader_02516_27_seg_live_skype_347.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although the loudness is relatively soft but understandable, the overall MOS score is only 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.4,
+      "col": 1.5,
+      "loud": 2.6,
+      "dis": 2.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.6154733407407874
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06289_chp_0001_reader_02455_22_seg_live_phone_352.wav"
+      ],
+      "response": "This synthesized speech is very quiet and has a significant amount of distortion, discontinuity, and background noise. Although it is not the worst in all aspects, its overall quality is severely impacted, resulting in a very low overall MOS of 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.4,
+      "col": 1.8,
+      "loud": 1.9,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0,
+      "bleu": 1.657276301761135e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06289_chp_0001_reader_02455_22_seg_live_skype_352.wav"
+      ],
+      "response": "This synthesized speech is quiet and has some noise, with moderate distortion and discontinuity. Overall, it has a MOS score of 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 2.3,
+      "col": 2.7,
+      "loud": 1.7,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013,
+      "bleu": 3.7678520346556775e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06294_chp_0001_reader_09211_2_seg_live_phone_353.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although the loudness is at a moderate level, the overall quality is severely impacted by the distortion and discontinuity, resulting in an overall MOS score of 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.8,
+      "col": 1.3,
+      "loud": 2.7,
+      "dis": 2.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.29992260174090524
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06294_chp_0001_reader_09211_2_seg_live_skype_353.wav"
+      ],
+      "response": "This synthesized speech has moderate continuity and is somewhat understandable in volume. However, it suffers from somewhat noisy background and significant distortion, which negatively impact its overall quality. With an overall MOS score of 1.6, it falls into the category of very unnatural speech.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.2,
+      "col": 2.0,
+      "loud": 2.2,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 1.4879862423139953e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06527_chp_0007_reader_00051_12_seg_live_phone_362.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although the loudness is understandable but quiet, the overall MOS score is only 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 2.2,
+      "col": 2.2,
+      "loud": 2.3,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999,
+      "bleu": 0.47602713736033114
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06527_chp_0007_reader_00051_12_seg_live_skype_362.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is severely impacted by high noise levels and significant distortion. Additionally, it is extremely quiet, which further detracts from its overall quality. Given these issues, the overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 1.5,
+      "col": 2.1,
+      "loud": 1.6,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.10626409437575386
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06649_chp_0019_reader_11238_4_seg_live_phone_366.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and is somewhat discontinuous. It also suffers from significant distortion. Although the volume is extremely quiet, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 3.0,
+      "col": 1.6,
+      "loud": 1.9,
+      "dis": 3.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0,
+      "bleu": 0.2886903238098902
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06649_chp_0019_reader_11238_4_seg_live_skype_366.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Its overall loudness is also somewhat quiet. I think it is a low-quality synthesized speech with overall MOS of 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 1.7,
+      "col": 2.4,
+      "loud": 2.2,
+      "dis": 2.8,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.2128201932537367
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06880_chp_0013_reader_05755_23_seg_live_phone_382.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and has a somewhat noisy background. It also suffers from significant distortion and discontinuity. Overall, the MOS score of this speech is 1.0, indicating it is very unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.2,
+      "col": 1.9,
+      "loud": 1.4,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.07776061371919754
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06880_chp_0013_reader_05755_23_seg_live_skype_382.wav"
+      ],
+      "response": "This synthesized speech is noisy and discontinuous, with noticeable distortion. It is also relatively quiet. The overall MOS score is 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 1.7,
+      "col": 1.9,
+      "loud": 2.3,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.2624087769829642
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06891_chp_0006_reader_10584_5_seg_live_phone_384.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.0,
+      "col": 1.4,
+      "loud": 1.8,
+      "dis": 2.2,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.9426151476815119
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06891_chp_0006_reader_10584_5_seg_live_skype_384.wav"
+      ],
+      "response": "This synthesized speech is quiet and has some noise, also with moderately distortion. Although it has relatively good continuity, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.1,
+      "col": 1.5,
+      "loud": 1.8,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.3295913857995751
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06939_chp_0043_reader_09896_9_seg_live_phone_386.wav"
+      ],
+      "response": "This synthesized speech is very quiet and has a somewhat noisy background, severely distorted and significantly discontinuous. Overall, it has a MOS score of 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.7,
+      "col": 1.3,
+      "loud": 1.3,
+      "dis": 2.8,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 2.183366028901898e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06939_chp_0043_reader_09896_9_seg_live_skype_386.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although its volume is soft but understandable, the overall MOS score is only 1.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.5,
+      "noi": 2.3,
+      "col": 1.9,
+      "loud": 1.9,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.30000000000000004,
+      "bleu": 0.5898318060874912
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06945_chp_0008_reader_03510_17_seg_live_phone_387.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and has somewhat noisy background. It also suffers from significant distortion and discontinuity. Overall, the MOS score is 1.0, indicating a very unnatural and low-quality synthetic speech.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.8,
+      "col": 2.1,
+      "loud": 1.4,
+      "dis": 3.2,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.09591081952218067
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06945_chp_0008_reader_03510_17_seg_live_skype_387.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has significant distortion, with a moderate level of discontinuity. Although the volume is relatively soft, the overall MOS score is only 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.3,
+      "col": 2.2,
+      "loud": 2.5,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.3615959857232268
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06958_chp_0019_reader_10162_4_seg_live_phone_388.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean but has a low volume and is significantly discontinuous with severe distortion, the overall MOS score is only 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 3.4,
+      "col": 1.3,
+      "loud": 2.0,
+      "dis": 2.3,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.2828591378551792
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_06958_chp_0019_reader_10162_4_seg_live_skype_388.wav"
+      ],
+      "response": "This synthesized speech is quiet and has some discontinuity, with a moderate level of noise and significant distortion. The overall MOS score is 1.1.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.1,
+      "noi": 2.5,
+      "col": 1.3,
+      "loud": 1.5,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.7,
+      "bleu": 0.24769802565621082
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07127_chp_0002_reader_08445_57_seg_live_phone_391.wav"
+      ],
+      "response": "This is a very poor-quality speech, with high levels of noise and discontinuity, and severe distortion. Additionally, it is extremely quiet. The overall MOS score is only 1.0, indicating that it sounds very unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 1.7,
+      "col": 1.3,
+      "loud": 1.5,
+      "dis": 1.9,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.14650495583200723
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07127_chp_0002_reader_08445_57_seg_live_skype_391.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, and severely distorted. Although it has relatively moderate discontinuity and low volume, the overall MOS score is only 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.5,
+      "col": 1.4,
+      "loud": 1.9,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0,
+      "bleu": 0.5201577580814475
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07661_chp_0002_reader_02679_1_seg_live_phone_411.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and some distortion, and it also suffers from discontinuity. Additionally, it is extremely quiet, which further affects its overall quality. With these issues, I think the overall MOS score of 2.2 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.4,
+      "col": 2.2,
+      "loud": 1.7,
+      "dis": 3.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.08374984471215931
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07661_chp_0002_reader_02679_1_seg_live_skype_411.wav"
+      ],
+      "response": "This synthesized speech has good continuity and relatively low noise level. However, it is extremely quiet and somewhat distorted, which severely impacts its overall quality. The overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.3,
+      "col": 2.4,
+      "loud": 1.5,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.13888825919747003
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07772_chp_0023_reader_06587_15_seg_live_phone_416.wav"
+      ],
+      "response": "This synthesized speech has somewhat natural volume but is quiet. However, it contains significant distortion and discontinuity, and also a somewhat noisy background, I will give its overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.9,
+      "col": 2.5,
+      "loud": 1.9,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.10703285765033566
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07772_chp_0023_reader_06587_15_seg_live_skype_416.wav"
+      ],
+      "response": "This synthesized speech is somewhat quiet and has moderate noise level, with some discontinuity and slightly significant distortion. The overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 2.0,
+      "col": 2.9,
+      "loud": 1.5,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.27802078134791636
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07884_chp_0010_reader_01419_32_seg_live_phone_425.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and has a somewhat noisy background. It also suffers from significant distortion and discontinuity. Overall, the MOS score of this speech is 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.2,
+      "col": 1.9,
+      "loud": 1.5,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.10116905680857376
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07884_chp_0010_reader_01419_32_seg_live_skype_425.wav"
+      ],
+      "response": "This synthesized speech has a good continuity. However, it is somewhat noisy and significantly distorted. Additionally, it is extremely quiet, which may affect its overall quality. With these factors in mind, the overall MOS score is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.3,
+      "col": 1.9,
+      "loud": 1.9,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.16657988034347357
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07907_chp_0011_reader_07487_28_seg_live_phone_428.wav"
+      ],
+      "response": "This is a quiet, noisy and discontinuous speech with significant distortion. Though the overall quality is severely impacted, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 1.7,
+      "col": 2.0,
+      "loud": 1.5,
+      "dis": 2.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.27802078134791636
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_07907_chp_0011_reader_07487_28_seg_live_skype_428.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of continuity and acceptable distortion. However, it suffers from somewhat noisy background and relatively low volume. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.7,
+      "col": 3.0,
+      "loud": 2.9,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.8,
+      "bleu": 1.7277882794457854e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08046_chp_0006_reader_06863_25_seg_live_skype_437.wav"
+      ],
+      "response": "This synthesized speech is noisy and quiet, with moderate discontinuity and significant distortion. The overall MOS score is 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.0,
+      "col": 2.1,
+      "loud": 1.6,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.24769802565621082
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08058_chp_0007_reader_06485_2_seg_live_skype_438.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has noticeable issues. It suffers from somewhat noisy background and moderate distortion, and is also somewhat discontinuous. Although its loudness is generally soft but understandable, the overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 1.9,
+      "col": 2.4,
+      "loud": 3.0,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.8,
+      "bleu": 0.1551453672465869
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08134_chp_0013_reader_08131_51_seg_live_skype_443.wav"
+      ],
+      "response": "This synthesized speech is quiet and has good continuity, but it is somewhat noisy and severely distorted. The overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.0,
+      "col": 1.4,
+      "loud": 1.4,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 0.3070898761263382
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08134_chp_0017_reader_11094_3_seg_live_skype_444.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is relatively quiet and has some distortion. Additionally, the noise level is somewhat high. Considering these factors, I think the overall MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.1,
+      "col": 2.1,
+      "loud": 2.0,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.13899729117533982
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08190_chp_0007_reader_08165_2_seg_live_skype_449.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has some noticeable issues, including somewhat noisy, somewhat distorted, and slightly discontinuous. Although the volume is relatively soft but understandable, the overall MOS score is about 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.6,
+      "col": 2.6,
+      "loud": 2.9,
+      "dis": 3.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.8,
+      "bleu": 0.17831253136638547
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08240_chp_0008_reader_06319_13_seg_live_skype_451.wav"
+      ],
+      "response": "This synthesized speech has a relatively good continuity and moderate level of distortion. However, it is somewhat noisy, and the volume is relatively soft. With these characteristics, I would give its overall MOS score as 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 2.7,
+      "col": 3.6,
+      "loud": 3.6,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat average performance in terms of noise level and loudness, I think it is an acceptable synthesized speech with an overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.3999999999999999,
+      "bleu": 7.602565400093096e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08240_chp_0018_reader_05749_8_seg_live_skype_452.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has noticeable noise and distortion. It is also slightly discontinuous and quiet. With these issues, I think it is a relatively poor synthesized speech with an overall MOS of 2.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.7,
+      "noi": 2.8,
+      "col": 2.5,
+      "loud": 2.7,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.09999999999999964,
+      "bleu": 0.08267424302233979
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08293_chp_0005_reader_00874_16_seg_live_phone_460.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and noisy with significant distortion and discontinuity. Overall, the MOS score of this speech is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.1,
+      "col": 1.6,
+      "loud": 1.7,
+      "dis": 2.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 2.9964624334870454e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08293_chp_0005_reader_00874_16_seg_live_skype_460.wav"
+      ],
+      "response": "This synthesized speech is noisy, discontinuous and severely distorted, with an extremely quiet volume. The overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.0,
+      "col": 1.7,
+      "loud": 1.8,
+      "dis": 2.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.259418075232376
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08747_chp_0028_reader_02720_27_seg_live_phone_481.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and quiet. It has somewhat noisy, significantly distorted and moderately discontinuous. The overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 2.7,
+      "col": 2.5,
+      "loud": 1.7,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.2741229265391949
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08747_chp_0028_reader_02720_27_seg_live_skype_481.wav"
+      ],
+      "response": "This synthesized speech is quite quiet and has noticeable distortion. Although it has some level of continuity, the presence of noise and distortion degrades its overall quality, resulting in an overall MOS score of 1.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.7,
+      "noi": 2.2,
+      "col": 1.9,
+      "loud": 1.4,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.10000000000000009,
+      "bleu": 0.12047249881720133
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08875_chp_0007_reader_10279_11_seg_live_phone_485.wav"
+      ],
+      "response": "This synthesized speech is moderately clean and has good continuity. However, it contains significant distortion and is somewhat quiet. With these characteristics, I think it is a relatively poor synthesized speech with an overall MOS of 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.0,
+      "col": 1.8,
+      "loud": 2.7,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 1.817622372966456e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08875_chp_0007_reader_10279_11_seg_live_skype_485.wav"
+      ],
+      "response": "This synthesized speech is somewhat quiet and has moderate distortion. Although it is neither noisy nor clean and has some discontinuity, the overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.3,
+      "col": 2.4,
+      "loud": 2.3,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 0.14868720326332424
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08889_chp_0018_reader_07722_2_seg_live_phone_486.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and discontinuity, and it also contains noticeable distortion. Although the loudness is acceptable, the overall quality is somewhat unnatural, resulting in an overall MOS score of 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.3,
+      "col": 2.2,
+      "loud": 3.2,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.9999999999999998,
+      "bleu": 2.8657655212928405e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_08889_chp_0018_reader_07722_2_seg_live_skype_486.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a relatively low noise level. However, it suffers from significant distortion and is somewhat quiet. Given these mixed results, I would rate its overall MOS score as 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.9,
+      "col": 1.9,
+      "loud": 2.5,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, but it suffers from moderate distortion and a somewhat soft volume. Overall, I would rate its MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.8000000000000003,
+      "bleu": 0.15444398169041645
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09027_chp_0001_reader_07466_28_seg_live_phone_491.wav"
+      ],
+      "response": "This synthesized speech has somewhat noisy and discontinuous issues, and it is moderately distorted. Although its loudness is soft but understandable, the overall MOS score is about 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.0,
+      "col": 2.2,
+      "loud": 2.1,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.1993202112095818
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09027_chp_0001_reader_07466_28_seg_live_skype_491.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean and has good continuity, but it suffers from significant distortion and is extremely quiet. The overall MOS score is 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.4,
+      "col": 2.4,
+      "loud": 1.8,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.24885518432348067
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09049_chp_0014_reader_05415_16_seg_live_phone_492.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although the loudness is acceptable, the overall quality is impacted by the distortions and discontinuity. I will give its overall MOS score as about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 3.3,
+      "col": 1.8,
+      "loud": 3.2,
+      "dis": 3.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.311227569304469
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09049_chp_0014_reader_05415_16_seg_live_skype_492.wav"
+      ],
+      "response": "This synthesized speech has moderate noise and some discontinuity, and it is significantly distorted. Although the volume is somewhat quiet, the overall MOS score is about 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.4,
+      "col": 2.2,
+      "loud": 2.6,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.5999999999999996,
+      "bleu": 6.666186281285167e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09071_chp_0012_reader_06621_11_seg_live_phone_494.wav"
+      ],
+      "response": "This synthesized speech has somewhat acceptable noise level. However, it is plagued by significant distortion and moderate discontinuity, and the volume is relatively quiet. Considering these factors, I would rate its overall MOS score as 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 3.2,
+      "col": 1.8,
+      "loud": 2.3,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018,
+      "bleu": 1.7964318646462965e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09071_chp_0012_reader_06621_11_seg_live_skype_494.wav"
+      ],
+      "response": "This synthesized speech has a moderate level of noise and distortion, and is somewhat discontinuous. Although it is not very loud, the overall MOS score is about 3.0, indicating a neutral naturalness.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 2.9,
+      "col": 2.6,
+      "loud": 2.9,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.18278722863400032
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09145_chp_0010_reader_06754_2_seg_live_phone_500.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has moderate discontinuity, along with severe distortion. Although its background noise level is relatively acceptable, its overall quality is heavily impacted by the distortion and discontinuity issues, and it is also too quiet. The overall MOS score is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 3.4,
+      "col": 1.9,
+      "loud": 1.3,
+      "dis": 3.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.15205160037734164
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09145_chp_0010_reader_06754_2_seg_live_skype_500.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean and continuous, but unfortunately, it is relatively quiet and contains significant distortion. The overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 4.1,
+      "col": 2.0,
+      "loud": 1.9,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0,
+      "bleu": 3.759815530332108e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09185_chp_0031_reader_06803_2_seg_live_phone_505.wav"
+      ],
+      "response": "This synthesized speech has moderate noise level and moderate discontinuity. Although it suffers from significant distortion, the volume is soft but understandable. Considering these factors, I think the overall MOS score is about 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.7,
+      "col": 2.5,
+      "loud": 3.4,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.4000000000000001,
+      "bleu": 0.14141554204365844
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09185_chp_0031_reader_06803_2_seg_live_skype_505.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and continuous, but with somewhat distorted sound and relatively quiet volume. Given these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 4.0,
+      "col": 2.3,
+      "loud": 2.7,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.20837472912386615
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09314_chp_0017_reader_03532_33_seg_live_phone_512.wav"
+      ],
+      "response": "This is a quiet and discontinuous speech with significant distortion. Although it has a moderate noise level, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 3.3,
+      "col": 1.6,
+      "loud": 1.3,
+      "dis": 1.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.5029615379017084
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09314_chp_0017_reader_03532_33_seg_live_skype_512.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate noise level. However, because it contains relatively serious distortion and is extremely quiet, I will give its overall MOS score is about 2.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.4,
+      "noi": 3.4,
+      "col": 1.7,
+      "loud": 1.7,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a somewhat soft volume, I think it is an average synthesized speech with an overall MOS of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 1.2000000000000002,
+      "bleu": 5.882976425857379e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09331_chp_0019_reader_11192_31_seg_live_phone_514.wav"
+      ],
+      "response": "This synthesized speech is quite clean and has moderate continuity, but it is extremely quiet and severely distorted, leading to its overall MOS score of 1.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 3.2,
+      "col": 1.5,
+      "loud": 1.2,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 3.05994852539139e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09331_chp_0019_reader_11192_31_seg_live_skype_514.wav"
+      ],
+      "response": "This synthesized speech has low background noise. However, because it contains noticeable distortion and discontinuity, and the volume is too quiet, the overall MOS score is about 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 4.4,
+      "col": 2.4,
+      "loud": 1.7,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.16407709122771405
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09391_chp_0002_reader_09728_45_seg_live_phone_515.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet and noisy with significant discontinuity. It also contains severe distortion. The overall MOS score is only 1.0, indicating a very poor synthetic quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 2.4,
+      "col": 1.5,
+      "loud": 1.5,
+      "dis": 2.7,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0,
+      "bleu": 0.3116078059654562
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09391_chp_0002_reader_09728_45_seg_live_skype_515.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet, noisy and discontinuous with significant distortion. The overall MOS score is only 1.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 1.5,
+      "col": 2.0,
+      "loud": 1.3,
+      "dis": 2.4,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.7331765459202478
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09495_chp_0026_reader_02223_54_seg_live_phone_523.wav"
+      ],
+      "response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, and the volume is somewhat quiet. With these drawbacks, I think the overall MOS score of 1.6 is reasonable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 3.4,
+      "col": 2.1,
+      "loud": 2.4,
+      "dis": 2.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.10046916732568795
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09495_chp_0026_reader_02223_54_seg_live_skype_523.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Its volume is also extremely quiet. With these issues, the overall MOS score is only 1.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.4,
+      "noi": 2.3,
+      "col": 2.1,
+      "loud": 1.8,
+      "dis": 2.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.3899280632894102
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09501_chp_0011_reader_10098_40_seg_live_phone_524.wav"
+      ],
+      "response": "This synthesized speech is relatively free of background noise, but it is severely distorted and discontinuous. The loudness is also extremely quiet. With these issues, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 3.7,
+      "col": 1.7,
+      "loud": 1.7,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.20000000000000018,
+      "bleu": 0.19380861242250555
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09501_chp_0011_reader_10098_40_seg_live_skype_524.wav"
+      ],
+      "response": "This synthesized speech is moderately noisy and discontinuous, with significant distortion, and is extremely quiet. The overall MOS score is only 1.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.7,
+      "noi": 3.1,
+      "col": 1.6,
+      "loud": 1.9,
+      "dis": 3.1,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.10000000000000009,
+      "bleu": 0.39423022212921766
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09587_chp_0003_reader_00683_40_seg_live_phone_527.wav"
+      ],
+      "response": "This synthesized speech has good continuity and relatively low noise level. However, it suffers from significant distortion. The volume is somewhat soft but understandable. Given these factors, I think it is a mediocre synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 4.1,
+      "col": 1.9,
+      "loud": 3.0,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.19999999999999973,
+      "bleu": 4.21793614646483e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09587_chp_0003_reader_00683_40_seg_live_skype_527.wav"
+      ],
+      "response": "This synthesized speech is relatively clear and continuous, with a low noise level. However, it has moderate distortion and a soft volume. Overall, I would rate its MOS score as 3.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.8,
+      "noi": 4.0,
+      "col": 3.1,
+      "loud": 3.2,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.0,
+      "bleu": 0.2097257149401187
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09628_chp_0013_reader_05511_4_seg_live_phone_529.wav"
+      ],
+      "response": "This synthesized speech has good continuity and acceptable loudness. However, it is somewhat noisy and moderately distorted, which affects its overall quality. I think it is an average synthesized speech with overall MOS of 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 3.7,
+      "col": 2.7,
+      "loud": 4.0,
+      "dis": 4.3,
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively soft volume, these issues detract from its overall quality, resulting in an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.7999999999999998,
+      "bleu": 6.947562815882126e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09628_chp_0013_reader_05511_4_seg_live_skype_529.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate volume, but it is somewhat noisy and moderately distorted. Considering these factors, I think it is an average synthesized speech with an overall MOS of 3.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.8,
+      "noi": 3.1,
+      "col": 3.5,
+      "loud": 3.6,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.1780539057384934
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09715_chp_0017_reader_05330_4_seg_live_phone_534.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate volume. However, it suffers from moderate noise level and significant distortion, which affects its overall quality. The overall MOS score is about 3.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 3.2,
+      "col": 2.3,
+      "loud": 3.8,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech has a moderate level of noise and some discontinuity, but it is relatively clear and free from distortion. With an overall MOS score of 3.6, it falls into the category of being neither natural nor unnatural.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.6000000000000001,
+      "bleu": 2.6416114443770735e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09715_chp_0017_reader_05330_4_seg_live_skype_534.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and continuous, with moderate distortion. Although it is slightly soft, I think it is an average synthesized speech with an overall MOS of 3.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.8,
+      "noi": 4.3,
+      "col": 3.4,
+      "loud": 3.2,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat natural with an overall MOS of 3.6. It has a moderate level of noise, but its sound quality is only slightly distorted. Additionally, it has good continuity and a clear loudness, making it a decent synthesized speech.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.19999999999999973,
+      "bleu": 0.12795100096585615
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09918_chp_0015_reader_06052_90_seg_live_phone_541.wav"
+      ],
+      "response": "This synthesized speech has good continuity and a reasonable loudness level. However, it is somewhat noisy and contains significant distortion, which affects its overall quality. With an overall MOS score of 3.0, it is neither natural nor unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.0,
+      "noi": 2.5,
+      "col": 2.1,
+      "loud": 4.0,
+      "dis": 4.7,
+      "predicted_response": "The synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively soft volume, these issues detract from its overall quality, resulting in an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 0.1417087253842289
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09918_chp_0015_reader_06052_90_seg_live_skype_541.wav"
+      ],
+      "response": "This synthesized speech has good continuity and moderate loudness. However, it suffers from somewhat noisy and significantly distorted, I will give its overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.1,
+      "col": 2.5,
+      "loud": 3.7,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is still good, with an MOS score of 4.0.",
+      "predicted_mos": 4.0,
+      "mos_error": 1.2000000000000002,
+      "bleu": 6.474108351523593e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09952_chp_0001_reader_00450_3_seg_live_phone_543.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has noticeable distortion, with moderate discontinuity. Although the volume is somewhat quiet, the overall quality is impacted by these factors, resulting in an overall MOS score of 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 2.3,
+      "col": 1.6,
+      "loud": 2.8,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.18626377747884038
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_09952_chp_0001_reader_00450_3_seg_live_skype_543.wav"
+      ],
+      "response": "This synthesized speech has good continuity and clear enough volume. However, it suffers from relatively high noise levels and significant distortion, which affects its overall quality. The overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 1.6,
+      "col": 2.2,
+      "loud": 2.3,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 0.13322015393845454
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10097_chp_0003_reader_00178_7_seg_live_phone_549.wav"
+      ],
+      "response": "This synthesized speech has moderate volume and acceptable continuity. However, it is noisy and severely distorted, which significantly impacts its overall quality. With these issues, I would rate its overall MOS score as 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 1.6,
+      "col": 1.6,
+      "loud": 3.1,
+      "dis": 3.3,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0,
+      "bleu": 2.0596359801865932e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10097_chp_0003_reader_00178_7_seg_live_skype_549.wav"
+      ],
+      "response": "This synthesized speech has good continuity, but it is somewhat noisy and significantly distorted. Additionally, it is a bit quiet. Considering these factors, I think it is a relatively poor synthesized speech with an overall MOS of 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.9,
+      "col": 2.1,
+      "loud": 2.3,
+      "dis": 4.0,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998,
+      "bleu": 0.08384981851976525
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10274_chp_0002_reader_02718_19_seg_live_phone_555.wav"
+      ],
+      "response": "This synthesized speech has a relatively good continuity and a low noise level. However, it suffers from moderate distortion, which affects its overall quality. The loudness is soft but understandable. With these characteristics, I think it is a mediocre synthesized speech with an overall MOS of 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 4.2,
+      "col": 2.3,
+      "loud": 3.4,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.40000000000000036,
+      "bleu": 2.949542915872947e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10274_chp_0002_reader_02718_19_seg_live_skype_555.wav"
+      ],
+      "response": "This synthesized speech is relatively clean and continuous, with moderate naturalness. However, it is somewhat quiet and has some distortion, which affects its overall quality. With an overall MOS score of 3.2, it is an average synthesized speech.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 4.5,
+      "col": 3.0,
+      "loud": 2.5,
+      "dis": 4.1,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate distortion. Although it has a slightly lower noise level, its overall quality is acceptable. I would give its overall MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 0.5999999999999996,
+      "bleu": 0.26572462330441016
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10795_chp_0003_reader_02697_35_seg_live_phone_571.wav"
+      ],
+      "response": "This synthesized speech has a good continuity and low noise level, with a reasonable loudness. However, it suffers from moderate distortion, which affects its overall quality. Considering these factors, I would rate its overall MOS score as 3.4.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.4,
+      "noi": 4.5,
+      "col": 2.3,
+      "loud": 4.1,
+      "dis": 4.6,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.20000000000000018,
+      "bleu": 4.723117761119084e-155
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10795_chp_0003_reader_02697_35_seg_live_skype_571.wav"
+      ],
+      "response": "This synthesized speech is moderately clean with slight discontinuity and minor distortion. However, it is somewhat soft. I think it is a mediocre synthesized speech with overall MOS of 3.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.2,
+      "noi": 3.5,
+      "col": 3.4,
+      "loud": 3.1,
+      "dis": 4.2,
+      "predicted_response": "The synthesized speech is relatively clean and continuous, with moderate volume. Although it has some distortion, its overall quality is acceptable, with an MOS score of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.3999999999999999,
+      "bleu": 2.1016708258126461e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10995_chp_0004_reader_01615_15_seg_live_phone_580.wav"
+      ],
+      "response": "This synthesized speech has moderate level of noise and noticeable distortion, and it also suffers from discontinuity. The loudness is relatively quiet. Considering these aspects, the overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 3.3,
+      "col": 2.3,
+      "loud": 2.2,
+      "dis": 2.7,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0,
+      "bleu": 0.1443451619049451
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_10995_chp_0004_reader_01615_15_seg_live_skype_580.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it is understandable in terms of volume, the overall MOS score is only 1.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.8,
+      "noi": 2.4,
+      "col": 2.9,
+      "loud": 2.1,
+      "dis": 3.4,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.5350081646671996
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11020_chp_0008_reader_06271_17_seg_live_phone_581.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural with noticeable noise and distortion. Although it is moderately discontinuous and soft, the overall MOS score is about 2.8.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.8,
+      "noi": 2.6,
+      "col": 2.0,
+      "loud": 3.6,
+      "dis": 3.7,
+      "predicted_response": "The synthesized speech has a moderate level of noise and distortion, and is somewhat discontinuous. Although it is not extremely quiet, its overall quality is affected by these issues, resulting in an overall MOS score of 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0,
+      "bleu": 3.215548357281225e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11020_chp_0008_reader_06271_17_seg_live_skype_581.wav"
+      ],
+      "response": "This synthesized speech is somewhat unnatural and has a somewhat noisy background. It also suffers from significant distortion and discontinuity, and the loudness is somewhat quiet. Overall, the MOS score is 2.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.2,
+      "noi": 2.3,
+      "col": 2.2,
+      "loud": 2.4,
+      "dis": 2.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013,
+      "bleu": 0.1343283090566212
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11110_chp_0045_reader_09003_11_seg_live_phone_585.wav"
+      ],
+      "response": "This synthesized speech has a moderate noise level, but unfortunately, it suffers from significant distortion and discontinuity. Although the volume is somewhat soft but understandable, the overall quality is somewhat unnatural, with an overall MOS score of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 3.4,
+      "col": 1.7,
+      "loud": 2.9,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech has a moderate level of noise and some discontinuity, but it is relatively clear and free from distortion. However, the overall MOS score is about 3.2, indicating that it is neither natural nor unnatural.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.15456624193074875
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11110_chp_0045_reader_09003_11_seg_live_skype_585.wav"
+      ],
+      "response": "This synthesized speech is somewhat noisy and has noticeable distortion. The audio continuity is moderate, but it is relatively quiet. Considering these factors, I think it is a less-than-ideal synthesized speech with an overall MOS of 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 2.9,
+      "col": 2.4,
+      "loud": 2.4,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001,
+      "bleu": 0.14841159454009092
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11203_chp_0029_reader_04927_20_seg_live_phone_590.wav"
+      ],
+      "response": "This synthesized speech is extremely quiet, noisy and severely distorted, with moderate discontinuity. The overall MOS score is 1.0, indicating very poor synthetic quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.0,
+      "noi": 1.6,
+      "col": 1.7,
+      "loud": 1.5,
+      "dis": 3.5,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.39116444567696496
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11203_chp_0029_reader_04927_20_seg_live_skype_590.wav"
+      ],
+      "response": "This synthesized speech is unfortunately severely impacted by extremely low volume and significant distortion. Although it has good continuity, the overall quality is greatly compromised, resulting in an overall MOS score of 1.2.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.2,
+      "noi": 2.2,
+      "col": 1.4,
+      "loud": 1.4,
+      "dis": 4.4,
+      "predicted_response": "The synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.0,
+      "bleu": 2.215675738136047e-78
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11240_chp_0015_reader_01390_9_seg_live_phone_594.wav"
+      ],
+      "response": "This synthesized speech is quite poor, with noticeable noise and significant distortion. Although it has moderate discontinuity, the overall volume is somewhat quiet. Considering these factors, the overall MOS score is about 1.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 1.6,
+      "noi": 1.8,
+      "col": 1.8,
+      "loud": 2.3,
+      "dis": 3.2,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.26390651480833244
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_VAL_LIVE/deg/book_11240_chp_0015_reader_01390_9_seg_live_skype_594.wav"
+      ],
+      "response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat quiet. However, its major drawback is the relatively high level of noise, I will give its overall MOS score is about 2.0.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.0,
+      "noi": 1.6,
+      "col": 3.1,
+      "loud": 2.8,
+      "dis": 3.9,
+      "predicted_response": "The synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996,
+      "bleu": 0.10122542701043631
+    }
+  ]
+}

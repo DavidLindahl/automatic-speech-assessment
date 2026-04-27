@@ -45,9 +45,17 @@ def train(
     batch_size: int = typer.Option(4, help="Per-device batch size."),
     epochs: int = typer.Option(2, help="Number of training epochs."),
     lr: float = typer.Option(1e-5, help="Learning rate."),
+    warmup_ratio: float = typer.Option(
+        0.0, help="Fraction of total steps used for LR warmup."
+    ),
+    lr_scheduler_type: str = typer.Option(
+        "linear", help="LR scheduler (linear|cosine|constant|...)."
+    ),
     gradient_accumulation_steps: int = typer.Option(
         4, help="Gradient accumulation steps."
     ),
+    weight_decay: float = typer.Option(0.0, help="Weight decay."),
+    label_smoothing_factor: float = typer.Option(0.0, help="Label smoothing factor."),
     bf16: bool = typer.Option(False, help="Use bf16 (A100/H100)."),
     fp16: bool = typer.Option(False, help="Use fp16 (V100)."),
     max_samples: Optional[int] = typer.Option(
@@ -89,9 +97,13 @@ def train(
             config={
                 "model_id": model_id,
                 "learning_rate": lr,
+                "warmup_ratio": warmup_ratio,
+                "lr_scheduler_type": lr_scheduler_type,
                 "batch_size": batch_size,
                 "epochs": epochs,
                 "gradient_accumulation_steps": gradient_accumulation_steps,
+                "weight_decay": weight_decay,
+                "label_smoothing_factor": label_smoothing_factor,
                 "val_split": val_split,
                 "max_samples": max_samples,
                 "dtype": "bf16" if bf16 else "fp16" if fp16 else "fp32",
@@ -148,7 +160,11 @@ def train(
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
         learning_rate=lr,
+        warmup_ratio=warmup_ratio,
+        lr_scheduler_type=lr_scheduler_type,
         num_train_epochs=epochs,
+        weight_decay=weight_decay,
+        label_smoothing_factor=label_smoothing_factor,
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
