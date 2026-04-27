@@ -7,7 +7,7 @@
 #BSUB -q gpuh100
 #BSUB -J dpo-plus2epoch-l40s-h100
 #BSUB -n 8
-#BSUB -gpu "num=2:mode=exclusive_process"
+#BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
@@ -40,7 +40,7 @@ echo "=========================================="
 nvidia-smi
 
 torchrun \
-    --nproc_per_node=2 \
+    --nproc_per_node=1 \
     src/asa/dpo-finetune.py \
     --model-name dpo_plus2epoch_l40s_h100 \
     --model-id models/sft_warmup_plus2epoch_l40s \
