@@ -1,6 +1,6 @@
 #!/bin/sh
 ### ============================================================
-### DTU HPC LSF job script — Generate Max NISQA Temporal Mixes
+### DTU HPC LSF job script — Generate Max NISQA Temporal Mixes + JSONL
 ### Submit with: bsub < jobs/train/generate_nisqa_temporal_max.sh
 ### ============================================================
 
@@ -93,6 +93,7 @@ if [ -z "$TOTAL_MIX_FILES" ] || [ "$TOTAL_MIX_FILES" -le 0 ]; then
 fi
 
 OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
+TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
 
 echo "Eligible rows (MOS <= 3.0, active tags): $TOTAL_MIX_FILES"
 echo "Output dir: $OUTPUT_DIR"
@@ -104,11 +105,18 @@ uv run python src/asa/generate_nisqa_sim_lowmos_active.py \
   --no-allow-source-reuse \
   --overwrite
 
-uv run python src/asa/build_temporal_inspector_site.py \
+uv run python notebooks/build_temporal_inspector_site.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv"
+
+uv run python src/asa/build_nisqa_temporal_json.py \
+  --manifest-path "$OUTPUT_DIR/manifest.csv" \
+  --mixes-dir "$OUTPUT_DIR" \
+  --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+  --output-jsonl "$TRAIN_JSON"
 
 echo "=========================================="
 echo "Finished: $(date)"
 echo "Manifest: $OUTPUT_DIR/manifest.csv"
 echo "Inspector: $OUTPUT_DIR/inspector/index.html"
+echo "Train JSON: $TRAIN_JSON"
 echo "=========================================="
