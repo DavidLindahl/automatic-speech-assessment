@@ -231,16 +231,18 @@ def infer(
     ab_mode: bool = typer.Option(
         False, "--ab", help="A/B mode: audio_paths must be pairs (a1 b1 a2 b2 ...)."
     ),
-    max_new_tokens: int = typer.Option(100, help="Max tokens to generate per sample."),
+    max_new_tokens: int = typer.Option(150, help="Max tokens to generate per sample."),
     batch_size: int = typer.Option(4, help="Batch size."),
     do_sample: bool = typer.Option(
-        False, "--do-sample", help="Enable stochastic decoding."
+        True,
+        "--do-sample/--greedy",
+        help="Sample with temperature/top_p (default) or greedy decoding.",
     ),
     temperature: float = typer.Option(
-        1.0, "--temperature", help="Softmax temperature when --do-sample is set."
+        0.7, "--temperature", help="Sampling temperature (used when --do-sample)."
     ),
     top_p: float = typer.Option(
-        1.0, "--top-p", help="Nucleus sampling cutoff when --do-sample is set."
+        0.9, "--top-p", help="Nucleus top-p cutoff (used when --do-sample)."
     ),
     output: Optional[Path] = typer.Option(
         None, "--output", "-o", help="Write responses to a text file (one per line)."
