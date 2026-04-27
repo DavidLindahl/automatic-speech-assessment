@@ -1,0 +1,6002 @@
+[
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0000.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.22,
+        "end_time": 4.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0001.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.74,
+        "end_time": 3.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0002.wav",
+        "degradation_type": "dog",
+        "start_time": 0.91,
+        "end_time": 3.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0003.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.02,
+        "end_time": 1.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0004.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.38,
+        "end_time": 0.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0005.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 0.42,
+        "end_time": 2.13
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0006.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 1.87,
+        "end_time": 4.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0007.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.55,
+        "end_time": 2.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0008.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.11,
+        "end_time": 6.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0009.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 1.35,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0010.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.61,
+        "end_time": 2.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0011.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.26,
+        "end_time": 3.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0012.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.05,
+        "end_time": 2.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0013.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 3.71,
+        "end_time": 5.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0014.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.04,
+        "end_time": 3.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0015.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 0.41,
+        "end_time": 3.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0016.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.85,
+        "end_time": 2.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0017.wav",
+        "degradation_type": "door wood knock",
+        "start_time": 2.77,
+        "end_time": 3.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0018.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.01,
+        "end_time": 3.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0019.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.85,
+        "end_time": 1.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0020.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.92,
+        "end_time": 5.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0021.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.12,
+        "end_time": 1.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0022.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.45,
+        "end_time": 1.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0023.wav",
+        "degradation_type": "can opening",
+        "start_time": 0.22,
+        "end_time": 2.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0024.wav",
+        "degradation_type": "crow",
+        "start_time": 2.33,
+        "end_time": 3.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0025.wav",
+        "degradation_type": "door wood knock",
+        "start_time": 1.1,
+        "end_time": 3.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0026.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.44,
+        "end_time": 3.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0027.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.56,
+        "end_time": 2.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0028.wav",
+        "degradation_type": "door wood knock",
+        "start_time": 0.34,
+        "end_time": 2.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0029.wav",
+        "degradation_type": "clapping",
+        "start_time": 0.52,
+        "end_time": 2.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0030.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.93,
+        "end_time": 4.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0031.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.38,
+        "end_time": 2.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0032.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.76,
+        "end_time": 5.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0033.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.15,
+        "end_time": 0.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0034.wav",
+        "degradation_type": "clapping",
+        "start_time": 0.49,
+        "end_time": 1.99
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0035.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.48,
+        "end_time": 2.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0036.wav",
+        "degradation_type": "clapping",
+        "start_time": 0.25,
+        "end_time": 1.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0037.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.35,
+        "end_time": 5.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0038.wav",
+        "degradation_type": "dog",
+        "start_time": 1.63,
+        "end_time": 3.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0039.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.69,
+        "end_time": 3.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0040.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.75,
+        "end_time": 2.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0041.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.55,
+        "end_time": 2.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0042.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.15,
+        "end_time": 5.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0043.wav",
+        "degradation_type": "clapping",
+        "start_time": 0.12,
+        "end_time": 2.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0044.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.93,
+        "end_time": 2.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0045.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.43,
+        "end_time": 2.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0046.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 1.33,
+        "end_time": 3.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0047.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.34,
+        "end_time": 2.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0048.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.34,
+        "end_time": 1.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0049.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.15,
+        "end_time": 0.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0050.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.42,
+        "end_time": 2.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0051.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.3,
+        "end_time": 5.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0052.wav",
+        "degradation_type": "fireworks",
+        "start_time": 4.87,
+        "end_time": 7.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0053.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.28,
+        "end_time": 2.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0054.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.41,
+        "end_time": 0.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0055.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.77,
+        "end_time": 3.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0056.wav",
+        "degradation_type": "fireworks",
+        "start_time": 0.09,
+        "end_time": 2.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0057.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.46,
+        "end_time": 5.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0058.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.9,
+        "end_time": 3.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0059.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.7,
+        "end_time": 1.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0060.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.03,
+        "end_time": 0.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0061.wav",
+        "degradation_type": "fireworks",
+        "start_time": 1.44,
+        "end_time": 3.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0062.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.4,
+        "end_time": 1.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0063.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.45,
+        "end_time": 1.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0064.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.92,
+        "end_time": 3.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0065.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.0,
+        "end_time": 1.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0066.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.02,
+        "end_time": 0.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0067.wav",
+        "degradation_type": "fireworks",
+        "start_time": 2.3,
+        "end_time": 3.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0068.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.26,
+        "end_time": 4.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0069.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.52,
+        "end_time": 4.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0070.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.39,
+        "end_time": 1.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0071.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.27,
+        "end_time": 1.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0072.wav",
+        "degradation_type": "clapping",
+        "start_time": 0.35,
+        "end_time": 2.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0073.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.38,
+        "end_time": 9.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0074.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.47,
+        "end_time": 0.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0075.wav",
+        "degradation_type": "clapping",
+        "start_time": 2.61,
+        "end_time": 3.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0076.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.29,
+        "end_time": 4.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0077.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.11,
+        "end_time": 2.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0078.wav",
+        "degradation_type": "clapping",
+        "start_time": 1.83,
+        "end_time": 3.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0079.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 0.1,
+        "end_time": 2.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0080.wav",
+        "degradation_type": "airplane",
+        "start_time": 0.75,
+        "end_time": 2.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0081.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.56,
+        "end_time": 3.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0082.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.88,
+        "end_time": 1.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0083.wav",
+        "degradation_type": "mouse click",
+        "start_time": 2.34,
+        "end_time": 4.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0084.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.65,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0085.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.92,
+        "end_time": 2.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0086.wav",
+        "degradation_type": "pouring water",
+        "start_time": 1.11,
+        "end_time": 2.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0087.wav",
+        "degradation_type": "train",
+        "start_time": 2.72,
+        "end_time": 3.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0088.wav",
+        "degradation_type": "sheep",
+        "start_time": 1.72,
+        "end_time": 4.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0089.wav",
+        "degradation_type": "water drops",
+        "start_time": 0.87,
+        "end_time": 2.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0090.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.84,
+        "end_time": 2.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0091.wav",
+        "degradation_type": "water drops",
+        "start_time": 3.63,
+        "end_time": 4.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0092.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.48,
+        "end_time": 4.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0093.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.76,
+        "end_time": 5.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0094.wav",
+        "degradation_type": "water drops",
+        "start_time": 0.17,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0095.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.94,
+        "end_time": 4.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0096.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.3,
+        "end_time": 3.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0097.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.37,
+        "end_time": 5.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0098.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.83,
+        "end_time": 2.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0099.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.35,
+        "end_time": 2.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0100.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.33,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0101.wav",
+        "degradation_type": "church bells",
+        "start_time": 0.07,
+        "end_time": 2.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0102.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.15,
+        "end_time": 3.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0103.wav",
+        "degradation_type": "church bells",
+        "start_time": 3.57,
+        "end_time": 4.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0104.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.04,
+        "end_time": 3.18
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0105.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 5.82,
+        "end_time": 7.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0106.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.55,
+        "end_time": 3.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0107.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.07,
+        "end_time": 3.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0108.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.05,
+        "end_time": 2.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0109.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.41,
+        "end_time": 3.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0110.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.0,
+        "end_time": 1.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0111.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.08,
+        "end_time": 1.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0112.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.72,
+        "end_time": 6.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0113.wav",
+        "degradation_type": "keyboard typing",
+        "start_time": 11.59,
+        "end_time": 12.81
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0114.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.79,
+        "end_time": 8.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0115.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.71,
+        "end_time": 5.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0116.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.28,
+        "end_time": 5.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0117.wav",
+        "degradation_type": "packet loss",
+        "start_time": 18.35,
+        "end_time": 18.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0118.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.6,
+        "end_time": 0.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0119.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.89,
+        "end_time": 10.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0120.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.43,
+        "end_time": 1.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0121.wav",
+        "degradation_type": "wind",
+        "start_time": 6.33,
+        "end_time": 8.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0122.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.29,
+        "end_time": 7.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0123.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.54,
+        "end_time": 2.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0124.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.93,
+        "end_time": 8.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0125.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.12,
+        "end_time": 8.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0126.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.45,
+        "end_time": 2.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0127.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 3.9,
+        "end_time": 5.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0128.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.94,
+        "end_time": 6.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0129.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.62,
+        "end_time": 4.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0130.wav",
+        "degradation_type": "footsteps",
+        "start_time": 2.61,
+        "end_time": 4.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0131.wav",
+        "degradation_type": "footsteps",
+        "start_time": 10.08,
+        "end_time": 12.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0132.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.51,
+        "end_time": 1.92
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0133.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.35,
+        "end_time": 1.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0134.wav",
+        "degradation_type": "footsteps",
+        "start_time": 0.27,
+        "end_time": 2.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0135.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.61,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0136.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.26,
+        "end_time": 8.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0137.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.84,
+        "end_time": 2.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0138.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.0,
+        "end_time": 2.02
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0139.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.03,
+        "end_time": 1.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0140.wav",
+        "degradation_type": "footsteps",
+        "start_time": 0.0,
+        "end_time": 2.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0141.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.67,
+        "end_time": 1.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0142.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.18,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0143.wav",
+        "degradation_type": "footsteps",
+        "start_time": 0.26,
+        "end_time": 2.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0144.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.89,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0145.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.37,
+        "end_time": 1.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0146.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.0,
+        "end_time": 1.23
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0147.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.6,
+        "end_time": 2.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0148.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.08,
+        "end_time": 1.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0149.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.81,
+        "end_time": 3.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0150.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.82,
+        "end_time": 4.02
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0151.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.78,
+        "end_time": 0.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0152.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.32,
+        "end_time": 3.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0153.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.45,
+        "end_time": 2.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0154.wav",
+        "degradation_type": "footsteps",
+        "start_time": 2.12,
+        "end_time": 3.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0155.wav",
+        "degradation_type": "frog",
+        "start_time": 1.72,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0156.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.3,
+        "end_time": 2.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0157.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.41,
+        "end_time": 1.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0158.wav",
+        "degradation_type": "frog",
+        "start_time": 0.57,
+        "end_time": 2.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0159.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.22,
+        "end_time": 1.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0160.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.25,
+        "end_time": 3.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0161.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.91,
+        "end_time": 1.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0162.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.06,
+        "end_time": 2.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0163.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.66,
+        "end_time": 3.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0164.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.05,
+        "end_time": 1.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0165.wav",
+        "degradation_type": "fireworks",
+        "start_time": 0.0,
+        "end_time": 2.81
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0166.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.13,
+        "end_time": 1.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0167.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.52,
+        "end_time": 1.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0168.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.08,
+        "end_time": 2.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0169.wav",
+        "degradation_type": "fireworks",
+        "start_time": 1.75,
+        "end_time": 4.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0170.wav",
+        "degradation_type": "cow",
+        "start_time": 0.99,
+        "end_time": 3.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0171.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.56,
+        "end_time": 4.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0172.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.21,
+        "end_time": 6.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0173.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.39,
+        "end_time": 2.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0174.wav",
+        "degradation_type": "water drops",
+        "start_time": 13.11,
+        "end_time": 15.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0175.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.86,
+        "end_time": 5.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0176.wav",
+        "degradation_type": "packet loss",
+        "start_time": 13.84,
+        "end_time": 14.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0177.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 7.83,
+        "end_time": 9.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0178.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 16.77,
+        "end_time": 18.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0179.wav",
+        "degradation_type": "car horn",
+        "start_time": 13.4,
+        "end_time": 15.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0180.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 20.38,
+        "end_time": 22.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0181.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.02,
+        "end_time": 5.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0182.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.76,
+        "end_time": 6.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0183.wav",
+        "degradation_type": "helicopter",
+        "start_time": 2.83,
+        "end_time": 5.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0184.wav",
+        "degradation_type": "helicopter",
+        "start_time": 1.26,
+        "end_time": 4.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0185.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.32,
+        "end_time": 3.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0186.wav",
+        "degradation_type": "helicopter",
+        "start_time": 7.51,
+        "end_time": 10.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0187.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.2,
+        "end_time": 2.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0188.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 18.68,
+        "end_time": 19.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0189.wav",
+        "degradation_type": "helicopter",
+        "start_time": 5.65,
+        "end_time": 8.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0190.wav",
+        "degradation_type": "packet loss",
+        "start_time": 15.51,
+        "end_time": 15.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0191.wav",
+        "degradation_type": "helicopter",
+        "start_time": 4.84,
+        "end_time": 7.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0192.wav",
+        "degradation_type": "helicopter",
+        "start_time": 0.03,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0193.wav",
+        "degradation_type": "drinking sipping",
+        "start_time": 2.03,
+        "end_time": 4.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0194.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.67,
+        "end_time": 4.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0195.wav",
+        "degradation_type": "rain",
+        "start_time": 1.13,
+        "end_time": 2.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0196.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 1.39,
+        "end_time": 3.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0197.wav",
+        "degradation_type": "insects",
+        "start_time": 1.43,
+        "end_time": 2.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0198.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 0.33,
+        "end_time": 1.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0199.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.12,
+        "end_time": 0.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0200.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.63,
+        "end_time": 7.02
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0201.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 0.79,
+        "end_time": 1.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0202.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.29,
+        "end_time": 2.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0203.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.64,
+        "end_time": 3.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0204.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 0.93,
+        "end_time": 3.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0205.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.93,
+        "end_time": 1.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0206.wav",
+        "degradation_type": "laughing",
+        "start_time": 1.64,
+        "end_time": 2.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0207.wav",
+        "degradation_type": "frog",
+        "start_time": 3.15,
+        "end_time": 4.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0208.wav",
+        "degradation_type": "hen",
+        "start_time": 7.04,
+        "end_time": 8.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0209.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.91,
+        "end_time": 3.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0210.wav",
+        "degradation_type": "hen",
+        "start_time": 3.83,
+        "end_time": 5.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0211.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.2,
+        "end_time": 1.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0212.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.07,
+        "end_time": 4.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0213.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 2.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0214.wav",
+        "degradation_type": "helicopter",
+        "start_time": 1.16,
+        "end_time": 3.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0215.wav",
+        "degradation_type": "helicopter",
+        "start_time": 0.96,
+        "end_time": 1.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0216.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.05,
+        "end_time": 1.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0217.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.65,
+        "end_time": 6.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0218.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.11,
+        "end_time": 5.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0219.wav",
+        "degradation_type": "engine",
+        "start_time": 0.0,
+        "end_time": 2.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0220.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.68,
+        "end_time": 2.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0221.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.2,
+        "end_time": 3.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0222.wav",
+        "degradation_type": "engine",
+        "start_time": 0.82,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0223.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.97,
+        "end_time": 2.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0224.wav",
+        "degradation_type": "breathing",
+        "start_time": 1.08,
+        "end_time": 3.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0225.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.62,
+        "end_time": 2.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0226.wav",
+        "degradation_type": "mouse click",
+        "start_time": 9.44,
+        "end_time": 11.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0227.wav",
+        "degradation_type": "crying baby",
+        "start_time": 1.84,
+        "end_time": 3.02
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0228.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.48,
+        "end_time": 6.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0229.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.65,
+        "end_time": 2.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0230.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.82,
+        "end_time": 2.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0231.wav",
+        "degradation_type": "frog",
+        "start_time": 3.2,
+        "end_time": 4.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0232.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.53,
+        "end_time": 2.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0233.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.06,
+        "end_time": 8.99
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0234.wav",
+        "degradation_type": "frog",
+        "start_time": 0.29,
+        "end_time": 2.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0235.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.41,
+        "end_time": 4.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0236.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.05,
+        "end_time": 4.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0237.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.07,
+        "end_time": 3.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0238.wav",
+        "degradation_type": "frog",
+        "start_time": 2.86,
+        "end_time": 5.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0239.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.92,
+        "end_time": 2.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0240.wav",
+        "degradation_type": "hand saw",
+        "start_time": 2.01,
+        "end_time": 4.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0241.wav",
+        "degradation_type": "car horn",
+        "start_time": 0.91,
+        "end_time": 2.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0242.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.46,
+        "end_time": 1.81
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0243.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.86,
+        "end_time": 3.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0244.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.37,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0245.wav",
+        "degradation_type": "coughing",
+        "start_time": 2.35,
+        "end_time": 3.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0246.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 2.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0247.wav",
+        "degradation_type": "coughing",
+        "start_time": 0.42,
+        "end_time": 2.07
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0248.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.77,
+        "end_time": 2.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0249.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.0,
+        "end_time": 2.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0250.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.84,
+        "end_time": 1.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0251.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.81,
+        "end_time": 1.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0252.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.35,
+        "end_time": 1.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0253.wav",
+        "degradation_type": "insects",
+        "start_time": 3.88,
+        "end_time": 6.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0254.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.69,
+        "end_time": 2.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0255.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.76,
+        "end_time": 1.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0256.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.48,
+        "end_time": 0.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0257.wav",
+        "degradation_type": "sheep",
+        "start_time": 4.49,
+        "end_time": 5.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0258.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.59,
+        "end_time": 1.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0259.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.2,
+        "end_time": 7.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0260.wav",
+        "degradation_type": "sheep",
+        "start_time": 4.02,
+        "end_time": 5.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0261.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.8,
+        "end_time": 1.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0262.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 0.43,
+        "end_time": 2.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0263.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.73,
+        "end_time": 4.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0264.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 4.22,
+        "end_time": 5.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0265.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 3.63,
+        "end_time": 4.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0266.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.69,
+        "end_time": 6.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0267.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.95,
+        "end_time": 1.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0268.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.26,
+        "end_time": 2.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0269.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.12,
+        "end_time": 8.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0270.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.83,
+        "end_time": 1.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0271.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.31,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0272.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 2.42,
+        "end_time": 5.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0273.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.81,
+        "end_time": 1.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0274.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.4,
+        "end_time": 4.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0275.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 2.32,
+        "end_time": 4.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0276.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 0.12,
+        "end_time": 1.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0277.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.1,
+        "end_time": 0.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0278.wav",
+        "degradation_type": "glass breaking",
+        "start_time": 1.86,
+        "end_time": 3.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0279.wav",
+        "degradation_type": "cow",
+        "start_time": 1.95,
+        "end_time": 3.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0280.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.43,
+        "end_time": 1.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0281.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.29,
+        "end_time": 2.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0282.wav",
+        "degradation_type": "snoring",
+        "start_time": 2.77,
+        "end_time": 4.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0283.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 9.96,
+        "end_time": 12.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0284.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.3,
+        "end_time": 3.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0285.wav",
+        "degradation_type": "pig",
+        "start_time": 0.74,
+        "end_time": 1.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0286.wav",
+        "degradation_type": "pig",
+        "start_time": 3.34,
+        "end_time": 5.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0287.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.24,
+        "end_time": 4.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0288.wav",
+        "degradation_type": "pig",
+        "start_time": 0.08,
+        "end_time": 2.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0289.wav",
+        "degradation_type": "pig",
+        "start_time": 4.06,
+        "end_time": 6.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0290.wav",
+        "degradation_type": "pig",
+        "start_time": 1.68,
+        "end_time": 3.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0291.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.86,
+        "end_time": 7.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0292.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.49,
+        "end_time": 0.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0293.wav",
+        "degradation_type": "crying baby",
+        "start_time": 8.15,
+        "end_time": 9.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0294.wav",
+        "degradation_type": "crying baby",
+        "start_time": 0.42,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0295.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.58,
+        "end_time": 1.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0296.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.12,
+        "end_time": 2.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0297.wav",
+        "degradation_type": "crying baby",
+        "start_time": 0.43,
+        "end_time": 2.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0298.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.03,
+        "end_time": 4.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0299.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.28,
+        "end_time": 0.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0300.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.64,
+        "end_time": 1.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0301.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.53,
+        "end_time": 1.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0302.wav",
+        "degradation_type": "rain",
+        "start_time": 0.78,
+        "end_time": 2.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0303.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.47,
+        "end_time": 5.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0304.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.93,
+        "end_time": 3.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0305.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.57,
+        "end_time": 5.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0306.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.38,
+        "end_time": 5.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0307.wav",
+        "degradation_type": "church bells",
+        "start_time": 2.1,
+        "end_time": 3.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0308.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.87,
+        "end_time": 1.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0309.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.45,
+        "end_time": 5.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0310.wav",
+        "degradation_type": "washing machine",
+        "start_time": 0.06,
+        "end_time": 2.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0311.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.42,
+        "end_time": 4.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0312.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.12,
+        "end_time": 3.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0313.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.85,
+        "end_time": 8.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0314.wav",
+        "degradation_type": "clock tick",
+        "start_time": 2.86,
+        "end_time": 4.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0315.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.13,
+        "end_time": 3.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0316.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.98,
+        "end_time": 1.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0317.wav",
+        "degradation_type": "clock tick",
+        "start_time": 0.3,
+        "end_time": 1.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0318.wav",
+        "degradation_type": "footsteps",
+        "start_time": 0.43,
+        "end_time": 2.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0319.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.33,
+        "end_time": 1.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0320.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.48,
+        "end_time": 3.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0321.wav",
+        "degradation_type": "crying baby",
+        "start_time": 0.37,
+        "end_time": 2.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0322.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.84,
+        "end_time": 3.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0323.wav",
+        "degradation_type": "crying baby",
+        "start_time": 0.47,
+        "end_time": 2.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0324.wav",
+        "degradation_type": "church bells",
+        "start_time": 3.6,
+        "end_time": 5.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0325.wav",
+        "degradation_type": "engine",
+        "start_time": 3.06,
+        "end_time": 5.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0326.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.89,
+        "end_time": 3.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0327.wav",
+        "degradation_type": "water drops",
+        "start_time": 0.32,
+        "end_time": 3.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0328.wav",
+        "degradation_type": "water drops",
+        "start_time": 1.6,
+        "end_time": 4.07
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0329.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.1,
+        "end_time": 2.52
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0330.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.21,
+        "end_time": 1.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0331.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.58,
+        "end_time": 6.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0332.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 3.63,
+        "end_time": 6.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0333.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.33,
+        "end_time": 4.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0334.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 1.62,
+        "end_time": 3.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0335.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.55,
+        "end_time": 7.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0336.wav",
+        "degradation_type": "hand saw",
+        "start_time": 0.77,
+        "end_time": 3.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0337.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.77,
+        "end_time": 1.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0338.wav",
+        "degradation_type": "washing machine",
+        "start_time": 0.59,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0339.wav",
+        "degradation_type": "washing machine",
+        "start_time": 9.82,
+        "end_time": 11.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0340.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 10.86,
+        "end_time": 11.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0341.wav",
+        "degradation_type": "car horn",
+        "start_time": 4.01,
+        "end_time": 5.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0342.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.48,
+        "end_time": 1.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0343.wav",
+        "degradation_type": "car horn",
+        "start_time": 4.1,
+        "end_time": 5.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0344.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.19,
+        "end_time": 5.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0345.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.82,
+        "end_time": 4.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0346.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 3.72,
+        "end_time": 5.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0347.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.45,
+        "end_time": 0.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0348.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.5,
+        "end_time": 7.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0349.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.55,
+        "end_time": 6.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0350.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 11.3,
+        "end_time": 12.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0351.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 0.46,
+        "end_time": 1.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0352.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.74,
+        "end_time": 5.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0353.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.14,
+        "end_time": 4.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0354.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.77,
+        "end_time": 3.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0355.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.03,
+        "end_time": 4.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0356.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.9,
+        "end_time": 4.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0357.wav",
+        "degradation_type": "thunderstorm",
+        "start_time": 0.01,
+        "end_time": 1.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0358.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.46,
+        "end_time": 3.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0359.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.32,
+        "end_time": 1.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0360.wav",
+        "degradation_type": "airplane",
+        "start_time": 5.01,
+        "end_time": 6.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0361.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.96,
+        "end_time": 1.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0362.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.03,
+        "end_time": 1.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0363.wav",
+        "degradation_type": "car horn",
+        "start_time": 0.39,
+        "end_time": 2.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0364.wav",
+        "degradation_type": "fireworks",
+        "start_time": 3.59,
+        "end_time": 4.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0365.wav",
+        "degradation_type": "fireworks",
+        "start_time": 0.23,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0366.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.26,
+        "end_time": 3.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0367.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.76,
+        "end_time": 1.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0368.wav",
+        "degradation_type": "pig",
+        "start_time": 1.7,
+        "end_time": 3.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0369.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.08,
+        "end_time": 4.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0370.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.26,
+        "end_time": 1.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0371.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.03,
+        "end_time": 3.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0372.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.29,
+        "end_time": 2.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0373.wav",
+        "degradation_type": "pig",
+        "start_time": 0.0,
+        "end_time": 2.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0374.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.89,
+        "end_time": 1.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0375.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.92,
+        "end_time": 2.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0376.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.08,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0377.wav",
+        "degradation_type": "pig",
+        "start_time": 0.2,
+        "end_time": 1.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0378.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.6,
+        "end_time": 1.92
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0379.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.38,
+        "end_time": 0.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0380.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.67,
+        "end_time": 2.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0381.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.47,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0382.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.3,
+        "end_time": 2.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0383.wav",
+        "degradation_type": "car horn",
+        "start_time": 6.59,
+        "end_time": 8.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0384.wav",
+        "degradation_type": "car horn",
+        "start_time": 1.28,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0385.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.03,
+        "end_time": 4.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0386.wav",
+        "degradation_type": "door wood knock",
+        "start_time": 0.43,
+        "end_time": 3.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0387.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.91,
+        "end_time": 4.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0388.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 1.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0389.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 1.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0390.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.01,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0391.wav",
+        "degradation_type": "rain",
+        "start_time": 0.84,
+        "end_time": 3.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0392.wav",
+        "degradation_type": "rooster",
+        "start_time": 0.0,
+        "end_time": 1.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0393.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.1,
+        "end_time": 5.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0394.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.99,
+        "end_time": 5.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0395.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.94,
+        "end_time": 5.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0396.wav",
+        "degradation_type": "washing machine",
+        "start_time": 7.97,
+        "end_time": 10.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0397.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.8,
+        "end_time": 0.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0398.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.87,
+        "end_time": 1.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0399.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.53,
+        "end_time": 3.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0400.wav",
+        "degradation_type": "washing machine",
+        "start_time": 0.0,
+        "end_time": 2.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0401.wav",
+        "degradation_type": "snoring",
+        "start_time": 1.18,
+        "end_time": 2.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0402.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.16,
+        "end_time": 0.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0403.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.48,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0404.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.17,
+        "end_time": 2.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0405.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.18,
+        "end_time": 2.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0406.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.74,
+        "end_time": 1.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0407.wav",
+        "degradation_type": "snoring",
+        "start_time": 0.79,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0408.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 12.11,
+        "end_time": 12.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0409.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.2,
+        "end_time": 0.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0410.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.41,
+        "end_time": 0.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0411.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.18,
+        "end_time": 3.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0412.wav",
+        "degradation_type": "rooster",
+        "start_time": 3.38,
+        "end_time": 5.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0413.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.0,
+        "end_time": 1.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0414.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.0,
+        "end_time": 2.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0415.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 1.13,
+        "end_time": 4.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0416.wav",
+        "degradation_type": "sea waves",
+        "start_time": 1.97,
+        "end_time": 4.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0417.wav",
+        "degradation_type": "sea waves",
+        "start_time": 2.59,
+        "end_time": 4.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0418.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.97,
+        "end_time": 1.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0419.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.28,
+        "end_time": 2.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0420.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.78,
+        "end_time": 3.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0421.wav",
+        "degradation_type": "car horn",
+        "start_time": 2.24,
+        "end_time": 4.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0422.wav",
+        "degradation_type": "wind",
+        "start_time": 2.74,
+        "end_time": 4.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0423.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.02,
+        "end_time": 1.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0424.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.47,
+        "end_time": 3.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0425.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.19,
+        "end_time": 1.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0426.wav",
+        "degradation_type": "rain",
+        "start_time": 0.45,
+        "end_time": 1.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0427.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.05,
+        "end_time": 7.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0428.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.98,
+        "end_time": 1.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0429.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.94,
+        "end_time": 2.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0430.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.4,
+        "end_time": 5.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0431.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.39,
+        "end_time": 3.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0432.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.78,
+        "end_time": 2.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0433.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.23,
+        "end_time": 2.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0434.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.53,
+        "end_time": 1.99
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0435.wav",
+        "degradation_type": "laughing",
+        "start_time": 0.43,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0436.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.22,
+        "end_time": 9.13
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0437.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.49,
+        "end_time": 1.93
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0438.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.41,
+        "end_time": 0.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0439.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.4,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0440.wav",
+        "degradation_type": "laughing",
+        "start_time": 2.96,
+        "end_time": 5.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0441.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.32,
+        "end_time": 1.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0442.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.0,
+        "end_time": 2.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0443.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 9.64,
+        "end_time": 11.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0444.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.36,
+        "end_time": 1.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0445.wav",
+        "degradation_type": "dog",
+        "start_time": 3.22,
+        "end_time": 4.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0446.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.22,
+        "end_time": 4.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0447.wav",
+        "degradation_type": "dog",
+        "start_time": 1.07,
+        "end_time": 3.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0448.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.21,
+        "end_time": 2.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0449.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.76,
+        "end_time": 3.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0450.wav",
+        "degradation_type": "breathing",
+        "start_time": 1.55,
+        "end_time": 3.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0451.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.47,
+        "end_time": 1.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0452.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.03,
+        "end_time": 2.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0453.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.73,
+        "end_time": 0.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0454.wav",
+        "degradation_type": "breathing",
+        "start_time": 0.36,
+        "end_time": 1.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0455.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.19,
+        "end_time": 3.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0456.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.52,
+        "end_time": 0.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0457.wav",
+        "degradation_type": "breathing",
+        "start_time": 0.26,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0458.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.77,
+        "end_time": 1.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0459.wav",
+        "degradation_type": "coughing",
+        "start_time": 4.11,
+        "end_time": 6.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0460.wav",
+        "degradation_type": "hen",
+        "start_time": 0.47,
+        "end_time": 2.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0461.wav",
+        "degradation_type": "hen",
+        "start_time": 0.0,
+        "end_time": 1.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0462.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.37,
+        "end_time": 1.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0463.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.05,
+        "end_time": 2.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0464.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.06,
+        "end_time": 7.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0465.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.26,
+        "end_time": 1.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0466.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.26,
+        "end_time": 0.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0467.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.2,
+        "end_time": 0.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0468.wav",
+        "degradation_type": "siren",
+        "start_time": 1.67,
+        "end_time": 3.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0469.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.04,
+        "end_time": 1.99
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0470.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.89,
+        "end_time": 1.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0471.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.61,
+        "end_time": 2.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0472.wav",
+        "degradation_type": "siren",
+        "start_time": 4.12,
+        "end_time": 5.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0473.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.49,
+        "end_time": 3.18
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0474.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.64,
+        "end_time": 0.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0475.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.35,
+        "end_time": 1.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0476.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.4,
+        "end_time": 2.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0477.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.69,
+        "end_time": 2.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0478.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.24,
+        "end_time": 2.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0479.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.43,
+        "end_time": 7.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0480.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.73,
+        "end_time": 2.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0481.wav",
+        "degradation_type": "frog",
+        "start_time": 0.0,
+        "end_time": 2.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0482.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.09,
+        "end_time": 5.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0483.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.31,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0484.wav",
+        "degradation_type": "frog",
+        "start_time": 0.0,
+        "end_time": 2.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0485.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.27,
+        "end_time": 0.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0486.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.82,
+        "end_time": 9.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0487.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.41,
+        "end_time": 3.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0488.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.52,
+        "end_time": 4.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0489.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.38,
+        "end_time": 0.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0490.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.8,
+        "end_time": 1.13
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0491.wav",
+        "degradation_type": "dog",
+        "start_time": 5.49,
+        "end_time": 8.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0492.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.98,
+        "end_time": 5.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0493.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.97,
+        "end_time": 5.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0494.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.39,
+        "end_time": 0.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0495.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.57,
+        "end_time": 7.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0496.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.74,
+        "end_time": 7.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0497.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.86,
+        "end_time": 6.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0498.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.48,
+        "end_time": 0.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0499.wav",
+        "degradation_type": "washing machine",
+        "start_time": 4.81,
+        "end_time": 6.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0500.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.44,
+        "end_time": 5.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0501.wav",
+        "degradation_type": "washing machine",
+        "start_time": 4.76,
+        "end_time": 6.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0502.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.65,
+        "end_time": 7.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0503.wav",
+        "degradation_type": "drinking sipping",
+        "start_time": 5.63,
+        "end_time": 8.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0504.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 18.56,
+        "end_time": 19.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0505.wav",
+        "degradation_type": "laughing",
+        "start_time": 3.14,
+        "end_time": 5.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0506.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.46,
+        "end_time": 5.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0507.wav",
+        "degradation_type": "cat",
+        "start_time": 0.57,
+        "end_time": 2.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0508.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.95,
+        "end_time": 5.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0509.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.98,
+        "end_time": 6.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0510.wav",
+        "degradation_type": "cat",
+        "start_time": 4.61,
+        "end_time": 6.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0511.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.56,
+        "end_time": 4.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0512.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.71,
+        "end_time": 4.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0513.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.48,
+        "end_time": 2.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0514.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.9,
+        "end_time": 6.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0515.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.12,
+        "end_time": 8.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0516.wav",
+        "degradation_type": "rooster",
+        "start_time": 6.99,
+        "end_time": 9.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0517.wav",
+        "degradation_type": "rooster",
+        "start_time": 0.33,
+        "end_time": 1.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0518.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.37,
+        "end_time": 2.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0519.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 5.44,
+        "end_time": 6.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0520.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 1.77,
+        "end_time": 4.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0521.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.32,
+        "end_time": 1.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0522.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.27,
+        "end_time": 7.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0523.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.74,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0524.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 1.96,
+        "end_time": 3.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0525.wav",
+        "degradation_type": "clock tick",
+        "start_time": 2.44,
+        "end_time": 3.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0526.wav",
+        "degradation_type": "laughing",
+        "start_time": 0.06,
+        "end_time": 2.23
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0527.wav",
+        "degradation_type": "laughing",
+        "start_time": 4.2,
+        "end_time": 6.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0528.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.9,
+        "end_time": 8.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0529.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.0,
+        "end_time": 1.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0530.wav",
+        "degradation_type": "breathing",
+        "start_time": 1.67,
+        "end_time": 3.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0531.wav",
+        "degradation_type": "breathing",
+        "start_time": 4.93,
+        "end_time": 7.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0532.wav",
+        "degradation_type": "breathing",
+        "start_time": 4.47,
+        "end_time": 6.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0533.wav",
+        "degradation_type": "breathing",
+        "start_time": 9.54,
+        "end_time": 11.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0534.wav",
+        "degradation_type": "airplane",
+        "start_time": 4.74,
+        "end_time": 6.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0535.wav",
+        "degradation_type": "packet loss",
+        "start_time": 16.67,
+        "end_time": 17.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0536.wav",
+        "degradation_type": "drinking sipping",
+        "start_time": 6.91,
+        "end_time": 8.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0537.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 9.62,
+        "end_time": 10.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0538.wav",
+        "degradation_type": "packet loss",
+        "start_time": 15.17,
+        "end_time": 15.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0539.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.48,
+        "end_time": 1.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0540.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 11.4,
+        "end_time": 12.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0541.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.88,
+        "end_time": 7.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0542.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.07,
+        "end_time": 0.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0543.wav",
+        "degradation_type": "crow",
+        "start_time": 0.35,
+        "end_time": 3.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0544.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.82,
+        "end_time": 8.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0545.wav",
+        "degradation_type": "crow",
+        "start_time": 0.2,
+        "end_time": 1.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0546.wav",
+        "degradation_type": "sea waves",
+        "start_time": 7.96,
+        "end_time": 9.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0547.wav",
+        "degradation_type": "sea waves",
+        "start_time": 4.41,
+        "end_time": 6.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0548.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.69,
+        "end_time": 1.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0549.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.64,
+        "end_time": 3.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0550.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.05,
+        "end_time": 9.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0551.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.82,
+        "end_time": 2.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0552.wav",
+        "degradation_type": "rooster",
+        "start_time": 8.16,
+        "end_time": 10.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0553.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.33,
+        "end_time": 7.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0554.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.56,
+        "end_time": 6.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0555.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.22,
+        "end_time": 2.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0556.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.95,
+        "end_time": 3.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0557.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.58,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0558.wav",
+        "degradation_type": "snoring",
+        "start_time": 4.69,
+        "end_time": 6.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0559.wav",
+        "degradation_type": "church bells",
+        "start_time": 3.17,
+        "end_time": 4.52
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0560.wav",
+        "degradation_type": "snoring",
+        "start_time": 5.38,
+        "end_time": 7.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0561.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.28,
+        "end_time": 5.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0562.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.16,
+        "end_time": 6.52
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0563.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.3,
+        "end_time": 3.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0564.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.67,
+        "end_time": 3.23
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0565.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.45,
+        "end_time": 2.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0566.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.44,
+        "end_time": 1.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0567.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.41,
+        "end_time": 0.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0568.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.08,
+        "end_time": 8.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0569.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.82,
+        "end_time": 2.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0570.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.2,
+        "end_time": 1.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0571.wav",
+        "degradation_type": "rooster",
+        "start_time": 4.63,
+        "end_time": 6.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0572.wav",
+        "degradation_type": "snoring",
+        "start_time": 2.81,
+        "end_time": 4.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0573.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.01,
+        "end_time": 2.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0574.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 11.51,
+        "end_time": 13.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0575.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.23,
+        "end_time": 2.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0576.wav",
+        "degradation_type": "can opening",
+        "start_time": 2.59,
+        "end_time": 5.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0577.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.3,
+        "end_time": 2.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0578.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 6.17,
+        "end_time": 8.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0579.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.87,
+        "end_time": 8.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0580.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.84,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0581.wav",
+        "degradation_type": "clock tick",
+        "start_time": 0.37,
+        "end_time": 2.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0582.wav",
+        "degradation_type": "rooster",
+        "start_time": 10.38,
+        "end_time": 11.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0583.wav",
+        "degradation_type": "sea waves",
+        "start_time": 4.37,
+        "end_time": 6.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0584.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.43,
+        "end_time": 9.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0585.wav",
+        "degradation_type": "can opening",
+        "start_time": 5.62,
+        "end_time": 6.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0586.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.85,
+        "end_time": 3.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0587.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.82,
+        "end_time": 3.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0588.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.16,
+        "end_time": 1.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0589.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 11.57,
+        "end_time": 13.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0590.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.44,
+        "end_time": 1.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0591.wav",
+        "degradation_type": "airplane",
+        "start_time": 1.04,
+        "end_time": 2.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0592.wav",
+        "degradation_type": "airplane",
+        "start_time": 0.12,
+        "end_time": 1.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0593.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.51,
+        "end_time": 3.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0594.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.95,
+        "end_time": 4.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0595.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.96,
+        "end_time": 1.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0596.wav",
+        "degradation_type": "airplane",
+        "start_time": 0.42,
+        "end_time": 2.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0597.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.95,
+        "end_time": 1.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0598.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.8,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0599.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.82,
+        "end_time": 2.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0600.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.02,
+        "end_time": 1.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0601.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.34,
+        "end_time": 2.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0602.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.8,
+        "end_time": 6.93
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0603.wav",
+        "degradation_type": "airplane",
+        "start_time": 0.0,
+        "end_time": 2.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0604.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.31,
+        "end_time": 0.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0605.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.91,
+        "end_time": 2.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0606.wav",
+        "degradation_type": "rooster",
+        "start_time": 0.0,
+        "end_time": 2.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0607.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.22,
+        "end_time": 3.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0608.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.11,
+        "end_time": 3.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0609.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 2.45,
+        "end_time": 4.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0610.wav",
+        "degradation_type": "mouse click",
+        "start_time": 4.36,
+        "end_time": 5.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0611.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.05,
+        "end_time": 10.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0612.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 1.45,
+        "end_time": 3.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0613.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.43,
+        "end_time": 3.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0614.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 1.34,
+        "end_time": 3.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0615.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 7.73,
+        "end_time": 9.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0616.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.4,
+        "end_time": 4.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0617.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.76,
+        "end_time": 1.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0618.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.23,
+        "end_time": 2.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0619.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.58,
+        "end_time": 2.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0620.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.56,
+        "end_time": 5.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0621.wav",
+        "degradation_type": "hand saw",
+        "start_time": 0.56,
+        "end_time": 2.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0622.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 7.23,
+        "end_time": 8.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0623.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.05,
+        "end_time": 1.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0624.wav",
+        "degradation_type": "insects",
+        "start_time": 0.46,
+        "end_time": 3.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0625.wav",
+        "degradation_type": "insects",
+        "start_time": 1.62,
+        "end_time": 2.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0626.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.75,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0627.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.1,
+        "end_time": 5.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0628.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 2.16,
+        "end_time": 4.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0629.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 1.78,
+        "end_time": 3.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0630.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.3,
+        "end_time": 5.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0631.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.97,
+        "end_time": 1.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0632.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.28,
+        "end_time": 1.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0633.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.73,
+        "end_time": 2.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0634.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.83,
+        "end_time": 2.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0635.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.09,
+        "end_time": 1.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0636.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.09,
+        "end_time": 2.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0637.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.92,
+        "end_time": 2.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0638.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.11,
+        "end_time": 2.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0639.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.5,
+        "end_time": 0.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0640.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.54,
+        "end_time": 2.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0641.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.0,
+        "end_time": 2.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0642.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.33,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0643.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.26,
+        "end_time": 9.18
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0644.wav",
+        "degradation_type": "wind",
+        "start_time": 0.85,
+        "end_time": 2.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0645.wav",
+        "degradation_type": "wind",
+        "start_time": 2.51,
+        "end_time": 4.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0646.wav",
+        "degradation_type": "cat",
+        "start_time": 9.03,
+        "end_time": 10.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0647.wav",
+        "degradation_type": "cat",
+        "start_time": 0.39,
+        "end_time": 3.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0648.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.05,
+        "end_time": 3.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0649.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.82,
+        "end_time": 5.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0650.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.95,
+        "end_time": 3.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0651.wav",
+        "degradation_type": "cat",
+        "start_time": 6.01,
+        "end_time": 8.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0652.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 17.73,
+        "end_time": 18.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0653.wav",
+        "degradation_type": "snoring",
+        "start_time": 2.52,
+        "end_time": 4.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0654.wav",
+        "degradation_type": "church bells",
+        "start_time": 1.41,
+        "end_time": 2.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0655.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.04,
+        "end_time": 7.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0656.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.6,
+        "end_time": 1.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0657.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.58,
+        "end_time": 9.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0658.wav",
+        "degradation_type": "clock tick",
+        "start_time": 0.65,
+        "end_time": 2.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0659.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.33,
+        "end_time": 5.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0660.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.99,
+        "end_time": 1.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0661.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.52,
+        "end_time": 9.23
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0662.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.68,
+        "end_time": 9.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0663.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 1.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0664.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.5,
+        "end_time": 3.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0665.wav",
+        "degradation_type": "washing machine",
+        "start_time": 5.34,
+        "end_time": 7.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0666.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.05,
+        "end_time": 4.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0667.wav",
+        "degradation_type": "sheep",
+        "start_time": 9.21,
+        "end_time": 11.52
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0668.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.83,
+        "end_time": 3.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0669.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.91,
+        "end_time": 3.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0670.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.13,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0671.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.16,
+        "end_time": 4.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0672.wav",
+        "degradation_type": "sheep",
+        "start_time": 1.31,
+        "end_time": 2.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0673.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.3,
+        "end_time": 5.92
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0674.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.5,
+        "end_time": 0.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0675.wav",
+        "degradation_type": "rain",
+        "start_time": 1.75,
+        "end_time": 3.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0676.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.47,
+        "end_time": 3.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0677.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.21,
+        "end_time": 1.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0678.wav",
+        "degradation_type": "engine",
+        "start_time": 1.25,
+        "end_time": 3.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0679.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.61,
+        "end_time": 1.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0680.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.03,
+        "end_time": 0.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0681.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.0,
+        "end_time": 3.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0682.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.16,
+        "end_time": 2.81
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0683.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.49,
+        "end_time": 1.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0684.wav",
+        "degradation_type": "engine",
+        "start_time": 3.85,
+        "end_time": 5.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0685.wav",
+        "degradation_type": "water drops",
+        "start_time": 4.38,
+        "end_time": 6.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0686.wav",
+        "degradation_type": "pouring water",
+        "start_time": 1.44,
+        "end_time": 4.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0687.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.55,
+        "end_time": 1.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0688.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.26,
+        "end_time": 9.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0689.wav",
+        "degradation_type": "engine",
+        "start_time": 4.64,
+        "end_time": 7.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0690.wav",
+        "degradation_type": "packet loss",
+        "start_time": 7.82,
+        "end_time": 8.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0691.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.48,
+        "end_time": 9.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0692.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.14,
+        "end_time": 3.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0693.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.4,
+        "end_time": 2.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0694.wav",
+        "degradation_type": "pouring water",
+        "start_time": 0.11,
+        "end_time": 1.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0695.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.56,
+        "end_time": 2.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0696.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.28,
+        "end_time": 1.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0697.wav",
+        "degradation_type": "wind",
+        "start_time": 4.89,
+        "end_time": 7.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0698.wav",
+        "degradation_type": "wind",
+        "start_time": 2.2,
+        "end_time": 4.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0699.wav",
+        "degradation_type": "wind",
+        "start_time": 2.36,
+        "end_time": 3.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0700.wav",
+        "degradation_type": "footsteps",
+        "start_time": 0.88,
+        "end_time": 3.13
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0701.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 0.92,
+        "end_time": 3.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0702.wav",
+        "degradation_type": "pouring water",
+        "start_time": 2.83,
+        "end_time": 4.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0703.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.64,
+        "end_time": 8.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0704.wav",
+        "degradation_type": "pouring water",
+        "start_time": 3.43,
+        "end_time": 5.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0705.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.05,
+        "end_time": 2.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0706.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.24,
+        "end_time": 3.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0707.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.27,
+        "end_time": 2.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0708.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 4.14,
+        "end_time": 5.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0709.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 0.18,
+        "end_time": 3.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0710.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.65,
+        "end_time": 4.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0711.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.87,
+        "end_time": 2.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0712.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.58,
+        "end_time": 6.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0713.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.29,
+        "end_time": 1.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0714.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.13,
+        "end_time": 0.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0715.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 2.76,
+        "end_time": 4.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0716.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 0.52,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0717.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.9,
+        "end_time": 3.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0718.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.17,
+        "end_time": 5.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0719.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.66,
+        "end_time": 4.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0720.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 1.1,
+        "end_time": 3.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0721.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 0.58,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0722.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.82,
+        "end_time": 2.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0723.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.3,
+        "end_time": 1.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0724.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.52,
+        "end_time": 1.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0725.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 0.0,
+        "end_time": 2.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0726.wav",
+        "degradation_type": "door wood creaks",
+        "start_time": 0.51,
+        "end_time": 3.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0727.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.35,
+        "end_time": 1.71
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0728.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.7,
+        "end_time": 1.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0729.wav",
+        "degradation_type": "coughing",
+        "start_time": 0.85,
+        "end_time": 3.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0730.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.21,
+        "end_time": 3.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0731.wav",
+        "degradation_type": "door wood knock",
+        "start_time": 0.0,
+        "end_time": 1.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0732.wav",
+        "degradation_type": "coughing",
+        "start_time": 7.94,
+        "end_time": 10.93
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0733.wav",
+        "degradation_type": "snoring",
+        "start_time": 10.52,
+        "end_time": 11.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0734.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.57,
+        "end_time": 5.99
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0735.wav",
+        "degradation_type": "airplane",
+        "start_time": 2.17,
+        "end_time": 4.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0736.wav",
+        "degradation_type": "keyboard typing",
+        "start_time": 0.75,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0737.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.62,
+        "end_time": 2.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0738.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.36,
+        "end_time": 1.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0739.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.71,
+        "end_time": 0.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0740.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.09,
+        "end_time": 1.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0741.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.74,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0742.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.24,
+        "end_time": 1.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0743.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.11,
+        "end_time": 2.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0744.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.47,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0745.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.58,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0746.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.29,
+        "end_time": 0.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0747.wav",
+        "degradation_type": "coughing",
+        "start_time": 0.0,
+        "end_time": 2.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0748.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 5.7,
+        "end_time": 7.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0749.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.18,
+        "end_time": 1.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0750.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.16,
+        "end_time": 1.91
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0751.wav",
+        "degradation_type": "train",
+        "start_time": 1.71,
+        "end_time": 3.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0752.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.63,
+        "end_time": 5.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0753.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.5,
+        "end_time": 3.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0754.wav",
+        "degradation_type": "train",
+        "start_time": 0.11,
+        "end_time": 1.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0755.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.8,
+        "end_time": 4.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0756.wav",
+        "degradation_type": "siren",
+        "start_time": 3.94,
+        "end_time": 5.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0757.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.89,
+        "end_time": 5.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0758.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.02,
+        "end_time": 6.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0759.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.5,
+        "end_time": 4.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0760.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.28,
+        "end_time": 9.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0761.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.94,
+        "end_time": 2.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0762.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.38,
+        "end_time": 3.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0763.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.67,
+        "end_time": 5.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0764.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.53,
+        "end_time": 4.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0765.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.41,
+        "end_time": 5.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0766.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.87,
+        "end_time": 4.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0767.wav",
+        "degradation_type": "sneezing",
+        "start_time": 0.42,
+        "end_time": 3.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0768.wav",
+        "degradation_type": "packet loss",
+        "start_time": 10.64,
+        "end_time": 10.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0769.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.38,
+        "end_time": 3.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0770.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.27,
+        "end_time": 2.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0771.wav",
+        "degradation_type": "church bells",
+        "start_time": 0.23,
+        "end_time": 1.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0772.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.63,
+        "end_time": 1.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0773.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.71,
+        "end_time": 1.93
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0774.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.81,
+        "end_time": 1.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0775.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 2.98,
+        "end_time": 5.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0776.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.57,
+        "end_time": 2.39
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0777.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.93,
+        "end_time": 1.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0778.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.68,
+        "end_time": 5.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0779.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.37,
+        "end_time": 2.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0780.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 0.3,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0781.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.31,
+        "end_time": 6.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0782.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.35,
+        "end_time": 1.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0783.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.98,
+        "end_time": 1.35
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0784.wav",
+        "degradation_type": "chirping birds",
+        "start_time": 6.87,
+        "end_time": 8.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0785.wav",
+        "degradation_type": "rain",
+        "start_time": 1.04,
+        "end_time": 3.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0786.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.69,
+        "end_time": 2.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0787.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.57,
+        "end_time": 1.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0788.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.63,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0789.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.18,
+        "end_time": 6.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0790.wav",
+        "degradation_type": "crow",
+        "start_time": 7.54,
+        "end_time": 9.81
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0791.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.42,
+        "end_time": 0.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0792.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.19,
+        "end_time": 1.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0793.wav",
+        "degradation_type": "crow",
+        "start_time": 3.19,
+        "end_time": 5.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0794.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.65,
+        "end_time": 0.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0795.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.21,
+        "end_time": 2.02
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0796.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.85,
+        "end_time": 10.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0797.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.02,
+        "end_time": 5.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0798.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.35,
+        "end_time": 2.46
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0799.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.22,
+        "end_time": 2.49
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0800.wav",
+        "degradation_type": "toilet flush",
+        "start_time": 4.68,
+        "end_time": 6.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0801.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.93,
+        "end_time": 1.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0802.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.19,
+        "end_time": 6.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0803.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.21,
+        "end_time": 1.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0804.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.82,
+        "end_time": 2.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0805.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.12,
+        "end_time": 1.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0806.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.25,
+        "end_time": 2.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0807.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.42,
+        "end_time": 2.34
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0808.wav",
+        "degradation_type": "drinking sipping",
+        "start_time": 0.0,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0809.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.71,
+        "end_time": 3.3
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0810.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.59,
+        "end_time": 5.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0811.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.65,
+        "end_time": 1.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0812.wav",
+        "degradation_type": "rain",
+        "start_time": 0.86,
+        "end_time": 3.68
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0813.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.49,
+        "end_time": 8.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0814.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.84,
+        "end_time": 1.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0815.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.53,
+        "end_time": 3.14
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0816.wav",
+        "degradation_type": "cat",
+        "start_time": 3.58,
+        "end_time": 5.54
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0817.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.51,
+        "end_time": 3.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0818.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.99,
+        "end_time": 7.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0819.wav",
+        "degradation_type": "cat",
+        "start_time": 5.26,
+        "end_time": 7.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0820.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.46,
+        "end_time": 1.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0821.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.55,
+        "end_time": 10.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0822.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.72,
+        "end_time": 4.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0823.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.55,
+        "end_time": 4.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0824.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.19,
+        "end_time": 2.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0825.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.16,
+        "end_time": 1.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0826.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.73,
+        "end_time": 5.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0827.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.1,
+        "end_time": 1.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0828.wav",
+        "degradation_type": "church bells",
+        "start_time": 1.56,
+        "end_time": 2.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0829.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.86,
+        "end_time": 2.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0830.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.78,
+        "end_time": 1.93
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0831.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.34,
+        "end_time": 5.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0832.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.7,
+        "end_time": 4.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0833.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.4,
+        "end_time": 3.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0834.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.01,
+        "end_time": 1.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0835.wav",
+        "degradation_type": "clock tick",
+        "start_time": 0.72,
+        "end_time": 2.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0836.wav",
+        "degradation_type": "crickets",
+        "start_time": 2.21,
+        "end_time": 4.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0837.wav",
+        "degradation_type": "crickets",
+        "start_time": 0.03,
+        "end_time": 2.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0838.wav",
+        "degradation_type": "sheep",
+        "start_time": 0.88,
+        "end_time": 2.55
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0839.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.9,
+        "end_time": 7.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0840.wav",
+        "degradation_type": "cow",
+        "start_time": 0.3,
+        "end_time": 1.47
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0841.wav",
+        "degradation_type": "coughing",
+        "start_time": 2.74,
+        "end_time": 3.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0842.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.92,
+        "end_time": 2.27
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0843.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.15,
+        "end_time": 3.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0844.wav",
+        "degradation_type": "can opening",
+        "start_time": 3.44,
+        "end_time": 4.5
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0845.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.18,
+        "end_time": 6.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0846.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.42,
+        "end_time": 4.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0847.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 9.6,
+        "end_time": 10.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0848.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 0.35,
+        "end_time": 1.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0849.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 9.31,
+        "end_time": 10.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0850.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.81,
+        "end_time": 8.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0851.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.55,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0852.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 2.05,
+        "end_time": 4.45
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0853.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.03,
+        "end_time": 2.29
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0854.wav",
+        "degradation_type": "crickets",
+        "start_time": 0.37,
+        "end_time": 1.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0855.wav",
+        "degradation_type": "sneezing",
+        "start_time": 1.96,
+        "end_time": 3.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0856.wav",
+        "degradation_type": "dog",
+        "start_time": 0.42,
+        "end_time": 3.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0857.wav",
+        "degradation_type": "hen",
+        "start_time": 1.37,
+        "end_time": 3.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0858.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.5,
+        "end_time": 2.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0859.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.95,
+        "end_time": 4.17
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0860.wav",
+        "degradation_type": "vacuum cleaner",
+        "start_time": 0.82,
+        "end_time": 2.75
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0861.wav",
+        "degradation_type": "can opening",
+        "start_time": 2.65,
+        "end_time": 3.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0862.wav",
+        "degradation_type": "crying baby",
+        "start_time": 0.81,
+        "end_time": 2.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0863.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.59,
+        "end_time": 2.37
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0864.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.82,
+        "end_time": 2.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0865.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.41,
+        "end_time": 2.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0866.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.74,
+        "end_time": 1.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0867.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.07,
+        "end_time": 1.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0868.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.27,
+        "end_time": 1.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0869.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.4,
+        "end_time": 4.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0870.wav",
+        "degradation_type": "crying baby",
+        "start_time": 4.74,
+        "end_time": 6.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0871.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.91,
+        "end_time": 2.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0872.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.04,
+        "end_time": 1.43
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0873.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.2,
+        "end_time": 4.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0874.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.8,
+        "end_time": 2.09
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0875.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.57,
+        "end_time": 0.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0876.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.02,
+        "end_time": 3.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0877.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.66,
+        "end_time": 4.05
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0878.wav",
+        "degradation_type": "keyboard typing",
+        "start_time": 0.98,
+        "end_time": 3.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0879.wav",
+        "degradation_type": "pouring water",
+        "start_time": 2.31,
+        "end_time": 5.01
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0880.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.48,
+        "end_time": 1.82
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0881.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.05,
+        "end_time": 0.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0882.wav",
+        "degradation_type": "sea waves",
+        "start_time": 0.58,
+        "end_time": 2.31
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0883.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.58,
+        "end_time": 0.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0884.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.03,
+        "end_time": 1.95
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0885.wav",
+        "degradation_type": "engine",
+        "start_time": 0.5,
+        "end_time": 2.62
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0886.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.97,
+        "end_time": 3.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0887.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 2.12,
+        "end_time": 4.94
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0888.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.32,
+        "end_time": 2.22
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0889.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.56,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0890.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.27,
+        "end_time": 0.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0891.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.73,
+        "end_time": 2.87
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0892.wav",
+        "degradation_type": "train",
+        "start_time": 0.47,
+        "end_time": 1.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0893.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.13,
+        "end_time": 3.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0894.wav",
+        "degradation_type": "engine",
+        "start_time": 0.83,
+        "end_time": 2.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0895.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.88,
+        "end_time": 2.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0896.wav",
+        "degradation_type": "keyboard typing",
+        "start_time": 3.22,
+        "end_time": 4.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0897.wav",
+        "degradation_type": "clock tick",
+        "start_time": 0.85,
+        "end_time": 2.38
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0898.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.98,
+        "end_time": 3.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0899.wav",
+        "degradation_type": "clock tick",
+        "start_time": 1.38,
+        "end_time": 2.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0900.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.19,
+        "end_time": 3.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0901.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.24,
+        "end_time": 2.79
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0902.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.32,
+        "end_time": 1.19
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0903.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.83,
+        "end_time": 3.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0904.wav",
+        "degradation_type": "coughing",
+        "start_time": 3.88,
+        "end_time": 6.28
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0905.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.97,
+        "end_time": 2.76
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0906.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.33,
+        "end_time": 1.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0907.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.33,
+        "end_time": 3.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0908.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.04,
+        "end_time": 0.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0909.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.08,
+        "end_time": 0.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0910.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.38,
+        "end_time": 3.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0911.wav",
+        "degradation_type": "rain",
+        "start_time": 3.89,
+        "end_time": 6.53
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0912.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.38,
+        "end_time": 0.59
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0913.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.1,
+        "end_time": 0.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0914.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.47,
+        "end_time": 2.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0915.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 7.53,
+        "end_time": 9.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0916.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.5,
+        "end_time": 0.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0917.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 0.54,
+        "end_time": 1.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0918.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.44,
+        "end_time": 2.64
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0919.wav",
+        "degradation_type": "chainsaw",
+        "start_time": 2.18,
+        "end_time": 3.77
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0920.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.84,
+        "end_time": 2.33
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0921.wav",
+        "degradation_type": "train",
+        "start_time": 0.03,
+        "end_time": 2.36
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0922.wav",
+        "degradation_type": "crickets",
+        "start_time": 0.03,
+        "end_time": 3.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0923.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 3.01,
+        "end_time": 4.23
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0924.wav",
+        "degradation_type": "pouring water",
+        "start_time": 0.85,
+        "end_time": 3.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0925.wav",
+        "degradation_type": "drinking sipping",
+        "start_time": 0.0,
+        "end_time": 2.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0926.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.18,
+        "end_time": 1.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0927.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.2,
+        "end_time": 2.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0928.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.72,
+        "end_time": 6.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0929.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.03,
+        "end_time": 2.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0930.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.79,
+        "end_time": 6.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0931.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.45,
+        "end_time": 3.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0932.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.08,
+        "end_time": 2.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0933.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.27,
+        "end_time": 2.4
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0934.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 2.62,
+        "end_time": 4.48
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0935.wav",
+        "degradation_type": "brushing teeth",
+        "start_time": 0.35,
+        "end_time": 2.24
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0936.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.85,
+        "end_time": 2.74
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0937.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.68,
+        "end_time": 2.61
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0938.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.57,
+        "end_time": 4.86
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0939.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.57,
+        "end_time": 3.57
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0940.wav",
+        "degradation_type": "can opening",
+        "start_time": 2.24,
+        "end_time": 4.69
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0941.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.52,
+        "end_time": 2.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0942.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.94,
+        "end_time": 1.42
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0943.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.56,
+        "end_time": 5.72
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0944.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.9,
+        "end_time": 1.11
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0945.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.29,
+        "end_time": 4.66
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0946.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.89,
+        "end_time": 1.16
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0947.wav",
+        "degradation_type": "can opening",
+        "start_time": 3.72,
+        "end_time": 5.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0948.wav",
+        "degradation_type": "can opening",
+        "start_time": 2.64,
+        "end_time": 4.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0949.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.48,
+        "end_time": 2.06
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0950.wav",
+        "degradation_type": "packet loss",
+        "start_time": 4.08,
+        "end_time": 4.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0951.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.58,
+        "end_time": 2.98
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0952.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.14,
+        "end_time": 2.6
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0953.wav",
+        "degradation_type": "cow",
+        "start_time": 0.15,
+        "end_time": 2.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0954.wav",
+        "degradation_type": "packet loss",
+        "start_time": 5.61,
+        "end_time": 5.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0955.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.53,
+        "end_time": 1.73
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0956.wav",
+        "degradation_type": "cow",
+        "start_time": 1.58,
+        "end_time": 4.18
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0957.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.83,
+        "end_time": 2.97
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0958.wav",
+        "degradation_type": "wind",
+        "start_time": 0.51,
+        "end_time": 2.83
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0959.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 8.69,
+        "end_time": 10.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0960.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.53,
+        "end_time": 2.96
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0961.wav",
+        "degradation_type": "train",
+        "start_time": 0.13,
+        "end_time": 2.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0962.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.41,
+        "end_time": 2.8
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0963.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.89,
+        "end_time": 9.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0964.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.0,
+        "end_time": 1.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0965.wav",
+        "degradation_type": "crackling fire",
+        "start_time": 1.0,
+        "end_time": 3.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0966.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.01,
+        "end_time": 0.26
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0967.wav",
+        "degradation_type": "hen",
+        "start_time": 2.97,
+        "end_time": 4.51
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0968.wav",
+        "degradation_type": "packet loss",
+        "start_time": 6.81,
+        "end_time": 6.92
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0969.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.98,
+        "end_time": 2.85
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0970.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 3.31,
+        "end_time": 4.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0971.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 6.55,
+        "end_time": 7.32
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0972.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.15,
+        "end_time": 9.25
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0973.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.89,
+        "end_time": 2.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0974.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 1.48,
+        "end_time": 3.84
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0975.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.93,
+        "end_time": 1.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0976.wav",
+        "degradation_type": "packet loss",
+        "start_time": 9.78,
+        "end_time": 9.9
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0977.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 2.29,
+        "end_time": 3.63
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0978.wav",
+        "degradation_type": "hen",
+        "start_time": 0.79,
+        "end_time": 3.2
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0979.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.8,
+        "end_time": 5.12
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0980.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.93,
+        "end_time": 3.21
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0981.wav",
+        "degradation_type": "hen",
+        "start_time": 0.64,
+        "end_time": 2.65
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0982.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 4.23,
+        "end_time": 6.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0983.wav",
+        "degradation_type": "packet loss",
+        "start_time": 0.03,
+        "end_time": 0.15
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0984.wav",
+        "degradation_type": "packet loss",
+        "start_time": 8.03,
+        "end_time": 8.44
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0985.wav",
+        "degradation_type": "packet loss",
+        "start_time": 3.18,
+        "end_time": 3.41
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0986.wav",
+        "degradation_type": "laughing",
+        "start_time": 16.6,
+        "end_time": 18.1
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0987.wav",
+        "degradation_type": "laughing",
+        "start_time": 3.02,
+        "end_time": 5.52
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0988.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 17.59,
+        "end_time": 19.0
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0989.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.32,
+        "end_time": 2.67
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0990.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 3.43,
+        "end_time": 5.03
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0991.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 5.98,
+        "end_time": 7.78
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0992.wav",
+        "degradation_type": "packet loss",
+        "start_time": 2.12,
+        "end_time": 2.58
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0993.wav",
+        "degradation_type": "insects",
+        "start_time": 2.01,
+        "end_time": 3.04
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0994.wav",
+        "degradation_type": "clock alarm",
+        "start_time": 1.09,
+        "end_time": 3.7
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0995.wav",
+        "degradation_type": "crickets",
+        "start_time": 3.39,
+        "end_time": 5.88
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0996.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.84,
+        "end_time": 1.89
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0997.wav",
+        "degradation_type": "packet loss",
+        "start_time": 1.58,
+        "end_time": 2.08
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0998.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 0.82,
+        "end_time": 2.56
+    },
+    {
+        "audio_path": "data/raw/temporal_mixes/temporal_mix_0999.wav",
+        "degradation_type": "clipping distortion",
+        "start_time": 1.76,
+        "end_time": 3.06
+    }
+]

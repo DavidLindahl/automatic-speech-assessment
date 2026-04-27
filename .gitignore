@@ -185,6 +185,9 @@ data/raw/NISQA_Corpus/
 data-temp/
 data/QualiSpeech/
 data/.DS_Store
+data/processed/nisqa_sim_mix_only_40/
+data/processed/nisqa_sim_mix_lowmos_40/
+data/processed/nisqa_sim_mix_lowmos_active_40/
 
 # HPC job artifacts
 *.out
