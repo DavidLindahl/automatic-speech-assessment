@@ -1,19 +1,19 @@
 #!/bin/sh
 ### ============================================================
-### DTU HPC — SFT Temporal ALLD Training
-### Submit with: bsub < jobs/sft/sft_temporal.sh
+### DTU HPC — SFT Temporal Mix (3000 samples)
+### Submit with: bsub < jobs/sft/sft_temporal_mix_3000.sh
 ### ============================================================
 
 #BSUB -q gpul40s
-#BSUB -J sft-temporal
+#BSUB -J sft-temporal-mix-3000
 #BSUB -n 8
 #BSUB -gpu "num=2:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
 #BSUB -W 24:00
-#BSUB -o logs/sft_temporal_%J.out
-#BSUB -e logs/sft_temporal_%J.err
+#BSUB -o logs/sft_temporal_mix_3000_%J.out
+#BSUB -e logs/sft_temporal_mix_3000_%J.err
 
 set -euo pipefail
 
@@ -39,8 +39,8 @@ nvidia-smi
 torchrun \
     --nproc_per_node=2 \
     src/asa/supervised-finetune.py \
-    --model-name sft_temporal \
-    --json-path data/processed/train_temporal_alld.json \
+    --model-name sft_temporal_mix_3000 \
+    --json-path data/processed/train_nisqa_temporal_mix_3000.json \
     --use-query-prompt \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
@@ -48,6 +48,6 @@ torchrun \
     --epochs 2 \
     --eval-steps 100 \
     --wandb-project "Temporal-ALLD" \
-    --wandb-run-name "temporal-alld-sft"
+    --wandb-run-name "temporal-mix-3000-sft"
 
 echo "Training complete: $(date)"
