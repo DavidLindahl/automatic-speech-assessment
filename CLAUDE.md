@@ -24,6 +24,15 @@ Two distinct surfaces. Don't conflate them.
 
 Operational rule: when a question is "what does the code do / let me change it" → laptop. When a question is "what's the job doing / did it crash / what does the log say" → ssh to HPC.
 
+### Analysis workflow: commit on HPC, analyse on laptop
+
+When an analysis needs more than a quick `tail`/`grep` over SSH (e.g. computing MAE, BLEU, plotting, comparing eval JSONs, diffing dataset variants), do **not** run the analysis on HPC. Instead:
+
+1. **On HPC**: `cd /work3/s234817/automatic-speech-assessment`, `git add results/<run>/ data/processed/<file>.json` (only small artifacts — JSON metric summaries, prediction files, dataset JSONLs), `git commit -m "results: ..."`, `git push`.
+2. **On laptop**: `git pull`, then write/run the analysis script locally under `scripts/` with `uv run`. All plotting, stats, comparisons happen here.
+
+Why: local tools are instant, scripts get version-controlled next to the data they consume, and the HPC shell stays focused on `bsub`/`bjobs`/`tail`. Never commit checkpoints, raw audio, full prediction dumps with waveforms, or anything > a few MB — those stay on `/work3/` or go to HF Hub. For large prediction files, either `scp` them down or compute summary stats on HPC and commit only the summary.
+
 ## Directory map
 
 ```
