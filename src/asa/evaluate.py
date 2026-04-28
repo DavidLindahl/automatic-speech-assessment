@@ -69,6 +69,10 @@ def main(
                 max_samples=ctx.obj.get("max_samples", None),
                 output_dir=ctx.obj.get("output_dir", None),
                 batch_size=ctx.obj.get("batch_size", 4),
+                do_sample=True,
+                temperature=EVAL_TEMPERATURE,
+                top_p=EVAL_TOP_P,
+                max_new_tokens=EVAL_MAX_NEW_TOKENS,
             )
         else:
             # No subcommand and no dataset paths: show help
