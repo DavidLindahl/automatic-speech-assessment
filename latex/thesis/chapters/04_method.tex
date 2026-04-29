@@ -1,0 +1,22 @@
+\chapter{Method} \label{ch:method}
+
+\section{Overview} \label{sec:method-overview}
+
+\section{Synthetic temporal supervision from NISQA-SIM} \label{sec:method-data-construction}
+\subsection{REF/DEG mix construction with active-speech windows}
+\subsection{Ground-truth interval extraction}
+\subsection{Degradation vocabulary: collapsing 13 NISQA tags to 6--7 categories}
+
+\section{Target format and time tokens} \label{sec:method-target-format}
+\subsection{Base MOS-style caption}
+\subsection{Time-localized degradation clause}
+
+\section{Model setup} \label{sec:method-model}
+\subsection{Backbone: Qwen2-Audio with Whisper and BEATs encoders}
+\subsection{Training stages: SFT and ALLD alignment}
+\subsection{Hyperparameters and compute footprint}
+
+\section{Implementation pipeline} \label{sec:method-pipeline}
+\subsection{Data generation: \texttt{generate\_nisqa\_sim\_lowmos\_active.py}}
+\subsection{SFT JSONL build: \texttt{build\_nisqa\_temporal\_json.py}}
+\subsection{Training and evaluation jobs on DTU HPC}
