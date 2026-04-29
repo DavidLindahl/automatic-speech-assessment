@@ -82,6 +82,10 @@ def train(
     wandb_run_name: Optional[str] = typer.Option(
         None, help="Weights & Biases run name."
     ),
+    resume_from_checkpoint: Optional[str] = typer.Option(
+        None,
+        help="Path to a Trainer checkpoint dir to resume from (e.g. models/foo/checkpoint-565). Pass 'auto' to let Trainer pick the latest checkpoint in output_dir.",
+    ),
 ):
     """Run supervised fine-tuning on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
@@ -194,7 +198,16 @@ def train(
     )
     if is_main:
         print("Starting training...")
-    trainer.train()
+    if resume_from_checkpoint is None:
+        trainer.train()
+    elif resume_from_checkpoint == "auto":
+        if is_main:
+            print(f"Resuming from latest checkpoint in {output_dir}")
+        trainer.train(resume_from_checkpoint=True)
+    else:
+        if is_main:
+            print(f"Resuming from checkpoint: {resume_from_checkpoint}")
+        trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     if is_main:
         print(f"Saving model to {output_dir}")
     trainer.save_model(str(output_dir))
