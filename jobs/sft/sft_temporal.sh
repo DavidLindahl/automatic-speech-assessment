@@ -4,14 +4,16 @@
 ### Submit with: bsub < jobs/sft/sft_temporal.sh
 ### ============================================================
 
-#BSUB -q gpul40s
-#BSUB -J sft-temporal-max-mos3
+#BSUB -q gpuh100
+#BSUB -J sft-temporal-h100
 #BSUB -n 8
-#BSUB -gpu "num=2:mode=exclusive_process"
+#BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
 #BSUB -W 24:00
+#BSUB -o logs/sft_temporal_h100_%J.out
+#BSUB -e logs/sft_temporal_h100_%J.err
 #BSUB -o logs/sft_temporal_max_mos3_%J.out
 #BSUB -e logs/sft_temporal_max_mos3_%J.err
 
@@ -57,7 +59,7 @@ if [ ! -f "$TRAIN_JSON" ]; then
 fi
 
 torchrun \
-    --nproc_per_node=2 \
+    --nproc_per_node=1 \
     src/asa/supervised-finetune.py \
     --model-name sft_temporal_max_mos3 \
     --json-path "$TRAIN_JSON" \
@@ -68,6 +70,6 @@ torchrun \
     --epochs 2 \
     --eval-steps 100 \
     --wandb-project "Temporal-ALLD" \
-    --wandb-run-name "temporal-max-mos3-sft"
+    --wandb-run-name "temporal-alld-sft-h100"
 
 echo "Training complete: $(date)"
