@@ -69,7 +69,7 @@ torchrun \
     --batch-size 4 \
     --epochs 2 \
     --eval-steps 100 \
-    --wandb-project "Temporal-ALLD" \
-    --wandb-run-name "temporal-alld-sft-h100"
+    --wandb-project "Temporal-sft" \
+    --wandb-run-name "temporal-sft-h100"
 
 echo "Training complete: $(date)"

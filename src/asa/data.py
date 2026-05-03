@@ -198,8 +198,7 @@ class SFTDataset(Dataset):
                 items.append(json.loads(line))
         return items
 
-    @staticmethod
-    def _is_valid(item):
+    def _is_valid(self, item):
         if (
             not item.get("audios")
             or not isinstance(item["audios"], list)
@@ -208,15 +207,7 @@ class SFTDataset(Dataset):
             return False
         # Check if the path exists
         raw_path = item["audios"][0]
-        candidate = Path(raw_path)
-        if candidate.exists():
-            return True
-        normalized = raw_path.replace("\\", "/")
-        if "NISQA_Corpus/" in normalized:
-            relative = normalized.split("NISQA_Corpus/", maxsplit=1)[1]
-            root = Path("data")
-            return (root / "raw" / "NISQA_Corpus" / relative).exists()
-        return False
+        return self._resolve_audio_path(raw_path).exists()
 
     def _resolve_audio_path(self, raw_path: str) -> Path:
         """Map stored audio paths to a local path."""
