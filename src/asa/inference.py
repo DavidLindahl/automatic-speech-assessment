@@ -39,16 +39,10 @@ class ASAModel(str):
     SFT = "Leng2beat/speech-quality-assessement-qwen2audio-full-sft"
 
     # A/B preference model (two-audio comparative quality assessment)
-    SFT_AB = (
-        "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"
-    )  # TODO: update when pushed
+    SFT_AB = "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"  # TODO: update when pushed
     # AALD distillation variants
-    AALD_AB = (
-        "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"
-    )  # TODO: update when pushed
-    AALD = (
-        "Leng2beat/speech-quality-assessement-qwen2audio-aald"
-    )  # TODO: update when pushed
+    AALD_AB = "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"  # TODO: update when pushed
+    AALD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
 
 
 def load_model(
@@ -95,6 +89,7 @@ def run_inference(
     model: Qwen2AudioForConditionalGeneration,
     processor: AutoProcessor,
     audio_paths: Iterable[str | Path] | Iterable[Tuple[str | Path, str | Path]],
+    prompt_texts: Optional[List[str]] = None,
     ab_mode: bool = False,
     device: Optional[str] = None,
     max_new_tokens: int = 100,
@@ -114,6 +109,9 @@ def run_inference(
                      In A/B mode, an iterable of ``(path_a, path_b)`` tuples.
     ab_mode        : When ``True``, treat ``audio_paths`` as pairs
                      (A/B comparative preference format).
+    prompt_texts   : Optional per-sample prompts. When provided, must match
+                     ``len(audio_paths)``. Falls back to the default prompt
+                     templates when omitted.
     device         : Inferred from model parameters if not given.
     max_new_tokens : Generation budget per sample.
     batch_size     : Number of files (or pairs) to process at once.
@@ -131,6 +129,11 @@ def run_inference(
     audio_paths = list(audio_paths)
     sr = processor.feature_extractor.sampling_rate
     all_responses: List[str] = []
+    if prompt_texts is not None and len(prompt_texts) != len(audio_paths):
+        raise ValueError(
+            "prompt_texts length must match audio_paths length. "
+            f"Got prompt_texts={len(prompt_texts)} and audio_paths={len(audio_paths)}."
+        )
 
     gen_kwargs = {"max_new_tokens": max_new_tokens}
     if do_sample:
@@ -146,7 +149,11 @@ def run_inference(
         # ------------------------------------------------------------------
         # A/B mode: each element of audio_paths is a (path_a, path_b) tuple
         # ------------------------------------------------------------------
-        prompts = [PROMPT_TEMPLATE_AB] * len(audio_paths)
+        prompts = (
+            prompt_texts
+            if prompt_texts is not None
+            else [PROMPT_TEMPLATE_AB] * len(audio_paths)
+        )
 
         for start in tqdm(
             range(0, len(audio_paths), batch_size), desc="Running A/B inference"
@@ -181,7 +188,11 @@ def run_inference(
         # ------------------------------------------------------------------
         # Normal mode: each element of audio_paths is a single file path
         # ------------------------------------------------------------------
-        texts = [PROMPT_TEMPLATE] * len(audio_paths)
+        texts = (
+            prompt_texts
+            if prompt_texts is not None
+            else [PROMPT_TEMPLATE] * len(audio_paths)
+        )
 
         for start in tqdm(
             range(0, len(audio_paths), batch_size), desc="Running inference"

@@ -1,57 +1,275 @@
+"""Temporal localization evaluation for Qwen2-Audio checkpoints."""
+
+from __future__ import annotations
+
+import csv
 import json
 import logging
+import math
 import re
+import sys
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from statistics import median
+from typing import Any, List, Optional
 
 import typer
 
+if __package__ is None or __package__ == "":
+    sys.path.append(str(Path(__file__).resolve().parents[1]))
+
+from asa.data import AUDIO_PLACEHOLDER, AUDIO_SPECIAL, PROMPT_TEMPLATE
 from asa.inference import ASAModel, load_model, run_inference
+from asa.processed_data import load_processed_records, resolve_audio_path
+
+EVAL_TEMPERATURE = 0.7
+EVAL_TOP_P = 0.9
+EVAL_MAX_NEW_TOKENS = 150
+
+TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
+PLAIN_FLOAT_RE = re.compile(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d.])")
+RANGE_PATTERNS = [
+    re.compile(
+        r"(?:between|from)\s+(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?"
+        r"\s*(?:and|to|-)\s*(-?\d+(?:\.\d+)?)",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?\s*(?:to|-)\s*"
+        r"(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?",
+        re.IGNORECASE,
+    ),
+]
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-app = typer.Typer(help="Evaluate fine-tuned Qwen2-Audio models on Temporal-ALLD.")
+app = typer.Typer(
+    help="Evaluate fine-tuned Qwen2-Audio models on temporal localization."
+)
 
-def extract_timestamps(text: str):
-    """Extract start and end timestamps from text containing <|XX.XX|> tokens."""
-    matches = re.findall(r"<\|(\d+(?:\.\d+)?)\|>", text)
-    if len(matches) >= 2:
-        start_time = float(matches[0])
-        end_time = float(matches[-1])
-        if start_time < end_time:
-            return start_time, end_time
-    # Fallback to general floats if tokens are malformed
-    matches = re.findall(r"(\d+(?:\.\d+)?)", text)
-    if len(matches) >= 2:
-        return float(matches[0]), float(matches[-1])
-    return 0.0, 0.0
 
-def calculate_tiou(pred_start: float, pred_end: float, true_start: float, true_end: float) -> float:
-    """Calculate Temporal Intersection over Union (t-IoU)."""
-    if pred_end <= pred_start or true_end <= true_start:
+@dataclass(frozen=True)
+class Interval:
+    """Time interval in seconds."""
+
+    start: float
+    end: float
+
+
+def _safe_float(value: Any) -> Optional[float]:
+    """Parse float-like values safely.
+
+    Args:
+        value: Any numeric-like value.
+
+    Returns:
+        Parsed float, or ``None`` when parsing fails.
+    """
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(parsed):
+        return None
+    return parsed
+
+
+def _sanitize_interval(
+    start: float,
+    end: float,
+    duration_seconds: Optional[float],
+) -> Optional[Interval]:
+    """Normalize, clamp, and validate an interval.
+
+    Args:
+        start: Interval start.
+        end: Interval end.
+        duration_seconds: Optional clip duration for clamping.
+
+    Returns:
+        A valid interval, or ``None`` if invalid.
+    """
+    if end < start:
+        start, end = end, start
+
+    if duration_seconds is not None and duration_seconds > 0:
+        start = max(0.0, min(start, duration_seconds))
+        end = max(0.0, min(end, duration_seconds))
+    else:
+        start = max(0.0, start)
+        end = max(0.0, end)
+
+    if end <= start:
+        return None
+    return Interval(start=start, end=end)
+
+
+def _extract_interval_from_tags(
+    text: str,
+    duration_seconds: Optional[float],
+) -> Optional[Interval]:
+    """Extract interval from ``<|...|>`` timestamp tokens."""
+    matches = [float(m) for m in TIMESTAMP_TOKEN_RE.findall(text)]
+    if len(matches) < 2:
+        return None
+    return _sanitize_interval(matches[0], matches[1], duration_seconds)
+
+
+def _extract_interval_from_ranges(
+    text: str,
+    duration_seconds: Optional[float],
+) -> Optional[Interval]:
+    """Extract interval from range-style expressions."""
+    for pattern in RANGE_PATTERNS:
+        match = pattern.search(text)
+        if not match:
+            continue
+        start = _safe_float(match.group(1))
+        end = _safe_float(match.group(2))
+        if start is None or end is None:
+            continue
+        candidate = _sanitize_interval(start, end, duration_seconds)
+        if candidate is not None:
+            return candidate
+    return None
+
+
+def _extract_interval_from_plain_numbers(
+    text: str,
+    duration_seconds: Optional[float],
+) -> Optional[Interval]:
+    """Extract interval from plain numeric text when explicit ranges are absent."""
+    values = [float(m) for m in PLAIN_FLOAT_RE.findall(text)]
+    if len(values) < 2:
+        return None
+
+    for left, right in zip(values, values[1:]):
+        candidate = _sanitize_interval(left, right, duration_seconds)
+        if candidate is not None:
+            return candidate
+
+    for i, left in enumerate(values[:-1]):
+        for right in values[i + 1 :]:
+            candidate = _sanitize_interval(left, right, duration_seconds)
+            if candidate is not None:
+                return candidate
+    return None
+
+
+def extract_interval(
+    text: str,
+    duration_seconds: Optional[float],
+) -> tuple[Optional[Interval], str]:
+    """Extract one timestamp interval from model text.
+
+    Args:
+        text: Input text to parse.
+        duration_seconds: Optional clip duration for clamping and validity checks.
+
+    Returns:
+        Tuple ``(interval, source)`` where source indicates parse strategy.
+    """
+    from_tags = _extract_interval_from_tags(text, duration_seconds)
+    if from_tags is not None:
+        return from_tags, "token"
+
+    from_range = _extract_interval_from_ranges(text, duration_seconds)
+    if from_range is not None:
+        return from_range, "range"
+
+    from_plain = _extract_interval_from_plain_numbers(text, duration_seconds)
+    if from_plain is not None:
+        return from_plain, "plain"
+
+    return None, "none"
+
+
+def interval_iou(pred: Interval, truth: Interval) -> float:
+    """Compute temporal IoU.
+
+    Args:
+        pred: Predicted interval.
+        truth: Ground-truth interval.
+
+    Returns:
+        Temporal intersection-over-union score.
+    """
+    intersection_start = max(pred.start, truth.start)
+    intersection_end = min(pred.end, truth.end)
+    if intersection_end <= intersection_start:
         return 0.0
-    
-    intersection_start = max(pred_start, true_start)
-    intersection_end = min(pred_end, true_end)
-    
-    if intersection_start >= intersection_end:
-        return 0.0
-        
+
     intersection = intersection_end - intersection_start
-    union = (pred_end - pred_start) + (true_end - true_start) - intersection
-    
-    if union <= 0.0:
+    union = (pred.end - pred.start) + (truth.end - truth.start) - intersection
+    if union <= 0:
         return 0.0
-        
     return intersection / union
 
-def extract_noise_type(text: str) -> str:
-    """Extract noise type from the generated text."""
-    # Simple extraction Strategy: look for 'interrupted by a (.*?) occurring'
-    match = re.search(r"interrupted by an? (.*?) occurring", text, re.IGNORECASE)
-    if match:
-        return match.group(1).strip()
-    return "unknown"
+
+def query_to_prompt(query: Any) -> str:
+    """Convert a dataset query string into a Qwen2-Audio prompt.
+
+    Args:
+        query: Stored query field from processed records.
+
+    Returns:
+        Prompt with the expected audio special tokens.
+    """
+    if not isinstance(query, str):
+        return PROMPT_TEMPLATE
+
+    text = " ".join(query.strip().split())
+    if not text:
+        return PROMPT_TEMPLATE
+    if AUDIO_PLACEHOLDER in text:
+        return text.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+    if "<|AUDIO|>" in text:
+        return text
+    return f"{AUDIO_SPECIAL}{text}"
+
+
+def extract_ground_truth_interval(
+    record: dict[str, Any],
+) -> tuple[Optional[Interval], str]:
+    """Read ground-truth interval from a temporal record.
+
+    Args:
+        record: Processed JSON/JSONL record.
+
+    Returns:
+        Tuple ``(interval, source)`` where source names extraction method.
+    """
+    duration = _safe_float(record.get("duration_seconds"))
+    segments = record.get("mix_deg_segments")
+    if isinstance(segments, list):
+        valid: list[Interval] = []
+        for segment in segments:
+            if not isinstance(segment, dict):
+                continue
+            start = _safe_float(segment.get("start"))
+            end = _safe_float(segment.get("end"))
+            if start is None or end is None:
+                continue
+            interval = _sanitize_interval(start, end, duration)
+            if interval is not None:
+                valid.append(interval)
+
+        if valid:
+            longest = max(valid, key=lambda item: item.end - item.start)
+            return longest, "mix_deg_segments"
+
+    response_text = str(record.get("response", ""))
+    from_text, source = extract_interval(response_text, duration)
+    if from_text is not None:
+        return from_text, f"response_{source}"
+    return None, "none"
+
+
+def _mean(values: list[float]) -> float:
+    """Mean helper that returns zero for empty lists."""
+    if not values:
+        return 0.0
+    return sum(values) / len(values)
 
 
 @app.command()
@@ -62,6 +280,10 @@ def eval_temporal(
     model_path: str = typer.Option(
         ASAModel.SFT, help="Hub repo ID or local checkpoint path."
     ),
+    data_root: Path = typer.Option(
+        Path("data"),
+        help="Root directory used to resolve audio paths.",
+    ),
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to evaluate (for testing)."
     ),
@@ -70,116 +292,238 @@ def eval_temporal(
         help="Dir to save results. Defaults to results/evaluation/<model_name>_temporal.",
     ),
     batch_size: int = typer.Option(4, help="Inference batch size."),
-):
-    """Run model inference and evaluate quality based on t-IoU and Noise Detection."""
-
+    use_query_prompt: bool = typer.Option(
+        True,
+        "--use-query-prompt/--use-default-prompt",
+        help="Use each record's temporal query prompt instead of the default prompt.",
+    ),
+    do_sample: bool = typer.Option(
+        False,
+        "--do-sample/--greedy",
+        help="Sample with temperature/top_p or use greedy decoding.",
+    ),
+    temperature: float = typer.Option(
+        EVAL_TEMPERATURE,
+        help="Sampling temperature (used when --do-sample).",
+    ),
+    top_p: float = typer.Option(
+        EVAL_TOP_P,
+        help="Nucleus top-p (used when --do-sample).",
+    ),
+    max_new_tokens: int = typer.Option(
+        EVAL_MAX_NEW_TOKENS,
+        help="Max new tokens to generate per sample.",
+    ),
+) -> None:
+    """Run temporal inference and report localization quality metrics."""
     if output_dir is None:
-        model_name = Path(model_path).name
-        if not model_name: 
-            model_name = "model"
+        model_name = Path(model_path).name or "model"
         output_dir = Path(f"results/evaluation/{model_name}_temporal")
-
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    logging.info(f"Loading model from {model_path}...")
+    logging.info("Loading model from %s", model_path)
     processor, model, device = load_model(model_path)
 
     for dataset_path in dataset_paths:
-        logging.info(f"Loading dataset from {dataset_path}")
-        data = []
-        with open(dataset_path, "r", encoding="utf-8") as f:
-            for line in f:
-                if not line.strip():
-                    continue
-                data.append(json.loads(line))
+        logging.info("Loading dataset from %s", dataset_path)
+        rows = load_processed_records(dataset_path)
+        if max_samples is not None:
+            rows = rows[:max_samples]
+            logging.info("Limited evaluation to %d samples", len(rows))
 
-        if max_samples:
-            data = data[:max_samples]
-            logging.info(f"Limited evaluation to {max_samples} samples.")
+        resolved_rows: list[dict[str, Any]] = []
+        missing_audio_ref = 0
+        missing_audio_file = 0
 
-        audio_paths = []
-        for item in data:
-            raw_path = item["audios"][0]
-            if "/workspace/data/" in raw_path:
-                resolved_path = raw_path.replace("/workspace/data/", "data/raw/")
-            else:
-                resolved_path = raw_path
-            audio_paths.append(resolved_path)
+        for item in rows:
+            audios = item.get("audios")
+            if not isinstance(audios, list) or not audios:
+                missing_audio_ref += 1
+                continue
 
-        logging.info("Running inference...")
+            raw_audio = str(audios[0])
+            resolved_audio = resolve_audio_path(raw_audio, data_root)
+            if not resolved_audio.exists():
+                missing_audio_file += 1
+                continue
+
+            duration_seconds = _safe_float(item.get("duration_seconds"))
+            truth_interval, truth_source = extract_ground_truth_interval(item)
+            prompt = (
+                query_to_prompt(item.get("query"))
+                if use_query_prompt
+                else PROMPT_TEMPLATE
+            )
+            resolved_rows.append(
+                {
+                    "record": item,
+                    "audio_path": str(resolved_audio),
+                    "duration_seconds": duration_seconds,
+                    "truth_interval": truth_interval,
+                    "truth_source": truth_source,
+                    "prompt": prompt,
+                }
+            )
+
+        if not resolved_rows:
+            raise ValueError(
+                "No evaluable rows found after audio path resolution. "
+                f"dataset={dataset_path}, data_root={data_root}"
+            )
+
+        logging.info(
+            "Running inference on %d rows (skipped: missing_audios=%d, missing_files=%d)",
+            len(resolved_rows),
+            missing_audio_ref,
+            missing_audio_file,
+        )
         predictions = run_inference(
             model=model,
             processor=processor,
-            audio_paths=audio_paths,
+            audio_paths=[row["audio_path"] for row in resolved_rows],
+            prompt_texts=[row["prompt"] for row in resolved_rows],
             device=device,
             batch_size=batch_size,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
+            max_new_tokens=max_new_tokens,
         )
 
-        logging.info("Calculating metrics...")
-        results = []
-        tiou_scores = []
-        correct_detection = 0
+        details: list[dict[str, Any]] = []
+        ious: list[float] = []
+        start_errors: list[float] = []
+        end_errors: list[float] = []
+        parsed_count = 0
+        ground_truth_count = 0
 
-        for i, (item, pred) in enumerate(zip(data, predictions)):
-            pred = pred.strip()
-            true_resp = item["response"]
-            
-            # Ground truth extraction
-            true_start, true_end = extract_timestamps(true_resp)
-            true_noise = extract_noise_type(true_resp)
-            
-            # Prediction extraction
-            pred_start, pred_end = extract_timestamps(pred)
-            pred_noise = extract_noise_type(pred)
+        for row, prediction in zip(resolved_rows, predictions):
+            record = row["record"]
+            duration_seconds = row["duration_seconds"]
+            prediction_text = prediction.strip()
 
-            # Metrics
-            tiou_val = calculate_tiou(pred_start, pred_end, true_start, true_end)
-            tiou_scores.append(tiou_val)
-            
-            # Exact noise match or substring
-            is_correct = (true_noise.lower() in pred_noise.lower()) or (pred_noise.lower() in true_noise.lower() and len(pred_noise) > 3)
-            if is_correct:
-                correct_detection += 1
+            pred_interval, pred_source = extract_interval(
+                prediction_text, duration_seconds
+            )
+            truth_interval = row["truth_interval"]
+            truth_source = row["truth_source"]
 
-            res_item = item.copy()
-            res_item["predicted_response"] = pred
-            res_item["predicted_start"] = pred_start
-            res_item["predicted_end"] = pred_end
-            res_item["predicted_noise"] = pred_noise
-            res_item["tiou"] = tiou_val
-            res_item["correct_noise"] = is_correct
-            results.append(res_item)
+            if pred_interval is not None:
+                parsed_count += 1
+            if truth_interval is not None:
+                ground_truth_count += 1
 
-        avg_tiou = sum(tiou_scores) / len(tiou_scores) if tiou_scores else 0.0
-        n = len(data)
-        accuracy = correct_detection / n if n > 0 else 0.0
+            tiou = 0.0
+            if pred_interval is not None and truth_interval is not None:
+                tiou = interval_iou(pred_interval, truth_interval)
+                start_errors.append(abs(pred_interval.start - truth_interval.start))
+                end_errors.append(abs(pred_interval.end - truth_interval.end))
+            if truth_interval is not None:
+                ious.append(tiou)
 
-        logging.info("=" * 40)
-        logging.info(f"EVALUATION RESULTS FOR {dataset_path.name}:")
-        logging.info(f"Samples evaluated: {n}")
-        logging.info(f"Average t-IoU:     {avg_tiou:.4f}")
-        logging.info(f"Noise Detection Acc: {accuracy:.4f} ({correct_detection}/{n})")
-        logging.info("=" * 40)
+            detail = dict(record)
+            detail["audio_path_resolved"] = row["audio_path"]
+            detail["predicted_response"] = prediction_text
+            detail["gt_interval_source"] = truth_source
+            detail["pred_interval_source"] = pred_source
+            detail["gt_start"] = (
+                truth_interval.start if truth_interval is not None else None
+            )
+            detail["gt_end"] = (
+                truth_interval.end if truth_interval is not None else None
+            )
+            detail["pred_start"] = (
+                pred_interval.start if pred_interval is not None else None
+            )
+            detail["pred_end"] = (
+                pred_interval.end if pred_interval is not None else None
+            )
+            detail["tiou"] = tiou
+            detail["start_abs_err"] = (
+                abs(pred_interval.start - truth_interval.start)
+                if pred_interval is not None and truth_interval is not None
+                else None
+            )
+            detail["end_abs_err"] = (
+                abs(pred_interval.end - truth_interval.end)
+                if pred_interval is not None and truth_interval is not None
+                else None
+            )
+            details.append(detail)
+
+        metrics = {
+            "samples_total": len(resolved_rows),
+            "samples_with_ground_truth_interval": ground_truth_count,
+            "samples_with_parsed_prediction_interval": parsed_count,
+            "skipped_missing_audios_field": missing_audio_ref,
+            "skipped_missing_audio_file": missing_audio_file,
+            "mean_tiou": _mean(ious),
+            "median_tiou": median(ious) if ious else 0.0,
+            "hit_iou_ge_0_1": _mean([1.0 if value >= 0.1 else 0.0 for value in ious]),
+            "hit_iou_ge_0_3": _mean([1.0 if value >= 0.3 else 0.0 for value in ious]),
+            "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
+            "mean_start_abs_err": _mean(start_errors),
+            "mean_end_abs_err": _mean(end_errors),
+            "prompt_mode": "query" if use_query_prompt else "default",
+            "do_sample": do_sample,
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_new_tokens": max_new_tokens,
+        }
+
+        logging.info("========================================")
+        logging.info("TEMPORAL EVALUATION: %s", dataset_path.name)
+        logging.info("Samples evaluated: %d", metrics["samples_total"])
+        logging.info("Prediction parse rate: %.4f", parsed_count / len(resolved_rows))
+        logging.info("Mean t-IoU: %.4f", metrics["mean_tiou"])
+        logging.info("Median t-IoU: %.4f", metrics["median_tiou"])
+        logging.info("Hit@0.1: %.4f", metrics["hit_iou_ge_0_1"])
+        logging.info("Hit@0.3: %.4f", metrics["hit_iou_ge_0_3"])
+        logging.info("Hit@0.5: %.4f", metrics["hit_iou_ge_0_5"])
+        logging.info("Mean |start error|: %.4f", metrics["mean_start_abs_err"])
+        logging.info("Mean |end error|: %.4f", metrics["mean_end_abs_err"])
+        logging.info("========================================")
 
         dataset_name = dataset_path.stem
-        out_file = output_dir / f"{dataset_name}_results.json"
+        out_json = output_dir / f"{dataset_name}_results.json"
+        out_csv = output_dir / f"{dataset_name}_results.csv"
 
-        with open(out_file, "w", encoding="utf-8") as f:
+        with out_json.open("w", encoding="utf-8") as handle:
             json.dump(
-                {
-                    "metrics": {
-                        "samples": n,
-                        "avg_tiou": avg_tiou,
-                        "detection_accuracy": accuracy,
-                    },
-                    "results": results,
-                },
-                f,
+                {"metrics": metrics, "results": details},
+                handle,
                 indent=2,
                 ensure_ascii=False,
             )
 
-        logging.info(f"Saved detailed results to {out_file}\n")
+        csv_columns = [
+            "id",
+            "filename_deg",
+            "mix_filename",
+            "audio_path_resolved",
+            "duration_seconds",
+            "gt_start",
+            "gt_end",
+            "pred_start",
+            "pred_end",
+            "tiou",
+            "start_abs_err",
+            "end_abs_err",
+            "gt_interval_source",
+            "pred_interval_source",
+            "mos",
+            "predicted_response",
+        ]
+        with out_csv.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(
+                handle, fieldnames=csv_columns, extrasaction="ignore"
+            )
+            writer.writeheader()
+            writer.writerows(details)
+
+        logging.info("Saved detailed results to %s", out_json)
+        logging.info("Saved tabular results to %s", out_csv)
+
 
 if __name__ == "__main__":
     app()

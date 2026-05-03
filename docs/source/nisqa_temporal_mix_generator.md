@@ -85,3 +85,29 @@ this form:
 
 When fine-tuning, pass `--use-query-prompt` so the model sees the timestamp-localization instruction in each record's
 `query` field.
+
+## Evaluate Temporal Localization
+
+Run temporal inference and compute localization metrics (t-IoU, hit rates, start/end timestamp errors):
+
+```bash
+uv run python src/asa/evaluate_temporal.py \
+  --model-path models/sft_temporal_max_mos3 \
+  --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
+  --data-root data \
+  --output-dir results/evaluation/sft_temporal_max_mos3 \
+  --batch-size 4 \
+  --greedy \
+  --use-query-prompt
+```
+
+For a quick smoke check before a full run:
+
+```bash
+uv run python src/asa/evaluate_temporal.py \
+  --model-path models/sft_temporal_max_mos3 \
+  --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
+  --data-root data \
+  --max-samples 64 \
+  --output-dir results/evaluation/sft_temporal_max_mos3_smoke
+```
