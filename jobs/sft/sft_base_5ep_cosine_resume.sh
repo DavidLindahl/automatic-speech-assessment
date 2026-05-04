@@ -2,21 +2,26 @@
 ### ============================================================
 ### DTU HPC — Resume SFT cosine-warmup run from checkpoint-565.
 ### Original job 28309958 was killed by LSF for memory overrun
-### (requested 64 GB, peak 408 GB, avg 178 GB). This script bumps
-### the memory request to 384 GB so DeepSpeed Zero-2 CPU offload
-### can breathe. Walltime stays at 24h; if it doesn't finish, just
-### resubmit and Trainer will pick up the latest checkpoint.
+### (requested 64 GB, peak 408 GB, avg 178 GB). LSF rusage[mem]
+### is per-core, total = mem x n. gpuh100 nodes have 720 GB usable
+### but only 360 GB per GPU is available to a single-GPU job, so
+### the cap is 360 GB total. Request below: 88 GB x 4 cores = 352
+### GB total, just under the per-GPU ceiling. NOTE: original run
+### peaked at 408 GB which exceeds this cap, so this script will
+### likely OOM unless the deepspeed config is switched to
+### ds_zero2_no_offload.json. Walltime 24h. If a checkpoint exists
+### Trainer resumes; otherwise it starts from scratch.
 ###
 ### Submit with: bsub < jobs/sft/sft_base_5ep_cosine_resume.sh
 ### ============================================================
 
 #BSUB -q gpuh100
 #BSUB -J sft-base-5ep-cosine-resume
-#BSUB -n 8
+#BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=384GB]"
-#BSUB -M 384GB
+#BSUB -R "rusage[mem=88GB]"
+#BSUB -M 88GB
 #BSUB -W 24:00
 #BSUB -o logs/sft_base_5ep_cosine_resume_%J.out
 #BSUB -e logs/sft_base_5ep_cosine_resume_%J.err

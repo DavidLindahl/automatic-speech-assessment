@@ -6,11 +6,11 @@
 
 #BSUB -q gpuh100
 #BSUB -J dpo-paper-half-h100
-#BSUB -n 8
+#BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=128GB]"
-#BSUB -M 128GB
+#BSUB -R "rusage[mem=64GB]"
+#BSUB -M 64GB
 #BSUB -W 24:00
 #BSUB -o logs/dpo_paper_half_h100_%J.out
 #BSUB -e logs/dpo_paper_half_h100_%J.err
