@@ -6,11 +6,11 @@
 
 #BSUB -q gpuh100
 #BSUB -J sft-warmup-paper-half-h100
-#BSUB -n 8
+#BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=128GB]"
-#BSUB -M 128GB
+#BSUB -R "rusage[mem=48GB]"
+#BSUB -M 48GB
 #BSUB -W 24:00
 #BSUB -o logs/sft_warmup_paper_half_h100_%J.out
 #BSUB -e logs/sft_warmup_paper_half_h100_%J.err
@@ -44,7 +44,7 @@ torchrun --nproc_per_node=1 src/asa/supervised-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --max-samples 5000 \
     --bf16 \
-    --deepspeed configs/ds_zero2_no_offload.json \
+    --deepspeed configs/ds_zero2.json \
     --batch-size 4 \
     --gradient-accumulation-steps 4 \
     --epochs 2 \

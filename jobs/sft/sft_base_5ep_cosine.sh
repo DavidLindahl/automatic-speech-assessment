@@ -11,11 +11,11 @@
 
 #BSUB -q gpuh100
 #BSUB -J sft-base-5ep-cosine
-#BSUB -n 8
+#BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=64GB]"
-#BSUB -M 64GB
+#BSUB -R "rusage[mem=88GB]"
+#BSUB -M 88GB
 #BSUB -W 24:00
 #BSUB -o logs/sft_base_5ep_cosine_%J.out
 #BSUB -e logs/sft_base_5ep_cosine_%J.err
