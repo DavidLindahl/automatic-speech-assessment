@@ -97,6 +97,7 @@ def run_inference(
     do_sample: bool = False,
     temperature: float = 1.0,
     top_p: float = 1.0,
+    skip_special_tokens: bool = True,
 ) -> List[str]:
     """Generate text responses for a list of audio files.
 
@@ -118,6 +119,9 @@ def run_inference(
     do_sample      : When ``True``, enable stochastic decoding.
     temperature    : Softmax temperature used when ``do_sample`` is ``True``.
     top_p          : Nucleus sampling cutoff used when ``do_sample`` is ``True``.
+    skip_special_tokens
+                   : Passed to processor decoding. Set ``False`` for tasks that
+                     need generated timestamp tokens such as ``<|2.88|>``.
 
     Returns
     -------
@@ -181,7 +185,9 @@ def run_inference(
                 out_ids = model.generate(**batch, **gen_kwargs)
 
             response_ids = out_ids[:, input_len:]
-            decoded = processor.batch_decode(response_ids, skip_special_tokens=True)
+            decoded = processor.batch_decode(
+                response_ids, skip_special_tokens=skip_special_tokens
+            )
             all_responses.extend(decoded)
 
     else:
@@ -218,7 +224,9 @@ def run_inference(
 
             # Strip prompt tokens so we only return the model's response
             response_ids = out_ids[:, input_len:]
-            decoded = processor.batch_decode(response_ids, skip_special_tokens=True)
+            decoded = processor.batch_decode(
+                response_ids, skip_special_tokens=skip_special_tokens
+            )
             all_responses.extend(decoded)
 
     return all_responses

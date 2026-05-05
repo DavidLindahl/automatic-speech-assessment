@@ -4,6 +4,7 @@ from asa.evaluate_temporal import (
     extract_interval,
     interval_iou,
     query_to_prompt,
+    strip_non_timestamp_special_tokens,
 )
 
 
@@ -21,6 +22,14 @@ def test_extract_interval_from_range_expression() -> None:
 
     assert interval == Interval(start=3.2, end=4.4)
     assert source == "range"
+
+
+def test_extract_interval_does_not_pair_partial_timestamp_with_mos() -> None:
+    text = "The MOS score is 1.8. The issue occurs between <|2.88|> and ."
+    interval, source = extract_interval(text, duration_seconds=6.0)
+
+    assert interval is None
+    assert source == "none"
 
 
 def test_interval_iou() -> None:
@@ -45,3 +54,10 @@ def test_extract_ground_truth_interval_prefers_manifest_segments() -> None:
 def test_query_to_prompt_replaces_audio_placeholder() -> None:
     prompt = query_to_prompt("Please localize degradation<audio>and report timestamps.")
     assert "<|audio_bos|><|AUDIO|><|audio_eos|>" in prompt
+
+
+def test_strip_non_timestamp_special_tokens_preserves_timestamps() -> None:
+    text = "<|im_start|>assistant degradation <|1.25|> to <|2.75|><|im_end|>"
+    cleaned = strip_non_timestamp_special_tokens(text)
+
+    assert cleaned == "assistant degradation <|1.25|> to <|2.75|>"

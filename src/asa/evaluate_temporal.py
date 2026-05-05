@@ -27,6 +27,7 @@ EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
 
 TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
+NON_TIMESTAMP_SPECIAL_TOKEN_RE = re.compile(r"<\|(?!-?\d+(?:\.\d+)?\|>)[^|]*\|>")
 PLAIN_FLOAT_RE = re.compile(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d.])")
 RANGE_PATTERNS = [
     re.compile(
@@ -139,7 +140,8 @@ def _extract_interval_from_plain_numbers(
     duration_seconds: Optional[float],
 ) -> Optional[Interval]:
     """Extract interval from plain numeric text when explicit ranges are absent."""
-    values = [float(m) for m in PLAIN_FLOAT_RE.findall(text)]
+    text_without_timestamp_tokens = TIMESTAMP_TOKEN_RE.sub(" ", text)
+    values = [float(m) for m in PLAIN_FLOAT_RE.findall(text_without_timestamp_tokens)]
     if len(values) < 2:
         return None
 
@@ -182,6 +184,19 @@ def extract_interval(
         return from_plain, "plain"
 
     return None, "none"
+
+
+def strip_non_timestamp_special_tokens(text: str) -> str:
+    """Remove generated control tokens while keeping timestamp tokens.
+
+    Args:
+        text: Decoded model text that may contain Qwen control tokens.
+
+    Returns:
+        Text with non-timestamp ``<|...|>`` tokens removed.
+    """
+    cleaned = NON_TIMESTAMP_SPECIAL_TOKEN_RE.sub("", text)
+    return " ".join(cleaned.split())
 
 
 def interval_iou(pred: Interval, truth: Interval) -> float:
@@ -388,6 +403,7 @@ def eval_temporal(
             temperature=temperature,
             top_p=top_p,
             max_new_tokens=max_new_tokens,
+            skip_special_tokens=False,
         )
 
         details: list[dict[str, Any]] = []
@@ -400,7 +416,7 @@ def eval_temporal(
         for row, prediction in zip(resolved_rows, predictions):
             record = row["record"]
             duration_seconds = row["duration_seconds"]
-            prediction_text = prediction.strip()
+            prediction_text = strip_non_timestamp_special_tokens(prediction)
 
             pred_interval, pred_source = extract_interval(
                 prediction_text, duration_seconds
