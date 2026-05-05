@@ -172,12 +172,14 @@ def train(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        # --- SAVING STRATEGY: rolling 1-checkpoint at epoch boundaries ---
-        # Trainer keeps only the latest checkpoint (16 GB), replaced each epoch.
-        # Enables resume_from_checkpoint on walltime kill (gpuh100 caps at 24h).
-        save_strategy="epoch",
-        save_total_limit=1,
-        save_only_model=False,  # need optimizer/scheduler state for resume
+        # --- SAVING STRATEGY: final-only, model weights only ---
+        # /work3 has a 100 GiB hard cap and a full DeepSpeed checkpoint
+        # (model + optimizer + grad + LR shards) is ~63 GB. Step- and epoch-level
+        # saves blew the quota at step 313 on jobs 28343439 and 28348684.
+        # Only trainer.save_model() at the end, model weights only (~16 GB).
+        # No mid-run resume; gpuh100 24h walltime is enough for our scripts.
+        save_strategy="no",
+        save_only_model=True,
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else None,
         optim="adamw_torch",
