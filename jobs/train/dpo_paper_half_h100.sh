@@ -40,7 +40,7 @@ nvidia-smi
 torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
-    --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100.json" \
+    --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \
     --data-root data \
     --batch-size 2 \
     --epochs 1 \
