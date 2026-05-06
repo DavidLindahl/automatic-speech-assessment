@@ -27,7 +27,18 @@ source .venv/bin/activate
 
 export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
-export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
+
+# HF cache off /work3 to keep quota free.
+if [ -d "/scratch" ] && [ -w "/scratch" ]; then
+    export HF_HOME="/scratch/$USER/hf_cache"
+elif [ -w "/tmp" ]; then
+    export HF_HOME="/tmp/$USER/hf_cache"
+else
+    echo "WARN: no node-local scratch; HF cache stays on /work3 (quota risk)"
+    export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
+fi
+mkdir -p "$HF_HOME"
+echo "HF_HOME=$HF_HOME"
 
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
