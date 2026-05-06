@@ -41,19 +41,22 @@ fi
 mkdir -p "$HF_HOME"
 echo "HF_HOME=$HF_HOME"
 
-# HF auth: prefer env var if set, otherwise rely on cached login from
-# `huggingface-cli login` (same token the existing upload_sft_*.sh scripts use).
-# Fail fast if neither is available, so we don't train for hours then silently
-# fail to push.
+# HF auth: explicitly export HF_TOKEN so the Trainer subprocess sees it.
+# The cached login at ~/.cache/huggingface/token is owned by the user's
+# default HF_HOME, but we redirect HF_HOME to /scratch above to keep the
+# huge model cache off /work3 - so the Trainer's huggingface_hub client
+# wouldn't find the cached token there. Read it from the canonical path
+# and export, regardless of HF_HOME.
 if [ -n "${HF_TOKEN:-}" ]; then
-    export HF_TOKEN
     echo "HF auth: using HF_TOKEN env var"
-elif [ -f "$HOME/.cache/huggingface/token" ] || [ -f "$HOME/.cache/huggingface/stored_tokens" ]; then
-    echo "HF auth: using cached login from ~/.cache/huggingface/"
+elif [ -f "$HOME/.cache/huggingface/token" ]; then
+    HF_TOKEN="$(cat "$HOME/.cache/huggingface/token")"
+    echo "HF auth: loaded HF_TOKEN from ~/.cache/huggingface/token"
 else
     echo "ERROR: no HF auth available. Either export HF_TOKEN or run 'huggingface-cli login' on the HPC."
     exit 1
 fi
+export HF_TOKEN
 
 # Hub repo to stream checkpoints into. Override at submit time with HUB_MODEL_ID=...
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-dpo-paper-half}"
