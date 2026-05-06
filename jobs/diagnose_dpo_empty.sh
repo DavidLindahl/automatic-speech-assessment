@@ -4,7 +4,7 @@
 ### Submit with: bsub < jobs/diagnose_dpo_empty.sh
 ### ============================================================
 
-#BSUB -q gpul40s
+#BSUB -q gpuh100
 #BSUB -J diagnose-dpo-empty
 #BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
