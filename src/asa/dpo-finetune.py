@@ -170,6 +170,18 @@ def train(
         "qwen2-audio-alld", help="W&B project."
     ),
     wandb_run_name: Optional[str] = typer.Option("alld-finetune", help="W&B run name."),
+    hub_model_id: Optional[str] = typer.Option(
+        None,
+        help="HF Hub repo id for streaming checkpoints (e.g. Leng2beat/foo). If set, enables push_to_hub.",
+    ),
+    save_steps: int = typer.Option(
+        200, help="Steps between checkpoint saves. Used when hub_model_id is set."
+    ),
+    save_total_limit: int = typer.Option(
+        1,
+        help="Max local checkpoints to retain (rotation). Keeps /work3 quota bounded.",
+    ),
+    hub_private: bool = typer.Option(True, help="Make Hub repo private."),
 ):
     """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
@@ -240,6 +252,18 @@ def train(
         print(f"Loading Reference Model (Text): {ref_model_id} (dtype={dtype})")
     ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, torch_dtype=dtype)
 
+    push_to_hub = hub_model_id is not None
+    if push_to_hub and is_main:
+        print(
+            f"Hub streaming ENABLED: pushing checkpoints to {hub_model_id} every {save_steps} steps "
+            f"(local rotation: keep last {save_total_limit})."
+        )
+    elif is_main:
+        print(
+            "Hub streaming DISABLED (no --hub-model-id). Final save will land on local disk only "
+            "— this is the fragile path. Pass --hub-model-id to make the run quota-safe."
+        )
+
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
@@ -249,7 +273,9 @@ def train(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        save_strategy="no",
+        save_strategy="steps" if push_to_hub else "no",
+        save_steps=save_steps,
+        save_total_limit=save_total_limit,
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else 0,
         optim="adamw_torch",
@@ -258,6 +284,10 @@ def train(
         remove_unused_columns=False,  # Essential: keep custom prefix columns in batch
         report_to=report_to,
         run_name=wandb_run_name,
+        push_to_hub=push_to_hub,
+        hub_model_id=hub_model_id,
+        hub_strategy="every_save" if push_to_hub else "end",
+        hub_private_repo=hub_private,
     )
 
     trainer = ALLDDPOTrainer(
@@ -276,8 +306,32 @@ def train(
 
     if is_main:
         print(f"Saving ALLD model to {output_dir}")
-    trainer.save_model(str(output_dir))
-    audio_processor.save_pretrained(str(output_dir))
+    try:
+        trainer.save_model(str(output_dir))
+        audio_processor.save_pretrained(str(output_dir))
+        local_save_ok = True
+    except OSError as e:
+        # Quota / disk-full: don't lose the run. Fall through to Hub push.
+        local_save_ok = False
+        if is_main:
+            print(f"WARNING: local save failed ({e!r}). Attempting Hub-only rescue.")
+
+    if push_to_hub and is_main:
+        # Trainer.push_to_hub uploads model + tokenizer; processor pushed separately.
+        try:
+            trainer.push_to_hub(commit_message="final model", blocking=True)
+            audio_processor.push_to_hub(hub_model_id, private=hub_private)
+            print(f"Final checkpoint pushed to https://huggingface.co/{hub_model_id}")
+        except Exception as e:
+            print(f"ERROR: final Hub push failed: {e!r}")
+            if not local_save_ok:
+                print("Both local save and Hub push failed — run output is LOST.")
+            raise
+    elif not local_save_ok:
+        # No Hub fallback configured and local save died.
+        raise RuntimeError(
+            "Local save failed and --hub-model-id was not set; run output is lost."
+        )
 
     if wandb_project and is_main:
         import wandb
