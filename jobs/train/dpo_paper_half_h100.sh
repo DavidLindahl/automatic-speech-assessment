@@ -76,7 +76,7 @@ torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
     --data-root data \
     --batch-size 2 \
     --epochs 1 \
-    --lr 5e-6 \
+    --lr 1e-6 \
     --beta 0.4 \
     --gradient-accumulation-steps 16 \
     --bf16 \
