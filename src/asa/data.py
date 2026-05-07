@@ -521,12 +521,6 @@ class ALLDDPOCollator:
         self.audio_processor = audio_processor
         self.text_tokenizer = text_tokenizer
 
-        # Force right-padding for both tokenizers. _build_labels assumes
-        # the real prompt+response starts at position 0, so left-padding
-        # mis-aligns labels and trains the model to predict prompt tokens.
-        self.audio_processor.tokenizer.padding_side = "right"
-        self.text_tokenizer.padding_side = "right"
-
         # Ensure text tokenizer has a pad token
         if self.text_tokenizer.pad_token is None:
             self.text_tokenizer.pad_token = self.text_tokenizer.eos_token
