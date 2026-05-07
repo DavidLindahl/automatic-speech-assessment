@@ -276,6 +276,7 @@ def train(
         save_strategy="steps" if push_to_hub else "no",
         save_steps=save_steps,
         save_total_limit=save_total_limit,
+        save_only_model=True,  # Carl never resumes from checkpoint; skip optimizer/scheduler/RNG state to save ~47GB per checkpoint and avoid OOM at save time.
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else 0,
         optim="adamw_torch",
