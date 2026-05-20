@@ -26,8 +26,8 @@
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
 #BSUB -W 3:00
-#BSUB -o logs/dpo_labelmask_smoke_h100_%J.out
-#BSUB -e logs/dpo_labelmask_smoke_h100_%J.err
+#BSUB -o /work3/s234817/automatic-speech-assessment/logs/dpo_labelmask_smoke_h100_%J.out
+#BSUB -e /work3/s234817/automatic-speech-assessment/logs/dpo_labelmask_smoke_h100_%J.err
 
 set -euo pipefail
 
