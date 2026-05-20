@@ -1,29 +1,29 @@
 #!/bin/bash
 ### ============================================================
-### DTU HPC — DPO/ALLD smoke test on A40 with the fixed label mask
-### Submit with: bsub < jobs/train/dpo_labelmask_smoke_a40.sh
+### DTU HPC — DPO/ALLD smoke test on H100 with the fixed label mask
+### Submit with: bsub < jobs/train/dpo_labelmask_smoke_h100.sh
 ###
 ### Small diagnostic run on the fix/dpo-label-mask branch. Trains
 ### ALLD on a 256-sample subset for a handful of steps, on a single
-### A40 (smaller/cheaper than H100). Purpose: verify the corrected
-### ALLDDPOCollator no longer drives the policy to mode-collapse.
+### H100. Purpose: verify the corrected ALLDDPOCollator no longer
+### drives the policy to mode-collapse.
 ### Streams checkpoints to the Hub so /work3 quota stays bounded.
 ###
-### Memory audit: -n 1 (the gpua40 queue rejects multi-core jobs),
-### rusage[mem] is per-core so 1 x 80GB = 80 GB total. A40 nodes
-### have ~180 GB+ system memory; 80 GB is within node limits.
+### Memory audit: -n 4 x rusage[mem=16GB] = 64 GB total. H100 nodes
+### have ~720 GB system memory; 64 GB is well within node limits.
+### (-n 4 because the esub rule requires >=4 cores per GPU.)
 ### ============================================================
 
-#BSUB -q gpua40
+#BSUB -q gpuh100
 #BSUB -J dpo-labelmask-smoke
-#BSUB -n 1
+#BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=80GB]"
-#BSUB -M 80GB
+#BSUB -R "rusage[mem=16GB]"
+#BSUB -M 16GB
 #BSUB -W 3:00
-#BSUB -o logs/dpo_labelmask_smoke_a40_%J.out
-#BSUB -e logs/dpo_labelmask_smoke_a40_%J.err
+#BSUB -o logs/dpo_labelmask_smoke_h100_%J.out
+#BSUB -e logs/dpo_labelmask_smoke_h100_%J.err
 
 set -euo pipefail
 
@@ -76,7 +76,7 @@ nvidia-smi
 # Smoke run: 256 samples, beta and LR per the paper (the label-mask fix is the
 # real change; LR stays at the paper value 5e-6 now that the gradient is clean).
 torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
-    --model-name "$EXPERIMENT_DIR/models/dpo_labelmask_smoke_a40" \
+    --model-name "$EXPERIMENT_DIR/models/dpo_labelmask_smoke_h100" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --ref-model-id "Qwen/Qwen2-7B" \
     --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \
@@ -89,7 +89,7 @@ torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
     --gradient-accumulation-steps 16 \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
-    --wandb-run-name "dpo-labelmask-smoke-a40" \
+    --wandb-run-name "dpo-labelmask-smoke-h100" \
     --hub-model-id "$HUB_MODEL_ID" \
     --save-steps 8 \
     --save-total-limit 1
