@@ -130,6 +130,12 @@ Home dir quota is ~30 GB — never write large artifacts to `~`. Everything live
 
 Claude is authorized to submit jobs freely when the user asks. Prefer copying an existing script in `jobs/` over writing a new one — they already encode the right queue, modules, env vars, and log paths.
 
+**Hard workflow rule — jobs reach the HPC via GitHub, never by editing on DTU.** Write the `.sh` job script (and any code change) in this repo on the laptop, commit, push/merge to GitHub, then on DTU `git pull` and `bsub`. Never `ssh dtu` and edit a script or source file in place — that creates untracked drift between the HPC checkout and GitHub. Never run ad-hoc `python -c` training/eval on the HPC; wrap everything that runs on the cluster in a committed job script. Local one-off Python for *inspection* (tokenizer/data sanity checks) is fine.
+
+**Hard rule — `/asa-update-site` after every run-state change.** Whenever a run changes state (submitted, completed, failed, parked, killed, re-statused), invoke the `asa-update-site` skill right after updating the `runs/` entry and `runs/INDEX.md`. The public experiment-log site goes stale silently otherwise. A run-state change not reflected on the site is an incomplete task.
+
+**HTML / frontend artifacts — use the `frontend-design` skill.** Any HTML report, dashboard, or frontend output goes through `/frontend-design` for production-grade design; do not hand-roll CSS/HTML.
+
 ```bash
 bsub < jobs/sft/sft_full.sh              # SFT full
 bsub < jobs/sft/sft_warmup.sh            # SFT warmup
