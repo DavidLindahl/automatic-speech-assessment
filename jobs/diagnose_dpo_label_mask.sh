@@ -1,12 +1,12 @@
 #!/bin/bash
 ### ============================================================
-### DTU HPC — Inspect ALLDDPOCollator labels on a real batch
+### DTU HPC — Verify ALLDDPOCollator label mask after the fix
 ### Submit with: bsub < jobs/diagnose_dpo_label_mask.sh
 ###
-### CPU-only diagnostic. Loads the SFT processor + DPO dataset,
-### runs the actual ALLDDPOCollator on N=2 features, and reports
-### whether the label mask aligns with the response region or
-### overlaps the prompt (which would confirm the bug).
+### CPU-only diagnostic. Runs the actual ALLDDPOCollator on a real
+### batch and reports whether the label mask aligns with the
+### response region. After the fix/dpo-label-mask change it must
+### print "Label masks look correct on all rows."
 ### ============================================================
 
 #BSUB -q hpc
@@ -50,6 +50,6 @@ uv run python scripts/diagnose_dpo_label_mask.py \
     --ref-model Qwen/Qwen2-7B \
     --json-path data/processed/train_dpo_paper_half_h100_clean.json \
     --data-root data \
-    --n 2
+    --n 4
 
 echo "Done: $(date)"
