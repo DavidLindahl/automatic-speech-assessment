@@ -521,18 +521,32 @@ class ALLDDPOCollator:
         self.audio_processor = audio_processor
         self.text_tokenizer = text_tokenizer
 
+        # Force right-padding on both tokenizers. _build_labels assumes the real
+        # prompt+response starts at index 0; under left-padding (the Qwen2-Audio
+        # processor default) the prompt starts after a variable run of PAD
+        # tokens, so labels[:prompt_len] masks PADs and leaves the real prompt
+        # supervised as response. Confirmed root cause of the DPO collapse
+        # (diagnostic 28376116). Right-padding makes the per-row prompt length
+        # an exact prefix mask. Reverting this re-introduces the collapse.
+        self.audio_processor.tokenizer.padding_side = "right"
+        self.text_tokenizer.padding_side = "right"
+
         # Ensure text tokenizer has a pad token
         if self.text_tokenizer.pad_token is None:
             self.text_tokenizer.pad_token = self.text_tokenizer.eos_token
 
-    def _build_labels(self, batch, prompt_batch, tokenizer):
-        """Mask prompt and padding tokens with -100 in labels."""
-        if prompt_batch is None or "input_ids" not in prompt_batch:
-            return None  # Should not happen with correct processor calls
+    def _build_labels(self, batch, prompt_lengths):
+        """Mask prompt and padding tokens with -100 in labels.
 
+        prompt_lengths: per-row count of real (non-pad) prompt tokens, computed
+        from the prompt-only attention_mask. With right-padding the prompt is an
+        exact prefix, so labels[:prompt_len] cleanly masks only the prompt. The
+        trailing PAD is masked separately via the full batch attention_mask,
+        which is robust even when pad_token_id == eos_token_id (true for the
+        Qwen2-7B reference model) since it keys on the mask, not the token id.
+        """
         labels = batch["input_ids"].clone()
-        for i in range(len(prompt_batch["input_ids"])):
-            prompt_len = prompt_batch["input_ids"][i].ne(tokenizer.pad_token_id).sum()
+        for i, prompt_len in enumerate(prompt_lengths):
             labels[i, :prompt_len] = -100
         labels[batch["attention_mask"] == 0] = -100
         return labels
@@ -583,8 +597,12 @@ class ALLDDPOCollator:
             "audio_values", None
         )  # Handle processor variations
         batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
+        # Prompt length per row = count of real tokens in the prompt-only batch.
+        # Derived from attention_mask, not token-id != pad, so it is correct
+        # even when pad_token_id collides with a content token.
+        policy_prompt_lens = policy_prompt_inputs["attention_mask"].sum(dim=1)
         batch["policy_labels"] = self._build_labels(
-            policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer
+            policy_inputs, policy_prompt_lens
         )
 
         # ==========================================
@@ -618,9 +636,8 @@ class ALLDDPOCollator:
 
         batch["ref_input_ids"] = ref_inputs["input_ids"]
         batch["ref_attention_mask"] = ref_inputs["attention_mask"]
-        batch["ref_labels"] = self._build_labels(
-            ref_inputs, ref_prompt_inputs, self.text_tokenizer
-        )
+        ref_prompt_lens = ref_prompt_inputs["attention_mask"].sum(dim=1)
+        batch["ref_labels"] = self._build_labels(ref_inputs, ref_prompt_lens)
 
         return batch
 
@@ -709,8 +726,9 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
         batch["policy_attention_mask"] = policy_inputs["attention_mask"]
         batch["policy_audio_values"] = policy_inputs.get("audio_values", None)
         batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
+        policy_prompt_lens = policy_prompt_inputs["attention_mask"].sum(dim=1)
         batch["policy_labels"] = self._build_labels(
-            policy_inputs, policy_prompt_inputs, self.audio_processor.tokenizer
+            policy_inputs, policy_prompt_lens
         )
 
         # ==========================================
@@ -742,8 +760,7 @@ class ALLDDPOCollatorAB(ALLDDPOCollator):
 
         batch["ref_input_ids"] = ref_inputs["input_ids"]
         batch["ref_attention_mask"] = ref_inputs["attention_mask"]
-        batch["ref_labels"] = self._build_labels(
-            ref_inputs, ref_prompt_inputs, self.text_tokenizer
-        )
+        ref_prompt_lens = ref_prompt_inputs["attention_mask"].sum(dim=1)
+        batch["ref_labels"] = self._build_labels(ref_inputs, ref_prompt_lens)
 
         return batch

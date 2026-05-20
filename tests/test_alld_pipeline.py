@@ -99,3 +99,34 @@ def test_alld_pipeline() -> None:
         assert batch["ref_input_ids"].shape[0] == expected_2n_batch_size
         assert batch["policy_labels"][0][0].item() == -100
         assert batch["ref_labels"][0][0].item() == -100
+
+        # Right-padding must be forced so _build_labels masks the prompt as an
+        # exact prefix. Left-padding here re-introduces the DPO collapse.
+        assert audio_processor.tokenizer.padding_side == "right"
+        assert text_tokenizer.padding_side == "right"
+
+        # The supervised reference labels must decode to exactly the response
+        # (chosen / rejected) text, with NO prompt tokens leaking through. The
+        # 2N layout is [chosen_0, chosen_1, rejected_0, rejected_1].
+        responses = [
+            dataset[0]["chosen"],
+            dataset[1]["chosen"],
+            dataset[0]["rejected"],
+            dataset[1]["rejected"],
+        ]
+        for row, expected_response in enumerate(responses):
+            label_row = batch["ref_labels"][row]
+            supervised_ids = batch["ref_input_ids"][row][label_row != -100]
+            supervised_text = text_tokenizer.decode(
+                supervised_ids, skip_special_tokens=True
+            ).strip()
+            # Decoded supervised span must be the response, not prompt content.
+            assert expected_response.strip().startswith(
+                supervised_text[:20]
+            ) or supervised_text.startswith(expected_response.strip()[:20]), (
+                f"row {row}: supervised text {supervised_text!r} does not match "
+                f"response {expected_response!r} — prompt is leaking into labels"
+            )
+            # No prompt marker may appear in the supervised span.
+            assert "meta information" not in supervised_text.lower()
+            assert "--- Current Task ---" not in supervised_text
