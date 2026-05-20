@@ -11,7 +11,7 @@
 
 #BSUB -q hpc
 #BSUB -J diag-dpo-labelmask
-#BSUB -n 4
+#BSUB -n 1
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=16GB]"
 #BSUB -M 16GB
