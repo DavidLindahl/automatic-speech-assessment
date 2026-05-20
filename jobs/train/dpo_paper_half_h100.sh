@@ -12,8 +12,8 @@
 #BSUB -R "rusage[mem=64GB]"
 #BSUB -M 64GB
 #BSUB -W 24:00
-#BSUB -o logs/dpo_paper_half_h100_%J.out
-#BSUB -e logs/dpo_paper_half_h100_%J.err
+#BSUB -o /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_%J.out
+#BSUB -e /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_%J.err
 
 set -euo pipefail
 
@@ -76,7 +76,7 @@ torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
     --data-root data \
     --batch-size 2 \
     --epochs 1 \
-    --lr 1e-6 \
+    --lr 5e-6 \
     --beta 0.4 \
     --gradient-accumulation-steps 16 \
     --bf16 \
