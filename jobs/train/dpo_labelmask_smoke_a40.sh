@@ -9,17 +9,18 @@
 ### ALLDDPOCollator no longer drives the policy to mode-collapse.
 ### Streams checkpoints to the Hub so /work3 quota stays bounded.
 ###
-### Memory audit: -n 4 x rusage[mem=24GB] = 96 GB total. A40 nodes
-### have ~180 GB+; 96 GB is within node limits.
+### Memory audit: -n 1 (the gpua40 queue rejects multi-core jobs),
+### rusage[mem] is per-core so 1 x 80GB = 80 GB total. A40 nodes
+### have ~180 GB+ system memory; 80 GB is within node limits.
 ### ============================================================
 
 #BSUB -q gpua40
 #BSUB -J dpo-labelmask-smoke
-#BSUB -n 4
+#BSUB -n 1
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=24GB]"
-#BSUB -M 24GB
+#BSUB -R "rusage[mem=80GB]"
+#BSUB -M 80GB
 #BSUB -W 3:00
 #BSUB -o logs/dpo_labelmask_smoke_a40_%J.out
 #BSUB -e logs/dpo_labelmask_smoke_a40_%J.err
