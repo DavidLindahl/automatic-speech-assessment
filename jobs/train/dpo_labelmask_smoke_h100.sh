@@ -9,9 +9,13 @@
 ### drives the policy to mode-collapse.
 ### Streams checkpoints to the Hub so /work3 quota stays bounded.
 ###
-### Memory audit: -n 4 x rusage[mem=16GB] = 64 GB total. H100 nodes
-### have ~720 GB system memory; 64 GB is well within node limits.
-### (-n 4 because the esub rule requires >=4 cores per GPU.)
+### Memory audit (LSF rusage[mem] is PER-CORE): -n 4 x rusage[mem=64GB]
+### = 256 GB total. H100 nodes have ~720 GB system memory, so this fits.
+### This matches the working DPO run 28383641, which used 87 GB peak;
+### ALLD loads two full models (8.4B audio policy + 7B text reference)
+### plus ZeRO-2 CPU optimizer offload, so host RAM must be generous.
+### A prior smoke attempt at rusage[mem=16GB] (= 64 GB total) was killed
+### by TERM_MEMLIMIT at ~7 min. (-n 4 because esub requires >=4 cores/GPU.)
 ### ============================================================
 
 #BSUB -q gpuh100
@@ -19,8 +23,8 @@
 #BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=16GB]"
-#BSUB -M 16GB
+#BSUB -R "rusage[mem=64GB]"
+#BSUB -M 64GB
 #BSUB -W 3:00
 #BSUB -o logs/dpo_labelmask_smoke_h100_%J.out
 #BSUB -e logs/dpo_labelmask_smoke_h100_%J.err
