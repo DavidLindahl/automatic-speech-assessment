@@ -181,6 +181,12 @@ def train(
         1,
         help="Max local checkpoints to retain (rotation). Keeps /work3 quota bounded.",
     ),
+    save_intermediate: bool = typer.Option(
+        False,
+        help="Save intermediate checkpoints to LOCAL disk every save_steps, "
+        "without Hub push. Use to capture the collapse-onset curve in a "
+        "diagnostic run. save_total_limit still bounds /work3 usage.",
+    ),
     hub_private: bool = typer.Option(True, help="Make Hub repo private."),
 ):
     """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio."""
@@ -253,10 +259,20 @@ def train(
     ref_model = AutoModelForCausalLM.from_pretrained(ref_model_id, torch_dtype=dtype)
 
     push_to_hub = hub_model_id is not None
+    # Save intermediate checkpoints whenever Hub streaming is on OR the
+    # diagnostic --save-intermediate flag is set. The flag keeps the saves
+    # local (no Hub), so a quota-safe collapse-onset run is possible without
+    # an HF account that has private-repo storage.
+    save_steps_strategy = push_to_hub or save_intermediate
     if push_to_hub and is_main:
         print(
             f"Hub streaming ENABLED: pushing checkpoints to {hub_model_id} every {save_steps} steps "
             f"(local rotation: keep last {save_total_limit})."
+        )
+    elif save_intermediate and is_main:
+        print(
+            f"Local intermediate checkpoints ENABLED: saving to disk every {save_steps} steps "
+            f"(rotation: keep last {save_total_limit}), no Hub push."
         )
     elif is_main:
         print(
@@ -273,7 +289,7 @@ def train(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        save_strategy="steps" if push_to_hub else "no",
+        save_strategy="steps" if save_steps_strategy else "no",
         save_steps=save_steps,
         save_total_limit=save_total_limit,
         save_only_model=True,  # Carl never resumes from checkpoint; skip optimizer/scheduler/RNG state to save ~47GB per checkpoint and avoid OOM at save time.
