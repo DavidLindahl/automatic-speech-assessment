@@ -77,6 +77,17 @@ def load_model(
     model.eval()
 
     processor = AutoProcessor.from_pretrained(model_id)
+
+    # Force left-padding for generation. Qwen2-Audio is decoder-only, so batched
+    # generation must left-pad: right-padding makes generation start after the
+    # pad tokens and the model emits EOS immediately, yielding empty output.
+    # DPO checkpoints save the tokenizer with padding_side="right" (the training
+    # default), so without this override every batched eval of a DPO checkpoint
+    # returns empty strings. SFT checkpoints happen to store "left" and are
+    # unaffected; setting it unconditionally is correct for all generation.
+    if getattr(processor, "tokenizer", None) is not None:
+        processor.tokenizer.padding_side = "left"
+
     return processor, model, device
 
 
