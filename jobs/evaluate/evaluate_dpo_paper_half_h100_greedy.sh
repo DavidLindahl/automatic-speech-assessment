@@ -12,8 +12,8 @@
 #BSUB -R "rusage[mem=32GB]"
 #BSUB -M 32GB
 #BSUB -W 4:00
-#BSUB -o logs/eval_dpo_paper_half_greedy_%J.out
-#BSUB -e logs/eval_dpo_paper_half_greedy_%J.err
+#BSUB -o /work3/s234817/automatic-speech-assessment/logs/eval_dpo_paper_half_greedy_%J.out
+#BSUB -e /work3/s234817/automatic-speech-assessment/logs/eval_dpo_paper_half_greedy_%J.err
 
 set -euo pipefail
 
