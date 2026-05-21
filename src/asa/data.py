@@ -31,7 +31,17 @@ TARGET_SR = 16_000  # Qwen2-Audio expects 16 kHz mono
 
 AUDIO_PLACEHOLDER = "<audio>"
 AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
-PROMPT_TEMPLATE = f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech."
+# The trailing newline is a deliberate prompt/response delimiter. Without it,
+# Qwen BPE merges the prompt tail with the first response word ("speech.This"
+# -> ".This" as one token), so the prompt-length label mask hides the first
+# response token and the model is never trained to produce position 0 at
+# inference. That distribution shift drives the DPO EOS-collapse (the model
+# defaults to <|im_end|> at the first generated position). The "\n" breaks the
+# merge: "speech.\nThis" tokenizes with "This" as a clean standalone token.
+# Shared by SFT, DPO and inference so all three see the identical prompt.
+PROMPT_TEMPLATE = (
+    f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
+)
 PROMPT_TEMPLATE_AB = (
     "Please perform A/B preference test between<audio>and<audio>, including a tie."
 )
