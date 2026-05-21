@@ -410,7 +410,15 @@ Output: The volume of the speech is clear and adequately loud. However, there is
 
 
 def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> str:
-    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:"
+    # The trailing "\n" after "Output:" is the reference-stream analogue of
+    # the PROMPT_TEMPLATE "\n" delimiter fix (commit a007248). Without it,
+    # "Output:" + "The" merges to a single BPE token "Output:The", so the
+    # rejected reference stream's first supervised token becomes
+    # " synthesized" instead of "The". That misaligns the DPO reward at
+    # position 0: policy sees "The", reference sees " synthesized". The "\n"
+    # makes the prompt/response boundary a clean split, identical to the
+    # policy stream. Verified by probe_collator_labels.py.
+    current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:\n"
     return (
         DIMENSION_DEFINITIONS_MOS
         + EXPERT_TASK_MOS
