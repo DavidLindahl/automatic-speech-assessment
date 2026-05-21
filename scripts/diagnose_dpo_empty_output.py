@@ -49,10 +49,17 @@ def diagnose(
     print(f"=== Loading {model} ===")
     processor = AutoProcessor.from_pretrained(model)
     tok = processor.tokenizer
-    m = Qwen2AudioForConditionalGeneration.from_pretrained(
-        model, torch_dtype=torch.bfloat16
-    ).to("cuda").eval()
+    # Match the fixed eval: decoder-only generation needs left-padding.
+    tok.padding_side = "left"
+    m, loading_info = Qwen2AudioForConditionalGeneration.from_pretrained(
+        model, torch_dtype=torch.bfloat16, output_loading_info=True
+    )
+    m = m.to("cuda").eval()
 
+    print(f"  missing_keys        = {loading_info.get('missing_keys')}")
+    print(f"  unexpected_keys     = {loading_info.get('unexpected_keys')}")
+    print(f"  mismatched_keys     = {loading_info.get('mismatched_keys')}")
+    print(f"  padding_side        = {tok.padding_side}")
     print(f"  pad_token_id        = {tok.pad_token_id}  ({tok.pad_token!r})")
     print(f"  eos_token_id        = {tok.eos_token_id}  ({tok.eos_token!r})")
     print(f"  bos_token_id        = {tok.bos_token_id}")
