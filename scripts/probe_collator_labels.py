@@ -37,38 +37,58 @@ def main() -> None:
     collator = ALLDDPOCollator(audio_processor, text_tokenizer)
     batch = collator(features)
 
-    tok = audio_processor.tokenizer
-    input_ids = batch["policy_input_ids"]
-    labels = batch["policy_labels"]
-    attn = batch["policy_attention_mask"]
-
     n = len(features)  # first n rows are chosen, next n are rejected
-    print(f"\npolicy_input_ids shape : {tuple(input_ids.shape)}")
-    print(f"policy_labels shape    : {tuple(labels.shape)}")
 
-    for i in range(input_ids.shape[0]):
-        kind = "chosen" if i < n else "rejected"
-        real_len = int(attn[i].sum())
-        supervised = (labels[i] != -100).nonzero().flatten()
-        if len(supervised) == 0:
-            print(f"\n--- row {i} ({kind}): NO supervised tokens ---")
-            continue
-        first = int(supervised[0])
-        last = int(supervised[-1])
-        n_sup = len(supervised)
-        first_ids = input_ids[i, first : first + 8].tolist()
-        decoded = tok.decode(input_ids[i, first : first + 8])
-        print(f"\n--- row {i} ({kind}) ---")
-        print(f"  real (non-pad) length      : {real_len}")
-        print(f"  supervised tokens          : {n_sup}")
-        print(f"  first supervised position  : {first}")
-        print(f"  last supervised position   : {last}")
-        print(f"  first 8 supervised ids     : {first_ids}")
-        print(f"  first 8 supervised decoded : {decoded!r}")
-        # context: 3 tokens before the supervised region
-        ctx_start = max(0, first - 3)
-        ctx = tok.decode(input_ids[i, ctx_start:first])
-        print(f"  3 tokens BEFORE supervised : {ctx!r}")
+    def dump_stream(name, ids, labels, attn, tok):
+        print(f"\n########## {name} stream ##########")
+        print(f"{name}_input_ids shape : {tuple(ids.shape)}")
+        print(f"{name}_labels shape    : {tuple(labels.shape)}")
+        for i in range(ids.shape[0]):
+            kind = "chosen" if i < n else "rejected"
+            real_len = int(attn[i].sum())
+            supervised = (labels[i] != -100).nonzero().flatten()
+            if len(supervised) == 0:
+                print(f"\n--- row {i} ({kind}): NO supervised tokens ---")
+                continue
+            first = int(supervised[0])
+            last = int(supervised[-1])
+            n_sup = len(supervised)
+            first_ids = ids[i, first : first + 8].tolist()
+            decoded = tok.decode(ids[i, first : first + 8])
+            print(f"\n--- row {i} ({kind}) ---")
+            print(f"  real (non-pad) length      : {real_len}")
+            print(f"  supervised tokens          : {n_sup}")
+            print(f"  first supervised position  : {first}")
+            print(f"  last supervised position   : {last}")
+            print(f"  first 8 supervised ids     : {first_ids}")
+            print(f"  first 8 supervised decoded : {decoded!r}")
+            ctx_start = max(0, first - 3)
+            ctx = tok.decode(ids[i, ctx_start:first])
+            print(f"  3 tokens BEFORE supervised : {ctx!r}")
+
+    # Policy stream (audio model).
+    dump_stream(
+        "policy",
+        batch["policy_input_ids"],
+        batch["policy_labels"],
+        batch["policy_attention_mask"],
+        audio_processor.tokenizer,
+    )
+
+    # Reference stream (text model) — uses build_expert_prompt_MOS which
+    # ends with "Output:". If the first supervised reference token is not
+    # the same word as the policy stream's, the DPO reward at position 0
+    # compares mismatched tokens.
+    if "ref_input_ids" in batch:
+        dump_stream(
+            "reference",
+            batch["ref_input_ids"],
+            batch["ref_labels"],
+            batch["ref_attention_mask"],
+            text_tokenizer,
+        )
+    else:
+        print("\n(no ref_input_ids in batch — reference stream not dumped)")
 
 
 if __name__ == "__main__":
