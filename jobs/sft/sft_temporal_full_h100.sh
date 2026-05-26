@@ -1,8 +1,9 @@
 #!/bin/bash
 ### ============================================================
 ### DTU HPC — Temporal SFT Full-ft on full NISQA-SIM mix JSONL, 1x H100
-### Mirrors sft_warmup_paper_half_h100.sh; trains the thesis-deliverable
+### Mirrors sft_full_paper_h100.sh; trains the thesis-deliverable
 ### temporal model (time-localized degradation captions on NISQA-SIM mixes).
+### Local-only save (no HF Hub); final ~16 GB checkpoint to /work3.
 ### Submit with: bsub < jobs/sft/sft_temporal_full_h100.sh
 ### ============================================================
 
@@ -30,7 +31,7 @@ source .venv/bin/activate
 export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
 
-# HF cache off /work3 to keep quota free for checkpoints.
+# HF cache off /work3 to keep quota free for the final checkpoint.
 if [ -d "/scratch" ] && [ -w "/scratch" ]; then
     export HF_HOME="/scratch/$USER/hf_cache"
 elif [ -w "/tmp" ]; then
@@ -41,20 +42,6 @@ else
 fi
 mkdir -p "$HF_HOME"
 echo "HF_HOME=$HF_HOME"
-
-# HF auth: prefer env var if set, otherwise rely on cached login.
-if [ -n "${HF_TOKEN:-}" ]; then
-    export HF_TOKEN
-    echo "HF auth: using HF_TOKEN env var"
-elif [ -f "$HOME/.cache/huggingface/token" ] || [ -f "$HOME/.cache/huggingface/stored_tokens" ]; then
-    echo "HF auth: using cached login from ~/.cache/huggingface/"
-else
-    echo "ERROR: no HF auth available. Either export HF_TOKEN or run 'huggingface-cli login' on the HPC."
-    exit 1
-fi
-
-# Hub repo to stream checkpoints into. Override at submit time with HUB_MODEL_ID=...
-HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-sft-temporal-full}"
 
 # Temporal training data — full NISQA-SIM mix JSONL (built by build_nisqa_temporal_json.py).
 TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
@@ -88,10 +75,7 @@ torchrun --nproc_per_node=1 src/asa/supervised-finetune.py \
     --lr 1e-5 \
     --val-split 0 \
     --wandb-project "Temporal-ALLD" \
-    --wandb-run-name "sft-temporal-full-h100" \
-    --hub-model-id "$HUB_MODEL_ID" \
-    --save-steps 200 \
-    --save-total-limit 1
+    --wandb-run-name "sft-temporal-full-h100"
 
 echo "=========================================="
 echo "Training complete: $(date)"
