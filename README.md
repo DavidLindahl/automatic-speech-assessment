@@ -4,31 +4,70 @@ Bachelor project on **audio LLMs for descriptive speech quality assessment with 
 
 Authors: Carl Schmidt-Svejstrup, David Lindahl. DTU, 2026.
 
-## Active entrypoints
+## Repository layout
 
 ```
-src/asa/
+src/asa/                       # importable library code (no entrypoints)
   audio.py                       # 16 kHz mono WAV loader, audio constants
   prompts.py                     # PROMPT_TEMPLATE + MOS expert-prompt builder
-  datasets.py                    # SFTDataset, DPODataset (PyTorch Datasets)
+  datasets.py                    # SFTDataset, DPODataset
   collators.py                   # Qwen2AudioCollator, ALLDDPOCollator
-  data.py                        # compatibility shim re-exporting the above
-  supervised-finetune.py         # SFT entrypoint (Qwen2-Audio backbone)
-  dpo-finetune.py                # ALLD-DPO entrypoint with custom trainer
-  evaluate.py                    # MOS-style eval CLI
-  evaluate_temporal.py           # temporal-localization eval CLI
-  inference.py                   # public load_model() + run_inference() API
-  generate_dpo_data.py           # DPO-pair generator (calls SFT model)
-  generate_nisqa_sim_lowmos_active.py  # NISQA-SIM REF/DEG mix synthesis
-  build_nisqa_temporal_json.py   # SFT JSONL builder with temporal targets
-  generate_temporal_data.py      # noise overlay / packet loss / clipping
+  inference.py                   # public load_model() + run_inference()
   processed_data.py              # dataset I/O + audio path resolution
-  sampler.py
+  generate_temporal_data.py      # library: noise overlay / packet loss / clipping
+  distill_temporal_targets.py    # library: smoke-set target distillation
+  sampler.py                     # dataset-sampling utilities
+  data.py                        # compatibility shim re-exporting the above
+
+scripts/                       # runnable entrypoints, grouped by purpose
+  train/                         # SFT and DPO trainers (called by jobs/sft/, jobs/train/)
+    supervised-finetune.py
+    dpo-finetune.py
+    submit_dpo_paper_half_pipeline.sh
+  eval/                          # eval CLIs (called by jobs/evaluate/)
+    evaluate.py
+    evaluate_temporal.py
+  data/                          # dataset builders + smoke prep
+    generate_nisqa_sim_lowmos_active.py
+    build_nisqa_temporal_json.py
+    generate_dpo_data.py
+    prepare_temporal_smoke.py
+  diagnostics/                   # probes for when DPO collapses again
+    diagnose_dpo_empty_output.py
+    diagnose_dpo_label_mask.py
+    probe_collator_labels.py
+    dpo_sanity_check.py
+    sanity_check_dpo.py
+  analysis/                      # post-eval aggregators
+    analyze_results.py
+    audit_response_diversity.py
+    compare_dpo_variability.py
+  _legacy/                       # pre-temporal caption generator; archival only
+
+data/processed/                # training and eval data, grouped by use
+  sft/                           # SFT training inputs
+  dpo/                           # DPO chosen/rejected pairs
+  eval/                          # held-out test splits (test_FOR, _LIVE, _P501, _nisqa_indomain)
+  temporal/                      # temporal-localization mixes and metadata (current scope)
+  intermediate/                  # build artifacts, AB legacy; not direct inputs
+
+jobs/                          # LSF job submission
+  sft/                           # SFT training jobs
+  train/                         # DPO + data-generation jobs
+  evaluate/                      # eval jobs
+  upload_*.sh                    # HF Hub uploaders
+  _lib/                          # shared preamble + memory-budget linter + eval template
+  _archive/                      # historical scripts; not on the live path
+
+tests/                         # pytest, CPU-safe subset runs in CI
 ```
 
-`src/asa/data.py` is a 47-line shim re-exporting from the focused modules
-(`audio.py`, `prompts.py`, `datasets.py`, `collators.py`). Existing
+`src/asa/data.py` is a compatibility shim re-exporting from `audio.py`,
+`prompts.py`, `datasets.py`, `collators.py`. Existing
 `from asa.data import SFTDataset` imports keep working unchanged.
+
+Per-directory READMEs in `src/asa/`, `scripts/`, and `data/processed/`
+restate this map close to the files they describe.
 
 ## Running on the DTU HPC
 

@@ -8,12 +8,12 @@ ASA is a bachelor project fine-tuning **Qwen2-Audio-7B** for automatic assessmen
 
 Training paradigms in active use:
 
-1. **SFT** (`src/asa/supervised-finetune.py`) — single-audio MOS-style quality prediction. Primary path.
-2. **DPO** (`src/asa/dpo-finetune.py`) — Direct Preference Optimization. Uses the ALLD dual-stream method: a trainable Qwen2-Audio policy and a frozen Qwen2-7B text reference model, batched by `ALLDDPOCollator`.
+1. **SFT** (`scripts/train/supervised-finetune.py`) — single-audio MOS-style quality prediction. Primary path.
+2. **DPO** (`scripts/train/dpo-finetune.py`) — Direct Preference Optimization. Uses the ALLD dual-stream method: a trainable Qwen2-Audio policy and a frozen Qwen2-7B text reference model, batched by `ALLDDPOCollator`.
 
-**A/B preference is dropped from the bachelor scope.** `supervised-finetune-ab.py`, `dpo-finetune-ab.py`, and the AB caption generator remain in the tree but are not actively developed. Don't propose new A/B work, don't update A/B scripts unless explicitly asked.
+**A/B preference is dropped from the bachelor scope.** All AB-specific entrypoints, datasets, collators, and prompts were removed in Wave 1 of the refactor (2026-05-26). Don't propose new A/B work; if you find an AB reference, it's either historical (in `jobs/_archive/`, `scripts/_legacy/`, or `data/processed/intermediate/`) or a bug that needs flagging.
 
-Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/data.py`). Inference + FastAPI service live in `src/asa/inference.py` and `src/asa/api.py`. Evaluation CLI is `src/asa/evaluate.py` (typer-based).
+Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/audio.py`, re-exported through `src/asa/data.py`). The public inference API lives in `src/asa/inference.py` (`load_model`, `run_inference`). The MOS-style eval CLI is `scripts/eval/evaluate.py`; the temporal-localization eval CLI is `scripts/eval/evaluate_temporal.py`. Both are typer-based.
 
 ## Workflow split: laptop vs HPC
 
@@ -37,52 +37,73 @@ Why: local tools are instant, scripts get version-controlled next to the data th
 
 ```
 automatic-speech-assessment/
-├── src/asa/                         # All source code
-│   ├── supervised-finetune.py       # SFT training entry point
-│   ├── supervised-finetune-ab.py    # A/B SFT — DEPRECATED, do not extend
-│   ├── dpo-finetune.py              # DPO training entry point
-│   ├── dpo-finetune-ab.py           # A/B DPO — DEPRECATED, do not extend
-│   ├── data.py                      # Datasets + collators (Qwen2AudioCollator, ALLDDPOCollator)
-│   ├── processed_data.py            # JSONL loaders, audio path resolution
-│   ├── inference.py                 # load_model / run_inference API
-│   ├── evaluate.py                  # MOS/BLEU eval CLI
-│   ├── api.py                       # FastAPI service
-│   ├── caption_generator.py         # Caption/prompt generation (legacy AB-flavoured)
-│   ├── generate_dpo_data.py         # Build DPO training pairs
-│   └── visualize.py                 # Plotting utilities
+├── src/asa/                         # IMPORTABLE LIBRARY ONLY (no entrypoints)
+│   ├── audio.py                       # load_audio, TARGET_SR (16 kHz)
+│   ├── prompts.py                     # PROMPT_TEMPLATE, MOS expert-prompt builder
+│   ├── datasets.py                    # SFTDataset, DPODataset
+│   ├── collators.py                   # Qwen2AudioCollator, ALLDDPOCollator
+│   ├── inference.py                   # load_model + run_inference public API
+│   ├── processed_data.py              # JSONL loaders, audio-path resolution
+│   ├── generate_temporal_data.py      # library helpers (overlay_noise, ...)
+│   ├── distill_temporal_targets.py    # library: smoke-set target distillation
+│   ├── sampler.py                     # dataset-sampling utilities
+│   ├── data.py                        # compatibility shim re-exporting the above
+│   └── README.md                      # full module map
 │
-├── jobs/                            # LSF bsub scripts — COPY, DON'T REWRITE
-│   ├── sft/         sft_full.sh, sft_warmup.sh, sft_debug.sh  (sft_ab_* exist but deprecated)
-│   ├── train/       dpo.sh, dpo_test.sh, generate_dpo.sh      (dpo_ab.sh exists but deprecated)
-│   ├── evaluate/    evaluate-sft-mos.sh
-│   └── upload_*.sh  # push checkpoints to HF Hub
+├── scripts/                         # RUNNABLE ENTRYPOINTS, grouped by purpose
+│   ├── train/                         # SFT + DPO trainers, submission shell
+│   ├── eval/                          # evaluate.py, evaluate_temporal.py
+│   ├── data/                          # data builders + smoke prep
+│   ├── diagnostics/                   # collapse probes, sanity checkers
+│   ├── analysis/                      # post-eval aggregators
+│   ├── _legacy/                       # pre-temporal caption generator (archival only)
+│   └── README.md
+│
+├── jobs/                            # LSF bsub submission
+│   ├── sft/                           # SFT jobs
+│   ├── train/                         # DPO + data-generation jobs
+│   ├── evaluate/                      # eval jobs
+│   ├── upload_*.sh                    # HF Hub uploaders
+│   ├── _lib/                          # shared preamble, lint-budget firebreak, eval template
+│   └── _archive/                      # historical scripts; not on the live path
 │
 ├── configs/
-│   └── ds_zero2.json                # DeepSpeed Zero-2 w/ CPU offload
+│   ├── ds_zero2.json                  # DeepSpeed Zero-2 with CPU offload
+│   └── ds_zero2_no_offload.json
 │
 ├── data/
-│   ├── raw/                         # Original datasets (FOR, LIVE, P501, NISQA, ...)
-│   ├── processed/                   # JSONL used by training/eval
-│   │   ├── train_nisqa_llama_10k.json     # SFT training set (active)
-│   │   ├── train_dpo_10k.json
-│   │   ├── test_FOR.json, test_LIVE.json, test_P501.json
-│   │   └── train_nisqa_abtest_llama_10k.json  # A/B — frozen, not used
-│   └── inference/                   # Inference inputs
+│   ├── raw/                           # NISQA_Corpus, P501, LIVE, FOR (gitignored)
+│   ├── processed/                     # grouped by use, see data/processed/README.md
+│   │   ├── sft/                         # SFT training inputs
+│   │   ├── dpo/                         # DPO chosen/rejected pairs
+│   │   ├── eval/                        # test_FOR / test_LIVE / test_P501 / test_nisqa_indomain
+│   │   ├── temporal/                    # temporal-localization mixes + metadata (current focus)
+│   │   └── intermediate/                # build artifacts, AB legacy
+│   └── inference/                     # ad-hoc inference inputs
 │
-├── models/                          # Saved checkpoints (sft_full, sft_warmup, dpo_final, ...)
+├── models/                          # Saved checkpoints (gitignored; on /work3 on HPC)
 ├── results/
-│   ├── evaluation/                  # JSON metric summaries per model/test set
-│   ├── inference/                   # Per-sample predictions
-│   └── analysis/                    # Plots, summary tables
+│   ├── evaluation/                    # JSON metric summaries per model + test set
+│   ├── inference/                     # Per-sample predictions
+│   └── analysis/                      # Plots, summary tables
 │
-├── logs/                            # Job stdout/stderr (named <job>_<LSB_JOBID>.{out,err})
-├── wandb/                           # Local W&B run cache — do not clean blindly
-├── tests/                           # pytest suite
+├── logs/                            # Job stdout/stderr (gitignored)
+├── wandb/                           # Local W&B run cache (gitignored)
+├── tests/                           # pytest; CPU-safe subset runs in CI
 ├── pyproject.toml                   # uv-managed; Python 3.12
 ├── uv.lock
-├── tasks.py                         # invoke tasks (uv run invoke --list)
-└── AGENTS.md                        # tooling basics (kept in sync with this file)
+└── tasks.py                         # invoke tasks (uv run invoke --list)
 ```
+
+**Where to look first when a question lands on your desk:**
+
+- "How is X trained?" → `scripts/train/`
+- "How is X evaluated?" → `scripts/eval/`
+- "Where does dataset X come from?" → `scripts/data/`
+- "Why does this prompt look this way?" → `src/asa/prompts.py`
+- "What does the SFT collator do?" → `src/asa/collators.py`
+- "What's the LSF preamble doing?" → `jobs/_lib/preamble.sh` and `jobs/_lib/README.md`
+- "What JSONs feed what jobs?" → `data/processed/README.md`
 
 ## Python environment
 
@@ -192,7 +213,7 @@ export TRITON_CACHE_DIR=/tmp/triton_cache
 
 nvidia-smi
 
-python src/asa/supervised-finetune.py \
+python scripts/train/supervised-finetune.py \
     --model-name sft_full \
     --bf16 \
     --deepspeed configs/ds_zero2.json \

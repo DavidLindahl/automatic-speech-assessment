@@ -1,0 +1,18 @@
+# `data/processed/` — datasets, grouped by use
+
+Each subdir holds JSON/JSONL files for one stage of the pipeline. Job
+scripts reference these paths directly; if you move a file, update the
+matching `--json-path` or `--dataset-path` argument in `jobs/`.
+
+| Subdir | Contents |
+|---|---|
+| `sft/` | SFT training inputs. `train_nisqa_llama_10k.json` is the current default, used by `jobs/sft/sft_warmup_paper_half_h100.sh` and the paper-faithful full-SFT job. |
+| `dpo/` | DPO chosen/rejected pairs built by `scripts/data/generate_dpo_data.py`. `train_dpo_paper_half_h100_clean.json` is the current default. |
+| `eval/` | Held-out test splits: `test_FOR.json`, `test_LIVE.json`, `test_P501.json`, `test_nisqa_indomain.json`. Plus the legacy `mos_predictions.json` output. Consumed by everything in `jobs/evaluate/`. |
+| `temporal/` | Temporal-localization mixes + metadata. `train_nisqa_temporal_mix_max_mos3.json` is the SFT input for the temporal scope (current focus); `temporal_metadata_raw.json` is the pre-distill manifest. The smoke variant `train_temporal_smoke.jsonl` is gitignored and built on demand. |
+| `intermediate/` | Build artifacts and AB legacy. `ab_dataset.json`, `ab-test-set-captions.json` are pre-2026-04-13 AB direction; `mos_dataset.json` is the pre-caption MOS dataset. Not direct training inputs. |
+
+Generated mix output dirs (e.g. `nisqa_sim_mix_lowmos_active_3000/`,
+`nisqa_sim_mix_lowmos_active_max_mos3/`) live alongside these subdirs;
+they're built by `scripts/data/generate_nisqa_sim_lowmos_active.py` and
+mostly gitignored.
