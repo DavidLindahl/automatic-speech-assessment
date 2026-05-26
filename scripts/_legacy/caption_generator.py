@@ -17,8 +17,11 @@ import pandas as pd
 from google import genai
 from google.genai import types
 
+# Legacy NISQA preprocessing tool, moved out of src/asa/ as it's no longer
+# on the active path. Self-bootstraps by adding repo/src to sys.path so it
+# can run standalone via `python scripts/_legacy/caption_generator.py ...`.
 if __package__ is None or __package__ == "":
-    sys.path.append(str(Path(__file__).resolve().parents[1]))
+    sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
 
 from asa.processed_data import write_processed_records
 

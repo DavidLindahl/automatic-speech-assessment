@@ -15,7 +15,8 @@ import typer
 from tqdm import tqdm
 from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 
-from asa.data import PROMPT_TEMPLATE, load_audio
+from asa.audio import load_audio
+from asa.prompts import PROMPT_TEMPLATE
 
 
 # ---------------------------------------------------------------------------

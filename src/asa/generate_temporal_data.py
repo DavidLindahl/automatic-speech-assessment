@@ -35,9 +35,7 @@ def overlay_noise(clean_waveform, clean_sr, noise_waveform, noise_sr, min_durati
         
     clean_len = clean_waveform.shape[1]
     noise_len = noise_waveform.shape[1]
-    
-    clean_duration = clean_len / target_sr
-    
+
     # We want a noise duration of min_duration to max_duration
     overlay_duration = random.uniform(min_duration, max_duration)
     overlay_samples = int(overlay_duration * target_sr)
