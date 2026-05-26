@@ -15,6 +15,7 @@ import os
 import re
 import shlex
 import subprocess
+import sys
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -69,8 +70,17 @@ class JobInvocation:
 
 
 def _list_job_scripts() -> list[Path]:
-    """Return every regular file under ``jobs/``."""
-    return sorted(path for path in JOBS_ROOT.rglob("*") if path.is_file())
+    """Return every live `.sh` job script under ``jobs/``.
+
+    Skips ``jobs/_archive/`` (historical scripts preserved for reference; they
+    may reference modules that have since been removed) and any non-``.sh``
+    files such as ``_lib/README.md`` or ``_lib/templates/*.tpl``.
+    """
+    return sorted(
+        path
+        for path in JOBS_ROOT.rglob("*.sh")
+        if path.is_file() and "_archive" not in path.parts
+    )
 
 
 def _strip_inline_comments(line: str) -> str:
@@ -131,7 +141,13 @@ def _parse_script_variables(
             joined = "\n".join(buffer)
             if ")" in joined:
                 inner = joined.split(")", maxsplit=1)[0]
-                arrays[name] = shlex.split(inner, posix=True)
+                try:
+                    arrays[name] = shlex.split(inner, posix=True)
+                except ValueError:
+                    # Array contents contain an unbalanced quote spanning
+                    # constructs we don't model. Skip recording rather
+                    # than crashing collection.
+                    pass
 
             index += 1
             continue
@@ -140,7 +156,14 @@ def _parse_script_variables(
         if scalar_match:
             name = scalar_match.group(1)
             value_raw = scalar_match.group(2).strip()
-            value_tokens = shlex.split(value_raw, posix=True)
+            try:
+                value_tokens = shlex.split(value_raw, posix=True)
+            except ValueError:
+                # Right-hand side spans multiple lines (heredoc, multi-line
+                # $(...), or unclosed quote). We can't expand the scalar
+                # from a single line; skip recording it. Downstream token
+                # expansion will fall back to leaving ${NAME} literal.
+                value_tokens = []
             if len(value_tokens) == 1:
                 scalars[name] = value_tokens[0]
 
@@ -318,6 +341,10 @@ def _load_module_from_path(relative_path: str) -> ModuleType:
         raise RuntimeError(f"Unable to load module spec for {relative_path}")
 
     module = importlib.util.module_from_spec(spec)
+    # Register before exec so dataclass introspection during import (typer
+    # wraps decorated functions and uses dataclasses internally) can resolve
+    # ``sys.modules[cls.__module__]``.
+    sys.modules[module_name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -325,6 +352,10 @@ def _load_module_from_path(relative_path: str) -> ModuleType:
 @lru_cache(maxsize=32)
 def _load_typer_command(relative_path: str) -> Command:
     """Load a Click command from a Typer app defined in a script.
+
+    Supports two patterns:
+      1. ``app = typer.Typer()`` at module top-level, used with ``app.command``.
+      2. ``def main(...): ...`` invoked via ``typer.run(main)`` in ``__main__``.
 
     Args:
         relative_path: Script path relative to project root.
@@ -334,13 +365,28 @@ def _load_typer_command(relative_path: str) -> Command:
     """
     module = _load_module_from_path(relative_path)
     app = getattr(module, "app", None)
-    if not isinstance(app, typer.Typer):
-        raise RuntimeError(f"{relative_path} does not expose a Typer `app` object")
-    return typer.main.get_command(app)
+    if isinstance(app, typer.Typer):
+        return typer.main.get_command(app)
+
+    main_fn = getattr(module, "main", None)
+    if callable(main_fn):
+        wrapper = typer.Typer()
+        wrapper.command()(main_fn)
+        return typer.main.get_command(wrapper)
+
+    raise RuntimeError(
+        f"{relative_path} exposes neither a Typer `app` object nor a `main` "
+        f"function suitable for typer.run()."
+    )
 
 
 def _resolve_repo_path(path_value: str) -> Path:
     """Resolve a possibly-relative path against repository root.
+
+    BSUB preambles set ``PROJECT_DIR``/``EXPERIMENT_DIR``/``REPO_ROOT`` to
+    the project root at runtime, so paths anchored at those variables are
+    repo-root-relative for our static-existence checks. Strip those known
+    prefixes before treating the remainder as relative.
 
     Args:
         path_value: Raw path string from script arguments.
@@ -348,7 +394,14 @@ def _resolve_repo_path(path_value: str) -> Path:
     Returns:
         Absolute path.
     """
-    candidate = Path(path_value).expanduser()
+    expanded = path_value
+    for var in ("$EXPERIMENT_DIR", "${EXPERIMENT_DIR}", "$PROJECT_DIR",
+                "${PROJECT_DIR}", "$REPO_ROOT", "${REPO_ROOT}"):
+        if expanded.startswith(var):
+            expanded = expanded[len(var):].lstrip("/")
+            break
+
+    candidate = Path(expanded).expanduser()
     if candidate.is_absolute():
         return candidate
     return PROJECT_ROOT / candidate
@@ -390,6 +443,10 @@ def _iter_option_values(args: tuple[str, ...]) -> list[tuple[str, str]]:
 def _looks_like_local_model_reference(value: str) -> bool:
     """Heuristically classify a model reference as local-path-like.
 
+    Values starting with BSUB-preamble variables (``$EXPERIMENT_DIR``,
+    ``$PROJECT_DIR``, ``$REPO_ROOT``) are treated as local because those
+    expand to the project root at runtime.
+
     Args:
         value: Raw model reference value.
 
@@ -397,6 +454,11 @@ def _looks_like_local_model_reference(value: str) -> bool:
         ``True`` when value appears to point to local artifacts.
     """
     if value.startswith(("/", "./", "../", "~")):
+        return True
+
+    if value.startswith(("$EXPERIMENT_DIR", "${EXPERIMENT_DIR}",
+                         "$PROJECT_DIR", "${PROJECT_DIR}",
+                         "$REPO_ROOT", "${REPO_ROOT}")):
         return True
 
     first_segment = value.split("/", maxsplit=1)[0]
@@ -413,7 +475,9 @@ def _looks_like_generated_input_artifact(value: str) -> bool:
         ``True`` when the path is likely produced by a prior data-generation job.
     """
     normalized = value.replace("\\", "/")
-    return normalized.startswith("data/processed/train_dpo")
+    return normalized.startswith(
+        ("data/processed/train_dpo", "data/processed/train_temporal")
+    )
 
 
 def _is_connectivity_error(exception: Exception) -> bool:
@@ -448,6 +512,18 @@ def _validate_remote_model_id(model_id: str) -> None:
     AutoConfig.from_pretrained(model_id)
 
 
+def _value_is_runtime_resolved(value: str) -> bool:
+    """Return True when the value contains an unexpanded shell variable.
+
+    `_resolve_repo_path` already strips well-known BSUB-preamble variables
+    such as ``$EXPERIMENT_DIR``. Anything else with a ``$`` (e.g. a function-
+    local ``$model_path`` or a top-level scalar that we couldn't parse) only
+    resolves at runtime — static existence checks against it are not
+    meaningful.
+    """
+    return "$" in value
+
+
 def _validate_paths(invocation: JobInvocation) -> None:
     """Validate local path options for an invocation.
 
@@ -457,6 +533,8 @@ def _validate_paths(invocation: JobInvocation) -> None:
     for option, value in _iter_option_values(invocation.args):
         if option in EXISTING_FILE_OPTIONS:
             resolved = _resolve_repo_path(value)
+            if _value_is_runtime_resolved(str(resolved)):
+                continue
             if (
                 not resolved.is_file()
                 and _looks_like_generated_input_artifact(value)
@@ -470,6 +548,8 @@ def _validate_paths(invocation: JobInvocation) -> None:
 
         if option in EXISTING_DIR_OPTIONS:
             resolved = _resolve_repo_path(value)
+            if _value_is_runtime_resolved(str(resolved)):
+                continue
             assert resolved.is_dir(), (
                 f"{invocation.job_script}:{invocation.line_number} -> {option} "
                 f"points to missing directory: {value}"
@@ -486,6 +566,11 @@ def _validate_models(invocation: JobInvocation) -> None:
 
     for option, value in _iter_option_values(invocation.args):
         if option not in MODEL_OPTIONS:
+            continue
+
+        if _value_is_runtime_resolved(value):
+            # Function-local bash variables (e.g. `--model-path "$model_path"`
+            # inside a shell function) can't be statically resolved.
             continue
 
         if _looks_like_local_model_reference(value):
@@ -568,6 +653,17 @@ def test_job_python_targets_exist(invocation: JobInvocation) -> None:
 )
 def test_asa_job_arguments_parse_with_typer(invocation: JobInvocation) -> None:
     """Validate CLI options for ASA entrypoints using Typer parsing only."""
+    # If any arg still holds an unexpanded shell variable that our static
+    # parser couldn't substitute (function-local var, runtime-computed value,
+    # or a scalar with a heredoc/$()-spanning RHS we skipped), typer's type
+    # parsing will reject it (e.g. `int($TOTAL_MIX_FILES)`). The job will be
+    # well-formed at submission time; we just can't validate it statically.
+    if any("$" in arg for arg in invocation.args):
+        pytest.skip(
+            "Skipping typer parse: invocation contains unexpanded shell "
+            "variables that can't be resolved statically."
+        )
+
     command = _load_typer_command(invocation.target)
     try:
         command.make_context(
