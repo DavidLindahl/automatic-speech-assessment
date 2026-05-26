@@ -8,10 +8,6 @@ from typing import Any, Iterable
 
 
 DPO_METADATA_FIELDS = ("mos", "noi", "col", "loud")
-DPO_METADATA_FIELDS_AB = (
-    "A_mos", "A_noi", "A_col", "A_dis", "A_loud",
-    "B_mos", "B_noi", "B_col", "B_dis", "B_loud"
-)
 
 
 def load_processed_records(path: str | Path) -> list[dict[str, Any]]:

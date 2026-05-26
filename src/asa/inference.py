@@ -4,7 +4,7 @@ inference.py — Load a trained Qwen2-Audio checkpoint and run inference.
 Public API
 ----------
 load_model   : load processor + model from a Hub repo or local directory
-run_inference : generate text responses for a list of audio files (supports A/B mode)
+run_inference : generate text responses for a list of audio files
 """
 
 from pathlib import Path
@@ -15,7 +15,7 @@ import typer
 from tqdm import tqdm
 from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
 
-from asa.data import PROMPT_TEMPLATE, PROMPT_TEMPLATE_AB, load_audio
+from asa.data import PROMPT_TEMPLATE, load_audio
 
 
 # ---------------------------------------------------------------------------
@@ -32,16 +32,12 @@ class ASAModel(str):
     Usage::
 
         processor, model, device = load_model(ASAModel.SFT)
-        processor, model, device = load_model(ASAModel.AB)
     """
 
     # Full supervised fine-tune (standard single-audio quality assessment)
     SFT = "Leng2beat/speech-quality-assessement-qwen2audio-full-sft"
 
-    # A/B preference model (two-audio comparative quality assessment)
-    SFT_AB = "Leng2beat/speech-quality-assessement-qwen2audio-sft-ab"  # TODO: update when pushed
-    # AALD distillation variants
-    AALD_AB = "Leng2beat/speech-quality-assessement-qwen2audio-aald-ab"  # TODO: update when pushed
+    # AALD distillation variant
     AALD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
 
 
@@ -99,9 +95,8 @@ def load_model(
 def run_inference(
     model: Qwen2AudioForConditionalGeneration,
     processor: AutoProcessor,
-    audio_paths: Iterable[str | Path] | Iterable[Tuple[str | Path, str | Path]],
+    audio_paths: Iterable[str | Path],
     prompt_texts: Optional[List[str]] = None,
-    ab_mode: bool = False,
     device: Optional[str] = None,
     max_new_tokens: int = 100,
     batch_size: int = 4,
@@ -112,18 +107,15 @@ def run_inference(
 ) -> List[str]:
     """Generate text responses for a list of audio files.
 
-    Supports both single-audio and A/B (two-audio) inference modes.
-    Prompts are loaded automatically from :mod:`asa.data`.
+    Single-audio inference. Prompts are loaded automatically from :mod:`asa.data`
+    when ``prompt_texts`` is not supplied.
 
     Parameters
     ----------
-    audio_paths    : In normal mode, paths to ``.wav`` files.
-                     In A/B mode, an iterable of ``(path_a, path_b)`` tuples.
-    ab_mode        : When ``True``, treat ``audio_paths`` as pairs
-                     (A/B comparative preference format).
+    audio_paths    : Paths to ``.wav`` files.
     prompt_texts   : Optional per-sample prompts. When provided, must match
                      ``len(audio_paths)``. Falls back to the default prompt
-                     templates when omitted.
+                     template when omitted.
     device         : Inferred from model parameters if not given.
     max_new_tokens : Generation budget per sample.
     batch_size     : Number of files (or pairs) to process at once.
@@ -160,85 +152,40 @@ def run_inference(
             }
         )
 
-    if ab_mode:
-        # ------------------------------------------------------------------
-        # A/B mode: each element of audio_paths is a (path_a, path_b) tuple
-        # ------------------------------------------------------------------
-        prompts = (
-            prompt_texts
-            if prompt_texts is not None
-            else [PROMPT_TEMPLATE_AB] * len(audio_paths)
+    texts = (
+        prompt_texts
+        if prompt_texts is not None
+        else [PROMPT_TEMPLATE] * len(audio_paths)
+    )
+
+    for start in tqdm(
+        range(0, len(audio_paths), batch_size), desc="Running inference"
+    ):
+        batch_paths = audio_paths[start : start + batch_size]
+        batch_texts = texts[start : start + batch_size]
+
+        audios = [load_audio(str(p), target_sr=sr) for p in batch_paths]
+
+        batch = processor(
+            text=batch_texts,
+            audios=audios,
+            sampling_rate=sr,
+            return_tensors="pt",
+            padding=True,
         )
+        batch = {k: v.to(device) for k, v in batch.items()}
 
-        for start in tqdm(
-            range(0, len(audio_paths), batch_size), desc="Running A/B inference"
-        ):
-            batch_pairs = audio_paths[start : start + batch_size]
-            batch_prompts = prompts[start : start + batch_size]
+        input_len = batch["input_ids"].shape[1]
 
-            audios = []
-            for audio_a, audio_b in batch_pairs:
-                audios.append(load_audio(str(audio_a), target_sr=sr))
-                audios.append(load_audio(str(audio_b), target_sr=sr))
+        with torch.no_grad():
+            out_ids = model.generate(**batch, **gen_kwargs)
 
-            batch = processor(
-                text=batch_prompts,
-                audios=audios,
-                sampling_rate=sr,
-                return_tensors="pt",
-                padding=True,
-            )
-            batch = {k: v.to(device) for k, v in batch.items()}
-
-            input_len = batch["input_ids"].shape[1]
-
-            with torch.no_grad():
-                out_ids = model.generate(**batch, **gen_kwargs)
-
-            response_ids = out_ids[:, input_len:]
-            decoded = processor.batch_decode(
-                response_ids, skip_special_tokens=skip_special_tokens
-            )
-            all_responses.extend(decoded)
-
-    else:
-        # ------------------------------------------------------------------
-        # Normal mode: each element of audio_paths is a single file path
-        # ------------------------------------------------------------------
-        texts = (
-            prompt_texts
-            if prompt_texts is not None
-            else [PROMPT_TEMPLATE] * len(audio_paths)
+        # Strip prompt tokens so we only return the model's response
+        response_ids = out_ids[:, input_len:]
+        decoded = processor.batch_decode(
+            response_ids, skip_special_tokens=skip_special_tokens
         )
-
-        for start in tqdm(
-            range(0, len(audio_paths), batch_size), desc="Running inference"
-        ):
-            batch_paths = audio_paths[start : start + batch_size]
-            batch_texts = texts[start : start + batch_size]
-
-            audios = [load_audio(str(p), target_sr=sr) for p in batch_paths]
-
-            batch = processor(
-                text=batch_texts,
-                audios=audios,
-                sampling_rate=sr,
-                return_tensors="pt",
-                padding=True,
-            )
-            batch = {k: v.to(device) for k, v in batch.items()}
-
-            input_len = batch["input_ids"].shape[1]
-
-            with torch.no_grad():
-                out_ids = model.generate(**batch, **gen_kwargs)
-
-            # Strip prompt tokens so we only return the model's response
-            response_ids = out_ids[:, input_len:]
-            decoded = processor.batch_decode(
-                response_ids, skip_special_tokens=skip_special_tokens
-            )
-            all_responses.extend(decoded)
+        all_responses.extend(decoded)
 
     return all_responses
 
@@ -257,9 +204,6 @@ def infer(
     ),
     model_id: str = typer.Option(
         ASAModel.SFT, "--model", "-m", help="Hub repo ID or local checkpoint path."
-    ),
-    ab_mode: bool = typer.Option(
-        False, "--ab", help="A/B mode: audio_paths must be pairs (a1 b1 a2 b2 ...)."
     ),
     max_new_tokens: int = typer.Option(150, help="Max tokens to generate per sample."),
     batch_size: int = typer.Option(4, help="Batch size."),
@@ -281,39 +225,18 @@ def infer(
     """Load a model and run inference on the given audio files."""
     processor, model, device = load_model(model_id)
 
-    if ab_mode:
-        if len(audio_paths) % 2 != 0:
-            typer.echo(
-                "ERROR: --ab requires an even number of audio paths (pairs).", err=True
-            )
-            raise typer.Exit(1)
-        pairs = list(zip(audio_paths[::2], audio_paths[1::2]))
-        responses = run_inference(
-            model,
-            processor,
-            pairs,
-            ab_mode=True,
-            max_new_tokens=max_new_tokens,
-            batch_size=batch_size,
-            do_sample=do_sample,
-            temperature=temperature,
-            top_p=top_p,
-        )
-    else:
-        responses = run_inference(
-            model,
-            processor,
-            audio_paths,
-            max_new_tokens=max_new_tokens,
-            batch_size=batch_size,
-            do_sample=do_sample,
-            temperature=temperature,
-            top_p=top_p,
-        )
+    responses = run_inference(
+        model,
+        processor,
+        audio_paths,
+        max_new_tokens=max_new_tokens,
+        batch_size=batch_size,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
+    )
 
-    for path, response in zip(
-        audio_paths if not ab_mode else [f"{a} / {b}" for a, b in pairs], responses
-    ):
+    for path, response in zip(audio_paths, responses):
         typer.echo(f"{path}: {response}")
 
     if output:

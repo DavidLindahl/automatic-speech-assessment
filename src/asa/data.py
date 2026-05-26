@@ -21,7 +21,6 @@ import typer
 
 from asa.processed_data import (
     DPO_METADATA_FIELDS,
-    DPO_METADATA_FIELDS_AB,
     load_processed_records,
     resolve_audio_path,
 )
@@ -41,9 +40,6 @@ AUDIO_SPECIAL = "<|audio_bos|><|AUDIO|><|audio_eos|>"
 # Shared by SFT, DPO and inference so all three see the identical prompt.
 PROMPT_TEMPLATE = (
     f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
-)
-PROMPT_TEMPLATE_AB = (
-    "Please perform A/B preference test between<audio>and<audio>, including a tie."
 )
 
 
@@ -322,65 +318,6 @@ class Qwen2AudioCollator:
         return batch
 
 
-# ---------------------------------------------------------------------------
-# AB-Test Dataset
-# ---------------------------------------------------------------------------
-
-
-class SFTDatasetAB(SFTDataset):
-    """
-    A/B preference variant of SFTDataset.
-
-    Each JSONL row has *two* audio paths in ``audios`` and a query with two
-    ``<audio>`` placeholders.  Replaces each ``<audio>`` with the Qwen2-Audio
-    special-token sequence and returns both waveforms.
-    """
-
-    def __getitem__(self, idx: int) -> Dict[str, Any]:
-        item = self.samples[idx]
-
-        prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
-
-        audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
-        audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
-
-        return {
-            "prompt": prompt,
-            "response": item["response"],
-            "audio_a": audio_a,
-            "audio_b": audio_b,
-            "sampling_rate": TARGET_SR,
-        }
-
-
-# ---------------------------------------------------------------------------
-# AB-Test Collator
-# ---------------------------------------------------------------------------
-
-
-class Qwen2AudioCollatorAB(Qwen2AudioCollator):
-    """
-    A/B preference variant of Qwen2AudioCollator.
-
-    Each sample contributes *two* audios.  The Qwen2-Audio processor expects a
-    **flat** list of waveforms — it assigns them to ``<|AUDIO|>`` tokens
-    sequentially across the batch.
-    """
-
-    def _prepare_inputs(self, features):
-        """Return (prompts, full_texts, audios) — audios flattened."""
-        prompts = [f["prompt"] for f in features]
-
-        # ADD THE EOS TOKEN HERE FOR A/B SFT:
-        eos_token = self.processor.tokenizer.eos_token
-        full_texts = [f["prompt"] + f["response"] + eos_token for f in features]
-
-        # Flat list: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
-        audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
-
-        return prompts, full_texts, audios
-
-
 # --- ALLD Expert Text Prompt Templates ---
 # ==========================================
 # 1. SINGLE MOS PROMPTS (No 'dis' feature)
@@ -423,58 +360,6 @@ def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> 
         DIMENSION_DEFINITIONS_MOS
         + EXPERT_TASK_MOS
         + EXPERT_FEW_SHOT_EXAMPLES_MOS
-        + current_input
-    )
-
-
-# ==========================================
-# 2. A/B TEST PROMPTS (Includes 'dis' feature)
-# ==========================================
-
-DIMENSION_DEFINITIONS_AB = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are
-rating from 1 to 5. For all these factors, higher is better.
-    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
-    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
-    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
-    (4) dis: the discontinuity in the audio, reflecting whether there are breaks, stutters, or incoherence during playback. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is no discontinuity.
-    (5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
-"""
-
-EXPERT_TASK_AB = """I need you to perform A/B test according to their mos (mos higher means winner). You can flexibly
-select 1 to 3 aspects from the sub-dimensions with an obvious gap (usually score difference more than 0.5), then
-compare them according to these distinctions. Finally, please give your preference with a reasonable
-analysis.
-"""
-
-# Restored the original examples that correctly use the 'dis' feature
-EXPERT_FEW_SHOT_EXAMPLES_AB = """
---- Example 1 ---
-Input: {A_mos: 1.8, A_noi: 3.2, A_col: 1.9, A_dis: 2.3, A_loud: 3.3, B_mos: 3.6, B_noi: 2.6, B_col: 2.8, B_dis: 4.0, B_loud: 3.7}
-Output: SpeechA and SpeechB have similar levels of distortion and loudness. However, SpeechB has better continuity than SpeechA. Although SpeechA is slightly cleaner, I would select SpeechB as better synthesized speech due to its significantly higher overall synthetic quality and better continuity.
-
---- Example 2 ---
-Input: {A_mos: 4.0, A_noi: 4.2, A_col: 3.7, A_dis: 3.9, A_loud: 4.1, B_mos: 1.6, B_noi: 2.4, B_col: 1.8, B_dis: 2.5, B_loud: 1.6}
-Output: SpeechA and SpeechB have significant gaps in several aspects. SpeechA has much lower noise, less distortion, and better continuity than SpeechB. Additionally, SpeechA is also much louder than SpeechB. Considering these substantial differences, I would select SpeechA as the better synthesized speech.
-"""
-
-
-def build_expert_prompt_ab(
-    A_mos: float,
-    A_noi: float,
-    A_col: float,
-    A_dis: float,
-    A_loud: float,
-    B_mos: float,
-    B_noi: float,
-    B_col: float,
-    B_dis: float,
-    B_loud: float,
-) -> str:
-    current_input = f"\n--- Current Task ---\nInput: {{A_mos: {A_mos}, A_noi: {A_noi}, A_col: {A_col}, A_dis: {A_dis}, A_loud: {A_loud}, B_mos: {B_mos}, B_noi: {B_noi}, B_col: {B_col}, B_dis: {B_dis}, B_loud: {B_loud}}}\nOutput:"
-    return (
-        DIMENSION_DEFINITIONS_AB
-        + EXPERT_TASK_AB
-        + EXPERT_FEW_SHOT_EXAMPLES_AB
         + current_input
     )
 
@@ -660,125 +545,3 @@ class ALLDDPOCollator:
         return batch
 
 
-class DPODatasetAB(DPODataset):
-    """
-    A/B preference variant of DPODataset.
-    Each dual-audio sample is used for the policy model, while the reference
-    text model receives the A/B metadata to evaluate the chosen/rejected texts.
-    """
-
-    def __getitem__(self, idx: int) -> Dict[str, Any]:
-        item = self.samples[idx]
-
-        # dual audios
-        audio_a = load_audio(str(self._resolve_audio_path(item["audios"][0])))
-        audio_b = load_audio(str(self._resolve_audio_path(item["audios"][1])))
-
-        # dual metadata
-        metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS_AB}
-        meta_prompt = build_expert_prompt_ab(**metadata)
-
-        # Qwen2-Audio placeholder replacement
-        prompt = item["query"].replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
-
-        return {
-            "audio_prompt": prompt,  # For Policy Model
-            "meta_prompt": meta_prompt,  # For Reference Model
-            "chosen": item["chosen"],
-            "rejected": item["rejected"],
-            "audio_a": audio_a,
-            "audio_b": audio_b,
-            "sampling_rate": TARGET_SR,
-        }
-
-
-class ALLDDPOCollatorAB(ALLDDPOCollator):
-    """
-    A/B preference variant of ALLDDPOCollator.
-    The primary difference is flattening the dual `audio_a` and `audio_b` into
-    a single sequence so Qwen2-Audio's processor correctly maps them to the
-    two <|AUDIO|> tags in the prompt.
-    """
-
-    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
-        batch = {}
-
-        # ==========================================
-        # 1. STREAM A: Policy Model (Audio + Text)
-        # ==========================================
-        audio_eos = self.audio_processor.tokenizer.eos_token
-
-        audio_prompts = [f["audio_prompt"] for f in features]
-
-        # FIX: Append EOS to chosen/rejected
-        policy_chosen = [f["audio_prompt"] + f["chosen"] + audio_eos for f in features]
-        policy_rejected = [
-            f["audio_prompt"] + f["rejected"] + audio_eos for f in features
-        ]
-
-        # Flatten audios for AB tests: [sample0_a, sample0_b, sample1_a, sample1_b, ...]
-        audios = [audio for f in features for audio in [f["audio_a"], f["audio_b"]]]
-
-        # 2N Batching for DeepSpeed
-        policy_texts = policy_chosen + policy_rejected
-        policy_prompts = audio_prompts + audio_prompts
-        concat_audios = audios + audios
-
-        policy_inputs = self.audio_processor(
-            text=policy_texts,
-            audios=concat_audios,
-            sampling_rate=TARGET_SR,
-            return_tensors="pt",
-            padding=True,
-        )
-
-        policy_prompt_inputs = self.audio_processor(
-            text=policy_prompts,
-            audios=concat_audios,
-            sampling_rate=TARGET_SR,
-            return_tensors="pt",
-            padding=True,
-        )
-
-        batch["policy_input_ids"] = policy_inputs["input_ids"]
-        batch["policy_attention_mask"] = policy_inputs["attention_mask"]
-        batch["policy_audio_values"] = policy_inputs.get("audio_values", None)
-        batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
-        policy_prompt_lens = policy_prompt_inputs["attention_mask"].sum(dim=1)
-        batch["policy_labels"] = self._build_labels(
-            policy_inputs, policy_prompt_lens
-        )
-
-        # ==========================================
-        # 2. STREAM B: Reference Model (Text Only)
-        # ==========================================
-        text_eos = self.text_tokenizer.eos_token
-
-        meta_prompts = [f["meta_prompt"] for f in features]
-
-        # FIX: Append EOS to chosen/rejected
-        ref_chosen = [f["meta_prompt"] + f["chosen"] + text_eos for f in features]
-        ref_rejected = [f["meta_prompt"] + f["rejected"] + text_eos for f in features]
-
-        # 2N Batching for DeepSpeed
-        ref_texts = ref_chosen + ref_rejected
-        concat_meta_prompts = meta_prompts + meta_prompts
-
-        ref_inputs = self.text_tokenizer(
-            ref_texts,
-            return_tensors="pt",
-            padding=True,
-        )
-
-        ref_prompt_inputs = self.text_tokenizer(
-            concat_meta_prompts,
-            return_tensors="pt",
-            padding=True,
-        )
-
-        batch["ref_input_ids"] = ref_inputs["input_ids"]
-        batch["ref_attention_mask"] = ref_inputs["attention_mask"]
-        ref_prompt_lens = ref_prompt_inputs["attention_mask"].sum(dim=1)
-        batch["ref_labels"] = self._build_labels(ref_inputs, ref_prompt_lens)
-
-        return batch

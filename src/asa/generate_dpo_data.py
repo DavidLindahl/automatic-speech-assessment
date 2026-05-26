@@ -38,7 +38,6 @@ def generate(
     max_samples: Optional[int] = typer.Option(
         None, help="Max samples to process (for debugging)."
     ),
-    ab: bool = typer.Option(False, help="Whether to run in A/B test inference mode."),
     do_sample: bool = typer.Option(
         True, help="Enable nucleus sampling for diverse rejecteds."
     ),
@@ -59,18 +58,9 @@ def generate(
     logging.info(f"Loading model from {model_path}")
     processor, model, device = load_model(model_path)
 
-    audio_paths = []
-    if ab:
-        for item in data:
-            audio_paths.append(
-                (
-                    str(resolve_audio_path(item["audios"][0], data_root)),
-                    str(resolve_audio_path(item["audios"][1], data_root)),
-                )
-            )
-    else:
-        for item in data:
-            audio_paths.append(str(resolve_audio_path(item["audios"][0], data_root)))
+    audio_paths = [
+        str(resolve_audio_path(item["audios"][0], data_root)) for item in data
+    ]
 
     logging.info(
         f"Running inference on {len(audio_paths)} samples with batch size {batch_size}..."
@@ -79,7 +69,6 @@ def generate(
         model=model,
         processor=processor,
         audio_paths=audio_paths,
-        ab_mode=ab,
         device=device,
         batch_size=batch_size,
         do_sample=do_sample,
