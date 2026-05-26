@@ -21,7 +21,7 @@
 source "$(dirname "$0")/../_lib/preamble.sh"
 
 # Temporal training data — full NISQA-SIM mix JSONL (built by build_nisqa_temporal_json.py).
-TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
+TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json"
 
 if [ ! -f "$TRAIN_JSON" ]; then
     echo "ERROR: missing temporal training JSONL: $TRAIN_JSON"

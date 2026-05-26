@@ -40,7 +40,7 @@ torchrun \
     scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --model-name sft_temporal_smoke_qwen_base \
-    --json-path data/processed/train_temporal_smoke.jsonl \
+    --json-path data/processed/temporal/train_temporal_smoke.jsonl \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --batch-size 4 \

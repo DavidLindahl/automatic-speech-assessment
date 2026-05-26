@@ -44,7 +44,7 @@ torchrun \
     scripts/train/dpo-finetune.py \
     --model-name dpo_plus2epoch_l40s_h100 \
     --model-id models/sft_warmup_plus2epoch_l40s \
-    --json-path "data/processed/train_dpo_10k_plus2epoch_l40s.json" \
+    --json-path "data/processed/dpo/train_dpo_10k_plus2epoch_l40s.json" \
     --data-root "data" \
     --batch-size 2 \
     --epochs 1 \

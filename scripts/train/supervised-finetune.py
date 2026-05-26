@@ -31,7 +31,7 @@ def train(
         help="HuggingFace model ID.",
     ),
     json_path: Path = typer.Option(
-        Path("data/processed/train_nisqa_llama_10k.json"),
+        Path("data/processed/sft/train_nisqa_llama_10k.json"),
         help="Path to the JSONL training data.",
     ),
     data_root: Path = typer.Option(

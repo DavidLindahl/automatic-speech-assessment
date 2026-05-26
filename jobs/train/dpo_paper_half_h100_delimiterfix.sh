@@ -41,7 +41,7 @@ echo "Branch   : $(git branch --show-current 2>/dev/null || echo unknown)"
 torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100_delimiterfix" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
-    --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \
+    --json-path "$EXPERIMENT_DIR/data/processed/dpo/train_dpo_paper_half_h100_clean.json" \
     --data-root data \
     --batch-size 2 \
     --epochs 1 \

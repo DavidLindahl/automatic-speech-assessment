@@ -42,7 +42,7 @@ nvidia-smi
 
 torchrun --nproc_per_node=2 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
-    --json-path data/processed/train_nisqa_llama_10k.json \
+    --json-path data/processed/sft/train_nisqa_llama_10k.json \
     --data-root data \
     --model-name "$EXPERIMENT_DIR/models/sft_warmup_paper_half_a40" \
     --max-samples 5000 \

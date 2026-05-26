@@ -190,7 +190,7 @@ def main(
         help="Temporal mix manifest CSV.",
     ),
     caption_jsonl: Path = typer.Option(
-        Path("data/processed/train_nisqa_llama_10k.json"),
+        Path("data/processed/sft/train_nisqa_llama_10k.json"),
         help="Base caption JSONL used for caption reuse.",
     ),
     mixes_dir: Path = typer.Option(
@@ -198,7 +198,7 @@ def main(
         help="Directory containing mixed WAV files from manifest.",
     ),
     output_jsonl: Path = typer.Option(
-        Path("data/processed/train_nisqa_temporal_mix_3000.json"),
+        Path("data/processed/temporal/train_nisqa_temporal_mix_3000.json"),
         help="Output JSONL path.",
     ),
     data_root: Path = typer.Option(

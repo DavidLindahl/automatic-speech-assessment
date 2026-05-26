@@ -52,7 +52,7 @@ def diagnose(
         "Qwen/Qwen2-7B", help="Reference model id - we only need its tokenizer."
     ),
     json_path: Path = typer.Option(
-        Path("data/processed/train_dpo_paper_half_h100_clean.json"),
+        Path("data/processed/dpo/train_dpo_paper_half_h100_clean.json"),
         help="DPO training data.",
     ),
     data_root: Path = typer.Option(Path("data")),

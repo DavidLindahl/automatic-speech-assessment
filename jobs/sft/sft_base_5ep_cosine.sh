@@ -41,7 +41,7 @@ nvidia-smi
 
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-name sft_base_5ep_cosine \
-    --json-path data/processed/train_nisqa_llama_indomain.json \
+    --json-path data/processed/sft/train_nisqa_llama_indomain.json \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --batch-size 4 \

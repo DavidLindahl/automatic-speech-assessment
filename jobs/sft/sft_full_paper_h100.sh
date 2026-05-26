@@ -22,7 +22,7 @@ source "$(dirname "$0")/../_lib/preamble.sh"
 
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
-    --json-path data/processed/train_nisqa_llama_10k.json \
+    --json-path data/processed/sft/train_nisqa_llama_10k.json \
     --data-root data \
     --model-name "$EXPERIMENT_DIR/models/sft_full_paper_h100" \
     --bf16 \

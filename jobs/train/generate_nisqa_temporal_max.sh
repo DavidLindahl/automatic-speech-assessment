@@ -93,7 +93,7 @@ if [ -z "$TOTAL_MIX_FILES" ] || [ "$TOTAL_MIX_FILES" -le 0 ]; then
 fi
 
 OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
-TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
+TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json"
 JOB_TAG="${LSB_JOBID:-local}"
 GEN_LOG="logs/gen_nisqa_temporal_max_${JOB_TAG}.tmp.log"
 
@@ -130,7 +130,7 @@ uv run python notebooks/build_temporal_inspector_site.py \
 uv run scripts/data/build_nisqa_temporal_json.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv" \
   --mixes-dir "$OUTPUT_DIR" \
-  --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+  --caption-jsonl data/processed/sft/train_nisqa_llama_10k.json \
   --output-jsonl "$TRAIN_JSON"
 
 echo "=========================================="

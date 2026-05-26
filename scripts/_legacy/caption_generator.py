@@ -373,7 +373,7 @@ def generate_ab_test_set(
         help="Path to save sampled raw A/B pairs.",
     ),
     captions_output: Path = typer.Option(
-        Path("data/processed/ab-test-set-captions.json"),
+        Path("data/processed/intermediate/ab-test-set-captions.json"),
         help="Path to save generated A/B caption records (JSONL).",
     ),
     max_samples: Optional[int] = typer.Option(

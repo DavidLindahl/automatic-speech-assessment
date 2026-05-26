@@ -35,8 +35,8 @@ echo "=========================================="
 nvidia-smi
 
 uv run python scripts/data/generate_dpo_data.py \
-    --input-json data/processed/train_nisqa_llama_10k.json \
-    --output-json data/processed/train_dpo_10k_plus2epoch_l40s.json \
+    --input-json data/processed/sft/train_nisqa_llama_10k.json \
+    --output-json data/processed/dpo/train_dpo_10k_plus2epoch_l40s.json \
     --model-path models/sft_warmup_plus2epoch_l40s \
     --batch-size 8 \
     --do-sample \

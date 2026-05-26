@@ -106,8 +106,8 @@ From the repo root:
 
 ```bash
 uv run src/asa/generate_dpo_data.py \
-    --input-json data/processed/train_nisqa_llama_10k.json \
-    --output-json data/processed/train_dpo_10k.json \
+    --input-json data/processed/sft/train_nisqa_llama_10k.json \
+    --output-json data/processed/dpo/train_dpo_10k.json \
     --model-path models/sft_warmup \
     --data-root data \
     --batch-size 8
@@ -115,7 +115,7 @@ uv run src/asa/generate_dpo_data.py \
 
 The defaults now include `--do-sample`, `--temperature 1.1`, `--top-p 0.9`, so
 you don't need to pass those explicitly. Note this **overwrites**
-`data/processed/train_dpo_10k.json` — if you want to keep the old file for
+`data/processed/dpo/train_dpo_10k.json` — if you want to keep the old file for
 comparison, rename it first.
 
 **Sanity-check the new file.** Expected improvements over the old pairs:
@@ -132,7 +132,7 @@ Quick check:
 import json
 from collections import Counter
 decoder = json.JSONDecoder()
-text = open('data/processed/train_dpo_10k.json').read()
+text = open('data/processed/dpo/train_dpo_10k.json').read()
 records, idx = [], 0
 while idx < len(text):
     while idx < len(text) and text[idx] in ' \n\r\t,': idx += 1

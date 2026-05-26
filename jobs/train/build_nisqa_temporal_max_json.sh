@@ -24,7 +24,7 @@ export PYTHONUNBUFFERED=1
 
 OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
 MANIFEST_PATH="$OUTPUT_DIR/manifest.csv"
-TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
+TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json"
 
 echo "=========================================="
 echo "Job ID   : ${LSB_JOBID:-local}"
@@ -43,7 +43,7 @@ fi
 uv run scripts/data/build_nisqa_temporal_json.py \
   --manifest-path "$MANIFEST_PATH" \
   --mixes-dir "$OUTPUT_DIR" \
-  --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+  --caption-jsonl data/processed/sft/train_nisqa_llama_10k.json \
   --output-jsonl "$TRAIN_JSON"
 
 echo "Rows in JSONL:"

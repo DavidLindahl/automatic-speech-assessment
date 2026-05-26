@@ -23,10 +23,10 @@ app = typer.Typer(
 @app.command()
 def generate(
     input_json: Path = typer.Option(
-        Path("data/processed/train_nisqa_llama_10k.json"), help="Input dataset."
+        Path("data/processed/sft/train_nisqa_llama_10k.json"), help="Input dataset."
     ),
     output_json: Path = typer.Option(
-        Path("data/processed/train_dpo_10k.json"), help="Output DPO dataset."
+        Path("data/processed/dpo/train_dpo_10k.json"), help="Output DPO dataset."
     ),
     model_path: Path = typer.Option(
         Path("models/sft_warmup"), help="Path to the trained model."

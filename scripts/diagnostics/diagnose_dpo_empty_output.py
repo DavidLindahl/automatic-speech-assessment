@@ -13,7 +13,7 @@ Hypotheses to test (in order):
 Usage:
     uv run python scripts/diagnostics/diagnose_dpo_empty_output.py \
         --model models/dpo_paper_half_h100 \
-        --dataset data/processed/test_LIVE.json \
+        --dataset data/processed/eval/test_LIVE.json \
         --num 3
 """
 
@@ -40,7 +40,7 @@ def diagnose(
         "models/dpo_paper_half_h100", help="Path or hub id of model under test."
     ),
     dataset: str = typer.Option(
-        "data/processed/test_LIVE.json", help="Test dataset JSON."
+        "data/processed/eval/test_LIVE.json", help="Test dataset JSON."
     ),
     data_root: Path = typer.Option(Path("data"), help="Root for audio paths."),
     num: int = typer.Option(3, help="How many samples to probe."),

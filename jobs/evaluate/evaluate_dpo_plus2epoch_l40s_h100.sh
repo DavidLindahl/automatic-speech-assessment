@@ -39,9 +39,9 @@ nvidia-smi
 MODEL_PATH="models/dpo_plus2epoch_l40s_h100"
 OUTPUT_PATH="results/evaluation/dpo_plus2epoch_l40s_h100_eval_h100"
 DATASETS=(
-    "data/processed/test_FOR.json"
-    "data/processed/test_LIVE.json"
-    "data/processed/test_P501.json"
+    "data/processed/eval/test_FOR.json"
+    "data/processed/eval/test_LIVE.json"
+    "data/processed/eval/test_P501.json"
 )
 
 echo "Evaluating datasets: ${DATASETS[*]}"

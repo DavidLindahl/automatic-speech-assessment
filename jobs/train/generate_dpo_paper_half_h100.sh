@@ -38,8 +38,8 @@ echo "=========================================="
 nvidia-smi
 
 uv run python scripts/data/generate_dpo_data.py \
-    --input-json data/processed/train_nisqa_llama_10k.json \
-    --output-json "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100.json" \
+    --input-json data/processed/sft/train_nisqa_llama_10k.json \
+    --output-json "$EXPERIMENT_DIR/data/processed/dpo/train_dpo_paper_half_h100.json" \
     --model-path "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --data-root data \
     --batch-size 8 \
@@ -48,7 +48,7 @@ uv run python scripts/data/generate_dpo_data.py \
     --top-p 0.9
 
 uv run python scripts/diagnostics/sanity_check_dpo.py \
-    "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100.json"
+    "$EXPERIMENT_DIR/data/processed/dpo/train_dpo_paper_half_h100.json"
 
 echo "=========================================="
 echo "DPO data generation complete: $(date)"

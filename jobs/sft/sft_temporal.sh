@@ -30,7 +30,7 @@ export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
 
 OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
-TRAIN_JSON="data/processed/train_nisqa_temporal_mix_max_mos3.json"
+TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json"
 
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
@@ -54,7 +54,7 @@ if [ ! -f "$TRAIN_JSON" ]; then
   uv run python scripts/data/build_nisqa_temporal_json.py \
     --manifest-path "$OUTPUT_DIR/manifest.csv" \
     --mixes-dir "$OUTPUT_DIR" \
-    --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+    --caption-jsonl data/processed/sft/train_nisqa_llama_10k.json \
     --output-jsonl "$TRAIN_JSON"
 fi
 

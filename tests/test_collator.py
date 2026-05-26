@@ -16,7 +16,7 @@ processor = AutoProcessor.from_pretrained(MODEL_ID, fix_mistral_regex=True)
 
 # Load 2 samples
 ds = SFTDataset(
-    json_path="data/processed/train_nisqa_llama_10k.json",
+    json_path="data/processed/sft/train_nisqa_llama_10k.json",
     data_root="data",
     max_samples=3,
 )

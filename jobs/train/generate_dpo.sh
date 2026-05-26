@@ -55,8 +55,8 @@ nvidia-smi
 
 
 uv run python scripts/data/generate_dpo_data.py \
-    --input-json data/processed/train_nisqa_llama_10k.json \
-    --output-json data/processed/train_dpo_10k.json \
+    --input-json data/processed/sft/train_nisqa_llama_10k.json \
+    --output-json data/processed/dpo/train_dpo_10k.json \
     --model-path models/sft_warmup \
     --batch-size 8
 

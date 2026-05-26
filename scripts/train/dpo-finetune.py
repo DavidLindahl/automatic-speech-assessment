@@ -142,7 +142,7 @@ def train(
         "Qwen/Qwen2-7B", help="Path to Expert Text model (Reference)."
     ),
     json_path: Path = typer.Option(
-        Path("data/processed/train_dpo_10k.json"), help="DPO dataset."
+        Path("data/processed/dpo/train_dpo_10k.json"), help="DPO dataset."
     ),
     data_root: Path = typer.Option(Path("data"), help="Root directory for audios."),
     model_name: str = typer.Option(

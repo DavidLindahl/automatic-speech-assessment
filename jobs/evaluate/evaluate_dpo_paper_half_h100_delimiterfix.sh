@@ -35,10 +35,10 @@ mkdir -p "$EXPERIMENT_DIR/results/evaluation"
 MODEL="$EXPERIMENT_DIR/models/dpo_paper_half_h100_delimiterfix"
 
 DATASETS=(
-    "data/processed/test_FOR.json"
-    "data/processed/test_LIVE.json"
-    "data/processed/test_P501.json"
-    "data/processed/test_nisqa_indomain.json"
+    "data/processed/eval/test_FOR.json"
+    "data/processed/eval/test_LIVE.json"
+    "data/processed/eval/test_P501.json"
+    "data/processed/eval/test_nisqa_indomain.json"
 )
 
 echo ""
@@ -63,7 +63,7 @@ echo ""
 echo "########## 3. EOS diagnostic (P(EOS) at step 0) ##########"
 uv run python scripts/diagnostics/diagnose_dpo_empty_output.py \
     --model "$MODEL" \
-    --dataset data/processed/test_LIVE.json \
+    --dataset data/processed/eval/test_LIVE.json \
     --num 5 \
     --max-new-tokens 60
 

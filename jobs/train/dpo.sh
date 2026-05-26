@@ -62,7 +62,7 @@ torchrun \
     scripts/train/dpo-finetune.py \
     --model-name dpo_warmup_v2 \
     --model-id Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup \
-    --json-path "data/processed/train_dpo_10k.json" \
+    --json-path "data/processed/dpo/train_dpo_10k.json" \
     --data-root "data" \
     --batch-size 2 \
     --epochs 1 \

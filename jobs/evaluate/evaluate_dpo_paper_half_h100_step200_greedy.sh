@@ -24,10 +24,10 @@ source "$(dirname "$0")/../_lib/preamble.sh"
 mkdir -p "$EXPERIMENT_DIR/results/evaluation"
 
 DATASETS=(
-    "data/processed/test_FOR.json"
-    "data/processed/test_LIVE.json"
-    "data/processed/test_P501.json"
-    "data/processed/test_nisqa_indomain.json"
+    "data/processed/eval/test_FOR.json"
+    "data/processed/eval/test_LIVE.json"
+    "data/processed/eval/test_P501.json"
+    "data/processed/eval/test_nisqa_indomain.json"
 )
 
 uv run python scripts/eval/evaluate.py eval-mos \

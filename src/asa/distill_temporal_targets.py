@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-def generate_targets(input_json: str = "data/processed/temporal_metadata_raw.json", output_jsonl: str = "data/processed/train_temporal_alld.json"):
+def generate_targets(input_json: str = "data/processed/temporal/temporal_metadata_raw.json", output_jsonl: str = "data/processed/sft/train_temporal_alld.json"):
     """Converts Phase 1 metadata into LLM formatted textual targets for ALLD integration."""
     print(f"Reading {input_json}...")
     with open(input_json, "r") as f:

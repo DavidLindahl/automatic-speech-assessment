@@ -36,9 +36,9 @@ nvidia-smi
 MODEL_PATH="models/sft_warmup_plus1epoch"
 OUTPUT_PATH="results/evaluation/sft_warmup_plus1epoch_eval_a40"
 DATASETS=(
-    "data/processed/test_FOR.json"
-    "data/processed/test_LIVE.json"
-    "data/processed/test_P501.json"
+    "data/processed/eval/test_FOR.json"
+    "data/processed/eval/test_LIVE.json"
+    "data/processed/eval/test_P501.json"
 )
 
 echo "Evaluating datasets: ${DATASETS[*]}"

@@ -22,7 +22,7 @@ HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-sf
 
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
-    --json-path data/processed/train_nisqa_llama_10k.json \
+    --json-path data/processed/sft/train_nisqa_llama_10k.json \
     --data-root data \
     --model-name "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --max-samples 5000 \

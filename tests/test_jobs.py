@@ -476,7 +476,14 @@ def _looks_like_generated_input_artifact(value: str) -> bool:
     """
     normalized = value.replace("\\", "/")
     return normalized.startswith(
-        ("data/processed/train_dpo", "data/processed/train_temporal")
+        (
+            # Post-Phase-B (Wave 2) purpose-named subdirs
+            "data/processed/dpo/",
+            "data/processed/temporal/",
+            # Legacy flat layout (kept so _archive scripts continue to lint clean)
+            "data/processed/train_dpo",
+            "data/processed/train_temporal",
+        )
     )
 
 

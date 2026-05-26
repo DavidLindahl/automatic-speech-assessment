@@ -30,10 +30,10 @@ RUN_SANITY="${RUN_SANITY:-1}"
 
 if [ -z "${DATASETS+x}" ]; then
     DATASETS=(
-        "data/processed/test_FOR.json"
-        "data/processed/test_LIVE.json"
-        "data/processed/test_P501.json"
-        "data/processed/test_nisqa_indomain.json"
+        "data/processed/eval/test_FOR.json"
+        "data/processed/eval/test_LIVE.json"
+        "data/processed/eval/test_P501.json"
+        "data/processed/eval/test_nisqa_indomain.json"
     )
 fi
 

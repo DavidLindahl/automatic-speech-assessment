@@ -22,7 +22,7 @@ from transformers import AutoProcessor, AutoTokenizer  # noqa: E402
 
 POLICY_MODEL = "/work3/s234817/automatic-speech-assessment/models/sft_warmup_paper_half_h100"
 REF_MODEL = "Qwen/Qwen2-7B"
-DPO_JSON = "data/processed/train_dpo_paper_half_h100_clean.json"
+DPO_JSON = "data/processed/dpo/train_dpo_paper_half_h100_clean.json"
 DATA_ROOT = "data"
 
 

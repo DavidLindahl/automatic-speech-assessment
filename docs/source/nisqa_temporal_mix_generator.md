@@ -72,9 +72,9 @@ Reuse existing NISQA captions and inject temporal targets without new Gemini cal
 ```bash
 uv run python scripts/data/build_nisqa_temporal_json.py \
   --manifest-path data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv \
-  --caption-jsonl data/processed/train_nisqa_llama_10k.json \
+  --caption-jsonl data/processed/sft/train_nisqa_llama_10k.json \
   --mixes-dir data/processed/nisqa_sim_mix_lowmos_active_3000 \
-  --output-jsonl data/processed/train_nisqa_temporal_mix_3000.json
+  --output-jsonl data/processed/temporal/train_nisqa_temporal_mix_3000.json
 ```
 
 The output keeps familiar keys like `audios`, `response`, `query`, and `mos`, and adds temporal fields from the
@@ -93,7 +93,7 @@ Run temporal inference and compute localization metrics (t-IoU, hit rates, start
 ```bash
 uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
-  --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
+  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \
   --output-dir results/evaluation/sft_temporal_max_mos3 \
   --batch-size 4 \
@@ -106,7 +106,7 @@ For a quick smoke check before a full run:
 ```bash
 uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
-  --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
+  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \
   --max-samples 64 \
   --output-dir results/evaluation/sft_temporal_max_mos3_smoke

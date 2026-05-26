@@ -63,7 +63,7 @@ torchrun \
     --model-name alld_final \
     --model-id "models/sft_warmup" \
     --ref-model-id "Qwen/Qwen2-7B" \
-    --json-path "data/processed/train_dpo_10k.json" \
+    --json-path "data/processed/dpo/train_dpo_10k.json" \
     --data-root "data" \
     --batch-size 1 \
     --epochs 2 \

@@ -123,7 +123,7 @@ def apply_clipping(waveform, sr, min_duration=0.5, max_duration=2.0, threshold=0
 def main(
     num_samples: int = 1000,
     output_dir: str = "data/raw/temporal_mixes",
-    metadata_path: str = "data/processed/temporal_metadata_raw.json",
+    metadata_path: str = "data/processed/temporal/temporal_metadata_raw.json",
 ):
     """Generates synthetic data with random temporal degradations for Temporal-ALLD."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)

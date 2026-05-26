@@ -37,7 +37,7 @@ mkdir -p "$SANITY_MODEL_DIR"
 torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$SANITY_MODEL_DIR" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
-    --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \
+    --json-path "$EXPERIMENT_DIR/data/processed/dpo/train_dpo_paper_half_h100_clean.json" \
     --data-root data \
     --max-samples 4 \
     --batch-size 1 \
