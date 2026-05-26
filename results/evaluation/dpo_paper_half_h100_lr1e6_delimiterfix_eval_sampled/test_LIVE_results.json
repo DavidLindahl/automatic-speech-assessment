@@ -1,9 +1,18 @@
 {
   "metrics": {
     "samples": 200,
-    "mae": 32.169000000000004,
-    "mse": 1226.7578,
-    "bleu": 0.00017338284806618903
+    "mae": 0.698,
+    "mse": 0.7658,
+    "bleu": 20.564783392881672,
+    "bleu_lowercased": 21.227595530057332,
+    "unique_predictions": 177,
+    "top_prediction_frequency": 0.025
+  },
+  "decoding": {
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "max_new_tokens": 150
   },
   "results": [
     {
@@ -17,10 +26,9 @@
       "col": 2.2,
       "loud": 2.2,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy and discontinuous with severe distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 1.6
     },
     {
       "audios": [
@@ -33,10 +41,9 @@
       "col": 1.8,
       "loud": 2.6,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 8.93945512687472e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and it is somewhat noisy. Although its loudness is soft but understandable, the overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -49,10 +56,9 @@
       "col": 3.2,
       "loud": 2.3,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 2.675641566116082e-155
+      "predicted_response": "This synthesized speech has good continuity, but it suffers from somewhat noisy background and noticeable distortion. The volume is also relatively soft. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -65,10 +71,9 @@
       "col": 1.7,
       "loud": 3.1,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion, but its loudness is relatively soft. The overall MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -81,10 +86,9 @@
       "col": 2.2,
       "loud": 3.4,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech has good continuity and moderate noise level. However, it contains significant distortion and is somewhat quiet, which affects its overall quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -97,10 +101,9 @@
       "col": 2.1,
       "loud": 3.6,
       "dis": 3.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 8.319100378795605e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion, but its loudness is understandable. The overall MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -113,10 +116,9 @@
       "col": 2.1,
       "loud": 2.4,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 2.7353319119103705e-155
+      "predicted_response": "This synthesized speech is somewhat clean but suffers from severe discontinuity and significant distortion. Although it has a moderate volume, the overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 1.7999999999999998
     },
     {
       "audios": [
@@ -129,10 +131,9 @@
       "col": 2.3,
       "loud": 2.6,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.3,
-      "bleu": 3.0311345273915757e-155
+      "predicted_response": "This synthesized speech is somewhat clean but suffers from severe distortion and discontinuity. Although it has moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.3000000000000003
     },
     {
       "audios": [
@@ -145,10 +146,9 @@
       "col": 2.4,
       "loud": 2.4,
       "dis": 3.8,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise, but it is relatively continuous and clear. However, it suffers from significant distortion, which affects its overall quality. With an overall MOS score of 2.6, it can be considered somewhat unnatural.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -161,10 +161,9 @@
       "col": 2.5,
       "loud": 1.7,
       "dis": 4.0,
-      "predicted_response": "2 with a MOS of 4  3   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.2,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and it is somewhat noisy. Although its loudness is soft but understandable, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -177,10 +176,9 @@
       "col": 2.1,
       "loud": 2.2,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 8.319100378795605e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although it has a relatively good volume, I think it is a mediocre synthesized speech with an overall MOS of 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.5999999999999996
     },
     {
       "audios": [
@@ -193,10 +191,9 @@
       "col": 2.5,
       "loud": 3.0,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although it has a reasonable loudness, the overall quality is affected by its unnatural characteristics, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -209,10 +206,9 @@
       "col": 2.4,
       "loud": 1.3,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 2.586917203527967e-155
+      "predicted_response": "This synthesized speech is moderately clean but has some discontinuity and noticeable distortion. It also lacks loudness, which may affect its overall quality. With these factors in mind, I would rate its overall MOS score as 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -225,10 +221,9 @@
       "col": 2.6,
       "loud": 1.8,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of   2   with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.19999999999999996,
-      "bleu": 6.573479617511883e-232
+      "predicted_response": "This synthesized speech is moderately clean but has some discontinuity and noticeable distortion. Although it has a moderate volume, the overall MOS score is about 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 1.5999999999999999
     },
     {
       "audios": [
@@ -241,10 +236,9 @@
       "col": 1.6,
       "loud": 2.3,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 8.972141065609098e-232
+      "predicted_response": "This synthesized speech has moderate noise level and relatively soft volume. However, it suffers from significant distortion and discontinuity, resulting in an overall MOS score of 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -257,10 +251,9 @@
       "col": 2.4,
       "loud": 2.1,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.5,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and it is somewhat noisy. Although the loudness is soft but understandable, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.10000000000000009
     },
     {
       "audios": [
@@ -273,10 +266,9 @@
       "col": 2.2,
       "loud": 2.2,
       "dis": 4.1,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 1.4,
-      "bleu": 3.805208974207348e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.2000000000000002
     },
     {
       "audios": [
@@ -289,10 +281,9 @@
       "col": 2.0,
       "loud": 2.3,
       "dis": 4.3,
-      "predicted_response": "2 with a MOS of 4  3   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS",
-      "predicted_mos": 4.0,
-      "mos_error": 1.6,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and is somewhat noisy. Although it has an acceptable loudness, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -305,10 +296,9 @@
       "col": 2.1,
       "loud": 2.8,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 1.4000000000000001
     },
     {
       "audios": [
@@ -321,10 +311,9 @@
       "col": 2.8,
       "loud": 2.1,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 3.0311345273915757e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. The loudness is also somewhat quiet. Given these issues, I would rate the overall MOS score as 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -337,10 +326,9 @@
       "col": 1.6,
       "loud": 2.0,
       "dis": 2.8,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.3,
-      "bleu": 8.972141065609098e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and it is somewhat noisy. Although its loudness is soft but understandable, I think it is a mediocre synthesized speech with overall MOS of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.9000000000000001
     },
     {
       "audios": [
@@ -353,10 +341,9 @@
       "col": 2.0,
       "loud": 2.0,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.8,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -369,10 +356,9 @@
       "col": 3.0,
       "loud": 2.8,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 2.530465559854518e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has moderate loudness, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -385,10 +371,9 @@
       "col": 3.5,
       "loud": 2.2,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 3.0092476480482955e-155
+      "predicted_response": "This synthesized speech is relatively clean but has a lot of discontinuity and severe distortion. Although it has moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.8000000000000003
     },
     {
       "audios": [
@@ -401,10 +386,9 @@
       "col": 1.8,
       "loud": 3.0,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 8.349518072205185e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has noticeable issues. It is somewhat noisy, moderately distorted, and has moderate discontinuity. Although the loudness is soft but understandable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -417,10 +401,9 @@
       "col": 2.6,
       "loud": 1.9,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and it is somewhat noisy. Although the volume is soft but understandable, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -433,10 +416,9 @@
       "col": 2.8,
       "loud": 3.6,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 8.289228799996742e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, its overall quality is affected, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -449,10 +431,9 @@
       "col": 2.8,
       "loud": 3.7,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 8.259885936748448e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and discontinuity. Although it has moderate distortion, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -465,10 +446,9 @@
       "col": 1.7,
       "loud": 2.5,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -481,10 +461,9 @@
       "col": 1.7,
       "loud": 1.3,
       "dis": 3.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 2.8004204835152646e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has moderate loudness, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -497,10 +476,9 @@
       "col": 1.8,
       "loud": 1.4,
       "dis": 4.4,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 20.6,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. The overall MOS score is 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -513,10 +491,9 @@
       "col": 2.5,
       "loud": 1.2,
       "dis": 4.1,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 20.8,
-      "bleu": 6.3917876705550364e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although its loudness is acceptable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.8
     },
     {
       "audios": [
@@ -529,10 +506,9 @@
       "col": 2.6,
       "loud": 3.0,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 8.289228799996742e-232
+      "predicted_response": "This synthesized speech has a relatively low level of noise, but it suffers from significant distortion and discontinuity. Although the volume is somewhat quiet, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.4000000000000001
     },
     {
       "audios": [
@@ -545,10 +521,9 @@
       "col": 2.6,
       "loud": 2.8,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -561,10 +536,9 @@
       "col": 1.7,
       "loud": 2.0,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. Although it has a moderate level of discontinuity, its volume is soft but understandable. Given these factors, I would rate its overall MOS score as 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -577,10 +551,9 @@
       "col": 2.1,
       "loud": 1.5,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. The volume is relatively quiet but understandable. Overall, I would rate its MOS score as 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -593,10 +566,9 @@
       "col": 2.0,
       "loud": 2.3,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is moderately clean but has some noticeable distortion and discontinuity. Although it has a reasonable loudness, the overall MOS score is about 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -609,10 +581,9 @@
       "col": 1.8,
       "loud": 1.8,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 3.3545017776435373e-155
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, significant distortion and discontinuity. Although the volume is understandable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -625,10 +596,9 @@
       "col": 1.8,
       "loud": 2.3,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 8.349518072205185e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity and a relatively soft volume. However, it suffers from somewhat noisy background and noticeable distortion, which affects its overall quality. With an overall MOS score of 3.2, it falls into the category of being neither natural nor unnatural.",
+      "predicted_mos": 3.2,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -641,10 +611,9 @@
       "col": 2.4,
       "loud": 2.0,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is acceptable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -657,10 +626,9 @@
       "col": 2.5,
       "loud": 3.2,
       "dis": 4.2,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.20000000000000018,
-      "bleu": 7.817228731469945e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. Although the volume is soft but understandable, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -673,10 +641,9 @@
       "col": 2.4,
       "loud": 1.7,
       "dis": 4.2,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 7.817228731469945e-232
+      "predicted_response": "This synthesized speech has good continuity. However, it is somewhat noisy and has significant distortion, which impacts its overall quality. The loudness is also relatively soft but understandable. Given these factors, I would rate the overall MOS score of this speech as 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 1.4
     },
     {
       "audios": [
@@ -689,10 +656,9 @@
       "col": 1.6,
       "loud": 2.3,
       "dis": 2.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. It also has some discontinuity and a relatively soft volume. The overall MOS score is 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.19999999999999973
     },
     {
       "audios": [
@@ -705,10 +671,9 @@
       "col": 2.5,
       "loud": 1.7,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech has good continuity and moderate distortion. However, it is somewhat noisy and quiet, which affects its overall quality. With an overall MOS score of 3.0, it falls into the category of being neither natural nor unnatural.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -721,10 +686,9 @@
       "col": 2.0,
       "loud": 2.1,
       "dis": 2.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and distortion, and it is somewhat discontinuous. Although its loudness is soft but understandable, I think it is an average synthesized speech with overall MOS of 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.9999999999999998
     },
     {
       "audios": [
@@ -737,10 +701,9 @@
       "col": 2.4,
       "loud": 2.2,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 3.252876171537949e-155
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and is somewhat noisy. Although it is clear enough, I think its overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -753,10 +716,9 @@
       "col": 2.6,
       "loud": 2.3,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 3.3545017776435373e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, its overall quality is affected by these factors, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -769,10 +731,9 @@
       "col": 1.8,
       "loud": 1.6,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -785,10 +746,9 @@
       "col": 2.0,
       "loud": 2.6,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 2.953253972775406e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is acceptable, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.6
     },
     {
       "audios": [
@@ -801,10 +761,9 @@
       "col": 2.7,
       "loud": 2.6,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and some discontinuity. Although it is moderately distorted, its overall loudness is soft but understandable. Given these factors, I would rate its overall MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.40000000000000036
     },
     {
       "audios": [
@@ -817,10 +776,9 @@
       "col": 2.3,
       "loud": 2.8,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 8.349518072205185e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and is somewhat discontinuous. Although it has significant distortion, its volume is soft but understandable. Given these factors, I think the overall MOS score of 2.6 is reasonable.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -833,10 +791,9 @@
       "col": 3.0,
       "loud": 2.2,
       "dis": 3.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is moderately clean and has a soft but understandable volume. However, it suffers from moderate distortion and discontinuity, which affects its overall quality. The overall MOS score is about 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 1.2000000000000002
     },
     {
       "audios": [
@@ -849,10 +806,9 @@
       "col": 1.6,
       "loud": 2.9,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has noticeable issues. It suffers from somewhat noisy and discontinuous playback, along with significant distortion. Although the loudness is soft but understandable, these problems detract from its overall quality. The overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -865,10 +821,9 @@
       "col": 1.9,
       "loud": 1.7,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 9.452322961974386e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -881,10 +836,9 @@
       "col": 2.2,
       "loud": 2.3,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.490163752058132e-232
+      "predicted_response": "This synthesized speech has moderate noise level and is somewhat discontinuous. Although it contains significant distortion, its overall volume is soft but understandable. The overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -897,10 +851,9 @@
       "col": 2.4,
       "loud": 2.4,
       "dis": 3.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 8.319100378795605e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity and is somewhat understandable in terms of loudness. However, it suffers from noticeable noise and distortion, which affects its overall quality. With an overall MOS score of 2.4, it falls into the somewhat unnatural category.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -913,10 +866,9 @@
       "col": 2.2,
       "loud": 2.9,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and it is somewhat noisy. Although the volume is soft but understandable, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 1.1999999999999997
     },
     {
       "audios": [
@@ -929,10 +881,9 @@
       "col": 3.0,
       "loud": 1.8,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 9.52208653546315e-232
+      "predicted_response": "This synthesized speech has good continuity and a moderate level of distortion. However, it suffers from somewhat noisy and relatively soft volume. The overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -945,10 +896,9 @@
       "col": 1.9,
       "loud": 2.3,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech is extremely quiet and noisy with moderate discontinuity. It also contains significant distortion, which greatly impacts its overall quality. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -961,10 +911,9 @@
       "col": 3.0,
       "loud": 3.1,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.9999999999999998
     },
     {
       "audios": [
@@ -977,10 +926,9 @@
       "col": 1.7,
       "loud": 3.0,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech has good continuity, but it is somewhat noisy and moderately distorted. The volume is relatively soft but understandable. Overall, I would rate its MOS score as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -993,10 +941,9 @@
       "col": 2.8,
       "loud": 2.4,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has a relatively poor overall quality. It suffers from somewhat noisy background, significant distortion, and moderate discontinuity. Although the loudness is acceptable, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1009,10 +956,9 @@
       "col": 2.4,
       "loud": 2.5,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 2.530465559854518e-155
+      "predicted_response": "This synthesized speech is somewhat clean but has significant distortion and discontinuity. Although it is relatively clear, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.2000000000000002
     },
     {
       "audios": [
@@ -1025,10 +971,9 @@
       "col": 3.3,
       "loud": 3.7,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.4,
-      "bleu": 9.38504236614691e-232
+      "predicted_response": "This synthesized speech is relatively clean but has some discontinuity. However, it suffers from significant distortion, which impacts its overall quality. Additionally, the volume is somewhat quiet. Given these factors, I would rate its overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.6
     },
     {
       "audios": [
@@ -1041,10 +986,9 @@
       "col": 2.2,
       "loud": 2.5,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity and acceptable loudness. However, it suffers from somewhat noisy background and noticeable distortion, which affects its overall quality. The overall MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1057,10 +1001,9 @@
       "col": 3.9,
       "loud": 2.8,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 2.8207885197827024e-155
+      "predicted_response": "This synthesized speech is somewhat clean but has severe discontinuity and significant distortion. Although it is extremely quiet, the overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 2.2
     },
     {
       "audios": [
@@ -1073,10 +1016,9 @@
       "col": 2.4,
       "loud": 3.4,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is understandable, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -1089,10 +1031,9 @@
       "col": 2.6,
       "loud": 2.0,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 2.862894496906034e-155
+      "predicted_response": "This synthesized speech is somewhat natural but suffers from moderate distortion and discontinuity, and it also has a relatively high level of noise. Although its loudness is soft but understandable, I think it is an average synthesized speech with overall MOS of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 1.2000000000000002
     },
     {
       "audios": [
@@ -1105,10 +1046,9 @@
       "col": 2.1,
       "loud": 2.4,
       "dis": 3.8,
-      "predicted_response": "2 with a MOS of   4   with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.2,
-      "bleu": 7.817228731469945e-232
+      "predicted_response": "This synthesized speech is noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -1121,10 +1061,9 @@
       "col": 2.3,
       "loud": 2.3,
       "dis": 2.9,
-      "predicted_response": "4 with a MOS of   2   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 6.3917876705550364e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1137,10 +1076,9 @@
       "col": 1.9,
       "loud": 3.1,
       "dis": 2.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.490163752058132e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -1153,10 +1091,9 @@
       "col": 2.5,
       "loud": 2.0,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 9.418382295637229e-232
+      "predicted_response": "This synthesized speech has good continuity and relatively low noise level. However, it is somewhat quiet and contains significant distortion, which affects its overall quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1169,10 +1106,9 @@
       "col": 1.8,
       "loud": 1.4,
       "dis": 3.4,
-      "predicted_response": "2 with a MOS of   2  with an MOS of      with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.8,
-      "bleu": 7.817228731469945e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -1185,10 +1121,9 @@
       "col": 2.3,
       "loud": 2.0,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 2.5488701582353735e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1201,10 +1136,9 @@
       "col": 1.3,
       "loud": 1.3,
       "dis": 3.1,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has a low overall quality. It suffers from moderate distortion and discontinuity, and the noise level is relatively high. The volume is also somewhat quiet. Overall, I would rate its MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1217,10 +1151,9 @@
       "col": 1.3,
       "loud": 1.4,
       "dis": 1.4,
-      "predicted_response": "2 with a MOS of  22  2 with an MOS of   2 with a MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and it is somewhat noisy. Although its volume is soft but understandable, I think it is a less natural synthesized speech with overall MOS of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.6
     },
     {
       "audios": [
@@ -1233,10 +1166,9 @@
       "col": 2.6,
       "loud": 2.6,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 7.490163752058132e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.6
     },
     {
       "audios": [
@@ -1249,10 +1181,9 @@
       "col": 2.4,
       "loud": 1.9,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.5,
-      "bleu": 7.490163752058132e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and it is somewhat noisy. Although its loudness is just soft but understandable, I think it is an average synthesized speech with overall MOS of 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.7000000000000002
     },
     {
       "audios": [
@@ -1265,10 +1196,9 @@
       "col": 3.7,
       "loud": 1.5,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 8.289228799996742e-232
+      "predicted_response": "This synthesized speech has good continuity and moderate volume. However, it suffers from somewhat noisy and significantly distorted, which affects its overall quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1281,10 +1211,9 @@
       "col": 2.5,
       "loud": 2.5,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 3.4611262562394995e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which affects its overall quality. Although the loudness is somewhat soft but understandable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.2000000000000002
     },
     {
       "audios": [
@@ -1297,10 +1226,9 @@
       "col": 2.5,
       "loud": 2.8,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 7.490163752058132e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level and moderate loudness. However, it suffers from noticeable distortion and discontinuity. The overall MOS score is 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1313,10 +1241,9 @@
       "col": 2.1,
       "loud": 2.5,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has good continuity, but it is somewhat noisy and significantly distorted. The volume is relatively soft, but understandable. Given these characteristics, I think the overall MOS score of 3.2 is reasonable.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.40000000000000036
     },
     {
       "audios": [
@@ -1329,10 +1256,9 @@
       "col": 2.9,
       "loud": 1.9,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. The volume is also somewhat quiet. Considering these factors, I think the overall MOS score of 2.0 is reasonable.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1345,10 +1271,9 @@
       "col": 2.2,
       "loud": 3.3,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 38.5,
-      "bleu": 3.404574505222744e-155
+      "predicted_response": "This synthesized speech is somewhat natural with an overall MOS of 3.2. It has a moderate level of noise, but its distortion and discontinuity are relatively minor. The loudness is soft but understandable.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.2999999999999998
     },
     {
       "audios": [
@@ -1361,10 +1286,9 @@
       "col": 2.6,
       "loud": 3.4,
       "dis": 3.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 3.252876171537949e-155
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise. It has moderate distortion and discontinuity, and the volume is relatively quiet. The overall MOS score is 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1377,10 +1301,9 @@
       "col": 1.9,
       "loud": 1.4,
       "dis": 2.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is understandable, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.8
     },
     {
       "audios": [
@@ -1393,10 +1316,9 @@
       "col": 2.7,
       "loud": 2.4,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although it has a relatively low volume, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1409,10 +1331,9 @@
       "col": 2.5,
       "loud": 3.3,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 3.2050345448863812e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. The volume is also somewhat quiet. Given these factors, I would rate the overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1425,10 +1346,9 @@
       "col": 2.5,
       "loud": 2.5,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 2.8207885197827024e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.8000000000000003
     },
     {
       "audios": [
@@ -1441,10 +1361,9 @@
       "col": 1.7,
       "loud": 1.7,
       "dis": 2.0,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has good continuity and moderate distortion. However, it suffers from a high level of noise and is somewhat quiet. Considering these factors, I think it is a less-than-ideal synthesized speech with an overall MOS of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -1457,10 +1376,9 @@
       "col": 2.2,
       "loud": 2.0,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 8.319100378795605e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is soft but understandable, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -1473,10 +1391,9 @@
       "col": 1.6,
       "loud": 1.3,
       "dis": 2.5,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 20.8,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has a relatively poor overall quality. It suffers from somewhat noisy background, moderate distortion, and discontinuity, which negatively impact its clarity. Additionally, the volume is somewhat quiet. Given these issues, I would rate the overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.2
     },
     {
       "audios": [
@@ -1489,10 +1406,9 @@
       "col": 1.9,
       "loud": 2.4,
       "dis": 4.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has moderate noise level and acceptable loudness. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. The overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1505,10 +1421,9 @@
       "col": 2.1,
       "loud": 1.3,
       "dis": 3.0,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 7.817228731469945e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -1521,10 +1436,9 @@
       "col": 2.2,
       "loud": 1.7,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 0.034676569613237805
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. It also suffers from discontinuity and is relatively quiet, which affects its overall quality. The overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1537,10 +1451,9 @@
       "col": 2.0,
       "loud": 1.2,
       "dis": 3.3,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 6.573479617511883e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although its loudness is soft but understandable, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1553,10 +1466,9 @@
       "col": 2.7,
       "loud": 1.8,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech is relatively clean but has some distortion and discontinuity. Although it is soft and not very loud, I think it is a mediocre synthesized speech with an overall MOS of 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1569,10 +1481,9 @@
       "col": 2.7,
       "loud": 1.2,
       "dis": 4.2,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.8,
-      "bleu": 2.9416364921081275e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1585,10 +1496,9 @@
       "col": 2.5,
       "loud": 2.6,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 3.404574505222744e-155
+      "predicted_response": "This synthesized speech has a moderate level of continuity and relatively low noise level. However, it suffers from significant distortion and is somewhat quiet. Given these characteristics, I would rate its overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1601,10 +1511,9 @@
       "col": 2.3,
       "loud": 1.5,
       "dis": 3.3,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 20.6,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech is noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1617,10 +1526,9 @@
       "col": 2.8,
       "loud": 1.9,
       "dis": 3.8,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.9999999999999998
     },
     {
       "audios": [
@@ -1633,10 +1541,9 @@
       "col": 1.7,
       "loud": 1.4,
       "dis": 2.6,
-      "predicted_response": "2 with a MOS of 4  3   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.2,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with an overall MOS of 2.4. It has a somewhat noisy background, moderate distortion, and discontinuity, which affects its overall quality. Additionally, it is extremely quiet, making it difficult to listen to.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -1649,10 +1556,9 @@
       "col": 1.9,
       "loud": 2.1,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. It also has some discontinuity and a relatively soft volume. Overall, I would rate its MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1665,10 +1571,9 @@
       "col": 1.9,
       "loud": 2.9,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.5,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity and is somewhat understandable in terms of loudness. However, it suffers from a relatively high noise level and noticeable distortion, which affects its overall quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.1
     },
     {
       "audios": [
@@ -1681,10 +1586,9 @@
       "col": 2.0,
       "loud": 3.1,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 8.875825067922154e-232
+      "predicted_response": "This synthesized speech is moderately clean but suffers from significant distortion and discontinuity. Although it has a moderate volume, its overall quality is somewhat unnatural, with an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.19999999999999973
     },
     {
       "audios": [
@@ -1697,10 +1601,9 @@
       "col": 1.5,
       "loud": 1.7,
       "dis": 2.7,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and noisy, with significant distortion and discontinuity. Although it has a moderate volume, its overall quality is affected by the noise and distortion issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1713,10 +1616,9 @@
       "col": 1.7,
       "loud": 2.4,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which affects its overall quality. The loudness is also somewhat quiet. Considering these factors, I would rate its overall MOS score as 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1729,10 +1631,9 @@
       "col": 1.9,
       "loud": 2.3,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. It also suffers from discontinuity and a relatively quiet volume. The overall MOS score is 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -1745,10 +1646,9 @@
       "col": 3.5,
       "loud": 2.8,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1761,10 +1661,9 @@
       "col": 1.8,
       "loud": 1.7,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of   2   with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.5,
-      "bleu": 9.296304027068154e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is acceptable, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.30000000000000004
     },
     {
       "audios": [
@@ -1777,10 +1676,9 @@
       "col": 1.5,
       "loud": 2.6,
       "dis": 2.2,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1793,10 +1691,9 @@
       "col": 1.8,
       "loud": 1.9,
       "dis": 2.5,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 2.89177102115629e-155
+      "predicted_response": "This synthesized speech is extremely quiet, noisy and discontinuous with significant distortion. Overall, its quality is severely impacted, resulting in an overall MOS score of 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1809,10 +1706,9 @@
       "col": 2.7,
       "loud": 1.7,
       "dis": 3.3,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.8,
-      "bleu": 2.758145751025454e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -1825,10 +1721,9 @@
       "col": 1.3,
       "loud": 2.7,
       "dis": 2.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 9.52208653546315e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity and is somewhat understandable in terms of loudness. However, it suffers from somewhat noisy background and noticeable distortion. The overall MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -1841,10 +1736,9 @@
       "col": 2.0,
       "loud": 2.2,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 2.7353319119103705e-155
+      "predicted_response": "This synthesized speech is very poor with significant noise, discontinuity and distortion. Although it is not extremely quiet, its overall quality is severely impacted by these issues, resulting in an overall MOS score of 1.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -1857,10 +1751,9 @@
       "col": 2.2,
       "loud": 2.3,
       "dis": 2.5,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -1873,10 +1766,9 @@
       "col": 2.1,
       "loud": 1.6,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.3442617892539425e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is acceptable, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1889,10 +1781,9 @@
       "col": 1.6,
       "loud": 1.9,
       "dis": 3.2,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with",
-      "predicted_mos": 22.0,
-      "mos_error": 20.4,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -1905,10 +1796,9 @@
       "col": 2.4,
       "loud": 2.2,
       "dis": 2.8,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 2.7149934610007076e-155
+      "predicted_response": "This synthesized speech has a moderate level of noise and some discontinuity, accompanied by significant distortion. Although it is somewhat quiet, the overall MOS score is 2.0, indicating a relatively unnatural quality.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1921,10 +1811,9 @@
       "col": 1.9,
       "loud": 1.4,
       "dis": 2.5,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech has moderate noise level and is somewhat discontinuous. Although it contains significant distortion, its loudness is relatively soft. Overall, I would rate the MOS of this speech as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 2.2
     },
     {
       "audios": [
@@ -1937,10 +1826,9 @@
       "col": 1.9,
       "loud": 2.3,
       "dis": 2.5,
-      "predicted_response": "2 with a MOS of   2  with an MOS of      with a MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 7.850707993042515e-232
+      "predicted_response": "This synthesized speech is noisy and discontinuous with significant distortion. Although it has moderate loudness, its overall quality is affected by these issues, resulting in an overall MOS score of 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -1953,10 +1841,9 @@
       "col": 1.4,
       "loud": 1.8,
       "dis": 2.2,
-      "predicted_response": "2 with a MOS of  22  2 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has good continuity and a relatively low noise level. However, it suffers from severe distortion and is extremely quiet. The overall MOS score is 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -1969,10 +1856,9 @@
       "col": 1.5,
       "loud": 1.8,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of   2   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -1985,10 +1871,9 @@
       "col": 1.3,
       "loud": 1.3,
       "dis": 2.8,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 20.6,
-      "bleu": 2.606590994551401e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -2001,10 +1886,9 @@
       "col": 1.9,
       "loud": 1.9,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.5,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which severely impacts its overall quality. The volume is also somewhat quiet. With these issues, I think it is a somewhat unnatural synthesized speech with an overall MOS of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8999999999999999
     },
     {
       "audios": [
@@ -2017,10 +1901,9 @@
       "col": 2.1,
       "loud": 1.4,
       "dis": 3.2,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and distortion, and is somewhat discontinuous. Although it is not extremely quiet, its overall quality is affected by these factors, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2033,10 +1916,9 @@
       "col": 2.2,
       "loud": 2.5,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 2.5676822842398837e-155
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and is somewhat noisy. Although its loudness is just soft but understandable, I think it is a relatively low-quality synthesized speech with an overall MOS of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -2049,10 +1931,9 @@
       "col": 1.3,
       "loud": 2.0,
       "dis": 2.3,
-      "predicted_response": "2 with a MOS of   2  with an MOS of      with a MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.8,
-      "bleu": 8.688236592747187e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and is somewhat noisy. Although it is soft but understandable in terms of loudness, I think it is a relatively poor synthesized speech with an overall MOS of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.4000000000000001
     },
     {
       "audios": [
@@ -2065,10 +1946,9 @@
       "col": 1.3,
       "loud": 1.5,
       "dis": 3.1,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.9,
-      "bleu": 2.758145751025454e-155
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although its loudness is acceptable, the overall quality is somewhat unnatural with an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.5
     },
     {
       "audios": [
@@ -2081,10 +1961,9 @@
       "col": 1.3,
       "loud": 1.5,
       "dis": 1.9,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy and discontinuous with significant distortion. Overall, it has a low MOS score of 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2097,10 +1976,9 @@
       "col": 1.4,
       "loud": 1.9,
       "dis": 3.9,
-      "predicted_response": "2 with a MOS of   2  with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.6000000000000001,
-      "bleu": 6.545917251136179e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2113,10 +1991,9 @@
       "col": 2.2,
       "loud": 1.7,
       "dis": 3.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 9.52208653546315e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2129,10 +2006,9 @@
       "col": 2.4,
       "loud": 1.5,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2145,10 +2021,9 @@
       "col": 2.5,
       "loud": 1.9,
       "dis": 3.4,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with a MOS of  2",
-      "predicted_mos": 22.0,
-      "mos_error": 20.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and noisy, with significant distortion and discontinuity. Although it has a moderate volume, the overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -2161,10 +2036,9 @@
       "col": 2.9,
       "loud": 1.5,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and discontinuity, and it also contains some distortion. Although its loudness is soft but understandable, I think it is an average synthesized speech with overall MOS of 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 1.4
     },
     {
       "audios": [
@@ -2177,10 +2051,9 @@
       "col": 1.9,
       "loud": 1.5,
       "dis": 2.5,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2",
-      "predicted_mos": 22.0,
-      "mos_error": 20.6,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy, and discontinuous with significant distortion. The overall MOS score is only 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2193,10 +2066,9 @@
       "col": 1.9,
       "loud": 1.9,
       "dis": 4.1,
-      "predicted_response": "2 with a MOS of 4  3   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.6,
-      "bleu": 8.380500118622762e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -2209,10 +2081,9 @@
       "col": 2.0,
       "loud": 1.5,
       "dis": 2.9,
-      "predicted_response": "4 with a MOS of   2   with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise and moderate distortion. It also has some discontinuity and a relatively quiet volume. Overall, I would rate its MOS score as 2.0.",
       "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 8.651185699279904e-232
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2225,10 +2096,9 @@
       "col": 3.0,
       "loud": 2.9,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 3.5120306368345166e-155
+      "predicted_response": "This synthesized speech has a moderate level of noise and discontinuity, and it also suffers from significant distortion. Although the loudness is relatively soft but understandable, the overall MOS score is about 3.4.",
+      "predicted_mos": 3.4,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -2241,10 +2111,9 @@
       "col": 2.1,
       "loud": 1.6,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -2257,10 +2126,9 @@
       "col": 2.4,
       "loud": 3.0,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2273,10 +2141,9 @@
       "col": 1.4,
       "loud": 1.4,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 6.3442617892539425e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, significant distortion, and discontinuity. Although it has a moderate volume, the overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -2289,10 +2156,9 @@
       "col": 2.1,
       "loud": 2.0,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is somewhat unnatural, resulting in an overall MOS score of 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2305,10 +2171,9 @@
       "col": 2.6,
       "loud": 2.9,
       "dis": 3.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2321,10 +2186,9 @@
       "col": 3.6,
       "loud": 3.6,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has moderate loudness, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.5999999999999999
     },
     {
       "audios": [
@@ -2337,10 +2201,9 @@
       "col": 2.5,
       "loud": 2.7,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.3,
-      "bleu": 3.3545017776435373e-155
+      "predicted_response": "This synthesized speech is moderately clean and has a soft but understandable volume. However, it suffers from moderate distortion and discontinuity. Overall, I would rate its MOS score as 3.8.",
+      "predicted_mos": 3.8,
+      "mos_error": 1.0999999999999996
     },
     {
       "audios": [
@@ -2353,10 +2216,9 @@
       "col": 1.6,
       "loud": 1.7,
       "dis": 2.2,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.6,
-      "bleu": 8.349518072205185e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -2369,10 +2231,9 @@
       "col": 1.7,
       "loud": 1.8,
       "dis": 2.5,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 2.3894976103439767e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level, but it suffers from significant distortion and discontinuity. Although the volume is soft but understandable, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.19999999999999996
     },
     {
       "audios": [
@@ -2385,10 +2246,9 @@
       "col": 2.5,
       "loud": 1.7,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2401,10 +2261,9 @@
       "col": 1.9,
       "loud": 1.4,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.3,
-      "bleu": 9.452322961974386e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7
     },
     {
       "audios": [
@@ -2417,10 +2276,9 @@
       "col": 1.8,
       "loud": 2.7,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 3.379259927806652e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2433,10 +2291,9 @@
       "col": 2.4,
       "loud": 2.3,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech has a relatively low level of noise. However, it suffers from moderate distortion and discontinuity. The volume is also somewhat soft. Overall, I would rate its MOS score as 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2449,10 +2306,9 @@
       "col": 2.2,
       "loud": 3.2,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 9.52208653546315e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a relatively low volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -2465,10 +2321,9 @@
       "col": 1.9,
       "loud": 2.5,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 7.517155770510923e-232
+      "predicted_response": "This synthesized speech has good continuity and a moderate volume. However, it suffers from somewhat noisy and significantly distorted audio quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2481,10 +2336,9 @@
       "col": 2.2,
       "loud": 2.1,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has noticeable issues. It suffers from somewhat noisy and moderately distorted sound, with slight discontinuity. The volume is also relatively quiet. Given these factors, I would rate its overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2497,10 +2351,9 @@
       "col": 2.4,
       "loud": 1.8,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech has a moderate level of continuity, but it is somewhat noisy and quiet. It also contains significant distortion, which affects its overall quality. The overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2513,10 +2366,9 @@
       "col": 1.8,
       "loud": 3.2,
       "dis": 3.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural and has a relatively low overall quality. It suffers from noticeable noise, moderate distortion, and discontinuity, which negatively impact its clarity. The volume is also somewhat quiet, making it less audible. Overall, I would rate the MOS score of this speech as 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2529,10 +2381,9 @@
       "col": 2.2,
       "loud": 2.6,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is relatively clean but has some discontinuity issues. Although it is moderately distorted, its overall quality is somewhat unnatural, with an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -2545,10 +2396,9 @@
       "col": 1.8,
       "loud": 2.3,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech is somewhat clean but suffers from severe discontinuity and significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.8000000000000003
     },
     {
       "audios": [
@@ -2561,10 +2411,9 @@
       "col": 2.6,
       "loud": 2.9,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 8.93945512687472e-232
+      "predicted_response": "This synthesized speech has moderate noise level and acceptable loudness. However, it suffers from significant distortion and discontinuity, which greatly affects its overall quality. The overall MOS score is about 1.6.",
+      "predicted_mos": 1.6,
+      "mos_error": 1.4
     },
     {
       "audios": [
@@ -2577,10 +2426,9 @@
       "col": 1.9,
       "loud": 1.3,
       "dis": 3.0,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 40.6,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, moderate distortion, and discontinuity. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -2593,10 +2441,9 @@
       "col": 2.0,
       "loud": 1.9,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is relatively clean but suffers from severe distortion and discontinuity. Although it has moderate loudness, the overall MOS score is only 1.0, indicating very poor synthetic quality.",
+      "predicted_mos": 1.0,
+      "mos_error": 1.7999999999999998
     },
     {
       "audios": [
@@ -2609,10 +2456,9 @@
       "col": 2.5,
       "loud": 3.4,
       "dis": 3.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 6.298451848768724e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although it is soft but understandable in terms of loudness, I think its overall MOS score is about 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2625,10 +2471,9 @@
       "col": 2.3,
       "loud": 2.7,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 3.3065753972821387e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, which greatly affects its overall quality. Although the volume is soft but understandable, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2641,10 +2486,9 @@
       "col": 1.6,
       "loud": 1.3,
       "dis": 1.9,
-      "predicted_response": "4 with a MOS of   2   with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
+      "predicted_response": "This synthesized speech has a moderate level of noise and is somewhat discontinuous. It also suffers from significant distortion, which affects its overall quality. Although the volume is relatively soft, the overall MOS score is about 2.0.",
       "predicted_mos": 2.0,
-      "mos_error": 0.3999999999999999,
-      "bleu": 9.296304027068154e-232
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2657,10 +2501,9 @@
       "col": 1.7,
       "loud": 1.7,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.6,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.5999999999999999
     },
     {
       "audios": [
@@ -2673,10 +2516,9 @@
       "col": 1.5,
       "loud": 1.2,
       "dis": 3.5,
-      "predicted_response": "2 with a MOS of  22 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech has a relatively low level of noise. However, it suffers from significant distortion and discontinuity, which greatly impacts its overall quality. Additionally, the volume is somewhat quiet. Given these issues, I would rate the overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2689,10 +2531,9 @@
       "col": 2.4,
       "loud": 1.7,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.2,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat unnatural with noticeable noise, significant distortion, and discontinuity. Although it has a moderate volume, the overall quality is affected by its noisy and discontinuous characteristics, resulting in an overall MOS score of 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2705,10 +2546,9 @@
       "col": 1.5,
       "loud": 1.5,
       "dis": 2.7,
-      "predicted_response": "2 with a MOS of  22  with an MOS of   2 with a MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 8.412065649527267e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy, and discontinuous with severe distortion. The overall MOS score is 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2721,10 +2561,9 @@
       "col": 2.0,
       "loud": 1.3,
       "dis": 2.4,
-      "predicted_response": "2 with a MOS of  22  2 with an MOS of   2 with a MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of",
-      "predicted_mos": 22.0,
-      "mos_error": 21.0,
-      "bleu": 7.630227436828953e-232
+      "predicted_response": "This synthesized speech is extremely quiet, noisy and discontinuous with significant distortion. The overall MOS score is 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -2737,10 +2576,9 @@
       "col": 2.1,
       "loud": 2.4,
       "dis": 2.9,
-      "predicted_response": "2 with a MOS of  22  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of   with a MOS of  2 with a MOS of  2 with a MOS of  2 with",
-      "predicted_mos": 22.0,
-      "mos_error": 20.4,
-      "bleu": 9.005433441115789e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and distortion, and is somewhat discontinuous. Although it is soft but understandable in terms of loudness, the overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2753,10 +2591,9 @@
       "col": 2.1,
       "loud": 1.8,
       "dis": 2.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.6,
-      "bleu": 8.319100378795605e-232
+      "predicted_response": "This synthesized speech has good continuity and is relatively clear and loud. However, it suffers from somewhat noisy background and moderate distortion, which affects its overall quality. The overall MOS score is about 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 1.8000000000000003
     },
     {
       "audios": [
@@ -2769,10 +2606,9 @@
       "col": 1.7,
       "loud": 1.7,
       "dis": 3.4,
-      "predicted_response": "2 with a MOS of  4  3  with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  2 with a MOS of   with a MOS of  2 with",
-      "predicted_mos": 4.0,
-      "mos_error": 2.4,
-      "bleu": 8.412065649527267e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although its loudness is understandable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2785,10 +2621,9 @@
       "col": 1.6,
       "loud": 1.9,
       "dis": 3.1,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.3,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.30000000000000004
     },
     {
       "audios": [
@@ -2801,10 +2636,9 @@
       "col": 1.9,
       "loud": 3.0,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 3.2050345448863812e-155
+      "predicted_response": "This synthesized speech has good continuity. However, it suffers from somewhat noisy and moderately distorted, which affects its overall quality. The loudness is relatively soft but understandable. Given these factors, I would rate the overall MOS score of this speech as 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -2817,10 +2651,9 @@
       "col": 3.1,
       "loud": 3.2,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.2,
-      "bleu": 2.530465559854518e-155
+      "predicted_response": "This synthesized speech has moderate continuity and acceptable loudness. However, it suffers from noticeable noise and moderate distortion, which affects its overall quality. The overall MOS score is about 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.5999999999999996
     },
     {
       "audios": [
@@ -2833,10 +2666,9 @@
       "col": 2.7,
       "loud": 4.0,
       "dis": 4.3,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 2.530465559854518e-155
+      "predicted_response": "This synthesized speech has a moderate level of noise, but it is relatively continuous. However, it suffers from significant distortion, which affects its overall quality. The loudness is also somewhat soft. Given these factors, I would rate the overall MOS score as 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2849,10 +2681,9 @@
       "col": 3.5,
       "loud": 3.6,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.2,
-      "bleu": 2.987828154071247e-155
+      "predicted_response": "This synthesized speech has a moderate level of continuity and acceptable loudness. However, it suffers from somewhat noisy background and noticeable distortion. Overall, I would rate its MOS score as 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.19999999999999973
     },
     {
       "audios": [
@@ -2865,10 +2696,9 @@
       "col": 2.3,
       "loud": 3.8,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech has a moderate level of noise and distortion, and it is somewhat discontinuous. Although the loudness is soft but understandable, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.20000000000000018
     },
     {
       "audios": [
@@ -2881,10 +2711,9 @@
       "col": 3.4,
       "loud": 3.2,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.2,
-      "bleu": 3.2050345448863812e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 1.9999999999999998
     },
     {
       "audios": [
@@ -2897,10 +2726,9 @@
       "col": 2.1,
       "loud": 4.0,
       "dis": 4.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.0,
-      "bleu": 2.7353319119103705e-155
+      "predicted_response": "This synthesized speech has good continuity and relatively low noise level. However, it suffers from significant distortion and is somewhat quiet. Considering these factors, I think its overall MOS score is about 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -2913,10 +2741,9 @@
       "col": 2.5,
       "loud": 3.7,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 6.367803053737255e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, I think its overall MOS score is about 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -2929,10 +2756,9 @@
       "col": 1.6,
       "loud": 2.8,
       "dis": 3.5,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 8.972141065609098e-232
+      "predicted_response": "This synthesized speech has a relatively low level of noise, but it suffers from significant distortion and discontinuity. Although the volume is soft but understandable, the overall MOS score is only 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -2945,10 +2771,9 @@
       "col": 2.2,
       "loud": 2.3,
       "dis": 4.4,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 6.3211493403261365e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from moderate distortion and discontinuity, which affects its overall quality. The loudness is also somewhat soft. Given these factors, I would rate the overall MOS score as 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 1.0
     },
     {
       "audios": [
@@ -2961,10 +2786,9 @@
       "col": 1.6,
       "loud": 3.1,
       "dis": 3.3,
-      "predicted_response": "4 with a MOS of   2   with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 0.19999999999999996,
-      "bleu": 7.601159375410181e-232
+      "predicted_response": "This synthesized speech has moderate distortion and discontinuity, and is somewhat noisy. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.9999999999999998
     },
     {
       "audios": [
@@ -2977,10 +2801,9 @@
       "col": 2.1,
       "loud": 2.3,
       "dis": 4.0,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 3.379259927806652e-155
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, and is also extremely quiet. The overall MOS score is about 1.0.",
+      "predicted_mos": 1.0,
+      "mos_error": 1.7999999999999998
     },
     {
       "audios": [
@@ -2993,10 +2816,9 @@
       "col": 2.3,
       "loud": 3.4,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 3.658453393965431e-155
+      "predicted_response": "This synthesized speech is extremely quiet, noisy, and discontinuous with significant distortion. The overall MOS score is only 1.2.",
+      "predicted_mos": 1.2,
+      "mos_error": 2.0
     },
     {
       "audios": [
@@ -3009,10 +2831,9 @@
       "col": 3.0,
       "loud": 2.5,
       "dis": 4.1,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 2.7353319119103705e-155
+      "predicted_response": "This synthesized speech is relatively clean but has some discontinuity issues. Although it has moderate distortion, its overall volume is soft but understandable. Considering these factors, I think it is a mediocre synthesized speech with an overall MOS of 3.6.",
+      "predicted_mos": 3.6,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -3025,10 +2846,9 @@
       "col": 2.3,
       "loud": 4.1,
       "dis": 4.6,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.6,
-      "bleu": 2.5488701582353735e-155
+      "predicted_response": "This synthesized speech is somewhat clean but has severe discontinuity and significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 2.0
     },
     {
       "audios": [
@@ -3041,10 +2861,9 @@
       "col": 3.4,
       "loud": 3.1,
       "dis": 4.2,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of",
-      "predicted_mos": 42.0,
-      "mos_error": 38.8,
-      "bleu": 2.656596643559664e-155
+      "predicted_response": "This synthesized speech is somewhat clean but has moderate discontinuity and distortion. Although it is soft but understandable, the overall MOS score is about 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.40000000000000036
     },
     {
       "audios": [
@@ -3057,10 +2876,9 @@
       "col": 2.3,
       "loud": 2.2,
       "dis": 2.7,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, its overall quality is affected by these issues, resulting in an overall MOS score of 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -3073,10 +2891,9 @@
       "col": 2.9,
       "loud": 2.1,
       "dis": 3.4,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.2,
-      "bleu": 8.651185699279904e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.40000000000000013
     },
     {
       "audios": [
@@ -3089,10 +2906,9 @@
       "col": 2.0,
       "loud": 3.6,
       "dis": 3.7,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 39.2,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from moderate distortion and discontinuity, which affects its overall quality. The volume is also somewhat quiet. Considering these factors, I would rate the overall MOS score of this speech as 2.8.",
+      "predicted_mos": 2.8,
+      "mos_error": 0.0
     },
     {
       "audios": [
@@ -3105,10 +2921,9 @@
       "col": 2.2,
       "loud": 2.4,
       "dis": 2.9,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.8,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech is somewhat clean but has moderate discontinuity and noticeable distortion. The volume is relatively soft but understandable. Given these factors, I would rate its overall MOS score as 3.0.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -3121,10 +2936,9 @@
       "col": 1.7,
       "loud": 2.9,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 2.7353319119103705e-155
+      "predicted_response": "This synthesized speech has a moderate level of noise and some discontinuity, and it is also somewhat distorted. However, its volume is soft but understandable. Given these characteristics, I think it is an average synthesized speech with an overall MOS of 3.2.",
+      "predicted_mos": 3.2,
+      "mos_error": 0.6000000000000001
     },
     {
       "audios": [
@@ -3137,10 +2951,9 @@
       "col": 2.4,
       "loud": 2.4,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with",
-      "predicted_mos": 42.0,
-      "mos_error": 39.4,
-      "bleu": 3.2286895410078598e-155
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous, with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.8.",
+      "predicted_mos": 1.8,
+      "mos_error": 0.8
     },
     {
       "audios": [
@@ -3153,10 +2966,9 @@
       "col": 1.7,
       "loud": 1.5,
       "dis": 3.5,
-      "predicted_response": "2 with a MOS of   2  with an MOS of      with a MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 2.0,
-      "mos_error": 1.0,
-      "bleu": 7.850707993042515e-232
+      "predicted_response": "This synthesized speech is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.4.",
+      "predicted_mos": 1.4,
+      "mos_error": 0.3999999999999999
     },
     {
       "audios": [
@@ -3169,10 +2981,9 @@
       "col": 1.4,
       "loud": 1.4,
       "dis": 4.4,
-      "predicted_response": "2 with a MOS of   4    with an MOS of     with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of    with a MOS of   2 with a MOS of    with a MOS of   2 with a MOS of   2 with a MOS of   2 with a MOS of",
-      "predicted_mos": 4.0,
-      "mos_error": 2.8,
-      "bleu": 8.688236592747187e-232
+      "predicted_response": "This synthesized speech has good continuity and moderate noise level. However, it is somewhat quiet and contains noticeable distortion, which affects its overall quality. The overall MOS score is about 2.6.",
+      "predicted_mos": 2.6,
+      "mos_error": 1.4000000000000001
     },
     {
       "audios": [
@@ -3185,10 +2996,9 @@
       "col": 1.8,
       "loud": 2.3,
       "dis": 3.2,
-      "predicted_response": "4 with a MOS of 42   with an MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS of   with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4 with a MOS of  4",
-      "predicted_mos": 42.0,
-      "mos_error": 40.4,
-      "bleu": 7.544641259221007e-232
+      "predicted_response": "This synthesized speech has a moderate level of distortion and discontinuity, and it is somewhat noisy. Although the volume is soft but understandable, the overall MOS score is only 2.4.",
+      "predicted_mos": 2.4,
+      "mos_error": 0.7999999999999998
     },
     {
       "audios": [
@@ -3201,10 +3011,9 @@
       "col": 3.1,
       "loud": 2.8,
       "dis": 3.9,
-      "predicted_response": "4 with a MOS of 42  4 with an MOS of    with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of   with a MOS of  4 with a MOS",
-      "predicted_mos": 42.0,
-      "mos_error": 40.0,
-      "bleu": 7.572636698440724e-232
+      "predicted_response": "This synthesized speech has a relatively low noise level. However, it suffers from significant distortion and discontinuity, and the volume is somewhat quiet. Given these issues, I would rate its overall MOS score as 2.0.",
+      "predicted_mos": 2.0,
+      "mos_error": 0.0
     }
   ]
 }
