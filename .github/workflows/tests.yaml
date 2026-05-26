@@ -1,19 +1,14 @@
-name: Unit Tests
+name: CPU-safe checks
 
 on:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
+  push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
+
 jobs:
   test:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.12"]
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,14 +17,27 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          uv sync --locked --dev
-          uv tree
+        run: uv sync --locked --dev
 
-      - name: Run tests & coverage
+      - name: Ruff
+        run: uv run ruff check src/ scripts/_legacy/
+
+      - name: Shell syntax check (jobs/)
         run: |
-          uv run coverage run -m pytest tests/
-          uv run coverage report -m
+          set -e
+          for f in $(find jobs -name '*.sh' -type f); do bash -n "$f"; done
+
+      - name: Memory-budget linter
+        run: bash jobs/_lib/lint-budget.sh
+        continue-on-error: true  # known violations from before the firebreak landed
+
+      - name: CPU-safe pytest subset
+        run: |
+          uv run pytest \
+            tests/test_processed_data.py \
+            tests/test_collator.py \
+            tests/test_dataset.py \
+            -q
