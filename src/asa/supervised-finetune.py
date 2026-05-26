@@ -86,6 +86,18 @@ def train(
         None,
         help="Path to a Trainer checkpoint dir to resume from (e.g. models/foo/checkpoint-565). Pass 'auto' to let Trainer pick the latest checkpoint in output_dir.",
     ),
+    hub_model_id: Optional[str] = typer.Option(
+        None,
+        help="HF Hub repo id for streaming checkpoints (e.g. Leng2beat/foo). If set, enables push_to_hub.",
+    ),
+    save_steps: int = typer.Option(
+        200, help="Steps between checkpoint saves. Used when hub_model_id is set."
+    ),
+    save_total_limit: int = typer.Option(
+        1,
+        help="Max local checkpoints to retain (rotation). Keeps /work3 quota bounded.",
+    ),
+    hub_private: bool = typer.Option(True, help="Make Hub repo private."),
 ):
     """Run supervised fine-tuning on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
@@ -158,7 +170,24 @@ def train(
         model_id,
         torch_dtype=dtype,
     )
+
+    push_to_hub = hub_model_id is not None
+    if push_to_hub and is_main:
+        print(
+            f"Hub streaming ENABLED: pushing checkpoints to {hub_model_id} every {save_steps} steps "
+            f"(local rotation: keep last {save_total_limit}; save_only_model=True so each local ckpt stays at model-weights size)."
+        )
+    elif is_main:
+        print(
+            "Hub streaming DISABLED (no --hub-model-id). Final save will land on local disk only "
+            "— this is the fragile path. Pass --hub-model-id to make the run quota-safe."
+        )
+
     # ── 4. Training args ─────────────────────────────────────────────────
+    # Saving: stream to Hub every save_steps with save_only_model=True so each
+    # rotated local ckpt is ~16 GB (model weights only) instead of ~63 GB
+    # (DeepSpeed full ckpt). save_total_limit=1 keeps /work3 quota flat.
+    # Final save is wrapped in try/except below; Hub push is the durable path.
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
@@ -172,13 +201,9 @@ def train(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        # --- SAVING STRATEGY: final-only, model weights only ---
-        # /work3 has a 100 GiB hard cap and a full DeepSpeed checkpoint
-        # (model + optimizer + grad + LR shards) is ~63 GB. Step- and epoch-level
-        # saves blew the quota at step 313 on jobs 28343439 and 28348684.
-        # Only trainer.save_model() at the end, model weights only (~16 GB).
-        # No mid-run resume; gpuh100 24h walltime is enough for our scripts.
-        save_strategy="no",
+        save_strategy="steps" if push_to_hub else "no",
+        save_steps=save_steps,
+        save_total_limit=save_total_limit,
         save_only_model=True,
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else None,
@@ -188,6 +213,10 @@ def train(
         remove_unused_columns=False,
         report_to=report_to,
         run_name=wandb_run_name,
+        push_to_hub=push_to_hub,
+        hub_model_id=hub_model_id,
+        hub_strategy="every_save" if push_to_hub else "end",
+        hub_private_repo=hub_private,
     )
     # ── 5. Train ─────────────────────────────────────────────────────────
     trainer = Trainer(
@@ -212,8 +241,31 @@ def train(
         trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     if is_main:
         print(f"Saving model to {output_dir}")
-    trainer.save_model(str(output_dir))
-    processor.save_pretrained(str(output_dir))
+    try:
+        trainer.save_model(str(output_dir))
+        processor.save_pretrained(str(output_dir))
+        local_save_ok = True
+    except OSError as e:
+        # Quota / disk-full: don't lose the run. Fall through to Hub push.
+        local_save_ok = False
+        if is_main:
+            print(f"WARNING: local save failed ({e!r}). Attempting Hub-only rescue.")
+
+    if push_to_hub and is_main:
+        try:
+            trainer.push_to_hub(commit_message="final model", blocking=True)
+            processor.push_to_hub(hub_model_id, private=hub_private)
+            print(f"Final checkpoint pushed to https://huggingface.co/{hub_model_id}")
+        except Exception as e:
+            print(f"ERROR: final Hub push failed: {e!r}")
+            if not local_save_ok:
+                print("Both local save and Hub push failed — run output is LOST.")
+            raise
+    elif not local_save_ok:
+        raise RuntimeError(
+            "Local save failed and --hub-model-id was not set; run output is lost."
+        )
+
     if wandb_project and is_main:
         wandb.finish()
 
