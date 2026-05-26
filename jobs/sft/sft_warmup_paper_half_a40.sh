@@ -40,7 +40,7 @@ echo "Started  : $(date)"
 echo "=========================================="
 nvidia-smi
 
-torchrun --nproc_per_node=2 src/asa/supervised-finetune.py \
+torchrun --nproc_per_node=2 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --json-path data/processed/train_nisqa_llama_10k.json \
     --data-root data \

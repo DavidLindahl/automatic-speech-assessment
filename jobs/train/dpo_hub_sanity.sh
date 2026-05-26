@@ -34,7 +34,7 @@ mkdir -p "$SANITY_MODEL_DIR"
 # Tiny config: 4 samples, save every step, rotate to 1.
 # Single GPU, no deepspeed — keep variables to a minimum so a failure
 # points at the save plumbing, not at parallelism.
-torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$SANITY_MODEL_DIR" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \

@@ -41,7 +41,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=1 \
-    src/asa/dpo-finetune.py \
+    scripts/train/dpo-finetune.py \
     --model-name dpo_plus2epoch_l40s_h100 \
     --model-id models/sft_warmup_plus2epoch_l40s \
     --json-path "data/processed/train_dpo_10k_plus2epoch_l40s.json" \

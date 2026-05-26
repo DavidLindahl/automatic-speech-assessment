@@ -41,7 +41,7 @@ DATASETS=(
     "data/processed/test_nisqa_indomain.json"
 )
 
-uv run python src/asa/evaluate.py eval-mos \
+uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$MODEL" \
     --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_delimiterfix_eval_sampled" \
     --dataset-path "${DATASETS[0]}" \
@@ -54,7 +54,7 @@ uv run python src/asa/evaluate.py eval-mos \
     --top-p 0.9 \
     --max-new-tokens 150
 
-uv run python scripts/dpo_sanity_check.py \
+uv run python scripts/diagnostics/dpo_sanity_check.py \
     "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_delimiterfix_eval_sampled"
 
 echo "=========================================="

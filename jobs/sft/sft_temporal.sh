@@ -51,7 +51,7 @@ fi
 
 if [ ! -f "$TRAIN_JSON" ]; then
   echo "Building training JSONL from manifest..."
-  uv run python src/asa/build_nisqa_temporal_json.py \
+  uv run python scripts/data/build_nisqa_temporal_json.py \
     --manifest-path "$OUTPUT_DIR/manifest.csv" \
     --mixes-dir "$OUTPUT_DIR" \
     --caption-jsonl data/processed/train_nisqa_llama_10k.json \
@@ -60,7 +60,7 @@ fi
 
 torchrun \
     --nproc_per_node=1 \
-    src/asa/supervised-finetune.py \
+    scripts/train/supervised-finetune.py \
     --model-name sft_temporal_max_mos3 \
     --json-path "$TRAIN_JSON" \
     --use-query-prompt \

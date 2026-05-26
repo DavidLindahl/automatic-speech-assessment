@@ -37,7 +37,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --model-name sft_temporal_smoke_qwen_base \
     --json-path data/processed/train_temporal_smoke.jsonl \

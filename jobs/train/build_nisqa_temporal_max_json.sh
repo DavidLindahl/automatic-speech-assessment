@@ -40,7 +40,7 @@ if [ ! -f "$MANIFEST_PATH" ]; then
   exit 1
 fi
 
-uv run src/asa/build_nisqa_temporal_json.py \
+uv run scripts/data/build_nisqa_temporal_json.py \
   --manifest-path "$MANIFEST_PATH" \
   --mixes-dir "$OUTPUT_DIR" \
   --caption-jsonl data/processed/train_nisqa_llama_10k.json \

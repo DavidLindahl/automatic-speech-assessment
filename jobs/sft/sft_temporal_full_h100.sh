@@ -31,7 +31,7 @@ fi
 
 echo "Dataset  : $TRAIN_JSON"
 
-torchrun --nproc_per_node=1 src/asa/supervised-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --json-path "$TRAIN_JSON" \
     --data-root data \

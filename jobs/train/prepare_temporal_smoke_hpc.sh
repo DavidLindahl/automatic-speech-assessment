@@ -28,7 +28,7 @@ echo "Host     : $(hostname)"
 echo "Started  : $(date)"
 echo "=========================================="
 
-uv run python scripts/prepare_temporal_smoke.py \
+uv run python scripts/data/prepare_temporal_smoke.py \
     --train-samples 1000 \
     --test-samples 200
 

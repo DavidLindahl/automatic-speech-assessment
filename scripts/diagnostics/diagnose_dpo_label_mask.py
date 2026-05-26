@@ -25,7 +25,7 @@ This script:
 Runs CPU-only - no GPU needed, no model weights loaded for the policy
 forward pass.
 
-    uv run python scripts/diagnose_dpo_label_mask.py
+    uv run python scripts/diagnostics/diagnose_dpo_label_mask.py
 """
 
 from __future__ import annotations

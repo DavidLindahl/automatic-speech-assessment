@@ -38,7 +38,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/supervised-finetune.py \
     --model-id models/sft_warmup_plus1epoch \
     --model-name sft_warmup_plus2epoch_l40s \
     --bf16 \

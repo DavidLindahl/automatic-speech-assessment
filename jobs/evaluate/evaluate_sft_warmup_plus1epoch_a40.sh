@@ -42,7 +42,7 @@ DATASETS=(
 )
 
 echo "Evaluating datasets: ${DATASETS[*]}"
-uv run python src/asa/evaluate.py \
+uv run python scripts/eval/evaluate.py \
     --model-path "$MODEL_PATH" \
     --output-dir "$OUTPUT_PATH" \
     --dataset-path "${DATASETS[0]}" \

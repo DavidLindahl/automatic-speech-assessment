@@ -68,7 +68,7 @@ if [ ! -f "$DATASET_PATH" ]; then
   exit 1
 fi
 
-uv run python src/asa/evaluate_temporal.py \
+uv run python scripts/eval/evaluate_temporal.py \
   --model-path "$MODEL_PATH" \
   --dataset-path "$DATASET_PATH" \
   --data-root data \

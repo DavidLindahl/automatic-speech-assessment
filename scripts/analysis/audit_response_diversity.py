@@ -6,7 +6,7 @@ training data has enough surface variety for the model to learn from.
 
 Usage::
 
-    uv run python scripts/audit_response_diversity.py \
+    uv run python scripts/analysis/audit_response_diversity.py \
         data/processed/train_nisqa_llama_10k.json \
         --top-k 10
 """

@@ -46,7 +46,7 @@ echo "Branch   : $(git branch --show-current 2>/dev/null || echo unknown)"
 # DPO LR-1e-6 ablation with the delimiter fix. --save-intermediate writes
 # a local checkpoint every 100 steps (keep last 4) so the collapse-onset
 # curve can be measured. No --hub-model-id -> Hub push disabled.
-torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100_lr1e6_delimiterfix" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \

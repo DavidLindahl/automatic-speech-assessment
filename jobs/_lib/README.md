@@ -24,7 +24,7 @@ a startup banner.
 
 source "$(dirname "$0")/../_lib/preamble.sh"
 
-torchrun --nproc_per_node=1 src/asa/supervised-finetune.py ...
+torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py ...
 ```
 
 Source the preamble **after** the `#BSUB` header — LSF reads BSUB directives

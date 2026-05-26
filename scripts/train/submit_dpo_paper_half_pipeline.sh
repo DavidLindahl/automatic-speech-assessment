@@ -2,7 +2,7 @@
 ### ============================================================
 ### DTU HPC — Submit the paper-style warmup -> DPO -> eval pipeline
 ### Run from repo root on the HPC login node:
-###   bash scripts/submit_dpo_paper_half_pipeline.sh
+###   bash scripts/train/submit_dpo_paper_half_pipeline.sh
 ### ============================================================
 
 set -euo pipefail

@@ -97,7 +97,7 @@ OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
 echo "Eligible rows (MOS <= 3.0, active tags): $TOTAL_MIX_FILES"
 echo "Output dir: $OUTPUT_DIR"
 
-uv run python src/asa/generate_nisqa_sim_lowmos_active.py \
+uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
   --total-mix-files "$TOTAL_MIX_FILES" \
   --mos-max-threshold 3.0 \
   --output-dir "$OUTPUT_DIR" \

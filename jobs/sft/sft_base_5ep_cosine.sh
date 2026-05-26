@@ -39,7 +39,7 @@ echo "Started  : $(date)"
 echo "=========================================="
 nvidia-smi
 
-torchrun --nproc_per_node=1 src/asa/supervised-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-name sft_base_5ep_cosine \
     --json-path data/processed/train_nisqa_llama_indomain.json \
     --bf16 \

@@ -20,7 +20,7 @@ source "$(dirname "$0")/../_lib/preamble.sh"
 # Hub repo to stream checkpoints into. Override at submit time with HUB_MODEL_ID=...
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup}"
 
-torchrun --nproc_per_node=1 src/asa/supervised-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --json-path data/processed/train_nisqa_llama_10k.json \
     --data-root data \

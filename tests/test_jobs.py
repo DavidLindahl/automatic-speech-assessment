@@ -56,7 +56,7 @@ class JobInvocation:
         job_script: Path to the job script that contains the command.
         line_number: Starting line number of the logical command.
         runner: High-level command runner used (`torchrun`, `uv`, `python`).
-        target: Python file path token (for example ``src/asa/evaluate.py``).
+        target: Python file path token (for example ``scripts/eval/evaluate.py``).
         args: Argument tokens passed to the Python target.
         raw: Raw logical command line after continuation-join.
     """
@@ -648,7 +648,12 @@ def test_job_python_targets_exist(invocation: JobInvocation) -> None:
 
 @pytest.mark.parametrize(
     "invocation",
-    [inv for inv in JOB_INVOCATIONS if inv.target.startswith("src/asa/")],
+    [
+        inv
+        for inv in JOB_INVOCATIONS
+        if inv.target.startswith(("src/asa/", "scripts/train/", "scripts/eval/",
+                                  "scripts/data/", "scripts/diagnostics/"))
+    ],
     ids=_invocation_id,
 )
 def test_asa_job_arguments_parse_with_typer(invocation: JobInvocation) -> None:

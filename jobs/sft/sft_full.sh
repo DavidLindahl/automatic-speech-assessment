@@ -40,7 +40,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/supervised-finetune.py \
     --model-name sft_full \
     --bf16 \
     --deepspeed configs/ds_zero2.json \

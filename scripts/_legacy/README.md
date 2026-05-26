@@ -31,7 +31,7 @@ python scripts/_legacy/legacy_data_cli.py generate-captions data/raw data/proces
 ## Why it's archived, not deleted
 
 The 2026-04-13 pivot moved supervision to synthetic NISQA-SIM mixes with
-construction-time ground truth (see `src/asa/generate_nisqa_sim_lowmos_active.py`
-and `src/asa/build_nisqa_temporal_json.py`). Caption-generation is no longer
+construction-time ground truth (see `scripts/data/generate_nisqa_sim_lowmos_active.py`
+and `scripts/data/build_nisqa_temporal_json.py`). Caption-generation is no longer
 how training data is produced. The code stays here so a past run can be
 reproduced if needed.

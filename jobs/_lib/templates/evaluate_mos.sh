@@ -15,7 +15,7 @@
 #   MAX_NEW_TOKENS — generation budget (default: 150)
 #   TEMPERATURE   — sampling temperature when DECODE_MODE=sampled (default: 0.7)
 #   TOP_P         — nucleus top-p when DECODE_MODE=sampled (default: 0.9)
-#   RUN_SANITY    — "1" to run scripts/dpo_sanity_check.py after eval (default: 1)
+#   RUN_SANITY    — "1" to run scripts/diagnostics/dpo_sanity_check.py after eval (default: 1)
 #
 # Drivers should `set -euo pipefail` themselves before sourcing the preamble.
 
@@ -57,7 +57,7 @@ for ds in "${DATASETS[@]}"; do
     dataset_args+=(--dataset-path "$ds")
 done
 
-uv run python src/asa/evaluate.py eval-mos \
+uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$EXPERIMENT_DIR/models/$MODEL_NAME" \
     --output-dir "$OUTPUT_DIR" \
     "${dataset_args[@]}" \
@@ -66,7 +66,7 @@ uv run python src/asa/evaluate.py eval-mos \
     "${DECODE_FLAGS[@]}"
 
 if [ "$RUN_SANITY" = "1" ]; then
-    uv run python scripts/dpo_sanity_check.py "$OUTPUT_DIR"
+    uv run python scripts/diagnostics/dpo_sanity_check.py "$OUTPUT_DIR"
 fi
 
 echo "=========================================="

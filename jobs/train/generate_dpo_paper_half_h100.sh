@@ -37,7 +37,7 @@ echo "Started  : $(date)"
 echo "=========================================="
 nvidia-smi
 
-uv run python src/asa/generate_dpo_data.py \
+uv run python scripts/data/generate_dpo_data.py \
     --input-json data/processed/train_nisqa_llama_10k.json \
     --output-json "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100.json" \
     --model-path "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
@@ -47,7 +47,7 @@ uv run python src/asa/generate_dpo_data.py \
     --temperature 1.1 \
     --top-p 0.9
 
-uv run python src/asa/sanity_check_dpo.py \
+uv run python scripts/diagnostics/sanity_check_dpo.py \
     "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100.json"
 
 echo "=========================================="

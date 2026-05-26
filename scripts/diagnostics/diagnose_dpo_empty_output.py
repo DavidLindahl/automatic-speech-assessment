@@ -11,7 +11,7 @@ Hypotheses to test (in order):
   C. Something else - we'll see the raw output and decide.
 
 Usage:
-    uv run python scripts/diagnose_dpo_empty_output.py \
+    uv run python scripts/diagnostics/diagnose_dpo_empty_output.py \
         --model models/dpo_paper_half_h100 \
         --dataset data/processed/test_LIVE.json \
         --num 3

@@ -5,7 +5,7 @@ segment per clip.
 
 ## Script
 
-`src/asa/generate_nisqa_sim_lowmos_active.py`
+`scripts/data/generate_nisqa_sim_lowmos_active.py`
 
 ## What It Produces
 
@@ -22,7 +22,7 @@ segment per clip.
 Generate the full dataset (3000 files):
 
 ```bash
-uv run python src/asa/generate_nisqa_sim_lowmos_active.py \
+uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
   --total-mix-files 3000 \
   --output-dir data/processed/nisqa_sim_mix_lowmos_active_3000 \
   --overwrite
@@ -41,7 +41,7 @@ uv run python src/asa/generate_nisqa_sim_lowmos_active.py \
 See all options:
 
 ```bash
-uv run python src/asa/generate_nisqa_sim_lowmos_active.py --help
+uv run python scripts/data/generate_nisqa_sim_lowmos_active.py --help
 ```
 
 ## Inspector Website
@@ -70,7 +70,7 @@ uv run python -m http.server 8000
 Reuse existing NISQA captions and inject temporal targets without new Gemini calls:
 
 ```bash
-uv run python src/asa/build_nisqa_temporal_json.py \
+uv run python scripts/data/build_nisqa_temporal_json.py \
   --manifest-path data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv \
   --caption-jsonl data/processed/train_nisqa_llama_10k.json \
   --mixes-dir data/processed/nisqa_sim_mix_lowmos_active_3000 \
@@ -91,7 +91,7 @@ When fine-tuning, pass `--use-query-prompt` so the model sees the timestamp-loca
 Run temporal inference and compute localization metrics (t-IoU, hit rates, start/end timestamp errors):
 
 ```bash
-uv run python src/asa/evaluate_temporal.py \
+uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
   --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \
@@ -104,7 +104,7 @@ uv run python src/asa/evaluate_temporal.py \
 For a quick smoke check before a full run:
 
 ```bash
-uv run python src/asa/evaluate_temporal.py \
+uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
   --dataset-path data/processed/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \

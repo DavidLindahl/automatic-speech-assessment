@@ -49,7 +49,7 @@ run_eval() {
     echo "=========================================="
     echo "Evaluating $model_path -> $out_dir"
     echo "=========================================="
-    uv run python src/asa/evaluate.py eval-mos \
+    uv run python scripts/eval/evaluate.py eval-mos \
         --model-path "$model_path" \
         --output-dir "$out_dir" \
         --dataset-path "${DATASETS[0]}" \

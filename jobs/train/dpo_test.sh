@@ -59,7 +59,7 @@ nvidia-smi
 # Run the new ALLD Finetuning script
 torchrun \
     --nproc_per_node=2 \
-    src/asa/dpo-finetune.py \
+    scripts/train/dpo-finetune.py \
     --model-name alld_final \
     --model-id "models/sft_warmup" \
     --ref-model-id "Qwen/Qwen2-7B" \

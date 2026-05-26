@@ -38,7 +38,7 @@ echo "Branch   : $(git branch --show-current 2>/dev/null || echo unknown)"
 # 9979-row dataset. The PROMPT_TEMPLATE "\n" delimiter fix is picked up
 # automatically. No --hub-model-id -> push_to_hub disabled, single clean
 # local save at the end.
-torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100_delimiterfix" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \

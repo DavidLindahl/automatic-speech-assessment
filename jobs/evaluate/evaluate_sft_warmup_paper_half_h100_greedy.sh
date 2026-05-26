@@ -44,7 +44,7 @@ DATASETS=(
     "data/processed/test_nisqa_indomain.json"
 )
 
-uv run python src/asa/evaluate.py eval-mos \
+uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --output-dir "$EXPERIMENT_DIR/results/evaluation/sft_warmup_paper_half_h100_eval_greedy" \
     --dataset-path "${DATASETS[0]}" \

@@ -27,7 +27,7 @@ source "$(dirname "$0")/../_lib/preamble.sh"
 # Distinct Hub repo so the 5e-6 run's repo is untouched.
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-dpo-paper-half-lr1e6}"
 
-torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
+torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100_lr1e6" \
     --model-id "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
     --json-path "$EXPERIMENT_DIR/data/processed/train_dpo_paper_half_h100_clean.json" \

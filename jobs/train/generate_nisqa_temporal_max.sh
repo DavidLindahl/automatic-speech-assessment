@@ -103,7 +103,7 @@ echo "Train json: $TRAIN_JSON"
 
 generate_dataset() {
   target_files="$1"
-  uv run python src/asa/generate_nisqa_sim_lowmos_active.py \
+  uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
     --total-mix-files "$target_files" \
     --mos-max-threshold 3.0 \
     --output-dir "$OUTPUT_DIR" \
@@ -127,7 +127,7 @@ fi
 uv run python notebooks/build_temporal_inspector_site.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv"
 
-uv run src/asa/build_nisqa_temporal_json.py \
+uv run scripts/data/build_nisqa_temporal_json.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv" \
   --mixes-dir "$OUTPUT_DIR" \
   --caption-jsonl data/processed/train_nisqa_llama_10k.json \

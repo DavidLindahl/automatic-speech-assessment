@@ -43,7 +43,7 @@ DATASETS=(
 
 echo ""
 echo "########## 1. eval-mos greedy ##########"
-uv run python src/asa/evaluate.py eval-mos \
+uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$MODEL" \
     --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_lr1e6_delimiterfix_eval_greedy" \
     --dataset-path "${DATASETS[0]}" \
@@ -56,12 +56,12 @@ uv run python src/asa/evaluate.py eval-mos \
 
 echo ""
 echo "########## 2. sanity check (empty/diversity) ##########"
-uv run python scripts/dpo_sanity_check.py \
+uv run python scripts/diagnostics/dpo_sanity_check.py \
     "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_lr1e6_delimiterfix_eval_greedy"
 
 echo ""
 echo "########## 3. EOS diagnostic (P(EOS) at step 0) ##########"
-uv run python scripts/diagnose_dpo_empty_output.py \
+uv run python scripts/diagnostics/diagnose_dpo_empty_output.py \
     --model "$MODEL" \
     --dataset data/processed/test_LIVE.json \
     --num 5 \

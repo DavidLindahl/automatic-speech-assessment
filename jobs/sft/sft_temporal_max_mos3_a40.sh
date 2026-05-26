@@ -50,7 +50,7 @@ fi
 
 if [ ! -f "$TRAIN_JSON" ]; then
   echo "JSONL missing; building from manifest."
-  uv run src/asa/build_nisqa_temporal_json.py \
+  uv run scripts/data/build_nisqa_temporal_json.py \
     --manifest-path "$MANIFEST_PATH" \
     --mixes-dir "$OUTPUT_DIR" \
     --caption-jsonl data/processed/train_nisqa_llama_10k.json \
@@ -59,7 +59,7 @@ fi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/supervised-finetune.py \
+    scripts/train/supervised-finetune.py \
     --model-name sft_temporal_max_mos3_a40 \
     --json-path "$TRAIN_JSON" \
     --use-query-prompt \

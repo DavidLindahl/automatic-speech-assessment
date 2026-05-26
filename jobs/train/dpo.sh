@@ -59,7 +59,7 @@ nvidia-smi
 
 torchrun \
     --nproc_per_node=2 \
-    src/asa/dpo-finetune.py \
+    scripts/train/dpo-finetune.py \
     --model-name dpo_warmup_v2 \
     --model-id Leng2beat/speech-quality-assessement-qwen2audio-sft-warmup \
     --json-path "data/processed/train_dpo_10k.json" \
