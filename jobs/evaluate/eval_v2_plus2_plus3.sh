@@ -64,10 +64,10 @@ run_eval() {
 }
 
 run_eval "models/sft_warmup_plus2epoch_l40s" \
-         "results/evaluation/sft_warmup_plus2epoch_l40s_eval_v2"
+         "results/evaluation/sft/sft_warmup_plus2epoch_l40s_eval_v2"
 
 run_eval "models/sft_warmup_plus3epoch_h100_ds_torchrun_retry_plus4" \
-         "results/evaluation/sft_warmup_plus3epoch_h100_ds_torchrun_retry_plus4_eval_v2"
+         "results/evaluation/sft/sft_warmup_plus3epoch_h100_ds_torchrun_retry_plus4_eval_v2"
 
 echo "=========================================="
 echo "Eval v2 complete: $(date)"

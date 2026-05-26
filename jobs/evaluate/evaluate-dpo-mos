@@ -57,7 +57,7 @@ nvidia-smi
 
 # Define which model to evaluate
 MODEL_PATH="models/dpo_final"
-OUTPUT_PATH="results/evaluation/dpo_final"
+OUTPUT_PATH="results/evaluation/dpo/dpo_final"
 
 # Define test datasets (you can add more here)
 DATASETS=(

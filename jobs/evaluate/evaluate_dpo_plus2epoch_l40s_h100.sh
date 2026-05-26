@@ -37,7 +37,7 @@ echo "=========================================="
 nvidia-smi
 
 MODEL_PATH="models/dpo_plus2epoch_l40s_h100"
-OUTPUT_PATH="results/evaluation/dpo_plus2epoch_l40s_h100_eval_h100"
+OUTPUT_PATH="results/evaluation/dpo/dpo_plus2epoch_l40s_h100_eval_h100"
 DATASETS=(
     "data/processed/eval/test_FOR.json"
     "data/processed/eval/test_LIVE.json"

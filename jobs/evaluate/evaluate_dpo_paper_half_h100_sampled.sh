@@ -19,5 +19,6 @@ source "$(dirname "$0")/../_lib/preamble.sh"
 
 MODEL_NAME="dpo_paper_half_h100"
 DECODE_MODE="sampled"
+MODEL_CATEGORY="dpo"
 
 source "$(dirname "$0")/../_lib/templates/evaluate_mos.sh"

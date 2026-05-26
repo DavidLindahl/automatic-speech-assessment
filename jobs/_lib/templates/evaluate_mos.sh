@@ -4,9 +4,10 @@
 # Drivers set env vars; this template reads them and runs the eval.
 #
 # Required env vars:
-#   MODEL_NAME    — checkpoint folder name under $EXPERIMENT_DIR/models/
-#                   (also names the output dir under results/evaluation/)
-#   DECODE_MODE   — "greedy" | "sampled"
+#   MODEL_NAME      — checkpoint folder name under $EXPERIMENT_DIR/models/
+#                     (also names the output dir under results/evaluation/$MODEL_CATEGORY/)
+#   DECODE_MODE     — "greedy" | "sampled"
+#   MODEL_CATEGORY  — "dpo" | "sft" | "temporal" (where the output dir lands)
 #
 # Optional env vars:
 #   DATASETS      — bash array (set by the driver). Defaults to the
@@ -21,6 +22,15 @@
 
 : "${MODEL_NAME:?MODEL_NAME is required}"
 : "${DECODE_MODE:?DECODE_MODE is required (greedy|sampled)}"
+: "${MODEL_CATEGORY:?MODEL_CATEGORY is required (dpo|sft|temporal)}"
+
+case "$MODEL_CATEGORY" in
+    dpo|sft|temporal) ;;
+    *)
+        echo "ERROR: MODEL_CATEGORY must be one of dpo|sft|temporal, got '$MODEL_CATEGORY'" >&2
+        exit 1
+        ;;
+esac
 
 BATCH_SIZE="${BATCH_SIZE:-8}"
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-150}"
@@ -37,7 +47,7 @@ if [ -z "${DATASETS+x}" ]; then
     )
 fi
 
-OUTPUT_DIR="$EXPERIMENT_DIR/results/evaluation/${MODEL_NAME}_eval_${DECODE_MODE}"
+OUTPUT_DIR="$EXPERIMENT_DIR/results/evaluation/${MODEL_CATEGORY}/${MODEL_NAME}_eval_${DECODE_MODE}"
 
 case "$DECODE_MODE" in
     greedy)

@@ -57,7 +57,7 @@ nvidia-smi
 
 # Define which model to evaluate
 MODEL_PATH="models/sft_warmup_regularized"
-OUTPUT_PATH="results/evaluation/sft_warmup_regularized_eval_a40"
+OUTPUT_PATH="results/evaluation/sft/sft_warmup_regularized_eval_a40"
 
 # Define test datasets (you can add more here)
 DATASETS=(

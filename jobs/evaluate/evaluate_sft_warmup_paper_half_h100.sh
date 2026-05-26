@@ -46,7 +46,7 @@ DATASETS=(
 
 uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$EXPERIMENT_DIR/models/sft_warmup_paper_half_h100" \
-    --output-dir "$EXPERIMENT_DIR/results/evaluation/sft_warmup_paper_half_h100_eval_sampled" \
+    --output-dir "$EXPERIMENT_DIR/results/evaluation/sft/sft_warmup_paper_half_h100_eval_sampled" \
     --dataset-path "${DATASETS[0]}" \
     --dataset-path "${DATASETS[1]}" \
     --dataset-path "${DATASETS[2]}" \

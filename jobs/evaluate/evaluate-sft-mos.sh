@@ -57,7 +57,7 @@ nvidia-smi
 
 # Define which model to evaluate
 MODEL_PATH="models/sft_full"
-OUTPUT_PATH="results/evaluation/sft_full_eval"
+OUTPUT_PATH="results/evaluation/sft/sft_full_eval"
 
 # Define test datasets (you can add more here)
 DATASETS=(

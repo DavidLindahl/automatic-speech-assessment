@@ -32,7 +32,7 @@ DATASETS=(
 
 uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$EXPERIMENT_DIR/models/dpo_paper_half_h100/checkpoint-200" \
-    --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_step200_eval_greedy" \
+    --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo/dpo_paper_half_h100_step200_eval_greedy" \
     --dataset-path "${DATASETS[0]}" \
     --dataset-path "${DATASETS[1]}" \
     --dataset-path "${DATASETS[2]}" \
@@ -42,7 +42,7 @@ uv run python scripts/eval/evaluate.py eval-mos \
     --max-new-tokens 150
 
 uv run python scripts/diagnostics/dpo_sanity_check.py \
-    "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_step200_eval_greedy"
+    "$EXPERIMENT_DIR/results/evaluation/dpo/dpo_paper_half_h100_step200_eval_greedy"
 
 echo "=========================================="
 echo "Greedy DPO step-200 evaluation complete: $(date)"

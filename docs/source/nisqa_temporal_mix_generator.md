@@ -95,7 +95,7 @@ uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
   --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \
-  --output-dir results/evaluation/sft_temporal_max_mos3 \
+  --output-dir results/evaluation/temporal/sft_temporal_max_mos3 \
   --batch-size 4 \
   --greedy \
   --use-query-prompt
@@ -109,5 +109,5 @@ uv run python scripts/eval/evaluate_temporal.py \
   --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
   --data-root data \
   --max-samples 64 \
-  --output-dir results/evaluation/sft_temporal_max_mos3_smoke
+  --output-dir results/evaluation/temporal/sft_temporal_max_mos3_smoke
 ```

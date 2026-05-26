@@ -43,7 +43,7 @@ DATASETS=(
 
 uv run python scripts/eval/evaluate.py eval-mos \
     --model-path "$MODEL" \
-    --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled" \
+    --output-dir "$EXPERIMENT_DIR/results/evaluation/dpo/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled" \
     --dataset-path "${DATASETS[0]}" \
     --dataset-path "${DATASETS[1]}" \
     --dataset-path "${DATASETS[2]}" \
@@ -55,7 +55,7 @@ uv run python scripts/eval/evaluate.py eval-mos \
     --max-new-tokens 150
 
 uv run python scripts/diagnostics/dpo_sanity_check.py \
-    "$EXPERIMENT_DIR/results/evaluation/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled"
+    "$EXPERIMENT_DIR/results/evaluation/dpo/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled"
 
 echo "=========================================="
 echo "Sampled delimiter-fix DPO evaluation complete: $(date)"

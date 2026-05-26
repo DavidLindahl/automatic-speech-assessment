@@ -34,7 +34,7 @@ echo "=========================================="
 nvidia-smi
 
 MODEL_PATH="models/sft_warmup_plus1epoch"
-OUTPUT_PATH="results/evaluation/sft_warmup_plus1epoch_eval_a40"
+OUTPUT_PATH="results/evaluation/sft/sft_warmup_plus1epoch_eval_a40"
 DATASETS=(
     "data/processed/eval/test_FOR.json"
     "data/processed/eval/test_LIVE.json"

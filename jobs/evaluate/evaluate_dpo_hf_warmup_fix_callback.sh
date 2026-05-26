@@ -29,7 +29,7 @@ WORKFLOW="inspect-eval-results"
 TODO_FILE="todos/eval_dpo_hf_warmup_fix.md"
 RUN_FILE="runs/2026-04-13_eval_dpo_hf_warmup_fix_inference_28194908.md"
 MODEL_PATH="models/dpo_hf_warmup_fix"
-RESULTS_PATH="results/evaluation/dpo_hf_warmup_fix_eval"
+RESULTS_PATH="results/evaluation/dpo/dpo_hf_warmup_fix_eval"
 
 notify_exit() {
   code="$1"

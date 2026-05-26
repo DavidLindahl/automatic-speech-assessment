@@ -83,7 +83,10 @@ automatic-speech-assessment/
 │
 ├── models/                          # Saved checkpoints (gitignored; on /work3 on HPC)
 ├── results/
-│   ├── evaluation/                    # JSON metric summaries per model + test set
+│   ├── evaluation/                    # JSON metric summaries, grouped by model type
+│   │   ├── dpo/                         # DPO checkpoints
+│   │   ├── sft/                         # SFT checkpoints
+│   │   └── temporal/                    # SFT-on-temporal-mix checkpoints (current scope)
 │   ├── inference/                     # Per-sample predictions
 │   └── analysis/                      # Plots, summary tables
 │
@@ -249,7 +252,7 @@ tail -f logs/<name>_<jobid>.out
 | Location | Contents |
 |----------|----------|
 | `models/<name>/` | Checkpoints (`sft_full`, `sft_warmup`, `dpo_final`, ...) |
-| `results/evaluation/<run>/` | JSON metric summaries per test set (FOR / LIVE / P501 / nisqa_indomain) |
+| `results/evaluation/<dpo\|sft\|temporal>/<run>/` | JSON metric summaries per test set (FOR / LIVE / P501 / nisqa_indomain) |
 | `results/inference/<dataset>/` | Per-sample predictions |
 | `results/analysis/` | Plots, summary tables |
 | `logs/` | Job stdout/stderr |
