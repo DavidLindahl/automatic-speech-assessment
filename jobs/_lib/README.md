@@ -33,6 +33,28 @@ from the literal file header, so they cannot live in a sourced file.
 `jobs/sft/sft_warmup_paper_half_h100.sh` is the reference migration; copy it
 when wiring a new script.
 
+## `templates/`
+
+Reusable job bodies for things that come in variants (decode mode, target
+checkpoint, eval-time hyperparameters). Drivers stay tiny — set env vars,
+source the template.
+
+### `templates/evaluate_mos.sh`
+
+MOS evaluation template for SFT or DPO checkpoints. Drivers set
+`MODEL_NAME` and `DECODE_MODE` (`greedy` | `sampled`), the template handles
+the rest. Reference drivers:
+`jobs/evaluate/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh`.
+
+Knobs (all have defaults): `BATCH_SIZE`, `MAX_NEW_TOKENS`, `TEMPERATURE`,
+`TOP_P`, `RUN_SANITY`, plus a `DATASETS` bash array if you need a non-default
+test set bundle.
+
+This collapses the greedy/sampled variant pair (and any future temperature
+sweep) from ~75 lines apiece down to ~22-line drivers. Existing variant
+scripts have not been retrofitted yet — see the existing list under
+`jobs/evaluate/`.
+
 ## `lint-budget.sh`
 
 Hard rule: LSF interprets `#BSUB -R "rusage[mem=X]"` together with
