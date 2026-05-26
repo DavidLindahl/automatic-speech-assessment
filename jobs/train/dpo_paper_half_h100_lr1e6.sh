@@ -22,53 +22,10 @@
 #BSUB -o /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_lr1e6_%J.out
 #BSUB -e /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_lr1e6_%J.err
 
-set -euo pipefail
-
-PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
-EXPERIMENT_DIR="${EXPERIMENT_DIR:-$PROJECT_DIR}"
-cd "$PROJECT_DIR"
-
-mkdir -p "$EXPERIMENT_DIR/logs" "$EXPERIMENT_DIR/models"
-module load cuda/11.8 || true
-source .venv/bin/activate
-
-export PYTHONUNBUFFERED=1
-export TRITON_CACHE_DIR=/tmp/triton_cache
-
-# HF cache off /work3 to keep quota free for checkpoints.
-if [ -d "/scratch" ] && [ -w "/scratch" ]; then
-    export HF_HOME="/scratch/$USER/hf_cache"
-elif [ -w "/tmp" ]; then
-    export HF_HOME="/tmp/$USER/hf_cache"
-else
-    echo "WARN: no node-local scratch writable; HF cache stays on /work3 (quota risk)"
-    export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
-fi
-mkdir -p "$HF_HOME"
-echo "HF_HOME=$HF_HOME"
-
-# HF auth: explicitly export HF_TOKEN so the Trainer subprocess sees it.
-if [ -n "${HF_TOKEN:-}" ]; then
-    echo "HF auth: using HF_TOKEN env var"
-elif [ -f "$HOME/.cache/huggingface/token" ]; then
-    HF_TOKEN="$(cat "$HOME/.cache/huggingface/token")"
-    echo "HF auth: loaded HF_TOKEN from ~/.cache/huggingface/token"
-else
-    echo "ERROR: no HF auth available. Either export HF_TOKEN or run 'huggingface-cli login' on the HPC."
-    exit 1
-fi
-export HF_TOKEN
+source "$(dirname "$0")/../_lib/preamble.sh"
 
 # Distinct Hub repo so the 5e-6 run's repo is untouched.
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-dpo-paper-half-lr1e6}"
-
-echo "=========================================="
-echo "Job ID   : $LSB_JOBID"
-echo "Host     : $(hostname)"
-echo "GPUs     : ${CUDA_VISIBLE_DEVICES:-none}"
-echo "Started  : $(date)"
-echo "=========================================="
-nvidia-smi
 
 torchrun --nproc_per_node=1 src/asa/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_paper_half_h100_lr1e6" \

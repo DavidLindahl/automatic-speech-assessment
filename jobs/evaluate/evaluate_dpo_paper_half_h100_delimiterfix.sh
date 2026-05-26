@@ -29,38 +29,8 @@
 #BSUB -o /work3/s234817/automatic-speech-assessment/logs/eval_dpo_delimiterfix_%J.out
 #BSUB -e /work3/s234817/automatic-speech-assessment/logs/eval_dpo_delimiterfix_%J.err
 
-set -euo pipefail
-
-PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
-EXPERIMENT_DIR="${EXPERIMENT_DIR:-$PROJECT_DIR}"
-cd "$PROJECT_DIR"
-
-mkdir -p "$EXPERIMENT_DIR/logs" "$EXPERIMENT_DIR/results/evaluation"
-module load cuda/11.8 || true
-source .venv/bin/activate
-
-export PYTHONUNBUFFERED=1
-export TRITON_CACHE_DIR=/tmp/triton_cache
-
-# HF cache off /work3 to keep quota free.
-if [ -d "/scratch" ] && [ -w "/scratch" ]; then
-    export HF_HOME="/scratch/$USER/hf_cache"
-elif [ -w "/tmp" ]; then
-    export HF_HOME="/tmp/$USER/hf_cache"
-else
-    echo "WARN: no node-local scratch; HF cache stays on /work3 (quota risk)"
-    export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
-fi
-mkdir -p "$HF_HOME"
-echo "HF_HOME=$HF_HOME"
-
-echo "=========================================="
-echo "Job ID   : $LSB_JOBID"
-echo "Host     : $(hostname)"
-echo "GPUs     : ${CUDA_VISIBLE_DEVICES:-none}"
-echo "Started  : $(date)"
-echo "=========================================="
-nvidia-smi
+source "$(dirname "$0")/../_lib/preamble.sh"
+mkdir -p "$EXPERIMENT_DIR/results/evaluation"
 
 MODEL="$EXPERIMENT_DIR/models/dpo_paper_half_h100_delimiterfix"
 

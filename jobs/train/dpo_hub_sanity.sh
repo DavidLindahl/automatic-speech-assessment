@@ -19,55 +19,13 @@
 #BSUB -o logs/dpo_hub_sanity_%J.out
 #BSUB -e logs/dpo_hub_sanity_%J.err
 
-set -euo pipefail
-
-PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
-EXPERIMENT_DIR="${EXPERIMENT_DIR:-$PROJECT_DIR}"
-cd "$PROJECT_DIR"
-
-mkdir -p "$EXPERIMENT_DIR/logs" "$EXPERIMENT_DIR/models"
-module load cuda/11.8 || true
-source .venv/bin/activate
-
-export PYTHONUNBUFFERED=1
-export TRITON_CACHE_DIR=/tmp/triton_cache
-
-# HF cache off /work3 — same logic as the real job.
-if [ -d "/scratch" ] && [ -w "/scratch" ]; then
-    export HF_HOME="/scratch/$USER/hf_cache"
-elif [ -w "/tmp" ]; then
-    export HF_HOME="/tmp/$USER/hf_cache"
-else
-    echo "WARN: no node-local scratch writable; HF cache stays on /work3 (quota risk)"
-    export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
-fi
-mkdir -p "$HF_HOME"
-echo "HF_HOME=$HF_HOME"
-
-# HF auth: same fallback chain as the real job.
-if [ -n "${HF_TOKEN:-}" ]; then
-    export HF_TOKEN
-    echo "HF auth: using HF_TOKEN env var"
-elif [ -f "$HOME/.cache/huggingface/token" ] || [ -f "$HOME/.cache/huggingface/stored_tokens" ]; then
-    echo "HF auth: using cached login from ~/.cache/huggingface/"
-else
-    echo "ERROR: no HF auth available. Either export HF_TOKEN or run 'huggingface-cli login' on the HPC."
-    exit 1
-fi
+source "$(dirname "$0")/../_lib/preamble.sh"
 
 # Test-only repo. Override with HUB_MODEL_ID=... if you want a different one.
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/asa-dpo-hub-sanity}"
 SANITY_MODEL_DIR="$EXPERIMENT_DIR/models/dpo_hub_sanity"
-
-echo "=========================================="
-echo "Job ID       : $LSB_JOBID"
-echo "Host         : $(hostname)"
-echo "GPUs         : ${CUDA_VISIBLE_DEVICES:-none}"
-echo "Started      : $(date)"
 echo "Hub repo     : $HUB_MODEL_ID"
 echo "Local dir    : $SANITY_MODEL_DIR"
-echo "=========================================="
-nvidia-smi
 
 # Wipe any prior sanity-run state so rotation/du checks are meaningful.
 rm -rf "$SANITY_MODEL_DIR"

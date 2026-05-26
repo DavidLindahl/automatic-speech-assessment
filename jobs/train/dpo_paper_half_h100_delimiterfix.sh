@@ -31,39 +31,8 @@
 #BSUB -o /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_delimiterfix_%J.out
 #BSUB -e /work3/s234817/automatic-speech-assessment/logs/dpo_paper_half_h100_delimiterfix_%J.err
 
-set -euo pipefail
-
-PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
-EXPERIMENT_DIR="${EXPERIMENT_DIR:-$PROJECT_DIR}"
-cd "$PROJECT_DIR"
-
-mkdir -p "$EXPERIMENT_DIR/logs" "$EXPERIMENT_DIR/models"
-module load cuda/11.8 || true
-source .venv/bin/activate
-
-export PYTHONUNBUFFERED=1
-export TRITON_CACHE_DIR=/tmp/triton_cache
-
-# HF cache off /work3 to keep quota free for the checkpoint.
-if [ -d "/scratch" ] && [ -w "/scratch" ]; then
-    export HF_HOME="/scratch/$USER/hf_cache"
-elif [ -w "/tmp" ]; then
-    export HF_HOME="/tmp/$USER/hf_cache"
-else
-    echo "WARN: no node-local scratch writable; HF cache stays on /work3 (quota risk)"
-    export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
-fi
-mkdir -p "$HF_HOME"
-echo "HF_HOME=$HF_HOME"
-
-echo "=========================================="
-echo "Job ID   : $LSB_JOBID"
-echo "Host     : $(hostname)"
-echo "GPUs     : ${CUDA_VISIBLE_DEVICES:-none}"
-echo "Started  : $(date)"
+source "$(dirname "$0")/../_lib/preamble.sh"
 echo "Branch   : $(git branch --show-current 2>/dev/null || echo unknown)"
-echo "=========================================="
-nvidia-smi
 
 # Full DPO: paper settings (LR 5e-6, beta 0.4, 1 epoch) on the cleaned
 # 9979-row dataset. The PROMPT_TEMPLATE "\n" delimiter fix is picked up

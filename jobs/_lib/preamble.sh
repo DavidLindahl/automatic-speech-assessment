@@ -12,7 +12,8 @@
 #
 # Sets up: strict mode, EXPERIMENT_DIR, cwd, logs/ + models/, CUDA module,
 # venv activation, PYTHONUNBUFFERED, TRITON_CACHE_DIR, HF cache off /work3,
-# HF auth preflight, and a startup banner.
+# HF auth detection (warn-only — jobs that don't push to Hub work fine),
+# and a startup banner.
 
 set -euo pipefail
 
@@ -40,17 +41,23 @@ fi
 mkdir -p "$HF_HOME"
 echo "HF_HOME=$HF_HOME"
 
-# HF auth: prefer env var if set, otherwise rely on cached login from
-# `huggingface-cli login`. Fail fast if neither is available so we don't
-# train for hours and then silently fail to push.
+# HF auth: prefer env var if set, otherwise load the cached login token
+# from disk and EXPORT it explicitly. This matters because we redirect
+# HF_HOME to /scratch above, but the cached token lives at the canonical
+# ~/.cache/huggingface/token. Without an explicit export, the Trainer
+# subprocess sees no HF_HOME token file and 401s on push_to_hub.
+#
+# Warn (not fail) when no token is available so jobs that don't push to
+# the Hub can still use this preamble.
 if [ -n "${HF_TOKEN:-}" ]; then
     export HF_TOKEN
     echo "HF auth: using HF_TOKEN env var"
-elif [ -f "$HOME/.cache/huggingface/token" ] || [ -f "$HOME/.cache/huggingface/stored_tokens" ]; then
-    echo "HF auth: using cached login from ~/.cache/huggingface/"
+elif [ -f "$HOME/.cache/huggingface/token" ]; then
+    HF_TOKEN="$(cat "$HOME/.cache/huggingface/token")"
+    export HF_TOKEN
+    echo "HF auth: loaded HF_TOKEN from ~/.cache/huggingface/token"
 else
-    echo "ERROR: no HF auth available. Either export HF_TOKEN or run 'huggingface-cli login' on the HPC."
-    exit 1
+    echo "WARN: no HF auth available (HF_TOKEN unset and no cached login). Hub pushes will fail. Set HF_TOKEN or run 'huggingface-cli login' on the HPC if this job needs Hub access."
 fi
 
 echo "=========================================="
