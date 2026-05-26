@@ -20,8 +20,8 @@
 #BSUB -R "span[hosts=1]"
 
 ### -- System memory --
-#BSUB -R "rusage[mem=64GB]"
-#BSUB -M 64GB
+#BSUB -R "rusage[mem=32GB]"
+#BSUB -M 32GB
 
 ### -- Walltime --
 #BSUB -W 24:00

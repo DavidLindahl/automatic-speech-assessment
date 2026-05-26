@@ -9,8 +9,8 @@
 #BSUB -n 8
 #BSUB -gpu "num=2:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
-#BSUB -R "rusage[mem=64GB]"
-#BSUB -M 64GB
+#BSUB -R "rusage[mem=32GB]"
+#BSUB -M 32GB
 #BSUB -W 24:00
 #BSUB -o logs/sft_temporal_max_mos3_a40_%J.out
 #BSUB -e logs/sft_temporal_max_mos3_a40_%J.err

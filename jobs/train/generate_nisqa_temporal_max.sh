@@ -14,8 +14,8 @@
 #BSUB -n 8
 
 ### -- System memory --
-#BSUB -R "rusage[mem=64GB]"
-#BSUB -M 64GB
+#BSUB -R "rusage[mem=16GB]"
+#BSUB -M 16GB
 
 ### -- Walltime --
 #BSUB -W 24:00
