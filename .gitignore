@@ -188,6 +188,10 @@ data/.DS_Store
 data/processed/nisqa_sim_mix_only_40/
 data/processed/nisqa_sim_mix_lowmos_40/
 data/processed/nisqa_sim_mix_lowmos_active_40/
+data/processed/temporal/nisqa_sim_mix_lowmos_active_max_mos3/
+data/processed/temporal/nisqa_test_for_mixes/
+data/processed/temporal/nisqa_test_live_mixes/
+data/processed/temporal/nisqa_test_p501_mixes/
 
 # HPC job artifacts
 *.out

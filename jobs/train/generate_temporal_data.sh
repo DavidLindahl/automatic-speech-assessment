@@ -92,7 +92,7 @@ if [ -z "$TOTAL_MIX_FILES" ] || [ "$TOTAL_MIX_FILES" -le 0 ]; then
   exit 1
 fi
 
-OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
+OUTPUT_DIR="data/processed/temporal/nisqa_sim_mix_lowmos_active_max_mos3"
 
 echo "Eligible rows (MOS <= 3.0, active tags): $TOTAL_MIX_FILES"
 echo "Output dir: $OUTPUT_DIR"

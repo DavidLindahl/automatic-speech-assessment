@@ -13,6 +13,5 @@ matching `--json-path` or `--dataset-path` argument in `jobs/`.
 | `intermediate/` | Build artifacts and AB legacy. `ab_dataset.json`, `ab-test-set-captions.json` are pre-2026-04-13 AB direction; `mos_dataset.json` is the pre-caption MOS dataset. Not direct training inputs. |
 
 Generated mix output dirs (e.g. `nisqa_sim_mix_lowmos_active_3000/`,
-`nisqa_sim_mix_lowmos_active_max_mos3/`) live alongside these subdirs;
-they're built by `scripts/data/generate_nisqa_sim_lowmos_active.py` and
-mostly gitignored.
+`temporal/nisqa_sim_mix_lowmos_active_max_mos3/`) are built by
+`scripts/data/generate_nisqa_sim_lowmos_active.py` and mostly gitignored.

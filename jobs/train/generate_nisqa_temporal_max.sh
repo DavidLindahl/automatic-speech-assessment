@@ -93,7 +93,7 @@ if [ -z "$TOTAL_MIX_FILES" ] || [ "$TOTAL_MIX_FILES" -le 0 ]; then
   exit 1
 fi
 
-OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
+OUTPUT_DIR="data/processed/temporal/nisqa_sim_mix_lowmos_active_max_mos3"
 TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json"
 JOB_TAG="${LSB_JOBID:-local}"
 GEN_LOG="logs/gen_nisqa_temporal_max_${JOB_TAG}.tmp.log"

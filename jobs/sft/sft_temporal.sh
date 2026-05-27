@@ -17,7 +17,7 @@
 
 source "$(dirname "$0")/../_lib/preamble.sh"
 
-OUTPUT_DIR="data/processed/nisqa_sim_mix_lowmos_active_max_mos3"
+OUTPUT_DIR="data/processed/temporal/nisqa_sim_mix_lowmos_active_max_mos3"
 TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json"
 
 echo "Dataset  : $OUTPUT_DIR"
