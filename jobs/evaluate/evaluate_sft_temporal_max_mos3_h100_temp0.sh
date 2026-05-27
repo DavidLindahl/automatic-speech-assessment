@@ -33,7 +33,7 @@ mkdir -p "$HUGGINGFACE_HUB_CACHE"
 
 DEFAULT_HUB_MODEL="Leng2beat/speech-quality-assessement-qwen2audio-sft-temporal-max-mos3-partial-step305"
 MODEL_PATH="${MODEL_PATH:-$DEFAULT_HUB_MODEL}"
-DATASET_PATH="data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json"
+DATASET_PATH="data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json"
 OUTPUT_DIR="${OUTPUT_DIR:-results/evaluation/temporal/sft_temporal_max_mos3_h100_temp0}"
 BATCH_SIZE="${BATCH_SIZE:-4}"
 TEMPERATURE="${TEMPERATURE:-0.0}"
@@ -64,7 +64,7 @@ nvidia-smi
 
 if [ ! -f "$DATASET_PATH" ]; then
   echo "Missing dataset file: $DATASET_PATH"
-  echo "Run first: bsub < jobs/train/build_nisqa_temporal_max_json.sh"
+  echo "Run first: bsub < jobs/train/build_temporal_training_json.sh"
   exit 1
 fi
 

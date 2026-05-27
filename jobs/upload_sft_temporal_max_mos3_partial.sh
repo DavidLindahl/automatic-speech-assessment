@@ -4,8 +4,7 @@
 ### Submit with: bsub < jobs/upload_sft_temporal_max_mos3_partial.sh
 ###
 ### Note: this is NOT a finished model. The H100 run died mid-epoch-1
-### at step 305/610. We push the partial checkpoint for archival only.
-### The clean run is sft_temporal_max_mos3_a40 (still pending).
+### at step 305/610. This pushes the partial checkpoint for archival only.
 ### ============================================================
 
 #BSUB -q hpc

@@ -74,14 +74,14 @@ uv run python scripts/data/build_nisqa_temporal_json.py \
   --manifest-path data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv \
   --caption-jsonl data/processed/sft/train_nisqa_llama_10k.json \
   --mixes-dir data/processed/nisqa_sim_mix_lowmos_active_3000 \
-  --output-jsonl data/processed/temporal/train_nisqa_temporal_mix_3000.json
+  --output-jsonl data/processed/temporal/train_nisqa_temporal_mix_3000_localized.json
 ```
 
 The output keeps familiar keys like `audios`, `response`, `query`, and `mos`, and adds temporal fields from the
 manifest (`mix_deg_segments`, `source_degradation_types`, `mix_filename`). Each response is timestamp-supervised in
-this form:
+this compact metadata form:
 
-`... interrupted by <degradation phrase> occurring between <|start|> and <|end|>.`
+`The overall speech is clear, but the quality is interrupted by <degradation> occurring between <|start|> and <|end|>.`
 
 When fine-tuning, pass `--use-query-prompt` so the model sees the timestamp-localization instruction in each record's
 `query` field.
@@ -93,7 +93,7 @@ Run temporal inference and compute localization metrics (t-IoU, hit rates, start
 ```bash
 uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
-  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
+  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json \
   --data-root data \
   --output-dir results/evaluation/temporal/sft_temporal_max_mos3 \
   --batch-size 4 \
@@ -106,7 +106,7 @@ For a quick smoke check before a full run:
 ```bash
 uv run python scripts/eval/evaluate_temporal.py \
   --model-path models/sft_temporal_max_mos3 \
-  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3.json \
+  --dataset-path data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json \
   --data-root data \
   --max-samples 64 \
   --output-dir results/evaluation/temporal/sft_temporal_max_mos3_smoke

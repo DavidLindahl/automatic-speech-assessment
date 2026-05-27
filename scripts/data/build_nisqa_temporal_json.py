@@ -19,9 +19,9 @@ import pandas as pd
 import typer
 
 if __package__ is None or __package__ == "":
-    sys.path.append(str(Path(__file__).resolve().parents[1]))
+    sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
 
-from asa.processed_data import write_processed_records
+from asa.processed_data import load_processed_records, write_processed_records
 
 
 DEGRADATION_LABELS: dict[str, str] = {
@@ -39,8 +39,8 @@ DEGRADATION_LABELS: dict[str, str] = {
 }
 
 DEFAULT_QUERY = (
-    "Please describe and evaluate the synthetic speech<audio>. "
-    "Also localize the degraded region and report timestamps as <|start|> and <|end|>."
+    "Please describe and evaluate the synthetic speech, and find timestamps "
+    "for the degredation<audio>"
 )
 
 app = typer.Typer()
@@ -156,8 +156,28 @@ def build_temporal_response(
     start_time: float,
     end_time: float,
     degradation_phrase: str,
+    label_style: str = "clear-speech-localization",
 ) -> str:
     """Compose target response that includes both quality text and localization."""
+    if label_style == "clear-speech-localization":
+        return (
+            "The overall speech is clear, but the quality is interrupted by "
+            f"{degradation_phrase} occurring between <|{start_time:.2f}|> "
+            f"and <|{end_time:.2f}|>."
+        )
+
+    if label_style == "localization-only":
+        return (
+            f"A localized degradation occurs between <|{start_time:.2f}|> "
+            f"and <|{end_time:.2f}|>."
+        )
+
+    if label_style != "caption-plus-localization":
+        raise ValueError(
+            "label_style must be 'clear-speech-localization', 'localization-only', "
+            "or 'caption-plus-localization'"
+        )
+
     prefix = normalize_caption(base_caption)
     if not prefix.endswith((".", "!", "?")):
         prefix = f"{prefix}."
@@ -166,6 +186,59 @@ def build_temporal_response(
         f"{prefix} The quality is interrupted by {degradation_phrase} "
         f"occurring between <|{start_time:.2f}|> and <|{end_time:.2f}|>."
     )
+
+
+def parse_existing_list_field(value: Any) -> list[Any]:
+    """Parse a list field that may already be a list or JSON-serialized text."""
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return []
+        try:
+            parsed = json.loads(text)
+        except json.JSONDecodeError:
+            return []
+        return parsed if isinstance(parsed, list) else []
+    return []
+
+
+def relabel_existing_temporal_records(
+    records: list[dict[str, Any]],
+    query: str,
+    label_style: str,
+) -> list[dict[str, Any]]:
+    """Rebuild temporal query/response labels from stored segments and types.
+
+    This is useful when the mixed audio and manifest-derived metadata are already
+    present in an existing JSONL, but the textual targets need a new style.
+    """
+    output_records: list[dict[str, Any]] = []
+    for record in records:
+        segments = parse_existing_list_field(record.get("mix_deg_segments", []))
+        start_time, end_time = pick_primary_segment(segments)
+
+        raw_types = parse_existing_list_field(
+            record.get("source_degradation_types", [])
+        )
+        normalized_types = normalize_degradation_types(
+            [str(value) for value in raw_types]
+        )
+        degradation_phrase = format_degradation_phrase(normalized_types)
+
+        updated = dict(record)
+        updated["query"] = query
+        updated["source_degradation_types"] = normalized_types
+        updated["response"] = build_temporal_response(
+            base_caption=str(record.get("response", "")).strip(),
+            start_time=start_time,
+            end_time=end_time,
+            degradation_phrase=degradation_phrase,
+            label_style=label_style,
+        )
+        output_records.append(updated)
+    return output_records
 
 
 def build_caption_index(
@@ -185,6 +258,14 @@ def build_caption_index(
 
 @app.command()
 def main(
+    input_jsonl: Path | None = typer.Option(
+        None,
+        "--input-jsonl",
+        help=(
+            "Existing temporal JSONL to relabel from stored mix_deg_segments and "
+            "source_degradation_types. If set, manifest/caption inputs are skipped."
+        ),
+    ),
     manifest_path: Path = typer.Option(
         Path("data/processed/nisqa_sim_mix_lowmos_active_3000/manifest.csv"),
         help="Temporal mix manifest CSV.",
@@ -209,6 +290,15 @@ def main(
         DEFAULT_QUERY,
         help="Query text stored in each record.",
     ),
+    label_style: str = typer.Option(
+        "clear-speech-localization",
+        help=(
+            "Target text style: 'clear-speech-localization' for the current "
+            "metadata timestamp labels, 'localization-only' for short timestamp "
+            "labels, or 'caption-plus-localization' for the old caption-prefixed "
+            "labels."
+        ),
+    ),
     include_clean_path: bool = typer.Option(
         True,
         "--include-clean-path/--no-include-clean-path",
@@ -216,6 +306,32 @@ def main(
     ),
 ) -> None:
     """Build temporal SFT JSONL for NISQA temporal mixes."""
+    if label_style not in {
+        "clear-speech-localization",
+        "localization-only",
+        "caption-plus-localization",
+    }:
+        raise ValueError(
+            "label_style must be 'clear-speech-localization', 'localization-only', "
+            "or 'caption-plus-localization'"
+        )
+
+    if input_jsonl is not None:
+        if not input_jsonl.exists():
+            raise FileNotFoundError(f"Input temporal JSONL not found: {input_jsonl}")
+        records = load_processed_records(input_jsonl)
+        output_records = relabel_existing_temporal_records(
+            records=records,
+            query=query,
+            label_style=label_style,
+        )
+        write_processed_records(output_jsonl, output_records)
+        print(f"Input records: {len(records)}")
+        print(f"Wrote records: {len(output_records)}")
+        print(f"Label style: {label_style}")
+        print(f"Output: {output_jsonl}")
+        return
+
     if not manifest_path.exists():
         raise FileNotFoundError(f"Manifest not found: {manifest_path}")
     if not caption_jsonl.exists():
@@ -269,6 +385,7 @@ def main(
             start_time=start_time,
             end_time=end_time,
             degradation_phrase=degradation_phrase,
+            label_style=label_style,
         )
 
         record: dict[str, Any] = {
@@ -299,6 +416,7 @@ def main(
     print(f"Wrote records: {len(output_records)}")
     print(f"Missing base caption rows: {missing_base}")
     print(f"Missing mix files: {missing_mix}")
+    print(f"Label style: {label_style}")
     print(f"Output: {output_jsonl}")
 
 

@@ -27,6 +27,7 @@ source .venv/bin/activate
 
 export PYTHONUNBUFFERED=1
 export TRITON_CACHE_DIR=/tmp/triton_cache
+export PYTHONPATH="$PROJECT_DIR/src:${PYTHONPATH:-}"
 
 # HF cache off /work3 to keep quota free for checkpoints.
 # Prefer node-local /scratch, then /tmp, fall back to /work3 with a warning.
