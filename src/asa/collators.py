@@ -144,9 +144,7 @@ class ALLDDPOCollator:
         # Derived from attention_mask, not token-id != pad, so it is correct
         # even when pad_token_id collides with a content token.
         policy_prompt_lens = policy_prompt_inputs["attention_mask"].sum(dim=1)
-        batch["policy_labels"] = self._build_labels(
-            policy_inputs, policy_prompt_lens
-        )
+        batch["policy_labels"] = self._build_labels(policy_inputs, policy_prompt_lens)
 
         # STREAM B: Reference Model (Text Only)
         text_eos = self.text_tokenizer.eos_token

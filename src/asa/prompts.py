@@ -10,9 +10,7 @@ from asa.audio import AUDIO_SPECIAL
 # inference. That distribution shift drives the DPO EOS-collapse (the model
 # defaults to <|im_end|> at the first generated position). The "\n" breaks the
 # merge: "speech.\nThis" tokenizes with "This" as a clean standalone token.
-PROMPT_TEMPLATE = (
-    f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
-)
+PROMPT_TEMPLATE = f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
 
 
 DIMENSION_DEFINITIONS_MOS = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are

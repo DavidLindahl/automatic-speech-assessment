@@ -159,9 +159,7 @@ def run_inference(
         else [PROMPT_TEMPLATE] * len(audio_paths)
     )
 
-    for start in tqdm(
-        range(0, len(audio_paths), batch_size), desc="Running inference"
-    ):
+    for start in tqdm(range(0, len(audio_paths), batch_size), desc="Running inference"):
         batch_paths = audio_paths[start : start + batch_size]
         batch_texts = texts[start : start + batch_size]
 

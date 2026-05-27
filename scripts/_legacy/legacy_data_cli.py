@@ -91,9 +91,7 @@ def generate_captions(
             print(f"Generating captions for MOS dataset: {mos_input} -> {mos_output}")
             process_single_file(str(mos_input), str(mos_output))
         else:
-            print(
-                f"Captions for MOS dataset already exist at {mos_output}, skipping."
-            )
+            print(f"Captions for MOS dataset already exist at {mos_output}, skipping.")
 
     # AB dataset path kept for archival reproducibility even though the AB
     # paradigm was cut on 2026-04-13. Only fires if `ab_dataset.json` exists.
@@ -104,9 +102,7 @@ def generate_captions(
             print(f"Generating captions for A/B dataset: {ab_input} -> {ab_output}")
             process_single_file(str(ab_input), str(ab_output))
         else:
-            print(
-                f"Captions for A/B dataset already exist at {ab_output}, skipping."
-            )
+            print(f"Captions for A/B dataset already exist at {ab_output}, skipping.")
 
 
 if __name__ == "__main__":

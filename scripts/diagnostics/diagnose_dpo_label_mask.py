@@ -32,7 +32,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import torch
 import typer
 from transformers import AutoProcessor, AutoTokenizer
 
@@ -87,7 +86,7 @@ def diagnose(
     print(f"policy_labels.shape    = {tuple(labels.shape)}")
 
     pad_id = tok.pad_token_id
-    eos_id = tok.eos_token_id
+    _eos_id = tok.eos_token_id
     audio_eos_id = tok.convert_tokens_to_ids("<|audio_eos|>")
 
     print(f"\naudio_eos_token_id = {audio_eos_id}")
@@ -117,11 +116,19 @@ def diagnose(
         # The "true" prompt end: position of audio_eos + length of "Please describe...".
         # We can find this empirically: the chosen/rejected text follows immediately.
         # Decode the unmasked region for inspection.
-        first_unmasked_id = ids[unmasked_start].item() if unmasked_start is not None else None
-        unmasked_decoded = tok.decode(ids[unmasked_start : unmasked_end + 1]) if unmasked else ""
+        first_unmasked_id = (
+            ids[unmasked_start].item() if unmasked_start is not None else None
+        )
+        unmasked_decoded = (
+            tok.decode(ids[unmasked_start : unmasked_end + 1]) if unmasked else ""
+        )
 
         # Decode the WHOLE row to anchor visually, with markers for masking.
-        row_decoded_left = tok.decode(ids[: max(0, unmasked_start)]) if unmasked_start else tok.decode(ids)
+        _row_decoded_left = (
+            tok.decode(ids[: max(0, unmasked_start)])
+            if unmasked_start
+            else tok.decode(ids)
+        )
 
         print(f"--- row {i} ---")
         print(f"  seq_len={seq_len}  n_pad={n_pad}  n_real={n_real}")
@@ -131,7 +138,9 @@ def diagnose(
             f"  unmasked labels span: [{unmasked_start} .. {unmasked_end}] "
             f"({(unmasked_end - unmasked_start + 1) if unmasked else 0} tokens)"
         )
-        print(f"  first unmasked token id: {first_unmasked_id} ({tok.decode([first_unmasked_id]) if first_unmasked_id is not None else None!r})")
+        print(
+            f"  first unmasked token id: {first_unmasked_id} ({tok.decode([first_unmasked_id]) if first_unmasked_id is not None else None!r})"
+        )
         print(f"  unmasked decoded: {unmasked_decoded[:300]!r}")
         # Last 16 ids of the row (where the response should be)
         print(f"  ids[-16:]: {ids[-16:].tolist()}")

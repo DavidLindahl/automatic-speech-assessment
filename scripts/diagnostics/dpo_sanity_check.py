@@ -14,7 +14,7 @@ import re
 from collections import Counter
 from difflib import SequenceMatcher
 from pathlib import Path
-from statistics import mean, pstdev
+from statistics import pstdev
 
 import typer
 
@@ -36,7 +36,9 @@ def normalize_text(text: str) -> str:
 @app.command()
 def inspect(
     result_dir: Path = typer.Argument(..., exists=True, file_okay=False, dir_okay=True),
-    duplicate_threshold: float = typer.Option(0.97, help="Similarity threshold for near-duplicate grouping."),
+    duplicate_threshold: float = typer.Option(
+        0.97, help="Similarity threshold for near-duplicate grouping."
+    ),
     top_k: int = typer.Option(5, help="How many common response templates to show."),
 ) -> None:
     files = sorted(result_dir.glob("*_results.json"))
@@ -63,7 +65,10 @@ def inspect(
 
         # crude near-duplicate rate against the most common template
         template = top_counts[0][0]
-        near_dup = sum(SequenceMatcher(None, template, t).ratio() >= duplicate_threshold for t in norm_texts)
+        near_dup = sum(
+            SequenceMatcher(None, template, t).ratio() >= duplicate_threshold
+            for t in norm_texts
+        )
         near_dup_share = near_dup / len(rows)
 
         flags = []

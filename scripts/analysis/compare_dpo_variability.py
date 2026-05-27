@@ -83,13 +83,21 @@ def report(label: str, records: list[dict]) -> None:
     for name, texts in (("CHOSEN", chosen), ("REJECTED", rejected)):
         s = text_stats(texts)
         print(f"\n  {name}")
-        print(f"    unique:           {s['unique_count']}/{s['n']}  ({s['unique_ratio']:.4f})")
-        print(f"    char len:         mean={s['char_len_mean']:.1f}  std={s['char_len_std']:.1f}  min={s['char_len_min']}  max={s['char_len_max']}")
-        print(f"    word len:         mean={s['word_len_mean']:.1f}  std={s['word_len_std']:.1f}")
-        print(f"    type-token ratio: {s['type_token_ratio']:.4f}  (vocab={s['vocab_size']}, tokens={s['total_tokens']})")
+        print(
+            f"    unique:           {s['unique_count']}/{s['n']}  ({s['unique_ratio']:.4f})"
+        )
+        print(
+            f"    char len:         mean={s['char_len_mean']:.1f}  std={s['char_len_std']:.1f}  min={s['char_len_min']}  max={s['char_len_max']}"
+        )
+        print(
+            f"    word len:         mean={s['word_len_mean']:.1f}  std={s['word_len_std']:.1f}"
+        )
+        print(
+            f"    type-token ratio: {s['type_token_ratio']:.4f}  (vocab={s['vocab_size']}, tokens={s['total_tokens']})"
+        )
         print(f"    top first words:  {s['top_first_words']}")
 
-    print(f"\n  CROSS")
+    print("\n  CROSS")
     print(f"    chosen == rejected:  {chosen_equals_rejected_rate(records):.4f}")
     print(f"    chosen == response:  {chosen_equals_response_rate(records):.4f}")
 
@@ -116,10 +124,18 @@ def main() -> None:
         old_s = text_stats(old_texts)
         new_s = text_stats(new_texts)
         print(f"\n  {field.upper()}")
-        print(f"    unique ratio:     {old_s['unique_ratio']:.4f}  ->  {new_s['unique_ratio']:.4f}   (Δ {new_s['unique_ratio'] - old_s['unique_ratio']:+.4f})")
-        print(f"    type-token ratio: {old_s['type_token_ratio']:.4f}  ->  {new_s['type_token_ratio']:.4f}   (Δ {new_s['type_token_ratio'] - old_s['type_token_ratio']:+.4f})")
-        print(f"    vocab size:       {old_s['vocab_size']}  ->  {new_s['vocab_size']}   (Δ {new_s['vocab_size'] - old_s['vocab_size']:+d})")
-        print(f"    char len std:     {old_s['char_len_std']:.1f}  ->  {new_s['char_len_std']:.1f}   (Δ {new_s['char_len_std'] - old_s['char_len_std']:+.1f})")
+        print(
+            f"    unique ratio:     {old_s['unique_ratio']:.4f}  ->  {new_s['unique_ratio']:.4f}   (Δ {new_s['unique_ratio'] - old_s['unique_ratio']:+.4f})"
+        )
+        print(
+            f"    type-token ratio: {old_s['type_token_ratio']:.4f}  ->  {new_s['type_token_ratio']:.4f}   (Δ {new_s['type_token_ratio'] - old_s['type_token_ratio']:+.4f})"
+        )
+        print(
+            f"    vocab size:       {old_s['vocab_size']}  ->  {new_s['vocab_size']}   (Δ {new_s['vocab_size'] - old_s['vocab_size']:+d})"
+        )
+        print(
+            f"    char len std:     {old_s['char_len_std']:.1f}  ->  {new_s['char_len_std']:.1f}   (Δ {new_s['char_len_std'] - old_s['char_len_std']:+.1f})"
+        )
 
 
 if __name__ == "__main__":

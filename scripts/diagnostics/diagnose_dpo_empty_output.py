@@ -19,7 +19,6 @@ Usage:
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import torch
@@ -84,7 +83,9 @@ def diagnose(
         )
         batch = {k: v.to("cuda") for k, v in batch.items()}
         input_len = batch["input_ids"].shape[1]
-        print(f"  input_ids shape: {tuple(batch['input_ids'].shape)}  (len={input_len})")
+        print(
+            f"  input_ids shape: {tuple(batch['input_ids'].shape)}  (len={input_len})"
+        )
         print(f"  prompt last 8 ids: {batch['input_ids'][0, -8:].tolist()}")
         print(f"  prompt decoded:    {tok.decode(batch['input_ids'][0])[-200:]!r}")
 

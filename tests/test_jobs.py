@@ -395,10 +395,16 @@ def _resolve_repo_path(path_value: str) -> Path:
         Absolute path.
     """
     expanded = path_value
-    for var in ("$EXPERIMENT_DIR", "${EXPERIMENT_DIR}", "$PROJECT_DIR",
-                "${PROJECT_DIR}", "$REPO_ROOT", "${REPO_ROOT}"):
+    for var in (
+        "$EXPERIMENT_DIR",
+        "${EXPERIMENT_DIR}",
+        "$PROJECT_DIR",
+        "${PROJECT_DIR}",
+        "$REPO_ROOT",
+        "${REPO_ROOT}",
+    ):
         if expanded.startswith(var):
-            expanded = expanded[len(var):].lstrip("/")
+            expanded = expanded[len(var) :].lstrip("/")
             break
 
     candidate = Path(expanded).expanduser()
@@ -456,9 +462,16 @@ def _looks_like_local_model_reference(value: str) -> bool:
     if value.startswith(("/", "./", "../", "~")):
         return True
 
-    if value.startswith(("$EXPERIMENT_DIR", "${EXPERIMENT_DIR}",
-                         "$PROJECT_DIR", "${PROJECT_DIR}",
-                         "$REPO_ROOT", "${REPO_ROOT}")):
+    if value.startswith(
+        (
+            "$EXPERIMENT_DIR",
+            "${EXPERIMENT_DIR}",
+            "$PROJECT_DIR",
+            "${PROJECT_DIR}",
+            "$REPO_ROOT",
+            "${REPO_ROOT}",
+        )
+    ):
         return True
 
     first_segment = value.split("/", maxsplit=1)[0]
@@ -658,8 +671,15 @@ def test_job_python_targets_exist(invocation: JobInvocation) -> None:
     [
         inv
         for inv in JOB_INVOCATIONS
-        if inv.target.startswith(("src/asa/", "scripts/train/", "scripts/eval/",
-                                  "scripts/data/", "scripts/diagnostics/"))
+        if inv.target.startswith(
+            (
+                "src/asa/",
+                "scripts/train/",
+                "scripts/eval/",
+                "scripts/data/",
+                "scripts/diagnostics/",
+            )
+        )
     ],
     ids=_invocation_id,
 )

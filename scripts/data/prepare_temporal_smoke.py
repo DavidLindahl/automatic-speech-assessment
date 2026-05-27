@@ -71,9 +71,13 @@ def _generate_split(
                 noise_audio["sampling_rate"],
                 target_sr=sr,
             )
-            degradation_type = str(noise_sample.get("category", "noise")).replace("_", " ")
+            degradation_type = str(noise_sample.get("category", "noise")).replace(
+                "_", " "
+            )
         elif degradation_choice == "packet_loss":
-            degraded_waveform, start_time, end_time = apply_packet_loss(clean_tensor, sr)
+            degraded_waveform, start_time, end_time = apply_packet_loss(
+                clean_tensor, sr
+            )
             degradation_type = "packet loss"
         else:
             degraded_waveform, start_time, end_time = apply_clipping(

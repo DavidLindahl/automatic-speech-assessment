@@ -1,4 +1,4 @@
-from asa.evaluate_temporal import (
+from scripts.eval.evaluate_temporal import (
     Interval,
     extract_ground_truth_interval,
     extract_interval,
