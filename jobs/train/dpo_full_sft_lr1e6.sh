@@ -35,7 +35,7 @@
 #BSUB -o /work3/s234817/automatic-speech-assessment/logs/dpo_full_sft_lr1e6_%J.out
 #BSUB -e /work3/s234817/automatic-speech-assessment/logs/dpo_full_sft_lr1e6_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 echo "Branch   : $(git branch --show-current 2>/dev/null || echo unknown)"
 
 torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
