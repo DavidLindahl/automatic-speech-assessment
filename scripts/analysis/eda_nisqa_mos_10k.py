@@ -44,6 +44,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 
 
 # The 13 raw NISQA simulation degradation columns, in a readable order grouped by
@@ -329,19 +330,19 @@ def fig_mos_distribution(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
 
     mean_mos = float(np.mean(mos))
     median_mos = float(np.median(mos))
-    axis.axvline(mean_mos, color="#c0392b", linewidth=1.3, linestyle="--",
+    axis.axvline(mean_mos, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
                  label=f"mean = {mean_mos:.2f}")
-    axis.axvline(median_mos, color="#222222", linewidth=1.1, linestyle=":",
+    axis.axvline(median_mos, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
                  label=f"median = {median_mos:.2f}")
 
     axis.set_xlabel("Mean Opinion Score (MOS)")
     axis.set_ylabel("number of clips")
-    axis.set_title("MOS distribution of the SFT training set (n = "
-                   f"{len(mos):,})")
+    axis.set_title(f"MOS distribution of the SFT training set (n = {len(mos):,})")
     axis.set_xlim(1.0, 5.0)
     axis.set_xticks(np.arange(1.0, 5.5, 0.5))
     axis.legend(loc="upper right")
     axis.grid(axis="x", visible=False)
+    sns.despine(ax=axis)
     fig.tight_layout()
     save(fig, figures_dir, "eda_mos_distribution")
 
@@ -427,11 +428,11 @@ def fig_degradations_per_clip(data_frame: pd.DataFrame, figures_dir: Path) -> di
     ys = [counts.get(x, 0) for x in xs]
 
     fig, axis = plt.subplots(figsize=(6.0, 3.4))
-    colors = ["#9aa7b1"] + [ACCENT] * (len(xs) - 1)
-    bars = axis.bar(xs, ys, color=colors, edgecolor="white", linewidth=0.5)
+    colors = [MUTED] + [ACCENT] * (len(xs) - 1)
+    bars = axis.bar(xs, ys, color=colors, edgecolor="white", linewidth=0.6)
     annotate_bars(axis, bars, ys)
     mean_tags = float(np.mean(num_tags))
-    axis.axvline(mean_tags, color="#c0392b", linewidth=1.2, linestyle="--",
+    axis.axvline(mean_tags, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
                  label=f"mean = {mean_tags:.2f} tags / clip")
     axis.set_xlabel("number of simultaneous degradation tags on a clip")
     axis.set_ylabel("number of clips")
@@ -463,9 +464,9 @@ def fig_clip_duration(durations: np.ndarray, figures_dir: Path) -> dict:
                   linewidth=0.5)
         mean_d = float(np.mean(durations))
         median_d = float(np.median(durations))
-        axis.axvline(mean_d, color="#c0392b", linewidth=1.3, linestyle="--",
+        axis.axvline(mean_d, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
                      label=f"mean = {mean_d:.2f} s")
-        axis.axvline(median_d, color="#222222", linewidth=1.1, linestyle=":",
+        axis.axvline(median_d, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
                      label=f"median = {median_d:.2f} s")
         axis.legend(loc="upper right")
     else:
@@ -500,9 +501,12 @@ def fig_source_composition(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
         1, 2, figsize=(9.2, 3.6), gridspec_kw={"width_ratios": [1.0, 1.1]}
     )
 
-    # Left: clip count per source corpus.
-    bars = ax_count.bar(range(len(order)), source_counts.values, color=ACCENT,
-                        edgecolor="white", linewidth=0.5)
+    # Left: clip count per source corpus, one palette colour per corpus so the
+    # two panels share a per-source colour identity.
+    count_colors = [CATEGORY_PALETTE[i % len(CATEGORY_PALETTE)]
+                    for i in range(len(order))]
+    bars = ax_count.bar(range(len(order)), source_counts.values, color=count_colors,
+                        edgecolor="white", linewidth=0.6)
     annotate_bars(ax_count, bars, source_counts.values)
     ax_count.set_xticks(range(len(order)))
     ax_count.set_xticklabels(order, fontsize=8)
@@ -514,15 +518,18 @@ def fig_source_composition(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     mos_by_source = [data_frame.loc[data_frame["source"] == s, "mos"].to_numpy()
                      for s in order]
     box = ax_mos.boxplot(
-        mos_by_source, vert=True, patch_artist=True, widths=0.6,
-        medianprops={"color": "#222222", "linewidth": 1.2},
+        mos_by_source, vert=True, patch_artist=True, widths=0.62,
+        medianprops={"color": "white", "linewidth": 1.5},
+        whiskerprops={"color": "#5c6b73", "linewidth": 1.1},
+        capprops={"color": "#5c6b73", "linewidth": 1.1},
         flierprops={"marker": ".", "markersize": 3,
                     "markerfacecolor": "#999999", "markeredgecolor": "none"},
     )
-    for patch in box["boxes"]:
-        patch.set_facecolor(ACCENT)
-        patch.set_alpha(0.55)
-        patch.set_edgecolor("#444444")
+    for index, patch in enumerate(box["boxes"]):
+        patch.set_facecolor(CATEGORY_PALETTE[index % len(CATEGORY_PALETTE)])
+        patch.set_alpha(0.9)
+        patch.set_edgecolor("white")
+        patch.set_linewidth(0.8)
     ax_mos.set_xticks(range(1, len(order) + 1))
     ax_mos.set_xticklabels(order, fontsize=8)
     ax_mos.set_ylabel("MOS")
@@ -573,9 +580,9 @@ def fig_caption_length(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
                  linewidth=0.4)
     mean_w = float(np.mean(word_counts))
     median_w = float(np.median(word_counts))
-    ax_hist.axvline(mean_w, color="#c0392b", linewidth=1.3, linestyle="--",
+    ax_hist.axvline(mean_w, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
                     label=f"mean = {mean_w:.1f}")
-    ax_hist.axvline(median_w, color="#222222", linewidth=1.1, linestyle=":",
+    ax_hist.axvline(median_w, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
                     label=f"median = {median_w:.0f}")
     ax_hist.set_xlabel("caption length (words)")
     ax_hist.set_ylabel("number of captions")
