@@ -92,44 +92,81 @@ CATEGORY_ORDER: list[str] = [
     "time clipping",
 ]
 
+# --- Shared visual identity -------------------------------------------------
+# A single professional palette drives every figure so the chapter reads as one
+# coherent set. PRIMARY is a deep teal used for the main distributions; HIGHLIGHT
+# is a warm amber reserved for mean/median reference lines; MUTED greys the
+# "no degradation" baseline. The six-colour qualitative palette is a curated,
+# harmonious set (deep teal, amber, sage, plum, terracotta, slate) reused for the
+# degradation categories so a colour always means the same family.
+
+PRIMARY = "#2a6f7f"        # deep teal: main bars / histograms
+PRIMARY_DARK = "#1f5360"   # darker teal: emphasis / edges
+HIGHLIGHT = "#d98b34"      # warm amber: mean reference line
+HIGHLIGHT_2 = "#3d3d3d"    # near-black: secondary (median) reference line
+MUTED = "#b7c4c7"          # soft grey-teal: baseline / zero category
+
+# Six-colour qualitative palette for the degradation categories (harmonious,
+# colour-blind-friendlier than the old primary/secondary clash).
+CATEGORY_PALETTE: list[str] = [
+    "#2a6f7f",  # deep teal
+    "#d98b34",  # amber
+    "#6a994e",  # sage green
+    "#8e6c9b",  # plum
+    "#c1574b",  # terracotta
+    "#5c6b73",  # slate
+]
+
 # One colour per collapsed category; raw tags inherit their family colour so the
 # two panels of the taxonomy figure read as the same grouping.
 CATEGORY_COLORS: dict[str, str] = {
-    "background noise": "#2f6db5",
-    "codec artifacts": "#e07b39",
-    "packet-loss concealment": "#5aa469",
-    "band-limiting filter": "#9b59b6",
-    "clipping distortion": "#c0392b",
-    "time clipping": "#7f8c8d",
+    category: CATEGORY_PALETTE[index]
+    for index, category in enumerate(CATEGORY_ORDER)
 }
 
-ACCENT = "#2f6db5"
-GRID_GREY = "#cccccc"
+# Back-compat aliases used throughout the figure functions.
+ACCENT = PRIMARY
+GRID_GREY = "#d9d9d9"
 
 
 def set_paper_style() -> None:
-    """Apply a clean, publication-oriented matplotlib style."""
+    """Apply one cohesive seaborn-based, publication-oriented theme.
+
+    Every figure in the chapter shares this theme so they read as a single set:
+    seaborn's ``whitegrid`` base for soft horizontal guides, a serif font to match
+    the thesis body text, despined axes, and the shared qualitative palette as the
+    default colour cycle.
+    """
+    sns.set_theme(
+        context="paper",
+        style="whitegrid",
+        palette=CATEGORY_PALETTE,
+        font="serif",
+    )
     plt.rcParams.update(
         {
             "figure.dpi": 150,
             "savefig.dpi": 300,
             "savefig.bbox": "tight",
             "font.family": "serif",
-            "font.size": 10,
-            "axes.titlesize": 11,
+            "font.size": 10.5,
+            "axes.titlesize": 11.5,
+            "axes.titleweight": "semibold",
             "axes.labelsize": 10,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-            "axes.edgecolor": "#444444",
-            "axes.linewidth": 0.8,
+            "axes.labelcolor": "#222222",
+            "axes.edgecolor": "#5c6b73",
+            "axes.linewidth": 0.9,
+            "text.color": "#222222",
             "xtick.labelsize": 9,
             "ytick.labelsize": 9,
+            "xtick.color": "#444444",
+            "ytick.color": "#444444",
             "legend.fontsize": 9,
             "legend.frameon": False,
-            "axes.grid": True,
             "grid.color": GRID_GREY,
-            "grid.linewidth": 0.6,
-            "grid.alpha": 0.6,
+            "grid.linewidth": 0.7,
+            "grid.alpha": 0.7,
+            "axes.axisbelow": True,
         }
     )
 
