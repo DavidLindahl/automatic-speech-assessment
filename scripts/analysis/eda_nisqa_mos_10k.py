@@ -188,6 +188,7 @@ def build_dataframe(records: list[dict], nisqa_csv: Path) -> pd.DataFrame:
                 "num_tags": len(active),
                 "categories": categories,
                 "num_categories": len(categories),
+                "response": str(record.get("response", "")),
             }
         )
 
@@ -543,6 +544,192 @@ def fig_source_composition(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     }
 
 
+def caption_words(text: str) -> list[str]:
+    """Tokenize a caption into lowercase word tokens."""
+    import re
+
+    return re.findall(r"[A-Za-z']+", text)
+
+
+def fig_caption_length(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
+    """Caption length distribution and the length-vs-MOS relationship.
+
+    The caption is the literal supervision target, and its length couples with
+    quality, which is worth flagging next to a length-sensitive metric like BLEU.
+    """
+    responses = data_frame["response"].tolist()
+    mos = data_frame["mos"].to_numpy()
+    word_counts = np.array([len(caption_words(text)) for text in responses])
+
+    pearson = float(np.corrcoef(word_counts, mos)[0, 1])
+
+    fig, (ax_hist, ax_scatter) = plt.subplots(
+        1, 2, figsize=(9.2, 3.6), gridspec_kw={"width_ratios": [1.0, 1.1]}
+    )
+
+    # Left: caption-length histogram.
+    bins = np.arange(word_counts.min(), word_counts.max() + 2)
+    ax_hist.hist(word_counts, bins=bins, color=ACCENT, edgecolor="white",
+                 linewidth=0.4)
+    mean_w = float(np.mean(word_counts))
+    median_w = float(np.median(word_counts))
+    ax_hist.axvline(mean_w, color="#c0392b", linewidth=1.3, linestyle="--",
+                    label=f"mean = {mean_w:.1f}")
+    ax_hist.axvline(median_w, color="#222222", linewidth=1.1, linestyle=":",
+                    label=f"median = {median_w:.0f}")
+    ax_hist.set_xlabel("caption length (words)")
+    ax_hist.set_ylabel("number of captions")
+    ax_hist.set_title("(a) caption-length distribution")
+    ax_hist.legend(loc="upper right")
+    ax_hist.grid(axis="x", visible=False)
+
+    # Right: mean caption length per MOS band, with the Pearson r annotated.
+    band_edges = [1.0, 2.0, 3.0, 4.0, 5.01]
+    band_labels = ["1-2", "2-3", "3-4", "4-5"]
+    band_means: list[float] = []
+    for low, high in zip(band_edges[:-1], band_edges[1:]):
+        mask = (mos >= low) & (mos < high)
+        band_means.append(float(np.mean(word_counts[mask])) if mask.any() else 0.0)
+    bars = ax_scatter.bar(range(len(band_labels)), band_means, color=ACCENT,
+                          edgecolor="white", linewidth=0.5)
+    annotate_bars(ax_scatter, bars, band_means, fmt="{:.1f}")
+    ax_scatter.set_xticks(range(len(band_labels)))
+    ax_scatter.set_xticklabels(band_labels)
+    ax_scatter.set_xlabel("MOS band")
+    ax_scatter.set_ylabel("mean caption length (words)")
+    ax_scatter.set_title(f"(b) length rises with MOS (Pearson r = {pearson:.2f})")
+    ax_scatter.grid(axis="x", visible=False)
+
+    fig.suptitle("Caption length and its coupling with MOS", fontsize=11, y=1.02)
+    fig.tight_layout()
+    save(fig, figures_dir, "eda_caption_length")
+
+    return {
+        "words_min": int(word_counts.min()),
+        "words_max": int(word_counts.max()),
+        "words_mean": mean_w,
+        "words_median": median_w,
+        "words_std": float(np.std(word_counts)),
+        "pearson_r_words_mos": pearson,
+        "mean_words_by_mos_band": dict(zip(band_labels, [round(v, 1) for v in band_means])),
+    }
+
+
+def fig_caption_templating(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
+    """Caption templating: vocabulary size, distinct-n, and dominant openings.
+
+    99% of captions are technically unique, but they are slot-filled from a tiny
+    vocabulary on a fixed scaffold. This is the output-side honesty check and the
+    main caveat on BLEU.
+    """
+    responses = data_frame["response"].tolist()
+    n = len(responses)
+    unique = len({r for r in responses})
+
+    all_tokens = [w.lower() for text in responses for w in caption_words(text)]
+    vocab = len(set(all_tokens))
+
+    def distinct_n(tokens: list[str], order: int) -> float:
+        grams = [tuple(tokens[i:i + order]) for i in range(len(tokens) - order + 1)]
+        return len(set(grams)) / len(grams) if grams else 0.0
+
+    distinct = {k: distinct_n(all_tokens, k) for k in (1, 2, 3)}
+
+    openings = collections.Counter(
+        " ".join(caption_words(text)[:5]).lower() for text in responses
+    )
+    top_openings = openings.most_common(6)
+
+    fig, axis = plt.subplots(figsize=(7.4, 3.8))
+    labels = [f'"{phrase}…"' for phrase, _ in top_openings]
+    values = [count for _, count in top_openings]
+    y_pos = range(len(labels))
+    bars = axis.barh(list(y_pos), values, color=ACCENT, edgecolor="white",
+                     linewidth=0.5)
+    for rect, value in zip(bars, values):
+        axis.annotate(f"{100 * value / n:.1f}%",
+                      xy=(rect.get_width(), rect.get_y() + rect.get_height() / 2),
+                      xytext=(3, 0), textcoords="offset points",
+                      va="center", fontsize=8, color="#333333")
+    axis.set_yticks(list(y_pos))
+    axis.set_yticklabels(labels, fontsize=8)
+    axis.invert_yaxis()
+    axis.set_xlabel("number of captions")
+    axis.set_title(
+        f"Captions are slot-filled from a {vocab}-word vocabulary "
+        f"(distinct-1 = {distinct[1]:.4f})"
+    )
+    axis.grid(axis="y", visible=False)
+    fig.tight_layout()
+    save(fig, figures_dir, "eda_caption_templating")
+
+    return {
+        "n": n,
+        "unique_captions": unique,
+        "unique_fraction": unique / n,
+        "exact_duplicates": n - unique,
+        "vocabulary_size": vocab,
+        "total_tokens": len(all_tokens),
+        "distinct_1": distinct[1],
+        "distinct_2": distinct[2],
+        "distinct_3": distinct[3],
+        "top_openings": [
+            {"opening": phrase, "count": count, "fraction": count / n}
+            for phrase, count in top_openings
+        ],
+    }
+
+
+def analyse_quality_vocabulary(data_frame: pd.DataFrame) -> dict:
+    """Frequency of descriptive quality terms across captions (table source)."""
+    responses = [text.lower() for text in data_frame["response"].tolist()]
+    n = len(responses)
+    terms = [
+        "distortion", "discontinu", "noise", "noisy", "loud", "volume",
+        "clear", "clean", "natural", "unnatural", "soft", "quiet",
+        "background", "distorted",
+    ]
+    counts = {term: sum(1 for text in responses if term in text) for term in terms}
+    ordered = sorted(counts.items(), key=lambda item: -item[1])
+    return {
+        "n": n,
+        "term_counts": {term: count for term, count in ordered if count > 0},
+    }
+
+
+def analyse_mos_consistency(data_frame: pd.DataFrame) -> dict:
+    """Check that the MOS stated inside the caption matches the mos label."""
+    import re
+
+    responses = data_frame["response"].tolist()
+    mos = data_frame["mos"].tolist()
+    n = len(responses)
+    pattern = re.compile(
+        r"MOS\s*(?:score)?\s*(?:is|of|:)?\s*(?:only\s*)?(\d(?:\.\d+)?)", re.I
+    )
+    mentions = parsed = agree = disagree = 0
+    for text, label in zip(responses, mos):
+        if re.search(r"\bMOS\b", text, re.I):
+            mentions += 1
+        match = pattern.search(text)
+        if match:
+            parsed += 1
+            try:
+                if abs(float(match.group(1)) - float(label)) <= 0.05:
+                    agree += 1
+                else:
+                    disagree += 1
+            except ValueError:
+                pass
+    return {
+        "n": n,
+        "mention_mos": mentions,
+        "parsed_numeric": parsed,
+        "agree": agree,
+        "disagree": disagree,
+    }
+
+
 def main() -> None:
     """Run the full descriptive analysis and write figures plus a stats JSON."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -604,6 +791,10 @@ def main() -> None:
         "degradations_per_clip": fig_degradations_per_clip(data_frame, figures_dir),
         "clip_duration": fig_clip_duration(durations, figures_dir),
         "source_composition": fig_source_composition(data_frame, figures_dir),
+        "caption_length": fig_caption_length(data_frame, figures_dir),
+        "caption_templating": fig_caption_templating(data_frame, figures_dir),
+        "quality_vocabulary": analyse_quality_vocabulary(data_frame),
+        "mos_consistency": analyse_mos_consistency(data_frame),
     }
 
     stats_path = figures_dir / "eda_nisqa_mos_10k_stats.json"
