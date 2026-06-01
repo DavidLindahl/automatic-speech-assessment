@@ -24,7 +24,7 @@
 #BSUB -o logs/sft_temporal_tokens_only_h100_%J.out
 #BSUB -e logs/sft_temporal_tokens_only_h100_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 
 # Hub repo to stream checkpoints into. Override at submit time with HUB_MODEL_ID=...
 HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-temporal-tokens-only}"
