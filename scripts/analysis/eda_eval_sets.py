@@ -222,9 +222,9 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     metric_keys = ["mos"] + [d for d, _ in SHARED_DIMS]
     metric_names = ["overall\nMOS"] + [n for _, n in SHARED_DIMS]
 
-    fig, axis = plt.subplots(figsize=(8.4, 4.0))
+    fig, axis = plt.subplots(figsize=(9.0, 4.6))
     n_sets = len(order_keys)
-    group_width = 0.8
+    group_width = 0.82
     bar_width = group_width / n_sets
     x_base = np.arange(len(metric_keys))
 
@@ -239,20 +239,37 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
         vals = [metric_value(key, m) for m in metric_keys]
         means[key] = {m: v for m, v in zip(metric_keys, vals)}
         offsets = x_base - group_width / 2 + bar_width * (set_index + 0.5)
-        axis.bar(offsets, vals, width=bar_width * 0.92, color=SET_COLORS[key],
-                 edgecolor="white", linewidth=0.5,
-                 label=EVAL_SETS[set_index]["label"].replace("\n", " "))
+        bars = axis.bar(offsets, vals, width=bar_width * 0.9,
+                        color=SET_COLORS[key], edgecolor="white", linewidth=0.6,
+                        label=EVAL_SETS[set_index]["label"].replace("\n", " "),
+                        zorder=3)
+        # Value label on every bar (rotated to fit the narrow grouped bars).
+        for rect, value in zip(bars, vals):
+            axis.annotate(
+                f"{value:.2f}",
+                xy=(rect.get_x() + rect.get_width() / 2, rect.get_height()),
+                xytext=(0, 2), textcoords="offset points",
+                ha="center", va="bottom", rotation=90,
+                fontsize=7.5, color="#333333", zorder=4,
+            )
 
-    # Divider between overall MOS and the three sub-dimensions.
-    axis.axvline(0.5, color="#b0b0b0", linewidth=1.0, linestyle="--", zorder=0)
+    # Soft shaded band behind the overall-MOS group so it reads as the headline.
+    axis.axvspan(-0.5, 0.5, color="#2a6f7f", alpha=0.05, zorder=0)
+    axis.axvline(0.5, color="#9aa7ad", linewidth=1.0, linestyle="--", zorder=1)
+
+    # Tighten the y-axis to the data range so the in-domain vs OOD gap is visible.
+    all_vals = [v for m in means.values() for v in m.values() if not np.isnan(v)]
+    y_low = max(1.0, np.floor((min(all_vals) - 0.3) * 2) / 2)
+    y_high = min(5.0, np.ceil((max(all_vals) + 0.45) * 2) / 2)
+    axis.set_ylim(y_low, y_high)
 
     axis.set_xticks(x_base)
     axis.set_xticklabels(metric_names)
-    axis.set_ylabel("mean rating (1-5)")
-    axis.set_ylim(1.0, 5.0)
-    axis.set_title("Overall MOS and quality sub-dimension means across the evaluation sets")
+    axis.set_xlim(-0.5, len(metric_keys) - 0.5)
+    axis.set_ylabel("mean rating (1-5 scale)")
+    axis.set_title("Overall MOS and quality sub-dimensions across the evaluation sets")
     axis.legend(title="eval set", ncol=4, loc="upper center",
-                bbox_to_anchor=(0.5, -0.13))
+                bbox_to_anchor=(0.5, -0.12), columnspacing=1.4)
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
     fig.tight_layout()
