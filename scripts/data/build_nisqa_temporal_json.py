@@ -22,6 +22,7 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
 
 from asa.processed_data import load_processed_records, write_processed_records
+from asa.temporal_tokens import encode_time
 
 
 DEGRADATION_LABELS: dict[str, str] = {
@@ -159,6 +160,14 @@ def build_temporal_response(
     label_style: str = "clear-speech-localization",
 ) -> str:
     """Compose target response that includes both quality text and localization."""
+    if label_style == "anchor-offset-localization":
+        # TimeAudio-style discrete time tokens, timestamp-only (no category).
+        # Matches the target shape: "... there is distortion between <a><f> ...".
+        return (
+            "The overall speech is clear, but there is distortion between "
+            f"{encode_time(start_time)} and {encode_time(end_time)}."
+        )
+
     if label_style == "clear-speech-localization":
         return (
             "The overall speech is clear, but the quality is interrupted by "
@@ -174,7 +183,8 @@ def build_temporal_response(
 
     if label_style != "caption-plus-localization":
         raise ValueError(
-            "label_style must be 'clear-speech-localization', 'localization-only', "
+            "label_style must be 'anchor-offset-localization', "
+            "'clear-speech-localization', 'localization-only', "
             "or 'caption-plus-localization'"
         )
 
@@ -293,10 +303,11 @@ def main(
     label_style: str = typer.Option(
         "clear-speech-localization",
         help=(
-            "Target text style: 'clear-speech-localization' for the current "
-            "metadata timestamp labels, 'localization-only' for short timestamp "
-            "labels, or 'caption-plus-localization' for the old caption-prefixed "
-            "labels."
+            "Target text style: 'anchor-offset-localization' for TimeAudio-style "
+            "discrete <a><f> time tokens (timestamp-only, no category), "
+            "'clear-speech-localization' for the current metadata timestamp "
+            "labels, 'localization-only' for short timestamp labels, or "
+            "'caption-plus-localization' for the old caption-prefixed labels."
         ),
     ),
     include_clean_path: bool = typer.Option(
@@ -307,12 +318,14 @@ def main(
 ) -> None:
     """Build temporal SFT JSONL for NISQA temporal mixes."""
     if label_style not in {
+        "anchor-offset-localization",
         "clear-speech-localization",
         "localization-only",
         "caption-plus-localization",
     }:
         raise ValueError(
-            "label_style must be 'clear-speech-localization', 'localization-only', "
+            "label_style must be 'anchor-offset-localization', "
+            "'clear-speech-localization', 'localization-only', "
             "or 'caption-plus-localization'"
         )
 

@@ -20,6 +20,10 @@ from transformers import (
 )
 
 from asa.data import Qwen2AudioCollator, SFTDataset
+from asa.modeling_timeaudio import (
+    Qwen2AudioTimeForConditionalGeneration,
+    install_time_tokens,
+)
 
 app = typer.Typer()
 
@@ -98,6 +102,24 @@ def train(
         help="Max local checkpoints to retain (rotation). Keeps /work3 quota bounded.",
     ),
     hub_private: bool = typer.Option(True, help="Make Hub repo private."),
+    use_abs_time_embedding: bool = typer.Option(
+        False,
+        "--use-abs-time-embedding/--no-abs-time-embedding",
+        help=(
+            "Add a learnable, zero-init absolute-time frame embedding to the "
+            "audio features (TimeAudio mechanism 2). Off = bit-for-bit vanilla "
+            "Qwen2-Audio, so the flag is a clean on/off ablation."
+        ),
+    ),
+    install_time_tokens_flag: bool = typer.Option(
+        False,
+        "--install-time-tokens/--no-time-tokens",
+        help=(
+            "Register anchor/offset <a><f> time tokens and seed them from "
+            "numeral embeddings (TimeAudio mechanism 1). Required when training "
+            "on anchor-offset-localization targets."
+        ),
+    ),
 ):
     """Run supervised fine-tuning on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
@@ -166,10 +188,41 @@ def train(
         dtype = torch.float32
     if is_main:
         print(f"Loading model: {model_id} (dtype={dtype})")
-    model = Qwen2AudioForConditionalGeneration.from_pretrained(
-        model_id,
-        torch_dtype=dtype,
-    )
+
+    use_timeaudio = use_abs_time_embedding or install_time_tokens_flag
+    if use_timeaudio:
+        # Subclass carries the optional learnable absolute-time embedding. The
+        # flag is written onto the config so the value round-trips through
+        # save_pretrained/from_pretrained on the saved checkpoint.
+        model = Qwen2AudioTimeForConditionalGeneration.from_pretrained(
+            model_id,
+            torch_dtype=dtype,
+        )
+        model.config.use_abs_time_embedding = use_abs_time_embedding
+        model.use_abs_time_embedding = use_abs_time_embedding
+        model.abs_time_embedding.weight.requires_grad_(use_abs_time_embedding)
+        # Record token install on the config too. Both flags route eval loading
+        # to the subclass: a tokens-only checkpoint has an extended vocab (and a
+        # resized lm_head) that the stock class cannot absorb, so it must also
+        # load via Qwen2AudioTimeForConditionalGeneration.
+        model.config.use_time_tokens = install_time_tokens_flag
+        if install_time_tokens_flag:
+            num_added = install_time_tokens(model, processor, seed_from_numerals=True)
+            if is_main:
+                print(
+                    f"Installed {num_added} anchor/offset time tokens "
+                    f"(seeded from numeral embeddings)."
+                )
+        if is_main:
+            print(
+                f"TimeAudio: abs_time_embedding={'ON' if use_abs_time_embedding else 'OFF'}, "
+                f"time_tokens={'ON' if install_time_tokens_flag else 'OFF'}."
+            )
+    else:
+        model = Qwen2AudioForConditionalGeneration.from_pretrained(
+            model_id,
+            torch_dtype=dtype,
+        )
 
     push_to_hub = hub_model_id is not None
     if push_to_hub and is_main:

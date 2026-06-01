@@ -21,6 +21,7 @@ if __package__ is None or __package__ == "":
 from asa.data import AUDIO_PLACEHOLDER, AUDIO_SPECIAL, PROMPT_TEMPLATE
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records, resolve_audio_path
+from asa.temporal_tokens import decode_all_times
 
 EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
@@ -105,6 +106,17 @@ def _sanitize_interval(
     return Interval(start=start, end=end)
 
 
+def _extract_interval_from_anchor_offset(
+    text: str,
+    duration_seconds: Optional[float],
+) -> Optional[Interval]:
+    """Extract interval from TimeAudio-style ``<aN><fK>`` token pairs."""
+    matches = decode_all_times(text)
+    if len(matches) < 2:
+        return None
+    return _sanitize_interval(matches[0], matches[1], duration_seconds)
+
+
 def _extract_interval_from_tags(
     text: str,
     duration_seconds: Optional[float],
@@ -171,6 +183,10 @@ def extract_interval(
     Returns:
         Tuple ``(interval, source)`` where source indicates parse strategy.
     """
+    from_anchor_offset = _extract_interval_from_anchor_offset(text, duration_seconds)
+    if from_anchor_offset is not None:
+        return from_anchor_offset, "anchor_offset"
+
     from_tags = _extract_interval_from_tags(text, duration_seconds)
     if from_tags is not None:
         return from_tags, "token"

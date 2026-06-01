@@ -13,9 +13,14 @@ from typing import Iterable, List, Optional, Tuple
 import torch
 import typer
 from tqdm import tqdm
-from transformers import AutoProcessor, Qwen2AudioForConditionalGeneration
+from transformers import (
+    AutoConfig,
+    AutoProcessor,
+    Qwen2AudioForConditionalGeneration,
+)
 
 from asa.audio import load_audio
+from asa.modeling_timeaudio import Qwen2AudioTimeForConditionalGeneration
 from asa.prompts import PROMPT_TEMPLATE
 
 
@@ -63,7 +68,26 @@ def load_model(
     if device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    model = Qwen2AudioForConditionalGeneration.from_pretrained(
+    # TimeAudio checkpoints must load through the subclass. Two independent
+    # markers force this: use_abs_time_embedding (extra abs_time_embedding param)
+    # and use_time_tokens (extended vocab + resized lm_head). Either alone makes
+    # the stock class fail or silently mis-load, so detect both. Stock
+    # checkpoints have neither flag and are unaffected.
+    try:
+        cfg = AutoConfig.from_pretrained(model_id)
+        is_timeaudio = bool(
+            getattr(cfg, "use_abs_time_embedding", False)
+            or getattr(cfg, "use_time_tokens", False)
+        )
+    except Exception:
+        is_timeaudio = False
+
+    model_cls = (
+        Qwen2AudioTimeForConditionalGeneration
+        if is_timeaudio
+        else Qwen2AudioForConditionalGeneration
+    )
+    model = model_cls.from_pretrained(
         model_id,
         torch_dtype=dtype,
         device_map="auto" if device.startswith("cuda") else None,
