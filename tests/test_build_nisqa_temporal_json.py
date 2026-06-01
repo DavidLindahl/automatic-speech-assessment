@@ -4,7 +4,7 @@ from scripts.data.build_nisqa_temporal_json import (
 )
 
 
-def test_build_temporal_response_clear_speech_localization_with_types() -> None:
+def test_build_temporal_response_clear_speech_localization_uses_generic_label() -> None:
     response = build_temporal_response(
         base_caption="Old global caption should be ignored.",
         start_time=1.234,
@@ -14,10 +14,12 @@ def test_build_temporal_response_clear_speech_localization_with_types() -> None:
 
     assert response == (
         "The overall speech is clear, but the quality is interrupted by "
-        "background noise and codec artifacts occurring between <|1.23|> "
+        "localized degradation occurring between <|1.23|> "
         "and <|5.68|>."
     )
     assert "Old global caption" not in response
+    assert "background noise" not in response
+    assert "codec artifacts" not in response
 
 
 def test_relabel_existing_temporal_records_rewrites_query_and_response() -> None:
@@ -37,8 +39,9 @@ def test_relabel_existing_temporal_records_rewrites_query_and_response() -> None
     )
 
     assert relabeled[0]["query"] == "new query<audio>"
+    assert relabeled[0]["source_degradation_types"] == []
     assert relabeled[0]["response"] == (
         "The overall speech is clear, but the quality is interrupted by "
-        "background noise and codec artifacts occurring between <|2.00|> "
+        "localized degradation occurring between <|2.00|> "
         "and <|3.50|>."
     )

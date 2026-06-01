@@ -5,23 +5,27 @@
 ### ============================================================
 
 #BSUB -q gpuh100
-#BSUB -J sft-temporal
+#BSUB -J sft-temporal-localized
 #BSUB -n 4
 #BSUB -gpu "num=1:mode=exclusive_process"
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=48GB]"
 #BSUB -M 48GB
 #BSUB -W 24:00
-#BSUB -o logs/sft_temporal_%J.out
-#BSUB -e logs/sft_temporal_%J.err
+#BSUB -o logs/sft_temporal_localized_%J.out
+#BSUB -e logs/sft_temporal_localized_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+PROJECT_DIR="/work3/s234817/automatic-speech-assessment"
+source "$PROJECT_DIR/jobs/_lib/preamble.sh"
 
 OUTPUT_DIR="data/processed/temporal/nisqa_sim_mix_lowmos_active_max_mos3"
-TRAIN_JSON="data/processed/temporal/train_nisqa_temporal_mix_max_mos3_localized.json"
+TRAIN_JSON="data/processed/temporal/train_nisqa_temporal.json"
+MODEL_DIR="${MODEL_DIR:-$EXPERIMENT_DIR/models/sft_temporal}"
+WANDB_RUN_NAME="${WANDB_RUN_NAME:-sft-temporal}"
 
 echo "Dataset  : $OUTPUT_DIR"
 echo "JSONL    : $TRAIN_JSON"
+echo "Model    : $MODEL_DIR"
 
 if [ ! -f "$OUTPUT_DIR/manifest.csv" ]; then
   echo "Missing manifest: $OUTPUT_DIR/manifest.csv"
@@ -41,7 +45,7 @@ fi
 torchrun \
     --nproc_per_node=1 \
     scripts/train/supervised-finetune.py \
-    --model-name "$EXPERIMENT_DIR/models/sft_temporal" \
+    --model-name "$MODEL_DIR" \
     --json-path "$TRAIN_JSON" \
     --data-root data \
     --use-query-prompt \
@@ -53,7 +57,7 @@ torchrun \
     --lr 1e-5 \
     --val-split 0 \
     --wandb-project "Temporal-ALLD" \
-    --wandb-run-name "sft-temporal"
+    --wandb-run-name "$WANDB_RUN_NAME"
 
 echo "=========================================="
 echo "Training complete: $(date)"
