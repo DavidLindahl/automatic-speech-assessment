@@ -211,32 +211,46 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
 
 
 def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
-    """Figure 2: quality sub-dimension means across the sets (shared 3 dims)."""
-    order_keys = [s["key"] for s in EVAL_SETS]
-    dim_keys = [d for d, _ in SHARED_DIMS]
-    dim_names = [n for _, n in SHARED_DIMS]
+    """Figure 2: overall MOS plus the shared quality sub-dimension means per set.
 
-    fig, axis = plt.subplots(figsize=(7.6, 4.0))
+    Overall MOS leads the chart (separated by a divider) so it reads as the headline
+    metric rather than a fourth sub-dimension. Only the three sub-dimensions present
+    in every set are shown; discontinuity is OOD-only and reported separately.
+    """
+    order_keys = [s["key"] for s in EVAL_SETS]
+    # "mos" is treated as a pseudo-dimension so it shares the grouped-bar layout.
+    metric_keys = ["mos"] + [d for d, _ in SHARED_DIMS]
+    metric_names = ["overall\nMOS"] + [n for _, n in SHARED_DIMS]
+
+    fig, axis = plt.subplots(figsize=(8.4, 4.0))
     n_sets = len(order_keys)
     group_width = 0.8
     bar_width = group_width / n_sets
-    x_base = np.arange(len(dim_keys))
+    x_base = np.arange(len(metric_keys))
+
+    def metric_value(key: str, metric: str) -> float:
+        if metric == "mos":
+            return float(np.mean(data[key]["mos"]))
+        dims = data[key]["dims"]
+        return float(np.mean(dims[metric])) if metric in dims else np.nan
 
     means: dict[str, dict[str, float]] = {}
     for set_index, key in enumerate(order_keys):
-        dims = data[key]["dims"]
-        vals = [float(np.mean(dims[d])) if d in dims else np.nan for d in dim_keys]
-        means[key] = {d: v for d, v in zip(dim_keys, vals)}
+        vals = [metric_value(key, m) for m in metric_keys]
+        means[key] = {m: v for m, v in zip(metric_keys, vals)}
         offsets = x_base - group_width / 2 + bar_width * (set_index + 0.5)
         axis.bar(offsets, vals, width=bar_width * 0.92, color=SET_COLORS[key],
                  edgecolor="white", linewidth=0.5,
                  label=EVAL_SETS[set_index]["label"].replace("\n", " "))
 
+    # Divider between overall MOS and the three sub-dimensions.
+    axis.axvline(0.5, color="#b0b0b0", linewidth=1.0, linestyle="--", zorder=0)
+
     axis.set_xticks(x_base)
-    axis.set_xticklabels(dim_names)
+    axis.set_xticklabels(metric_names)
     axis.set_ylabel("mean rating (1-5)")
     axis.set_ylim(1.0, 5.0)
-    axis.set_title("Quality sub-dimension means across the evaluation sets")
+    axis.set_title("Overall MOS and quality sub-dimension means across the evaluation sets")
     axis.legend(title="eval set", ncol=4, loc="upper center",
                 bbox_to_anchor=(0.5, -0.13))
     axis.grid(axis="x", visible=False)
@@ -254,7 +268,7 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
         for key in order_keys if dis_key in data[key]["dims"]
     }
     return {
-        "shared_dim_means": means,
+        "mos_and_shared_dim_means": means,
         "discontinuity_ood_only_means": dis_means,
         "indomain_has_discontinuity": dis_key in data["indomain"]["dims"],
     }
