@@ -25,9 +25,9 @@
 
 source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 
-# Hub repo to stream checkpoints into. Override at submit time with HUB_MODEL_ID=...
-HUB_MODEL_ID="${HUB_MODEL_ID:-Leng2beat/speech-quality-assessement-qwen2audio-temporal-timeaudio}"
-
+# Final-only local save (no Hub streaming). Without --hub-model-id the trainer
+# sets save_strategy="no" + save_only_model=True, so exactly ONE ~16 GB
+# checkpoint is written at the end. No mid-run checkpoints, no quota spike.
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
     --json-path data/processed/temporal/train_nisqa_temporal_anchoroffset.json \
@@ -43,10 +43,7 @@ torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --use-query-prompt \
     --use-abs-time-embedding \
     --install-time-tokens \
-    --wandb-run-name "sft-temporal-timeaudio-h100" \
-    --hub-model-id "$HUB_MODEL_ID" \
-    --save-steps 200 \
-    --save-total-limit 1
+    --wandb-run-name "sft-temporal-timeaudio-h100"
 
 echo "=========================================="
 echo "Training complete: $(date)"
