@@ -24,7 +24,13 @@
 #BSUB -o logs/evaluate_external_temporal_zero_shot_%J.out
 #BSUB -e logs/evaluate_external_temporal_zero_shot_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+if [ -f "$(dirname "$0")/../_lib/preamble.sh" ]; then
+  source "$(dirname "$0")/../_lib/preamble.sh"
+elif [ -f "jobs/_lib/preamble.sh" ]; then
+  source "jobs/_lib/preamble.sh"
+else
+  echo "Warning: jobs/_lib/preamble.sh not found."
+fi
 
 BACKEND="${BACKEND:-timeaudio}"
 NPROC_PER_NODE="${NPROC_PER_NODE:-1}"
