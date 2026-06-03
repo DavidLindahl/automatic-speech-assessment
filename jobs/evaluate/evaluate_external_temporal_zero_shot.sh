@@ -57,7 +57,8 @@ prepare_dataset() {
     --output-dir "$INPUT_DIR" \
     --data-root data \
     --model-format "$BACKEND" \
-    --question "$QUESTION"
+    --question "$QUESTION" \
+    ${MAX_SAMPLES:+--max-samples "$MAX_SAMPLES"}
 }
 
 score_predictions() {
@@ -149,9 +150,13 @@ for dataset_path in "${DATASETS[@]}"; do
       run_timeaudio "$dataset_path" "$dataset_stem" "$input_json" "$prediction_json"
       ;;
     salmonn)
-      echo "Prepared SALMONN-compatible input: $input_json"
-      echo "SALMONN runner is intentionally not guessed yet. Add the exact CLI here."
-      exit 2
+      echo "Running SALMONN on $input_json"
+      uv run python -m salmonn_bench.cli run-temporal \
+        --dataset-path "$input_json" \
+        --config-path configs/salmonn_zeroshot.yaml \
+        --data-root data \
+        --output-dir "$RAW_PRED_DIR" \
+        --run-id "."
       ;;
   esac
 

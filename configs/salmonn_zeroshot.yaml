@@ -1,0 +1,48 @@
+model:
+  llama_path: "models/salmonn/vicuna-7b-v1.1"
+  whisper_path: "models/salmonn/whisper-large-v2"
+  beats_path: "models/salmonn/BEATs_iter3_plus_AS2M_finetuned_cpt2.pt"
+  ckpt: "models/salmonn/salmonn_v1.pth"
+
+  freeze_whisper: true
+  freeze_beats: true
+
+  use_speech_Qformer: true
+  freeze_speech_QFormer: false
+  window_level_Qformer: true
+  num_speech_query_token: 1
+  second_per_window: 0.333333
+  second_stride: 0.333333
+
+  speech_llama_proj_model: ""
+  freeze_speech_llama_proj: false
+
+  lora: true
+  lora_rank: 8
+  lora_alpha: 32
+  lora_dropout: 0.1
+
+  multi_prompt: true
+  prompt_template: "USER: {}\nASSISTANT:"
+  prompt_path: ""
+  test_prompt_path: ""
+  max_txt_len: 300
+  end_sym: "</s>"
+
+generate:
+  max_new_tokens: 200
+  num_beams: 4
+  do_sample: false
+  min_length: 1
+  temperature: 1.0
+  top_p: 0.9
+  repetition_penalty: 1.0
+  length_penalty: 1.0
+
+prompts_path: "third_party/salmonn_sqa/prompts/test_prompts.json"
+mos_task: "mos_evaluation_description"
+ab_task: "mos_ABtest"
+
+device: "cuda:0"
+use_amp: true
+silence_samples_ab: 1600
