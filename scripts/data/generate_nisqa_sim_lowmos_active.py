@@ -33,6 +33,28 @@ class Segment:
     end: float
 
 
+def window_overlaps_any(
+    start_idx: int,
+    end_idx: int,
+    exclude_ranges: list[tuple[int, int]],
+) -> bool:
+    """Return whether a sample window overlaps any excluded sample range.
+
+    Args:
+        start_idx: Candidate window start sample (inclusive).
+        end_idx: Candidate window end sample (exclusive).
+        exclude_ranges: Already-used ``(start_sample, end_sample)`` ranges to avoid.
+
+    Returns:
+        True when the candidate window intersects any excluded range.
+    """
+
+    for used_start, used_end in exclude_ranges:
+        if start_idx < used_end and used_start < end_idx:
+            return True
+    return False
+
+
 @dataclass(frozen=True)
 class PlacementConfig:
     """Stores active-region placement settings.
@@ -219,23 +241,38 @@ def choose_active_segment(
     sample_rate: int,
     config: PlacementConfig,
     rng: random.Random,
+    exclude_segments: list[Segment] | None = None,
 ) -> tuple[Segment, float, float]:
     """Choose one active-region segment using high-energy window ranking.
+
+    When ``exclude_segments`` is given, every candidate window that overlaps an
+    already-used segment for the same reference is rejected, so repeated calls on
+    one reference yield non-overlapping placements (the augmentation guarantee).
 
     Args:
         ref_audio: Reference waveform.
         sample_rate: Waveform sample rate.
         config: Segment placement configuration.
         rng: Random generator instance.
+        exclude_segments: Segments already used on this reference, in seconds.
 
     Returns:
-        Segment, activity threshold, and active fraction in that segment.
+        Chosen segment, activity threshold, and active fraction. A zero-length
+        segment (``start == end``) signals that no valid non-overlapping window
+        could be placed.
     """
 
     n_samples = len(ref_audio)
     total_seconds = n_samples / float(sample_rate)
     if n_samples < 2:
         return Segment(0.0, 0.0), config.activity_abs_floor, 0.0
+
+    exclude_ranges: list[tuple[int, int]] = []
+    for used in exclude_segments or []:
+        used_start = max(0, int(round(used.start * sample_rate)))
+        used_end = min(n_samples, int(round(used.end * sample_rate)))
+        if used_end > used_start:
+            exclude_ranges.append((used_start, used_end))
 
     envelope = smooth_envelope(ref_audio, sample_rate, config.activity_smooth_ms)
     threshold = max(
@@ -275,6 +312,8 @@ def choose_active_segment(
         end_idx = min(n_samples, start_idx + seg_samples)
         if end_idx <= start_idx:
             continue
+        if window_overlaps_any(start_idx, end_idx, exclude_ranges):
+            continue
 
         active_fraction = float(np.mean(envelope[start_idx:end_idx] >= threshold))
         if active_fraction >= config.min_active_fraction:
@@ -300,6 +339,11 @@ def choose_active_segment(
 
     energy = window_energy_sums(envelope, fallback_seg)
     if len(energy) == 0:
+        # No window of this length fits. When excluding, signal "no placement"
+        # so the caller stops reusing this reference; otherwise keep the legacy
+        # short-segment fallback.
+        if exclude_ranges:
+            return Segment(0.0, 0.0), threshold, 0.0
         return (
             Segment(0.0, min(total_seconds, config.segment_min_seconds)),
             threshold,
@@ -309,15 +353,34 @@ def choose_active_segment(
     valid_length = len(energy)
     starts = np.arange(valid_length)
     start_mask = envelope[:valid_length] >= threshold
+    if exclude_ranges:
+        # Mask out every start position whose [start, start+seg) window would
+        # overlap an already-used segment, so the fallback argmax cannot re-pick
+        # an excluded region (the advisor-flagged fallback leak).
+        ends = np.minimum(n_samples, starts + fallback_seg)
+        allowed = np.ones(valid_length, dtype=bool)
+        for used_start, used_end in exclude_ranges:
+            allowed &= ~((starts < used_end) & (used_start < ends))
+        if not np.any(allowed):
+            return Segment(0.0, 0.0), threshold, 0.0
+        start_mask = start_mask & allowed
+        masked_energy = np.where(allowed, energy, -np.inf)
+    else:
+        masked_energy = energy
+
     if np.any(start_mask):
-        weighted = np.where(start_mask, energy, -np.inf)
+        weighted = np.where(start_mask, masked_energy, -np.inf)
         best_start = int(np.argmax(weighted))
     else:
-        best_start = int(np.argmax(energy))
+        best_start = int(np.argmax(masked_energy))
 
     start_idx = int(starts[best_start])
     end_idx = min(n_samples, start_idx + fallback_seg)
-    if end_idx <= start_idx:
+    if end_idx <= start_idx or window_overlaps_any(
+        start_idx, end_idx, exclude_ranges
+    ):
+        if exclude_ranges:
+            return Segment(0.0, 0.0), threshold, 0.0
         return (
             Segment(0.0, min(total_seconds, config.segment_min_seconds)),
             threshold,
@@ -337,7 +400,8 @@ def build_mix_one_segment(
     sample_rate: int,
     config: PlacementConfig,
     rng: random.Random,
-) -> tuple[np.ndarray, Segment, float, float]:
+    exclude_segments: list[Segment] | None = None,
+) -> tuple[np.ndarray, Segment, float, float] | None:
     """Create one mix with exactly one inserted degradation segment.
 
     Args:
@@ -346,9 +410,11 @@ def build_mix_one_segment(
         sample_rate: Waveform sample rate.
         config: Segment placement configuration.
         rng: Random generator instance.
+        exclude_segments: Segments already used on this reference to avoid.
 
     Returns:
-        Mixed waveform, chosen segment, threshold, and active fraction.
+        Mixed waveform, chosen segment, threshold, and active fraction, or
+        ``None`` when no non-overlapping window could be placed.
     """
 
     segment, threshold, active_fraction = choose_active_segment(
@@ -356,7 +422,12 @@ def build_mix_one_segment(
         sample_rate=sample_rate,
         config=config,
         rng=rng,
+        exclude_segments=exclude_segments,
     )
+    # A zero-length segment means choose_active_segment could not place a window
+    # that clears the excluded regions; the reference is exhausted.
+    if segment.end <= segment.start:
+        return None
     mixed = ref_audio.copy()
     i0 = max(0, min(int(round(segment.start * sample_rate)), len(mixed)))
     i1 = max(i0, min(int(round(segment.end * sample_rate)), len(mixed)))
@@ -540,6 +611,7 @@ def select_accepted_mix(
     target_sample_rate: int,
     config: PlacementConfig,
     rng: random.Random,
+    exclude_segments: list[Segment] | None = None,
 ) -> tuple[np.ndarray, Segment, float, float] | None:
     """Select one accepted mix for a source pair.
 
@@ -549,19 +621,25 @@ def select_accepted_mix(
         target_sample_rate: Output sample rate.
         config: Segment placement configuration.
         rng: Random generator.
+        exclude_segments: Segments already used on this reference to avoid.
 
     Returns:
         Mixed waveform, selected segment, activity threshold, active fraction, or None.
     """
 
     for _ in range(config.max_row_attempts):
-        mixed_audio, segment, threshold, active_fraction = build_mix_one_segment(
+        result = build_mix_one_segment(
             ref_audio=ref_audio,
             deg_audio=deg_audio,
             sample_rate=target_sample_rate,
             config=config,
             rng=rng,
+            exclude_segments=exclude_segments,
         )
+        if result is None:
+            # No non-overlapping window placeable; this reference is exhausted.
+            return None
+        mixed_audio, segment, threshold, active_fraction = result
         if active_fraction >= config.output_active_fraction_min:
             return mixed_audio, segment, threshold, active_fraction
     return None
@@ -628,46 +706,78 @@ def generate_mixes(
     output_dir: Path,
     target_sample_rate: int,
     max_duration_seconds: float | None,
-    total_mix_files: int,
+    total_mix_files: int | None,
     config: PlacementConfig,
     allow_source_reuse: bool,
     max_source_passes: int,
     rng: random.Random,
+    max_placements_per_source: int | None = None,
 ) -> pd.DataFrame:
     """Generate mixed files and return the output manifest dataframe.
+
+    Reuse is placement augmentation: a single source REF/DEG pair is revisited
+    across passes, and each revisit inserts the degradation into a *new*
+    non-overlapping active region. Each generated file is still a one-segment
+    record, so the SFT target shape is unchanged; only the dataset size grows.
+
+    Termination is exhaustion-based when ``total_mix_files`` is ``None``: passes
+    continue until a full pass adds zero new files (every source has run out of
+    non-overlapping active regions). When ``total_mix_files`` is set it acts as
+    an upper cap, matching the legacy count-based behavior.
 
     Args:
         eligible_rows: Filtered source rows.
         output_dir: Output folder where WAVs are saved.
         target_sample_rate: Output sample rate.
         max_duration_seconds: Optional maximum duration per generated clip.
-        total_mix_files: Number of mix files to generate.
+        total_mix_files: Optional upper cap on output files; ``None`` runs to
+            exhaustion (max placements the active-speech pool allows).
         config: Segment placement configuration.
         allow_source_reuse: Whether rows can be reused across source passes.
         max_source_passes: Maximum number of source passes when reuse is enabled.
         rng: Random generator.
+        max_placements_per_source: Optional cap on placements per source REF;
+            ``None`` means as many non-overlapping windows as fit.
 
     Returns:
         Manifest dataframe.
 
     Raises:
-        ValueError: If generation cannot reach the requested number of files.
+        ValueError: If a hard ``total_mix_files`` target is set but not reached.
     """
 
     records: list[dict[str, object]] = []
-    index_width = max(3, len(str(total_mix_files - 1)))
+    # Index width is fixed generously since the final count is not known upfront
+    # when running to exhaustion.
+    index_width = max(5, len(str((total_mix_files or 0) - 1)))
     pass_limit = max(1, max_source_passes)
 
-    progress = tqdm(total=total_mix_files, desc="Generating mixes", unit="file")
+    # Segments already used per source REF, so each reuse avoids overlap.
+    used_segments: dict[int, list[Segment]] = {}
+    # Sources that returned no placeable window are dropped from later passes.
+    exhausted: set[int] = set()
+
+    target_label = str(total_mix_files) if total_mix_files else "exhaustion"
+    progress = tqdm(total=total_mix_files, desc=f"Generating mixes ({target_label})", unit="file")
     pass_idx = 0
-    while len(records) < total_mix_files and pass_idx < pass_limit:
+    while pass_idx < pass_limit:
+        if total_mix_files is not None and len(records) >= total_mix_files:
+            break
         pass_idx += 1
+        added_this_pass = 0
         source_indices = list(eligible_rows.index)
         rng.shuffle(source_indices)
 
         for src_idx in source_indices:
-            if len(records) >= total_mix_files:
+            if total_mix_files is not None and len(records) >= total_mix_files:
                 break
+            if src_idx in exhausted:
+                continue
+            if (
+                max_placements_per_source is not None
+                and len(used_segments.get(src_idx, [])) >= max_placements_per_source
+            ):
+                continue
 
             row = eligible_rows.loc[src_idx]
             pair = prepare_audio_pair(
@@ -676,6 +786,7 @@ def generate_mixes(
                 max_duration_seconds=max_duration_seconds,
             )
             if pair is None:
+                exhausted.add(src_idx)
                 continue
             ref_audio, deg_audio = pair
 
@@ -685,8 +796,11 @@ def generate_mixes(
                 target_sample_rate=target_sample_rate,
                 config=config,
                 rng=rng,
+                exclude_segments=used_segments.get(src_idx, []),
             )
             if selected is None:
+                # No non-overlapping active region left for this source.
+                exhausted.add(src_idx)
                 continue
             (
                 selected_mix,
@@ -700,6 +814,7 @@ def generate_mixes(
             out_path = output_dir / f"{index:0{index_width}d}_mix_{stem}.wav"
             sf.write(out_path, selected_mix, target_sample_rate)
 
+            used_segments.setdefault(src_idx, []).append(selected_segment)
             records.append(
                 build_manifest_record(
                     index=index,
@@ -714,14 +829,19 @@ def generate_mixes(
                     target_sample_rate=target_sample_rate,
                 )
             )
+            added_this_pass += 1
             progress.update(1)
 
         if not allow_source_reuse:
             break
+        # Exhaustion: a full pass that placed nothing new means every remaining
+        # source has run out of non-overlapping windows.
+        if added_this_pass == 0:
+            break
 
     progress.close()
 
-    if len(records) < total_mix_files:
+    if total_mix_files is not None and len(records) < total_mix_files:
         raise ValueError(
             f"Generated only {len(records)} files out of requested {total_mix_files}. "
             "Try increasing --mos-max-threshold, lowering --output-active-fraction-min, "
@@ -732,7 +852,7 @@ def generate_mixes(
 
 
 def main(
-    total_mix_files: int = 3000,
+    total_mix_files: int | None = 3000,
     data_root: Path = Path("data/raw/NISQA_Corpus"),
     sim_split: str = "NISQA_TRAIN_SIM",
     output_dir: Path = Path("data/processed/nisqa_sim_mix_lowmos_active_3000"),
@@ -754,12 +874,19 @@ def main(
     max_row_attempts: int = 4,
     allow_source_reuse: bool = True,
     max_source_passes: int = 8,
+    max_placements_per_source: int | None = None,
     overwrite: bool = False,
 ) -> None:
     """Generate NISQA-SIM low-MOS active-region temporal mixes.
 
+    For placement augmentation, set ``total_mix_files`` to ``0`` (or any value
+    <= 0) to run to exhaustion: every eligible source is reused across passes,
+    each reuse placing the degradation in a new non-overlapping active region,
+    until no source has a fresh window left. ``max_placements_per_source`` caps
+    reuse per REF (``None`` = as many as the active-speech pool allows).
+
     Args:
-        total_mix_files: Number of output mix files to generate.
+        total_mix_files: Output file target; ``<= 0`` runs to exhaustion.
         data_root: Root path that contains NISQA split folders.
         sim_split: NISQA split name.
         output_dir: Output directory for generated WAV files and manifest.
@@ -781,8 +908,14 @@ def main(
         max_row_attempts: Placement retries per source row.
         allow_source_reuse: Allow reuse of source rows across passes.
         max_source_passes: Max number of shuffled source passes.
+        max_placements_per_source: Cap on placements per source REF; ``None`` =
+            as many non-overlapping active windows as fit.
         overwrite: Overwrite existing output directory contents.
     """
+
+    # total_mix_files <= 0 (or None) means run to exhaustion: keep reusing each
+    # source until it has no fresh non-overlapping active region left.
+    file_cap: int | None = total_mix_files if (total_mix_files or 0) > 0 else None
 
     rng = random.Random(seed)
     placement_config = PlacementConfig(
@@ -806,27 +939,32 @@ def main(
         mos_max_threshold=mos_max_threshold,
         require_active_degradation_types=require_active_degradation_types,
     )
-    if not allow_source_reuse and len(eligible_rows) < total_mix_files:
+    if not allow_source_reuse and file_cap is not None and len(eligible_rows) < file_cap:
         raise ValueError(
-            f"Need at least {total_mix_files} eligible source rows, but found {len(eligible_rows)}. "
+            f"Need at least {file_cap} eligible source rows, but found {len(eligible_rows)}. "
             "Enable --allow-source-reuse or increase --mos-max-threshold."
         )
 
     print(f"Eligible source rows: {len(eligible_rows)}")
     print(f"MOS threshold: <= {mos_max_threshold}")
     print(f"Output dir: {output_dir}")
-    print(f"Requested files: {total_mix_files}")
+    print(f"Requested files: {file_cap if file_cap is not None else 'exhaustion'}")
+    print(
+        "Placements per source: "
+        f"{max_placements_per_source if max_placements_per_source is not None else 'max non-overlapping'}"
+    )
 
     manifest_df = generate_mixes(
         eligible_rows=eligible_rows,
         output_dir=output_dir,
         target_sample_rate=target_sample_rate,
         max_duration_seconds=max_duration_seconds,
-        total_mix_files=total_mix_files,
+        total_mix_files=file_cap,
         config=placement_config,
         allow_source_reuse=allow_source_reuse,
         max_source_passes=max_source_passes,
         rng=rng,
+        max_placements_per_source=max_placements_per_source,
     )
     manifest_path = output_dir / "manifest.csv"
     manifest_df.to_csv(manifest_path, index=False)
