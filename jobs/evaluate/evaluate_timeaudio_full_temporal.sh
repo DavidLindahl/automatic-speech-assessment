@@ -38,14 +38,12 @@ export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-$HF_HOME/hub}"
 mkdir -p "$HUGGINGFACE_HUB_CACHE"
 
 MODEL_PATH="$PROJECT_DIR/models/sft_temporal_timeaudio_h100"
-DATASET_PATH="data/processed/temporal/test_FOR_temporal.json"
-OUTPUT_DIR="results/evaluation/temporal/timeaudio_full_FOR"
+OUTPUT_DIR="results/evaluation/temporal/timeaudio_full"
 
 echo "=========================================="
 echo "Job ID   : ${LSB_JOBID:-local}"
 echo "Host     : $(hostname)"
 echo "Model    : $MODEL_PATH (full 3-epoch run 28571127)"
-echo "Dataset  : $DATASET_PATH"
 echo "Output   : $OUTPUT_DIR"
 echo "Started  : $(date)"
 echo "=========================================="
@@ -55,14 +53,25 @@ if [ ! -f "$MODEL_PATH/model.safetensors.index.json" ]; then
   echo "ERROR: no sharded checkpoint index at $MODEL_PATH"
   exit 1
 fi
-if [ ! -f "$DATASET_PATH" ]; then
-  echo "ERROR: missing dataset $DATASET_PATH"
-  exit 1
-fi
+
+DATASETS=(
+  "data/processed/temporal/test_FOR_temporal.json"
+  "data/processed/temporal/test_LIVE_temporal.json"
+  "data/processed/temporal/test_P501_temporal.json"
+)
+
+for ds in "${DATASETS[@]}"; do
+  if [ ! -f "$ds" ]; then
+    echo "ERROR: missing dataset $ds"
+    exit 1
+  fi
+done
 
 uv run python scripts/eval/evaluate_temporal.py \
   --model-path "$MODEL_PATH" \
-  --dataset-path "$DATASET_PATH" \
+  --dataset-path "${DATASETS[0]}" \
+  --dataset-path "${DATASETS[1]}" \
+  --dataset-path "${DATASETS[2]}" \
   --data-root data \
   --output-dir "$OUTPUT_DIR" \
   --batch-size 4 \
