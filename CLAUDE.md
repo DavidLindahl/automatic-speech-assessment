@@ -131,7 +131,7 @@ Code style: **line length 88** (enforced by ruff and pre-commit), f-strings, typ
 
 Settled defaults — change only with explicit reason:
 
-- **Evaluation (`asa-eval`)**: `do_sample=True, temperature=0.7, top_p=0.9`. Greedy and beam are not the default; greedy collapses to repeated templates, beam is parked for a later A/B comparison study.
+- **Evaluation (`scripts/eval/evaluate.py`)**: `do_sample=True, temperature=0.7, top_p=0.9`. Greedy and beam are not the default; greedy collapses to repeated templates, beam is parked for a later A/B comparison study.
 - **DPO data generation** (sampling π_θ for rejected completions): `temperature=1.1, top_p=0.9`. Encourages enough diversity in the negatives that DPO has a real signal. The previous `temp=1.0, top_p=1.0` setting led to length-bias reward hacking — do not revert.
 - **BLEU metric**: `sacrebleu.corpus_bleu` reported on a 0–100 scale. The earlier `nltk.sentence_bleu` per-sample average is wrong by a factor of ~100x and unsmoothed — do not use for headline numbers.
 

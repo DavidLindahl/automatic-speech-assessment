@@ -1,5 +1,5 @@
+import evaluate
 from typer.testing import CliRunner
-from asa import evaluate
 
 
 def test_help_flags_present():
