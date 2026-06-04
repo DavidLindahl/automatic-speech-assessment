@@ -6,7 +6,20 @@
     "bleu": 0.0,
     "bleu_lowercased": 0.0,
     "unique_predictions": 1,
-    "top_prediction_frequency": 1.0
+    "top_prediction_frequency": 1.0,
+    "samples_scored": 200,
+    "rouge1_f": 0.0,
+    "rouge2_f": 0.0,
+    "rougeL_f": 0.0,
+    "bertscore_precision": 0.0,
+    "bertscore_recall": 0.0,
+    "bertscore_f1": 0.0,
+    "bertscore_model": "roberta-large",
+    "caption_metric_aggregation": {
+      "bleu": "corpus",
+      "rouge": "sample_mean_f1",
+      "bertscore": "sample_mean"
+    }
   },
   "decoding": {
     "do_sample": false,

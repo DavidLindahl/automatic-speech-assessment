@@ -6,7 +6,20 @@
     "bleu": 16.47106720082246,
     "bleu_lowercased": 16.90722316519798,
     "unique_predictions": 178,
-    "top_prediction_frequency": 0.03
+    "top_prediction_frequency": 0.03,
+    "samples_scored": 200,
+    "rouge1_f": 0.5513512372832393,
+    "rouge2_f": 0.2415924900817493,
+    "rougeL_f": 0.4175713854921799,
+    "bertscore_precision": 0.9362452030181885,
+    "bertscore_recall": 0.9337923526763916,
+    "bertscore_f1": 0.9349673986434937,
+    "bertscore_model": "roberta-large",
+    "caption_metric_aggregation": {
+      "bleu": "corpus",
+      "rouge": "sample_mean_f1",
+      "bertscore": "sample_mean"
+    }
   },
   "decoding": {
     "do_sample": true,

@@ -3,9 +3,23 @@
     "samples": 240,
     "mae": 0.43333333333333335,
     "mse": 0.31008333333333327,
-    "bleu": 0.13693896979097042,
+    "bleu": 19.23153553589598,
     "unique_predictions": 50,
-    "top_prediction_frequency": 0.10416666666666667
+    "top_prediction_frequency": 0.10416666666666667,
+    "samples_scored": 240,
+    "bleu_lowercased": 19.64828914348739,
+    "rouge1_f": 0.5714388669028545,
+    "rouge2_f": 0.26006868867332655,
+    "rougeL_f": 0.4403642990398392,
+    "bertscore_precision": 0.9429940581321716,
+    "bertscore_recall": 0.9405344128608704,
+    "bertscore_f1": 0.941731333732605,
+    "bertscore_model": "roberta-large",
+    "caption_metric_aggregation": {
+      "bleu": "corpus",
+      "rouge": "sample_mean_f1",
+      "bertscore": "sample_mean"
+    }
   },
   "results": [
     {

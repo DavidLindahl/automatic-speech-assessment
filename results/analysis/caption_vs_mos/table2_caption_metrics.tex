@@ -1,0 +1,16 @@
+\begin{tabular}{llccc}
+\toprule
+Model & Decoder & BLEU $\uparrow$ & ROUGE-L $\uparrow$ & BERTScore $\uparrow$ \\
+\midrule
+Warmup SFT & greedy & 12.6 & 0.36 & 0.929 \\
+Warmup SFT & sampled & 12.8 & 0.36 & 0.928 \\
+Full SFT & greedy & 26.7 & 0.52 & 0.946 \\
+Full SFT & sampled & 23.1 & 0.48 & 0.941 \\
+Warmup-DPO & greedy & 19.7 & 0.46 & 0.944 \\
+Warmup-DPO & sampled & 19.9 & 0.44 & 0.937 \\
+Full-DPO & greedy & 26.8 & 0.52 & 0.947 \\
+Full-DPO & sampled & 24.2 & 0.48 & 0.942 \\
+\bottomrule
+\end{tabular}
+% Mean over FOR / LIVE / P501 / NISQA-indomain.
+% BLEU corpus [0,100]; ROUGE-L and BERTScore-F1 sample-mean [0,1].

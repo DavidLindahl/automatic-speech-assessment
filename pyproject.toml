@@ -66,7 +66,9 @@ dependencies = [
 
 [project.scripts]
 asa-infer = "asa.inference:app"
-asa-eval  = "asa.evaluate:app"
+# No asa-eval console script: the eval CLIs live under scripts/eval/ (not
+# packaged by the src-layout build), and every job runs them directly via
+# `python scripts/eval/evaluate.py`.
 
 [dependency-groups]
 dev = [
