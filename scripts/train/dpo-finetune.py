@@ -31,9 +31,10 @@ app = typer.Typer()
 class ALLDDPOTrainer(Trainer):
     """Custom Trainer implementing the ALLD cross-modal DPO loss."""
 
-    def __init__(self, ref_model, beta=0.4, *args, **kwargs):
+    def __init__(self, ref_model, beta=0.4, length_norm=True, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.beta = beta
+        self.length_norm = length_norm
 
         # --- NEW: Safely move the reference model to the correct GPU ---
         if ref_model is not None:
@@ -93,9 +94,12 @@ class ALLDDPOTrainer(Trainer):
                 reduction="none",
             ).view(labels.shape)
 
-            return (per_token_logprobs * loss_mask).sum(dim=1) / loss_mask.sum(
-                dim=1
-            ).clamp(min=1)
+            summed_logprobs = (per_token_logprobs * loss_mask).sum(dim=1)
+            if not self.length_norm:
+                # Ablation: raw summed completion log-prob (original DPO/ALLD
+                # objective before the 2026-04-14 length-normalisation fix).
+                return summed_logprobs
+            return summed_logprobs / loss_mask.sum(dim=1).clamp(min=1)
 
         policy_logprobs = get_logprobs(policy_logits, policy_inputs["labels"])
         ref_logprobs = get_logprobs(ref_logits, ref_inputs["labels"])
@@ -151,6 +155,13 @@ def train(
     batch_size: int = typer.Option(2, help="Per-device batch size."),
     epochs: int = typer.Option(2, help="Training epochs."),
     beta: float = typer.Option(0.4, help="DPO margin parameter beta."),
+    length_norm: bool = typer.Option(
+        True,
+        help="Divide each completion's summed log-prob by its token count "
+        "(mean per-token log-prob). True is the current default introduced "
+        "to fix DPO mode collapse; pass --no-length-norm to ablate it and "
+        "recover the raw summed-log-prob ALLD objective.",
+    ),
     lr: float = typer.Option(5e-6, help="Learning rate."),
     gradient_accumulation_steps: int = typer.Option(8, help="Gradient accumulation."),
     bf16: bool = typer.Option(False, help="Use bf16."),
@@ -207,6 +218,7 @@ def train(
                 "batch_size": batch_size,
                 "beta": beta,
                 "epochs": epochs,
+                "length_norm": length_norm,
             },
         )
     report_to = "wandb" if wandb_project else "none"
@@ -310,6 +322,7 @@ def train(
     trainer = ALLDDPOTrainer(
         ref_model=ref_model,
         beta=beta,
+        length_norm=length_norm,
         model=model,
         args=training_args,
         train_dataset=train_dataset,
