@@ -11,7 +11,14 @@
 ### 2026-04-14 mode-collapse fix (commit 988a640).
 ###
 ### Everything else is held identical to 28557823:
-###   policy   = models/sft_full_paper_h100 (the Full SFT base)
+###   policy   = Leng2beat/SFT_Global_Full (the Full SFT base, on HF Hub).
+###              VERIFIED identical to the deleted local sft_full_paper_h100
+###              that 28557823 trained from: its training_args.bin carries
+###              output_dir=.../models/sft_full_paper_h100, epochs 2, LR 1e-5,
+###              batch 4 -- the canonical Full SFT (28504365). Loaded from Hub
+###              because the local /work3 copy was retired under quota; the
+###              preamble redirects HF_HOME to node-local scratch so the
+###              ~16 GB download does not touch the /work3 or home quota.
 ###   dataset  = train_dpo_full_sft.json (rejected sampled from that SFT)
 ###   ref      = Qwen/Qwen2-7B (dpo-finetune.py default, frozen)
 ###   LR 1e-6, beta 0.4, 1 epoch, batch 2, grad-accum 16, ds_zero2.
@@ -52,7 +59,7 @@ fi
 
 torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --model-name "$EXPERIMENT_DIR/models/dpo_full_sft_paired_nonorm" \
-    --model-id "$EXPERIMENT_DIR/models/sft_full_paper_h100" \
+    --model-id "Leng2beat/SFT_Global_Full" \
     --json-path "$TRAIN_JSON" \
     --data-root data \
     --batch-size 2 \
