@@ -3,7 +3,7 @@ import logging
 import re
 from collections import Counter
 from pathlib import Path
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 import sacrebleu
 import typer
@@ -15,9 +15,126 @@ EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
 
+# Default BERTScore backbone. roberta-large is the bert-score library default and
+# the most commonly cited choice for English; record it in the output for
+# reproducibility since BERTScore values depend on the backbone.
+BERTSCORE_MODEL = "roberta-large"
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 app = typer.Typer(help="Evaluate fine-tuned Qwen2-Audio models on standard datasets.")
+
+
+def compute_caption_metrics(
+    hyps: List[str],
+    refs: List[str],
+    bertscore_model: str = BERTSCORE_MODEL,
+) -> Dict[str, Any]:
+    """Compute lexical and semantic caption-quality metrics.
+
+    Three complementary views of how close each predicted caption is to its
+    reference:
+
+    - BLEU (sacrebleu corpus): n-gram precision, the surface phrasing overlap.
+      Reported cased and lowercased. Corpus-level aggregation.
+    - ROUGE-1/2/L (rouge-score): n-gram recall plus longest-common-subsequence.
+      The recall-side mirror of BLEU. Per-sample F1, then averaged.
+    - BERTScore P/R/F1 (bert-score): token-embedding cosine similarity, the only
+      semantic (synonym-aware) view. Per-sample, then averaged.
+
+    Args:
+        hyps: Predicted captions.
+        refs: Reference captions, aligned 1:1 with ``hyps``.
+        bertscore_model: HuggingFace backbone for BERTScore (recorded in output).
+
+    Returns:
+        Flat dict of metric name to score. BLEU on the 0-100 sacrebleu scale;
+        ROUGE and BERTScore on 0-1.
+    """
+    if len(hyps) != len(refs):
+        raise ValueError(
+            f"hyps/refs length mismatch: {len(hyps)} vs {len(refs)}"
+        )
+
+    # Imported lazily so the module loads even when these extras are absent
+    # (e.g. on a node where only MOS/BLEU is needed).
+    from rouge_score import rouge_scorer
+    from bert_score import score as bertscore_fn
+
+    # BLEU: corpus-level n-gram precision, cased and lowercased.
+    bleu_cased = sacrebleu.corpus_bleu(hyps, [refs]).score
+    bleu_lc = sacrebleu.corpus_bleu(
+        [h.lower() for h in hyps], [[r.lower() for r in refs]]
+    ).score
+
+    # ROUGE: per-sample F1 for unigram, bigram, and LCS overlap, then averaged.
+    scorer = rouge_scorer.RougeScorer(
+        ["rouge1", "rouge2", "rougeL"], use_stemmer=True
+    )
+    rouge1, rouge2, rougel = [], [], []
+    for hyp, ref in zip(hyps, refs):
+        scores = scorer.score(ref, hyp)  # (target, prediction) order
+        rouge1.append(scores["rouge1"].fmeasure)
+        rouge2.append(scores["rouge2"].fmeasure)
+        rougel.append(scores["rougeL"].fmeasure)
+
+    n = max(len(hyps), 1)
+    rouge1_f = sum(rouge1) / n
+    rouge2_f = sum(rouge2) / n
+    rougel_f = sum(rougel) / n
+
+    # BERTScore: semantic similarity via contextual embeddings, averaged.
+    logging.info("Computing BERTScore with backbone %s...", bertscore_model)
+    bs_p, bs_r, bs_f1 = bertscore_fn(
+        hyps,
+        refs,
+        model_type=bertscore_model,
+        lang="en",
+        rescale_with_baseline=False,
+        verbose=False,
+    )
+
+    return {
+        "bleu": bleu_cased,
+        "bleu_lowercased": bleu_lc,
+        "rouge1_f": rouge1_f,
+        "rouge2_f": rouge2_f,
+        "rougeL_f": rougel_f,
+        "bertscore_precision": bs_p.mean().item(),
+        "bertscore_recall": bs_r.mean().item(),
+        "bertscore_f1": bs_f1.mean().item(),
+        "bertscore_model": bertscore_model,
+        # BLEU is corpus-level (sacrebleu); ROUGE and BERTScore are per-sample
+        # then averaged. Recorded so cited numbers stay comparable across runs.
+        "caption_metric_aggregation": {
+            "bleu": "corpus",
+            "rouge": "sample_mean_f1",
+            "bertscore": "sample_mean",
+        },
+    }
+
+
+def log_caption_metrics(metrics: Dict[str, Any]) -> None:
+    """Pretty-print the caption metrics produced by ``compute_caption_metrics``."""
+    logging.info(
+        "BLEU (corpus, cased):       %.2f", metrics["bleu"]
+    )
+    logging.info(
+        "BLEU (corpus, lowercased):  %.2f", metrics["bleu_lowercased"]
+    )
+    logging.info(
+        "ROUGE-1 / -2 / -L F1 (mean): %.4f / %.4f / %.4f",
+        metrics["rouge1_f"],
+        metrics["rouge2_f"],
+        metrics["rougeL_f"],
+    )
+    logging.info(
+        "BERTScore P / R / F1 (mean, %s): %.4f / %.4f / %.4f",
+        metrics["bertscore_model"],
+        metrics["bertscore_precision"],
+        metrics["bertscore_recall"],
+        metrics["bertscore_f1"],
+    )
 
 
 @app.callback(invoke_without_command=True)
@@ -216,10 +333,7 @@ def eval_mos(
         mae = sum(mos_errors) / len(mos_errors)
         mse = sum(e**2 for e in mos_errors) / len(mos_errors)
 
-        bleu_corpus = sacrebleu.corpus_bleu(hyps, [refs]).score
-        bleu_corpus_lc = sacrebleu.corpus_bleu(
-            [h.lower() for h in hyps], [[r.lower() for r in refs]]
-        ).score
+        caption_metrics = compute_caption_metrics(hyps, refs)
 
         unique_predictions = len(set(hyps))
         top_prediction_frequency = max(Counter(hyps).values()) / max(len(hyps), 1)
@@ -229,8 +343,7 @@ def eval_mos(
         logging.info(f"Samples evaluated:                    {len(data)}")
         logging.info(f"MOS MAE (Mean Absolute Error):        {mae:.4f}")
         logging.info(f"MOS MSE (Mean Squared Error):         {mse:.4f}")
-        logging.info(f"BLEU (sacrebleu corpus, cased):       {bleu_corpus:.2f}")
-        logging.info(f"BLEU (sacrebleu corpus, lowercased):  {bleu_corpus_lc:.2f}")
+        log_caption_metrics(caption_metrics)
         logging.info(
             f"Unique predictions: {unique_predictions} / {len(hyps)} "
             f"| Top prediction frequency: {top_prediction_frequency:.4f}"
@@ -247,8 +360,7 @@ def eval_mos(
                         "samples": len(data),
                         "mae": mae,
                         "mse": mse,
-                        "bleu": bleu_corpus,
-                        "bleu_lowercased": bleu_corpus_lc,
+                        **caption_metrics,
                         "unique_predictions": unique_predictions,
                         "top_prediction_frequency": top_prediction_frequency,
                     },
@@ -266,6 +378,86 @@ def eval_mos(
             )
 
         logging.info(f"Saved detailed results to {out_file}\n")
+
+
+@app.command()
+def rescore(
+    ctx: typer.Context,
+    results_paths: List[Path] = typer.Option(
+        ...,
+        "--results-path",
+        help="Existing *_results.json file(s) from a prior eval run to re-score.",
+    ),
+    bertscore_model: str = typer.Option(
+        BERTSCORE_MODEL, help="HuggingFace backbone for BERTScore."
+    ),
+    in_place: bool = typer.Option(
+        False,
+        "--in-place/--no-in-place",
+        help="Merge caption metrics back into the source JSON instead of a sidecar.",
+    ),
+):
+    """Re-score saved predictions with BLEU + ROUGE + BERTScore, no inference.
+
+    Reads each ``*_results.json`` (produced by ``eval-mos``), pulls the stored
+    reference (``response``) and prediction (``predicted_response``) for every
+    sample, and computes the caption metrics offline. Useful for adding the new
+    metrics to past runs without re-running the model. Writes a
+    ``*_caption_metrics.json`` sidecar by default, or merges into the source
+    file with ``--in-place``.
+    """
+    for results_path in results_paths:
+        logging.info("Re-scoring %s", results_path)
+        with open(results_path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+
+        records = payload.get("results", [])
+        hyps: List[str] = []
+        refs: List[str] = []
+        skipped = 0
+        for record in records:
+            hyp = record.get("predicted_response")
+            ref = record.get("response")
+            if not isinstance(hyp, str) or not isinstance(ref, str):
+                skipped += 1
+                continue
+            hyps.append(hyp.strip())
+            refs.append(ref.strip())
+
+        if not hyps:
+            logging.warning(
+                "No scorable (response, predicted_response) pairs in %s; skipping.",
+                results_path,
+            )
+            continue
+        if skipped:
+            logging.warning(
+                "Skipped %d record(s) missing response/predicted_response.", skipped
+            )
+
+        caption_metrics = compute_caption_metrics(
+            hyps, refs, bertscore_model=bertscore_model
+        )
+
+        logging.info("=" * 40)
+        logging.info("RE-SCORE: %s", results_path.name)
+        logging.info("Samples scored: %d", len(hyps))
+        log_caption_metrics(caption_metrics)
+        logging.info("=" * 40)
+
+        scored = {"samples_scored": len(hyps), **caption_metrics}
+        if in_place:
+            payload.setdefault("metrics", {}).update(scored)
+            with open(results_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2, ensure_ascii=False)
+            logging.info("Merged caption metrics into %s\n", results_path)
+        else:
+            sidecar = results_path.with_name(
+                f"{results_path.stem}_caption_metrics.json"
+            )
+            with open(sidecar, "w", encoding="utf-8") as f:
+                json.dump(scored, f, indent=2, ensure_ascii=False)
+            logging.info("Saved caption metrics to %s\n", sidecar)
 
 
 if __name__ == "__main__":

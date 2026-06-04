@@ -60,6 +60,8 @@ dependencies = [
     "wandb>=0.25.0",
     "google-genai>=1.68.0",
     "sacrebleu>=2.4.0",
+    "rouge-score>=0.1.2",
+    "bert-score>=0.3.13",
 ]
 
 [project.scripts]
