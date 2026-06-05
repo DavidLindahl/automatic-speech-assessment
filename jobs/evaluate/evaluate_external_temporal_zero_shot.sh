@@ -143,9 +143,19 @@ case "$BACKEND" in
 esac
 
 if [ "$BACKEND" = "salmonn" ]; then
+  SALMONN_ASSET_DIR="${SALMONN_ASSET_DIR:-$HF_HOME/salmonn_assets}"
+  SALMONN_CONFIG_PATH="${SALMONN_CONFIG_PATH:-$HF_HOME/salmonn_zeroshot_runtime.yaml}"
+  export SALMONN_ASSET_DIR SALMONN_CONFIG_PATH
+  echo "Staging SALMONN assets into $SALMONN_ASSET_DIR"
+  uv run python scripts/eval/stage_salmonn_assets.py \
+    --asset-dir "$SALMONN_ASSET_DIR" \
+    --base-config configs/salmonn_zeroshot.yaml \
+    --runtime-config "$SALMONN_CONFIG_PATH"
+
   echo "Running SALMONN preflight"
   uv run python - <<'PY'
 from pathlib import Path
+import os
 import sys
 
 from salmonn_bench.config import load_benchmark_config
@@ -161,7 +171,7 @@ try:
 except Exception as exc:
     missing.append(f"Python import failed: {type(exc).__name__}: {exc}")
 
-cfg = load_benchmark_config(Path("configs/salmonn_zeroshot.yaml"))
+cfg = load_benchmark_config(Path(os.environ["SALMONN_CONFIG_PATH"]))
 for key in ("llama_path", "whisper_path"):
     path = Path(cfg.model[key])
     if not path.is_dir():
@@ -207,7 +217,7 @@ for dataset_path in "${DATASETS[@]}"; do
       echo "Running SALMONN on $input_json"
       uv run python -m salmonn_bench.cli run-temporal \
         --dataset-path "$input_json" \
-        --config-path configs/salmonn_zeroshot.yaml \
+        --config-path "$SALMONN_CONFIG_PATH" \
         --data-root data \
         --output-dir "$RAW_PRED_DIR" \
         --run-id "."
