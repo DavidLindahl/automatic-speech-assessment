@@ -9,8 +9,8 @@
 ###   TIMEAUDIO_PYTHON=$TIMEAUDIO_DIR/.venv/bin/python
 ###   checkpoints under $TIMEAUDIO_DIR/pretrained_model/
 ###
-### SALMONN support starts from the same prepared JSON files and scorer.
-### Add only a backend runner once the exact SALMONN inference CLI is chosen.
+### SALMONN support uses the same prepared JSON files and scorer, with
+### inference routed through src/salmonn_bench.
 ### ============================================================
 
 #BSUB -q gpuh100
@@ -141,6 +141,54 @@ case "$BACKEND" in
     exit 1
     ;;
 esac
+
+if [ "$BACKEND" = "salmonn" ]; then
+  echo "Running SALMONN preflight"
+  uv run python - <<'PY'
+from pathlib import Path
+import sys
+
+from salmonn_bench.config import load_benchmark_config
+
+project_root = Path.cwd()
+sys.path.insert(0, str(project_root / "third_party" / "salmonn"))
+
+missing: list[str] = []
+
+try:
+    import peft  # noqa: F401
+    from models.salmonn import SALMONN  # noqa: F401
+except Exception as exc:
+    missing.append(f"Python import failed: {type(exc).__name__}: {exc}")
+
+cfg = load_benchmark_config(Path("configs/salmonn_zeroshot.yaml"))
+for key in ("llama_path", "whisper_path"):
+    path = Path(cfg.model[key])
+    if not path.is_dir():
+        missing.append(f"{key} directory missing: {path}")
+
+for key in ("beats_path", "ckpt"):
+    path = Path(cfg.model[key])
+    if not path.is_file():
+        missing.append(f"{key} file missing: {path}")
+
+for audio_dir in (
+    Path("data/processed/temporal/nisqa_test_for_mixes"),
+    Path("data/processed/temporal/nisqa_test_live_mixes"),
+    Path("data/processed/temporal/nisqa_test_p501_mixes"),
+):
+    if not audio_dir.is_dir():
+        missing.append(f"temporal audio directory missing: {audio_dir}")
+
+if missing:
+    print("SALMONN preflight failed:")
+    for item in missing:
+        print(f"  - {item}")
+    raise SystemExit(1)
+
+print("SALMONN preflight passed")
+PY
+fi
 
 for dataset_path in "${DATASETS[@]}"; do
   prepare_dataset "$dataset_path"
