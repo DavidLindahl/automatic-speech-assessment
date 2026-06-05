@@ -24,7 +24,7 @@
 #BSUB -o logs/sft_full_clean9500_h100_%J.out
 #BSUB -e logs/sft_full_clean9500_h100_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --model-id Qwen/Qwen2-Audio-7B \
