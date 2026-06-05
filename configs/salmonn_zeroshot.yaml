@@ -1,8 +1,8 @@
 model:
-  llama_path: "models/salmonn/vicuna-7b-v1.1"
+  llama_path: "models/salmonn/vicuna-7b-v1.5"
   whisper_path: "models/salmonn/whisper-large-v2"
-  beats_path: "models/salmonn/BEATs_iter3_plus_AS2M_finetuned_cpt2.pt"
-  ckpt: "models/salmonn/salmonn_v1.pth"
+  beats_path: "models/salmonn/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt"
+  ckpt: "models/salmonn/salmonn_7b_v0.pth"
 
   freeze_whisper: true
   freeze_beats: true
