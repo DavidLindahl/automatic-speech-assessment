@@ -11,13 +11,16 @@ from typing import Optional
 
 import torch
 import typer
+from huggingface_hub import HfApi
 from torch.utils.data import random_split
 from transformers import (
     AutoProcessor,
     Qwen2AudioForConditionalGeneration,
     Trainer,
+    TrainerCallback,
     TrainingArguments,
 )
+from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
 
 from asa.data import Qwen2AudioCollator, SFTDataset
 from asa.modeling_timeaudio import (
@@ -26,6 +29,58 @@ from asa.modeling_timeaudio import (
 )
 
 app = typer.Typer()
+
+
+class HubCheckpointCallback(TrainerCallback):
+    """Upload each rotated checkpoint to the Hub directly from its folder.
+
+    The stock ``hub_strategy="every_save"`` path copies all model shards from
+    ``checkpoint-N/`` up into ``output_dir`` before uploading (transformers
+    ``Trainer._push_from_checkpoint`` does ``shutil.copy`` per shard), so a
+    16 GB checkpoint occupies ~32 GB on disk: once under ``checkpoint-N/`` and
+    once at the top level. On a tight ``/work3`` quota that doubled footprint
+    overflowed the hard limit mid-save and killed the job.
+
+    This callback uploads straight from ``checkpoint-N/`` (which the Trainer
+    already wrote and rotates via ``save_total_limit``), so there is no second
+    on-disk copy. ``push_to_hub`` is left False on the Trainer so the stock path
+    never runs. Uploads are best-effort: a failed push logs and continues rather
+    than killing a healthy training run.
+    """
+
+    def __init__(self, repo_id: str, private: bool = False) -> None:
+        self._repo_id = repo_id
+        self._private = private
+        self._api = HfApi()
+        self._created = False
+
+    def _ensure_repo(self) -> None:
+        if not self._created:
+            self._api.create_repo(
+                self._repo_id, private=self._private, exist_ok=True
+            )
+            self._created = True
+
+    def on_save(self, args, state, control, **kwargs):  # noqa: ANN001
+        """Upload the just-written checkpoint folder from rank 0."""
+        if not state.is_world_process_zero:
+            return
+        ckpt_dir = os.path.join(
+            args.output_dir, f"{PREFIX_CHECKPOINT_DIR}-{state.global_step}"
+        )
+        if not os.path.isdir(ckpt_dir):
+            print(f"WARNING: checkpoint dir not found for upload: {ckpt_dir}")
+            return
+        try:
+            self._ensure_repo()
+            self._api.upload_folder(
+                repo_id=self._repo_id,
+                folder_path=ckpt_dir,
+                commit_message=f"Training checkpoint, step {state.global_step}",
+            )
+            print(f"Uploaded step {state.global_step} to {self._repo_id}")
+        except Exception as e:  # noqa: BLE001
+            print(f"WARNING: Hub upload of step {state.global_step} failed: {e!r}")
 
 
 @app.command()
@@ -237,10 +292,16 @@ def train(
         )
 
     # ── 4. Training args ─────────────────────────────────────────────────
-    # Saving: stream to Hub every save_steps with save_only_model=True so each
-    # rotated local ckpt is ~16 GB (model weights only) instead of ~63 GB
-    # (DeepSpeed full ckpt). save_total_limit=1 keeps /work3 quota flat.
-    # Final save is wrapped in try/except below; Hub push is the durable path.
+    # Saving: write a rotated local checkpoint every save_steps with
+    # save_only_model=True so each ckpt is ~16 GB (model weights only) instead
+    # of ~63 GB (DeepSpeed full ckpt). save_total_limit=1 keeps /work3 flat.
+    #
+    # Hub upload is done by HubCheckpointCallback (added below), NOT by the
+    # built-in push_to_hub path. The built-in path (hub_strategy="every_save")
+    # shutil.copies every shard from checkpoint-N/ into output_dir before
+    # uploading, doubling on-disk footprint to ~32 GB per run, which overflowed
+    # the /work3 quota mid-save and killed a run. So push_to_hub stays False and
+    # the callback uploads straight from checkpoint-N/ (no second copy).
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
@@ -266,10 +327,7 @@ def train(
         remove_unused_columns=False,
         report_to=report_to,
         run_name=wandb_run_name,
-        push_to_hub=push_to_hub,
-        hub_model_id=hub_model_id,
-        hub_strategy="every_save" if push_to_hub else "end",
-        hub_private_repo=hub_private,
+        push_to_hub=False,
     )
     # ── 5. Train ─────────────────────────────────────────────────────────
     trainer = Trainer(
@@ -280,6 +338,10 @@ def train(
         data_collator=collator,
         processing_class=processor,
     )
+    if push_to_hub:
+        trainer.add_callback(
+            HubCheckpointCallback(repo_id=hub_model_id, private=hub_private)
+        )
     if is_main:
         print("Starting training...")
     if resume_from_checkpoint is None:
@@ -304,16 +366,34 @@ def train(
         if is_main:
             print(f"WARNING: local save failed ({e!r}). Attempting Hub-only rescue.")
 
+    # Final Hub upload via HfApi (the built-in trainer.push_to_hub is disabled).
+    # On a clean local save, upload the final model from output_dir (one copy on
+    # disk). If the local save failed (quota), the per-step HubCheckpointCallback
+    # has already streamed the latest rotated checkpoint to the Hub, so that is
+    # the durable copy; uploading the partial output_dir would corrupt the repo,
+    # so we skip it and rely on the callback's last good push.
     if push_to_hub and is_main:
-        try:
-            trainer.push_to_hub(commit_message="final model", blocking=True)
-            processor.push_to_hub(hub_model_id, private=hub_private)
-            print(f"Final checkpoint pushed to https://huggingface.co/{hub_model_id}")
-        except Exception as e:
-            print(f"ERROR: final Hub push failed: {e!r}")
-            if not local_save_ok:
-                print("Both local save and Hub push failed — run output is LOST.")
-            raise
+        if local_save_ok:
+            try:
+                api = HfApi()
+                api.create_repo(hub_model_id, private=hub_private, exist_ok=True)
+                api.upload_folder(
+                    repo_id=hub_model_id,
+                    folder_path=str(output_dir),
+                    commit_message="final model",
+                    ignore_patterns=[f"{PREFIX_CHECKPOINT_DIR}-*"],
+                )
+                print(
+                    f"Final checkpoint pushed to https://huggingface.co/{hub_model_id}"
+                )
+            except Exception as e:
+                print(f"ERROR: final Hub push failed: {e!r}")
+                raise
+        else:
+            print(
+                "Local save failed; relying on the last per-step checkpoint already "
+                f"streamed to https://huggingface.co/{hub_model_id} by the callback."
+            )
     elif not local_save_ok:
         raise RuntimeError(
             "Local save failed and --hub-model-id was not set; run output is lost."
