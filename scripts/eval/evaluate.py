@@ -10,6 +10,12 @@ import typer
 
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records
+from asa.prompts import build_zeroshot_prompt_MOS
+
+# Off-the-shelf (untrained) Qwen2-Audio chat model, used as the zero-shot
+# baseline. The source paper reports this model cannot do speech quality
+# assessment without fine-tuning; the --zero-shot row reproduces that.
+ZEROSHOT_BASELINE_MODEL = "Qwen/Qwen2-Audio-7B-Instruct"
 
 EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
@@ -52,9 +58,7 @@ def compute_caption_metrics(
         ROUGE and BERTScore on 0-1.
     """
     if len(hyps) != len(refs):
-        raise ValueError(
-            f"hyps/refs length mismatch: {len(hyps)} vs {len(refs)}"
-        )
+        raise ValueError(f"hyps/refs length mismatch: {len(hyps)} vs {len(refs)}")
 
     # Imported lazily so the module loads even when these extras are absent
     # (e.g. on a node where only MOS/BLEU is needed).
@@ -68,9 +72,7 @@ def compute_caption_metrics(
     ).score
 
     # ROUGE: per-sample F1 for unigram, bigram, and LCS overlap, then averaged.
-    scorer = rouge_scorer.RougeScorer(
-        ["rouge1", "rouge2", "rougeL"], use_stemmer=True
-    )
+    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
     rouge1, rouge2, rougel = [], [], []
     for hyp, ref in zip(hyps, refs):
         scores = scorer.score(ref, hyp)  # (target, prediction) order
@@ -116,12 +118,8 @@ def compute_caption_metrics(
 
 def log_caption_metrics(metrics: Dict[str, Any]) -> None:
     """Pretty-print the caption metrics produced by ``compute_caption_metrics``."""
-    logging.info(
-        "BLEU (corpus, cased):       %.2f", metrics["bleu"]
-    )
-    logging.info(
-        "BLEU (corpus, lowercased):  %.2f", metrics["bleu_lowercased"]
-    )
+    logging.info("BLEU (corpus, cased):       %.2f", metrics["bleu"])
+    logging.info("BLEU (corpus, lowercased):  %.2f", metrics["bleu_lowercased"])
     logging.info(
         "ROUGE-1 / -2 / -L F1 (mean): %.4f / %.4f / %.4f",
         metrics["rouge1_f"],
@@ -244,14 +242,28 @@ def eval_mos(
     max_new_tokens: int = typer.Option(
         EVAL_MAX_NEW_TOKENS, help="Max new tokens to generate per sample."
     ),
+    zero_shot: bool = typer.Option(
+        False,
+        "--zero-shot",
+        help=(
+            "Zero-shot baseline mode: evaluate an untrained off-the-shelf model "
+            "with an instructed prompt (dimension definitions + 'end with an MOS "
+            "score') instead of the bare prompt the fine-tuned models saw. When "
+            "no --model-path is given, defaults to the off-the-shelf "
+            f"{ZEROSHOT_BASELINE_MODEL}. Metrics use the identical code path as "
+            "every fine-tuned row, so the baseline stays comparable."
+        ),
+    ),
 ):
     """Run model inference and evaluate quality based on MOS and BLEU."""
 
-    # Resolve model_path: prefer the command option, then the global, then default
+    # Resolve model_path: prefer the command option, then the global, then the
+    # default. In --zero-shot mode the default is the off-the-shelf baseline
+    # model rather than the fine-tuned SFT checkpoint.
     if model_path is None:
         model_path = ctx.obj.get("model_path", None)
     if model_path is None:
-        model_path = ASAModel.SFT
+        model_path = ZEROSHOT_BASELINE_MODEL if zero_shot else ASAModel.SFT
 
     # Resolve output_dir: prefer command option, then global, then default
     if output_dir is None:
@@ -286,9 +298,21 @@ def eval_mos(
 
             audio_paths.append(resolved_path)
 
+        # In zero-shot mode, override the bare PROMPT_TEMPLATE (which the
+        # fine-tuned models were trained on) with the instructed, non-leaking
+        # zero-shot prompt rendered through the Instruct model's chat template.
+        # Identical for every sample; run_inference falls back to PROMPT_TEMPLATE
+        # when prompt_texts is None.
+        prompt_texts = (
+            [build_zeroshot_prompt_MOS(processor)] * len(audio_paths)
+            if zero_shot
+            else None
+        )
+
         logging.info(
-            "Running inference (do_sample=%s, temperature=%.2f, top_p=%.2f, "
-            "max_new_tokens=%d)...",
+            "Running inference (zero_shot=%s, do_sample=%s, temperature=%.2f, "
+            "top_p=%.2f, max_new_tokens=%d)...",
+            zero_shot,
             do_sample,
             temperature,
             top_p,
@@ -298,6 +322,7 @@ def eval_mos(
             model=model,
             processor=processor,
             audio_paths=audio_paths,
+            prompt_texts=prompt_texts,
             device=device,
             batch_size=batch_size,
             do_sample=do_sample,
@@ -369,6 +394,11 @@ def eval_mos(
                         "temperature": temperature,
                         "top_p": top_p,
                         "max_new_tokens": max_new_tokens,
+                    },
+                    "run": {
+                        "model_path": str(model_path),
+                        "zero_shot": zero_shot,
+                        "prompt": (prompt_texts[0] if zero_shot else None),
                     },
                     "results": results,
                 },

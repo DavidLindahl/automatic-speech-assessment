@@ -10,9 +10,7 @@ from asa.audio import AUDIO_SPECIAL
 # inference. That distribution shift drives the DPO EOS-collapse (the model
 # defaults to <|im_end|> at the first generated position). The "\n" breaks the
 # merge: "speech.\nThis" tokenizes with "This" as a clean standalone token.
-PROMPT_TEMPLATE = (
-    f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
-)
+PROMPT_TEMPLATE = f"{AUDIO_SPECIAL}Please describe and evaluate the synthetic speech.\n"
 
 
 DIMENSION_DEFINITIONS_MOS = """I will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are
@@ -36,6 +34,75 @@ Output: This speech is highly intelligible and perfectly loud. There is no backg
 Input: {mos: 2.1, noi: 3.0, col: 2.5, loud: 4.0}
 Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise and noticeable distortion. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
 """
+
+
+# Non-leaking instruction for the zero-shot baseline: dimension definitions plus
+# an explicit "describe and end with an MOS score" ask. It deliberately omits
+# the ground-truth (mos, noi, col, loud) tuple that build_expert_prompt_MOS
+# injects (that is the DPO reference stream, where leaking the label is the
+# point), and it includes no worked examples, so the baseline stays strictly
+# zero-shot rather than few-shot.
+ZEROSHOT_TASK_MOS = (
+    "I need you to generate a descriptive evaluation for this speech, "
+    "including a description according to its noise, coloration, and loudness, "
+    "analyze how they influence the overall quality, and add the overall MOS "
+    "score (a number from 1 to 5) at the end."
+)
+
+ZEROSHOT_USER_TEXT_MOS = DIMENSION_DEFINITIONS_MOS + ZEROSHOT_TASK_MOS
+
+
+def build_zeroshot_prompt_MOS(processor) -> str:
+    """Instructed zero-shot prompt for the off-the-shelf (untrained) baseline.
+
+    This measures what Qwen2-Audio can do on speech quality assessment *before*
+    any fine-tuning. The source paper (Chen et al. 2501.17202, Sec. 4 and
+    Appendix B) reports that off-the-shelf audio LLMs, Qwen2-Audio included,
+    cannot perform this task zero-shot and tend to hallucinate; this baseline row
+    exists to reproduce that finding, not to be competitive.
+
+    The prompt is rendered through the model's **chat template**
+    (``processor.apply_chat_template``), not as bare text. The zero-shot baseline
+    is ``Qwen2-Audio-7B-Instruct``, which was instruction-tuned on ChatML; the
+    fine-tuned ASA checkpoints instead trained on the bare ``PROMPT_TEMPLATE``
+    because they descend from the *base* ``Qwen2-Audio-7B``. Feeding the Instruct
+    model bare text would be off-distribution and would invite the (correct)
+    criticism that the baseline failed only because it was prompted wrong, which
+    is exactly the trap to avoid when the whole point is a defensible "before"
+    row. Using a different, model-appropriate prompt for the baseline is fine and
+    expected: comparability comes from the shared metric code path
+    (MAE/MSE/BLEU/ROUGE/BERTScore in ``evaluate.py``), not from an identical
+    prompt string.
+
+    The user turn carries the non-leaking instruction (``ZEROSHOT_USER_TEXT_MOS``:
+    dimension definitions + "end with an MOS score", **no** ground-truth tuple,
+    **no** worked examples) alongside a single audio placeholder. The chat
+    template expands that placeholder to the standard
+    ``<|audio_bos|><|AUDIO|><|audio_eos|>`` block, so the rendered string still
+    flows through the existing :func:`asa.inference.run_inference` unchanged: the
+    processor sees exactly one audio token and aligns the audio features just as
+    it does for every other eval.
+
+    Args:
+        processor: A Qwen2-Audio ``AutoProcessor`` whose tokenizer carries the
+            ChatML ``chat_template`` (the Instruct processor does).
+
+    Returns:
+        The fully rendered ChatML prompt string, ending in the assistant
+        generation prompt and ready to pass as a ``prompt_texts`` entry.
+    """
+    conversation = [
+        {
+            "role": "user",
+            "content": [
+                {"type": "audio", "audio_url": "placeholder.wav"},
+                {"type": "text", "text": ZEROSHOT_USER_TEXT_MOS},
+            ],
+        }
+    ]
+    return processor.apply_chat_template(
+        conversation, add_generation_prompt=True, tokenize=False
+    )
 
 
 def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> str:
