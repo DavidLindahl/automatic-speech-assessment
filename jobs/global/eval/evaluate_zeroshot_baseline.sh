@@ -82,7 +82,7 @@ uv run python scripts/eval/evaluate.py eval-mos \
     --dataset-path "${DATASETS[3]}" \
     --batch-size 8 \
     --greedy \
-    --max-new-tokens 150
+    --max-new-tokens 300
 
 echo "=========================================="
 echo "Zero-shot baseline evaluation complete: $(date)"
