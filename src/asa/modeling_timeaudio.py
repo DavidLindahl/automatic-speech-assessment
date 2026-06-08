@@ -370,9 +370,26 @@ def _encode_single_token_id(tokenizer, text: str) -> Optional[int]:
 
 
 def _seed_time_token_embeddings(model, tokenizer) -> None:
-    """Seed anchor/offset embeddings from numeral embeddings (TimeAudio Eq. 1)."""
+    """Seed anchor/offset rows from numeral embeddings (TimeAudio Eq. 1).
+
+    Both the input embedding and the output projection (``lm_head``) are seeded.
+    TimeAudio writes the same numeral-derived vector into ``embed_tokens`` and
+    ``lm_head`` for each new token. Qwen2-Audio's LM head is untied
+    (``text_config.tie_word_embeddings=False``), so the output rows are a
+    separate tensor that must be seeded explicitly; otherwise the model starts
+    unable to emit the new tokens with any inductive bias. When the head happens
+    to be tied, ``get_output_embeddings`` returns the same tensor and the second
+    write is a harmless no-op.
+    """
     embed = model.get_input_embeddings()
     weight = embed.weight
+
+    output_embed = model.get_output_embeddings()
+    output_weight = (
+        output_embed.weight
+        if output_embed is not None and output_embed.weight is not weight
+        else None
+    )
 
     # Precompute numeral embeddings 0..9 and the decimal point, when each maps to
     # a single token (true for Qwen's BPE digits and ".").
@@ -391,6 +408,12 @@ def _seed_time_token_embeddings(model, tokenizer) -> None:
             return None
         return torch.stack(rows, dim=0).mean(dim=0)
 
+    def write_seed(tok_id: int, seed: torch.Tensor) -> None:
+        """Write the seed vector into both input and output rows for a token."""
+        weight.data[tok_id] = seed.to(weight.dtype)
+        if output_weight is not None:
+            output_weight.data[tok_id] = seed.to(output_weight.dtype)
+
     with torch.no_grad():
         for second in range(temporal_tokens.MAX_SECONDS):
             tok_id = _encode_single_token_id(
@@ -398,7 +421,7 @@ def _seed_time_token_embeddings(model, tokenizer) -> None:
             )
             seed = numeral_row(second)
             if tok_id is not None and seed is not None:
-                weight.data[tok_id] = seed.to(weight.dtype)
+                write_seed(tok_id, seed)
 
         for tenth in range(temporal_tokens.NUM_OFFSETS):
             tok_id = _encode_single_token_id(
@@ -410,4 +433,4 @@ def _seed_time_token_embeddings(model, tokenizer) -> None:
                     seed = (digit + dot_row) / 2.0
                 else:
                     seed = digit
-                weight.data[tok_id] = seed.to(weight.dtype)
+                write_seed(tok_id, seed)
