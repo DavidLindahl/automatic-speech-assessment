@@ -22,7 +22,9 @@ from transformers.models.qwen2.configuration_qwen2 import Qwen2Config  # noqa: E
 from asa.modeling_timeaudio import (  # noqa: E402
     MAX_AUDIO_FRAMES,
     Qwen2AudioTimeForConditionalGeneration,
+    _seed_time_token_embeddings,
 )
+from asa import temporal_tokens  # noqa: E402
 
 
 def _tiny_config(use_abs_time_embedding: bool) -> Qwen2AudioConfig:
@@ -171,3 +173,64 @@ def test_add_time_embedding_shapes_and_masking():
     # Row 1 has length 3: frames 0-2 get +1, frames 3-4 stay 0 (padding).
     assert torch.allclose(out[1, :3], torch.ones(3, hidden))
     assert torch.allclose(out[1, 3:], torch.zeros(max_tokens - 3, hidden))
+
+
+class _StubTokenizer:
+    """Minimal tokenizer mapping a fixed vocab to single-token ids.
+
+    Each string in ``vocab`` encodes to exactly one id, which is what
+    ``_encode_single_token_id`` requires. Time tokens and numerals share the same
+    id space so seeding can copy numeral rows into time-token rows.
+    """
+
+    def __init__(self, vocab: dict[str, int]) -> None:
+        self._vocab = vocab
+
+    def encode(self, text: str, add_special_tokens: bool = False) -> list[int]:
+        return [self._vocab[text]] if text in self._vocab else [0, 0]
+
+
+def test_seed_time_tokens_seeds_both_embed_and_untied_lm_head():
+    """Seeding writes the same numeral-derived rows into embed AND lm_head.
+
+    Qwen2-Audio's LM head is untied, so the output rows are a separate tensor.
+    This guards the TimeAudio-parity behavior that both sides are seeded; a
+    regression that only seeds the input embedding would leave the output rows
+    cold and fail here.
+    """
+    model = Qwen2AudioTimeForConditionalGeneration(_tiny_config(False))
+
+    embed_w = model.get_input_embeddings().weight
+    head_w = model.get_output_embeddings().weight
+    # Qwen2-Audio's head must be untied for this test to be meaningful.
+    assert head_w is not embed_w
+
+    # Build a stub vocab: digits 0-9, ".", and two time tokens, all distinct ids
+    # inside the tiny model's vocab range.
+    vocab: dict[str, int] = {str(d): d for d in range(10)}
+    vocab["."] = 10
+    anchor3 = temporal_tokens.anchor_token(3)  # "<a3>"
+    offset7 = temporal_tokens.offset_token(7)  # "<f7>"
+    vocab[anchor3] = 11
+    vocab[offset7] = 12
+    tok = _StubTokenizer(vocab)
+
+    # Give numerals and "." recognizable rows so we can check the seed math.
+    with torch.no_grad():
+        for d in range(10):
+            embed_w.data[d] = float(d)
+        embed_w.data[10] = 100.0  # "."
+        # Dirty the target rows so a no-op would be detected.
+        embed_w.data[11] = -1.0
+        embed_w.data[12] = -1.0
+        head_w.data[11] = -1.0
+        head_w.data[12] = -1.0
+
+    _seed_time_token_embeddings(model, tok)
+
+    # Anchor <a3> seeds from numeral "3" (row value 3.0) on BOTH tensors.
+    assert torch.allclose(embed_w.data[11], torch.full_like(embed_w.data[11], 3.0))
+    assert torch.allclose(head_w.data[11], torch.full_like(head_w.data[11], 3.0))
+    # Offset <f7> seeds from mean(numeral "7"=7.0, "."=100.0) = 53.5 on BOTH.
+    assert torch.allclose(embed_w.data[12], torch.full_like(embed_w.data[12], 53.5))
+    assert torch.allclose(head_w.data[12], torch.full_like(head_w.data[12], 53.5))
