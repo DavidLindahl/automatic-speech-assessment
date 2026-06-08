@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 import sys
 from typing import Any
 
@@ -40,8 +41,8 @@ DEGRADATION_LABELS: dict[str, str] = {
 }
 
 DEFAULT_QUERY = (
-    "Please describe and evaluate the synthetic speech, and find timestamps "
-    "for the degredation<audio>"
+    "Please describe and evaluate the synthetic speech, and identify when the "
+    "degradation occurs.<audio>"
 )
 
 app = typer.Typer()
@@ -95,6 +96,38 @@ def normalize_caption(text: str) -> str:
     if not collapsed:
         return "The speech has mixed quality."
     return collapsed
+
+
+# Matches a leading subject phrase up to and including the first "is"/"has" verb,
+# e.g. "This synthesized speech is ...", "The synthesized speech has ...", or
+# "This speech is ...". The lazy prefix takes the first verb; the word boundary
+# avoids matching the "is" inside "This". Used to drop the boilerplate opener so
+# the global caption can be re-attached after a leading temporal clause.
+_CAPTION_VERB_RE = re.compile(r"^.*?\b(is|has)\b\s+", re.IGNORECASE)
+
+
+def splice_caption_from_verb(caption: str) -> str:
+    """Strip the boilerplate subject opener, keeping from the first is/has verb.
+
+    The global captions open with a fixed subject phrase ("This synthesized
+    speech is/has ...") that is meaningless once a temporal clause leads the
+    sentence. This keeps the descriptive content and the MOS score verbatim by
+    returning the verb plus everything after it.
+
+    Args:
+        caption: A normalized global caption sentence block.
+
+    Returns:
+        The caption from its first is/has verb onward. If no is/has verb is
+        present, the full caption is returned unchanged as a safe fallback.
+    """
+    collapsed = normalize_caption(caption)
+    match = _CAPTION_VERB_RE.match(collapsed)
+    if match is None:
+        return collapsed
+    verb = match.group(1).lower()
+    rest = collapsed[match.end() :]
+    return f"{verb} {rest}"
 
 
 def normalize_degradation_types(raw_types: list[str]) -> list[str]:
@@ -160,6 +193,26 @@ def build_temporal_response(
     label_style: str = "clear-speech-localization",
 ) -> str:
     """Compose target response that includes both quality text and localization."""
+    if label_style == "global-caption-localization":
+        # Global captioning task (same as the MOS-style global set) with a leading
+        # temporal clause, free-text <|seconds|> timestamps. The boilerplate
+        # opener is stripped and the global caption re-attached from its is/has
+        # verb, so the descriptive text and the MOS score are kept verbatim.
+        spliced = splice_caption_from_verb(base_caption)
+        return (
+            f"The degradation in the clip is between <|{start_time:.2f}|> "
+            f"and <|{end_time:.2f}|> and {spliced}"
+        )
+
+    if label_style == "global-caption-anchoroffset":
+        # Same as global-caption-localization but with TimeAudio-style discrete
+        # <aN><fK> time tokens instead of free-text timestamps.
+        spliced = splice_caption_from_verb(base_caption)
+        return (
+            "The degradation in the clip is between "
+            f"{encode_time(start_time)} and {encode_time(end_time)} and {spliced}"
+        )
+
     if label_style == "anchor-offset-localization":
         # TimeAudio-style discrete time tokens, timestamp-only (no category).
         # Matches the target shape: "... there is distortion between <a><f> ...".
@@ -183,7 +236,8 @@ def build_temporal_response(
 
     if label_style != "caption-plus-localization":
         raise ValueError(
-            "label_style must be 'anchor-offset-localization', "
+            "label_style must be 'global-caption-localization', "
+            "'global-caption-anchoroffset', 'anchor-offset-localization', "
             "'clear-speech-localization', 'localization-only', "
             "or 'caption-plus-localization'"
         )
@@ -303,7 +357,10 @@ def main(
     label_style: str = typer.Option(
         "clear-speech-localization",
         help=(
-            "Target text style: 'anchor-offset-localization' for TimeAudio-style "
+            "Target text style: 'global-caption-localization' for the global MOS "
+            "caption with a leading temporal clause and free-text <|seconds|> "
+            "timestamps, 'global-caption-anchoroffset' for the same with discrete "
+            "<aN><fK> time tokens, 'anchor-offset-localization' for TimeAudio-style "
             "discrete <a><f> time tokens (timestamp-only, no category), "
             "'clear-speech-localization' for the current metadata timestamp "
             "labels, 'localization-only' for short timestamp labels, or "
@@ -318,13 +375,16 @@ def main(
 ) -> None:
     """Build temporal SFT JSONL for NISQA temporal mixes."""
     if label_style not in {
+        "global-caption-localization",
+        "global-caption-anchoroffset",
         "anchor-offset-localization",
         "clear-speech-localization",
         "localization-only",
         "caption-plus-localization",
     }:
         raise ValueError(
-            "label_style must be 'anchor-offset-localization', "
+            "label_style must be 'global-caption-localization', "
+            "'global-caption-anchoroffset', 'anchor-offset-localization', "
             "'clear-speech-localization', 'localization-only', "
             "or 'caption-plus-localization'"
         )
