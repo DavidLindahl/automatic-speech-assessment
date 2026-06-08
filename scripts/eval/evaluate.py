@@ -194,18 +194,57 @@ def main(
             print("No subcommand provided. Use --help to list available commands.")
 
 
-def extract_mos(text: str) -> float:
-    """Extract numeric MOS score from generated text."""
-    # Look for explicit MOS mentions e.g., "MOS of 4.3" or "MOS score is 4.3"
+def extract_mos(text: str) -> Optional[float]:
+    """Extract the model's MOS score from generated text.
+
+    Returns the parsed score, or ``None`` when no score can be confidently
+    located. ``None`` is deliberate: the old behaviour fell back to "the last
+    number in the text", which on a zero-shot baseline that rambles or rates
+    "3 out of 5" grabs the wrong digit (the "5" denominator) and fabricates a
+    plausible-but-wrong MOS. An honest parse failure is better than a fake
+    number, especially for the untrained baseline whose whole point is that it
+    cannot do the task. Callers treat ``None`` as unparsed and report a parse
+    rate alongside the error over parsed samples.
+
+    Patterns are tried most-specific first:
+
+    1. Explicit "MOS" mention, e.g. "MOS of 4.3", "overall MOS is 4.3". This is
+       the format the fine-tuned models were trained to emit, so this branch is
+       unchanged from the original implementation and their parsed scores are
+       byte-for-byte identical.
+    2. Out-of-5 ratings, e.g. "3 out of 5", "rated as 4 out of 5", "3/5". Takes
+       the numerator, not the "5" denominator.
+    3. "score/rating of X" and "rate ... as X" phrasings.
+
+    There is intentionally NO blind last-number fallback.
+    """
+    # 1. Explicit MOS mention (fine-tuned format) — unchanged.
     match = re.search(r"MOS(?:[^0-9]+)(\d+(?:\.\d+)?)", text, re.IGNORECASE)
     if match:
         return float(match.group(1))
 
-    # Fallback to the last float/number found in the text
-    matches = re.findall(r"(\d+(?:\.\d+)?)", text)
-    if matches:
-        return float(matches[-1])
-    return 0.0
+    # 2. "X out of 5" / "X/5" — take the numerator (the rating), not the 5.
+    match = re.search(r"(\d+(?:\.\d+)?)\s*(?:out\s+of|/)\s*5\b", text, re.IGNORECASE)
+    if match:
+        return float(match.group(1))
+
+    # 3. "score of X" / "rating of X" / "rating is X" / "rating: X" / "rate ...
+    #    as X" / "rate it (a) X".
+    match = re.search(
+        r"(?:score|rating)\s*(?:of|is|:|=)\s*(\d+(?:\.\d+)?)", text, re.IGNORECASE
+    )
+    if match:
+        return float(match.group(1))
+    match = re.search(
+        r"rate\s+(?:it|the\s+\w+(?:\s+\w+)?)\s+(?:as\s+)?(?:a\s+)?(\d+(?:\.\d+)?)",
+        text,
+        re.IGNORECASE,
+    )
+    if match:
+        return float(match.group(1))
+
+    # No confident match — honest parse failure.
+    return None
 
 
 @app.command()
@@ -333,7 +372,7 @@ def eval_mos(
 
         logging.info("Calculating metrics...")
         results = []
-        mos_errors = []
+        mos_errors = []  # only over samples whose MOS parsed
         hyps: List[str] = []
         refs: List[str] = []
 
@@ -343,8 +382,15 @@ def eval_mos(
             pred_mos = extract_mos(pred)
             true_resp = item["response"]
 
-            error = abs(true_mos - pred_mos)
-            mos_errors.append(error)
+            # pred_mos is None when no score could be confidently parsed (an
+            # honest failure, common for the untrained zero-shot baseline). Such
+            # samples are excluded from MAE/MSE and counted via the parse rate;
+            # the old "last number" fallback would have invented a number here.
+            if pred_mos is not None:
+                error = abs(true_mos - pred_mos)
+                mos_errors.append(error)
+            else:
+                error = None
 
             hyps.append(pred)
             refs.append(true_resp)
@@ -355,8 +401,14 @@ def eval_mos(
             res_item["mos_error"] = error
             results.append(res_item)
 
-        mae = sum(mos_errors) / len(mos_errors)
-        mse = sum(e**2 for e in mos_errors) / len(mos_errors)
+        # MAE/MSE over parsed samples only. When every sample parses (the case
+        # for all fine-tuned runs, whose captions always end in "MOS of X"),
+        # parsed == total, so these numbers are identical to the previous
+        # implementation and previously reported results do not move.
+        n_parsed = len(mos_errors)
+        parse_rate = n_parsed / max(len(data), 1)
+        mae = sum(mos_errors) / n_parsed if n_parsed else float("nan")
+        mse = sum(e**2 for e in mos_errors) / n_parsed if n_parsed else float("nan")
 
         caption_metrics = compute_caption_metrics(hyps, refs)
 
@@ -366,8 +418,12 @@ def eval_mos(
         logging.info("=" * 40)
         logging.info(f"EVALUATION RESULTS FOR {dataset_path.name}:")
         logging.info(f"Samples evaluated:                    {len(data)}")
-        logging.info(f"MOS MAE (Mean Absolute Error):        {mae:.4f}")
-        logging.info(f"MOS MSE (Mean Squared Error):         {mse:.4f}")
+        logging.info(
+            f"MOS parse rate:                       {parse_rate:.4f} "
+            f"({n_parsed}/{len(data)})"
+        )
+        logging.info(f"MOS MAE (over parsed):                {mae:.4f}")
+        logging.info(f"MOS MSE (over parsed):                {mse:.4f}")
         log_caption_metrics(caption_metrics)
         logging.info(
             f"Unique predictions: {unique_predictions} / {len(hyps)} "
@@ -383,6 +439,8 @@ def eval_mos(
                 {
                     "metrics": {
                         "samples": len(data),
+                        "mos_parsed": n_parsed,
+                        "mos_parse_rate": parse_rate,
                         "mae": mae,
                         "mse": mse,
                         **caption_metrics,
