@@ -13,6 +13,9 @@ The view focuses on the ``--top-n`` (default 30) most-reused REFs, one card each
 - **Each window is clickable**: clicking a colored box (or its "play degraded"
   button) plays THAT degraded mix, so you hear the actual training clip, not just
   the clean reference. A separate player offers the clean reference for contrast.
+- **Playhead + seek**: a white vertical playhead tracks the audio position on the
+  waveform; clicking anywhere on the waveform track seeks to that point in the
+  clip (scrub back and forth).
 
 Input is the manifest CSV from generate_nisqa_sim_lowmos_active.py. Run locally
 off a pulled manifest; needs the clean reference WAVs (NISQA_TRAIN_SIM/ref/) via
@@ -119,6 +122,11 @@ HTML_TEMPLATE = """<!doctype html>
     font-weight:600;text-shadow:0 1px 1px rgba(0,0,0,.3)}
   .wave .winlabel{position:absolute;top:2px;font-size:10px;font-weight:700;color:#fff;
     text-shadow:0 1px 2px rgba(0,0,0,.6);pointer-events:none}
+  .wave{cursor:pointer}
+  .playhead{position:absolute;top:0;bottom:0;width:2px;background:#fff;
+    box-shadow:0 0 4px rgba(255,255,255,.8);pointer-events:none;left:0;display:none;z-index:3}
+  .playhead::after{content:"";position:absolute;top:-1px;left:-3px;width:8px;height:8px;
+    border-radius:50%;background:#fff}
   .hint{color:var(--muted);font-size:11px;margin:0 0 6px}
   .row{cursor:pointer}
   .row:hover{background:#f0f4fa;border-radius:4px}
@@ -188,12 +196,13 @@ function card(g,ci){
              `<div class="winlabel" style="left:calc(${left}% + 3px)">${i+1}</div>`;
     }).join("");
     const refPlayer=g.refAudio?`<div class="hint">Clean reference (full clip): <audio controls preload="none" src="${g.refAudio}" style="height:28px;vertical-align:middle"></audio></div>`:"";
-    waveBlock=`<p class="hint">Click any colored box (or "play degraded") to hear that degraded mix. The box marks where the degradation was spliced in.</p>
-    <div class="wave">
+    waveBlock=`<p class="hint">Click a colored box to play that degraded mix. Click anywhere on the waveform to seek; the white line is the playhead.</p>
+    <div class="wave" data-wave="${ci}">
       <svg viewBox="0 0 100 ${H}" preserveAspectRatio="none"><polygon points="${poly}" fill="#5ea0ff" opacity="0.9"/></svg>
       ${overlays}
+      <div class="playhead" id="ph-${ci}"></div>
     </div>
-    <div class="axis"><span>clean reference waveform, colored boxes = degraded windows (click to hear the degraded version)</span></div>
+    <div class="axis"><span>clean reference waveform, colored boxes = degraded windows (click box to play, click track to seek)</span></div>
     ${refPlayer}
     <div class="nowplaying" id="np-${ci}"></div>
     <audio id="au-${ci}" preload="none"></audio>`;
@@ -221,16 +230,36 @@ function render(){
   });
   list.innerHTML=html;
 }
+function movePlayhead(ci){
+  const au=document.getElementById("au-"+ci), ph=document.getElementById("ph-"+ci);
+  if(!au||!ph) return;
+  const d=au.duration;
+  if(!d||!isFinite(d)){ ph.style.display="none"; return; }
+  ph.style.display="block";
+  ph.style.left=(Math.min(1,au.currentTime/d)*100)+"%";
+}
+function ensurePlayheadWiring(ci){
+  const au=document.getElementById("au-"+ci);
+  if(!au||au.dataset.wired) return;
+  au.dataset.wired="1";
+  au.addEventListener("timeupdate",()=>movePlayhead(ci));
+  au.addEventListener("seeked",()=>movePlayhead(ci));
+  au.addEventListener("play",()=>movePlayhead(ci));
+  au.addEventListener("ended",()=>movePlayhead(ci));
+}
 function playWindow(ci,wi){
   const g=DATA[ci]; if(!g) return;
   const w=g.windows[wi]; if(!w||!w.mixAudio) return;
   const au=document.getElementById("au-"+ci);
   const np=document.getElementById("np-"+ci);
   if(au){
-    au.src=w.mixAudio; au.play().catch(()=>{});
+    ensurePlayheadWiring(ci);
+    // Only reload the source when switching windows, so seeking within the
+    // currently-playing window does not restart it.
+    if(au.dataset.win!==String(wi)){ au.src=w.mixAudio; au.dataset.win=String(wi); }
+    au.play().catch(()=>{});
     if(np) np.textContent="Playing degraded window "+(wi+1)+": "+w.mixName;
   }
-  // visual active state within this card
   const cardEl=au?au.closest(".card"):null;
   if(cardEl){
     cardEl.querySelectorAll(".win.playing,.row.playing").forEach(e=>e.classList.remove("playing"));
@@ -238,6 +267,23 @@ function playWindow(ci,wi){
       if(e.classList.contains("win")||e.classList.contains("row")) e.classList.add("playing");
     });
   }
+}
+function seekWave(ci,frac){
+  const g=DATA[ci]; if(!g) return;
+  const au=document.getElementById("au-"+ci);
+  if(!au) return;
+  ensurePlayheadWiring(ci);
+  // If nothing loaded yet, default to window 1 so there is audio to scrub.
+  if(!au.src){
+    const w0=g.windows.find(w=>w.mixAudio);
+    if(w0){ au.src=w0.mixAudio; au.dataset.win=String(g.windows.indexOf(w0)); }
+  }
+  const apply=()=>{
+    const d=au.duration;
+    if(d&&isFinite(d)){ au.currentTime=Math.max(0,Math.min(d-0.01,frac*d)); au.play().catch(()=>{}); }
+  };
+  if(au.readyState>=1) apply();
+  else au.addEventListener("loadedmetadata",apply,{once:true});
 }
 (function(){
   const nmix=DATA.reduce((s,g)=>s+g.windows.length,0);
@@ -252,11 +298,20 @@ function playWindow(ci,wi){
   const v=document.getElementById("nviol"); v.textContent=viol; if(viol>0) v.classList.add("warn");
   document.getElementById("q").addEventListener("input",render);
   document.getElementById("onlyMulti").addEventListener("change",render);
-  // Event delegation: any element carrying data-card + data-win plays that mix.
+  // Event delegation. A click on a window box/row (data-win) plays that mix; a
+  // click elsewhere on the waveform track seeks to that x-position.
   document.getElementById("list").addEventListener("click",ev=>{
-    const t=ev.target.closest("[data-card][data-win]");
-    if(!t) return;
-    playWindow(parseInt(t.dataset.card,10), parseInt(t.dataset.win,10));
+    const winEl=ev.target.closest("[data-card][data-win]");
+    if(winEl){
+      playWindow(parseInt(winEl.dataset.card,10), parseInt(winEl.dataset.win,10));
+      return;
+    }
+    const waveEl=ev.target.closest(".wave[data-wave]");
+    if(waveEl){
+      const rect=waveEl.getBoundingClientRect();
+      const frac=Math.max(0,Math.min(1,(ev.clientX-rect.left)/rect.width));
+      seekWave(parseInt(waveEl.dataset.wave,10), frac);
+    }
   });
   render();
 })();
