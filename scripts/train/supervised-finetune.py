@@ -11,16 +11,13 @@ from typing import Optional
 
 import torch
 import typer
-from huggingface_hub import HfApi
 from torch.utils.data import random_split
 from transformers import (
     AutoProcessor,
     Qwen2AudioForConditionalGeneration,
     Trainer,
-    TrainerCallback,
     TrainingArguments,
 )
-from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
 
 from asa.data import Qwen2AudioCollator, SFTDataset
 from asa.modeling_timeaudio import (
@@ -29,58 +26,6 @@ from asa.modeling_timeaudio import (
 )
 
 app = typer.Typer()
-
-
-class HubCheckpointCallback(TrainerCallback):
-    """Upload each rotated checkpoint to the Hub directly from its folder.
-
-    The stock ``hub_strategy="every_save"`` path copies all model shards from
-    ``checkpoint-N/`` up into ``output_dir`` before uploading (transformers
-    ``Trainer._push_from_checkpoint`` does ``shutil.copy`` per shard), so a
-    16 GB checkpoint occupies ~32 GB on disk: once under ``checkpoint-N/`` and
-    once at the top level. On a tight ``/work3`` quota that doubled footprint
-    overflowed the hard limit mid-save and killed the job.
-
-    This callback uploads straight from ``checkpoint-N/`` (which the Trainer
-    already wrote and rotates via ``save_total_limit``), so there is no second
-    on-disk copy. ``push_to_hub`` is left False on the Trainer so the stock path
-    never runs. Uploads are best-effort: a failed push logs and continues rather
-    than killing a healthy training run.
-    """
-
-    def __init__(self, repo_id: str, private: bool = False) -> None:
-        self._repo_id = repo_id
-        self._private = private
-        self._api = HfApi()
-        self._created = False
-
-    def _ensure_repo(self) -> None:
-        if not self._created:
-            self._api.create_repo(
-                self._repo_id, private=self._private, exist_ok=True
-            )
-            self._created = True
-
-    def on_save(self, args, state, control, **kwargs):  # noqa: ANN001
-        """Upload the just-written checkpoint folder from rank 0."""
-        if not state.is_world_process_zero:
-            return
-        ckpt_dir = os.path.join(
-            args.output_dir, f"{PREFIX_CHECKPOINT_DIR}-{state.global_step}"
-        )
-        if not os.path.isdir(ckpt_dir):
-            print(f"WARNING: checkpoint dir not found for upload: {ckpt_dir}")
-            return
-        try:
-            self._ensure_repo()
-            self._api.upload_folder(
-                repo_id=self._repo_id,
-                folder_path=ckpt_dir,
-                commit_message=f"Training checkpoint, step {state.global_step}",
-            )
-            print(f"Uploaded step {state.global_step} to {self._repo_id}")
-        except Exception as e:  # noqa: BLE001
-            print(f"WARNING: Hub upload of step {state.global_step} failed: {e!r}")
 
 
 @app.command()
@@ -145,18 +90,6 @@ def train(
         None,
         help="Path to a Trainer checkpoint dir to resume from (e.g. models/foo/checkpoint-565). Pass 'auto' to let Trainer pick the latest checkpoint in output_dir.",
     ),
-    hub_model_id: Optional[str] = typer.Option(
-        None,
-        help="HF Hub repo id for streaming checkpoints (e.g. Leng2beat/foo). If set, enables push_to_hub.",
-    ),
-    save_steps: int = typer.Option(
-        200, help="Steps between checkpoint saves. Used when hub_model_id is set."
-    ),
-    save_total_limit: int = typer.Option(
-        1,
-        help="Max local checkpoints to retain (rotation). Keeps /work3 quota bounded.",
-    ),
-    hub_private: bool = typer.Option(True, help="Make Hub repo private."),
     use_abs_time_embedding: bool = typer.Option(
         False,
         "--use-abs-time-embedding/--no-abs-time-embedding",
@@ -279,29 +212,23 @@ def train(
             torch_dtype=dtype,
         )
 
-    push_to_hub = hub_model_id is not None
-    if push_to_hub and is_main:
+    if is_main:
         print(
-            f"Hub streaming ENABLED: pushing checkpoints to {hub_model_id} every {save_steps} steps "
-            f"(local rotation: keep last {save_total_limit}; save_only_model=True so each local ckpt stays at model-weights size)."
-        )
-    elif is_main:
-        print(
-            "Hub streaming DISABLED (no --hub-model-id). Final save will land on local disk only "
-            "— this is the fragile path. Pass --hub-model-id to make the run quota-safe."
+            "Save policy: FINAL ONLY (save_strategy='no'). No mid-training "
+            "checkpoints are written, so /work3 never holds more than the one "
+            "~16 GB final model per run. The final model is saved LOCALLY to "
+            f"{output_dir}; push it to the Hub manually afterward if you want a "
+            "durable off-scratch copy. A mid-run crash loses the run (no "
+            "checkpoint to resume from), which is the accepted trade for not "
+            "risking a quota overflow mid-save."
         )
 
     # ── 4. Training args ─────────────────────────────────────────────────
-    # Saving: write a rotated local checkpoint every save_steps with
-    # save_only_model=True so each ckpt is ~16 GB (model weights only) instead
-    # of ~63 GB (DeepSpeed full ckpt). save_total_limit=1 keeps /work3 flat.
-    #
-    # Hub upload is done by HubCheckpointCallback (added below), NOT by the
-    # built-in push_to_hub path. The built-in path (hub_strategy="every_save")
-    # shutil.copies every shard from checkpoint-N/ into output_dir before
-    # uploading, doubling on-disk footprint to ~32 GB per run, which overflowed
-    # the /work3 quota mid-save and killed a run. So push_to_hub stays False and
-    # the callback uploads straight from checkpoint-N/ (no second copy).
+    # Final-save-only: save_strategy="no" means the Trainer writes nothing during
+    # training. The single save_model() call after train() writes exactly one
+    # ~16 GB copy to output_dir. This deliberately avoids the per-step
+    # checkpoint + Hub-staging duplication that previously doubled on-disk
+    # footprint to ~32 GB and overflowed the /work3 hard limit mid-save.
     training_args = TrainingArguments(
         output_dir=str(output_dir),
         per_device_train_batch_size=batch_size,
@@ -315,10 +242,7 @@ def train(
         bf16=bf16,
         fp16=fp16,
         logging_steps=10,
-        save_strategy="steps" if push_to_hub else "no",
-        save_steps=save_steps,
-        save_total_limit=save_total_limit,
-        save_only_model=True,
+        save_strategy="no",
         eval_strategy="steps" if val_dataset is not None else "no",
         eval_steps=eval_steps if val_dataset is not None else None,
         optim="adamw_torch",
@@ -338,10 +262,6 @@ def train(
         data_collator=collator,
         processing_class=processor,
     )
-    if push_to_hub:
-        trainer.add_callback(
-            HubCheckpointCallback(repo_id=hub_model_id, private=hub_private)
-        )
     if is_main:
         print("Starting training...")
     if resume_from_checkpoint is None:
@@ -354,50 +274,15 @@ def train(
         if is_main:
             print(f"Resuming from checkpoint: {resume_from_checkpoint}")
         trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+    # Single final save to local disk. With save_strategy="no" this is the only
+    # on-disk copy of the model, so /work3 holds at most ~16 GB for this run.
+    # Push to the Hub manually afterward for a durable off-scratch copy.
     if is_main:
-        print(f"Saving model to {output_dir}")
-    try:
-        trainer.save_model(str(output_dir))
-        processor.save_pretrained(str(output_dir))
-        local_save_ok = True
-    except OSError as e:
-        # Quota / disk-full: don't lose the run. Fall through to Hub push.
-        local_save_ok = False
-        if is_main:
-            print(f"WARNING: local save failed ({e!r}). Attempting Hub-only rescue.")
-
-    # Final Hub upload via HfApi (the built-in trainer.push_to_hub is disabled).
-    # On a clean local save, upload the final model from output_dir (one copy on
-    # disk). If the local save failed (quota), the per-step HubCheckpointCallback
-    # has already streamed the latest rotated checkpoint to the Hub, so that is
-    # the durable copy; uploading the partial output_dir would corrupt the repo,
-    # so we skip it and rely on the callback's last good push.
-    if push_to_hub and is_main:
-        if local_save_ok:
-            try:
-                api = HfApi()
-                api.create_repo(hub_model_id, private=hub_private, exist_ok=True)
-                api.upload_folder(
-                    repo_id=hub_model_id,
-                    folder_path=str(output_dir),
-                    commit_message="final model",
-                    ignore_patterns=[f"{PREFIX_CHECKPOINT_DIR}-*"],
-                )
-                print(
-                    f"Final checkpoint pushed to https://huggingface.co/{hub_model_id}"
-                )
-            except Exception as e:
-                print(f"ERROR: final Hub push failed: {e!r}")
-                raise
-        else:
-            print(
-                "Local save failed; relying on the last per-step checkpoint already "
-                f"streamed to https://huggingface.co/{hub_model_id} by the callback."
-            )
-    elif not local_save_ok:
-        raise RuntimeError(
-            "Local save failed and --hub-model-id was not set; run output is lost."
-        )
+        print(f"Saving final model to {output_dir}")
+    trainer.save_model(str(output_dir))
+    processor.save_pretrained(str(output_dir))
+    if is_main:
+        print(f"Final model saved to {output_dir} (local only).")
 
     if wandb_project and is_main:
         wandb.finish()

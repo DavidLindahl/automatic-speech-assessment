@@ -6,11 +6,14 @@
 ### absolute-time embedding -- vanilla SFT.
 ###
 ### This is the A/B partner of sft_temporal_global_caption_timeaudio_h100.sh:
-### identical base model, data size, epochs, lr, batch, grad-accum. The ONLY
+### identical base model, data size, epochs (2), lr, batch, grad-accum. The ONLY
 ### difference is the timestamp mechanism (this one: none; the other: TimeAudio
 ### tokens + embedding). Keep the two in lockstep so the comparison is clean.
 ###
-### Streams checkpoints to HF Hub (durable, quota-safe). Submit with:
+### Save policy: FINAL ONLY, LOCAL ONLY (no mid-training checkpoints, no Hub
+### streaming) so /work3 holds at most one ~16 GB model per run and never
+### overflows mid-save. Push the final model to the Hub manually afterward for a
+### durable copy. Submit with:
 ###   bsub < jobs/sft/sft_temporal_global_caption_plain_h100.sh
 ###
 ### Memory audit (LSF rusage[mem] is PER-CORE): 48GB x 4 cores = 192 GB total,
@@ -35,12 +38,11 @@ torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py \
     --json-path data/processed/temporal/train_nisqa_temporal_global_caption_aug.json \
     --data-root data \
     --model-name "$EXPERIMENT_DIR/models/sft_temporal_gc_plain_h100" \
-    --hub-model-id Leng2beat/sft-temporal-global-caption-plain \
     --bf16 \
     --deepspeed configs/ds_zero2.json \
     --batch-size 4 \
     --gradient-accumulation-steps 4 \
-    --epochs 3 \
+    --epochs 2 \
     --lr 1e-5 \
     --val-split 0 \
     --use-query-prompt \
