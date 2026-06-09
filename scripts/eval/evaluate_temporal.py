@@ -408,8 +408,7 @@ def eval_temporal(
 
         details: list[dict[str, Any]] = []
         ious: list[float] = []
-        start_errors: list[float] = []
-        end_errors: list[float] = []
+        offset_errors: list[float] = []
         parsed_count = 0
         ground_truth_count = 0
 
@@ -432,8 +431,9 @@ def eval_temporal(
             tiou = 0.0
             if pred_interval is not None and truth_interval is not None:
                 tiou = interval_iou(pred_interval, truth_interval)
-                start_errors.append(abs(pred_interval.start - truth_interval.start))
-                end_errors.append(abs(pred_interval.end - truth_interval.end))
+                start_err = abs(pred_interval.start - truth_interval.start)
+                end_err = abs(pred_interval.end - truth_interval.end)
+                offset_errors.append((start_err + end_err) / 2.0)
             if truth_interval is not None:
                 ious.append(tiou)
 
@@ -455,16 +455,12 @@ def eval_temporal(
                 pred_interval.end if pred_interval is not None else None
             )
             detail["tiou"] = tiou
-            detail["start_abs_err"] = (
-                abs(pred_interval.start - truth_interval.start)
-                if pred_interval is not None and truth_interval is not None
-                else None
-            )
-            detail["end_abs_err"] = (
-                abs(pred_interval.end - truth_interval.end)
-                if pred_interval is not None and truth_interval is not None
-                else None
-            )
+            if pred_interval is not None and truth_interval is not None:
+                start_err = abs(pred_interval.start - truth_interval.start)
+                end_err = abs(pred_interval.end - truth_interval.end)
+                detail["offset_abs_err"] = (start_err + end_err) / 2.0
+            else:
+                detail["offset_abs_err"] = None
             details.append(detail)
 
         metrics = {
@@ -478,8 +474,7 @@ def eval_temporal(
             "hit_iou_ge_0_1": _mean([1.0 if value >= 0.1 else 0.0 for value in ious]),
             "hit_iou_ge_0_3": _mean([1.0 if value >= 0.3 else 0.0 for value in ious]),
             "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
-            "mean_start_abs_err": _mean(start_errors),
-            "mean_end_abs_err": _mean(end_errors),
+            "mean_offset_abs_err": _mean(offset_errors),
             "prompt_mode": "query" if use_query_prompt else "default",
             "do_sample": do_sample,
             "temperature": temperature,
@@ -496,8 +491,7 @@ def eval_temporal(
         logging.info("Hit@0.1: %.4f", metrics["hit_iou_ge_0_1"])
         logging.info("Hit@0.3: %.4f", metrics["hit_iou_ge_0_3"])
         logging.info("Hit@0.5: %.4f", metrics["hit_iou_ge_0_5"])
-        logging.info("Mean |start error|: %.4f", metrics["mean_start_abs_err"])
-        logging.info("Mean |end error|: %.4f", metrics["mean_end_abs_err"])
+        logging.info("Mean offset error: %.4f", metrics["mean_offset_abs_err"])
         logging.info("========================================")
 
         dataset_name = dataset_path.stem

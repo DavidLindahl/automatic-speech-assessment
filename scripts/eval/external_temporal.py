@@ -99,8 +99,7 @@ def score_temporal_predictions(
     prediction_by_id: dict[str, str],
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     ious: list[float] = []
-    start_errors: list[float] = []
-    end_errors: list[float] = []
+    offset_errors: list[float] = []
     parsed_count = 0
     ground_truth_count = 0
     details: list[dict[str, Any]] = []
@@ -127,8 +126,9 @@ def score_temporal_predictions(
         tiou = 0.0
         if pred_interval is not None and truth_interval is not None:
             tiou = interval_iou(pred_interval, truth_interval)
-            start_errors.append(abs(pred_interval.start - truth_interval.start))
-            end_errors.append(abs(pred_interval.end - truth_interval.end))
+            start_err = abs(pred_interval.start - truth_interval.start)
+            end_err = abs(pred_interval.end - truth_interval.end)
+            offset_errors.append((start_err + end_err) / 2.0)
         if truth_interval is not None:
             ious.append(tiou)
 
@@ -146,16 +146,12 @@ def score_temporal_predictions(
         )
         detail["pred_end"] = pred_interval.end if pred_interval is not None else None
         detail["tiou"] = tiou
-        detail["start_abs_err"] = (
-            abs(pred_interval.start - truth_interval.start)
-            if pred_interval is not None and truth_interval is not None
-            else None
-        )
-        detail["end_abs_err"] = (
-            abs(pred_interval.end - truth_interval.end)
-            if pred_interval is not None and truth_interval is not None
-            else None
-        )
+        if pred_interval is not None and truth_interval is not None:
+            start_err = abs(pred_interval.start - truth_interval.start)
+            end_err = abs(pred_interval.end - truth_interval.end)
+            detail["offset_abs_err"] = (start_err + end_err) / 2.0
+        else:
+            detail["offset_abs_err"] = None
         details.append(detail)
 
     def _mean(values: list[float]) -> float:
@@ -170,8 +166,7 @@ def score_temporal_predictions(
         "hit_iou_ge_0_1": _mean([1.0 if v >= 0.1 else 0.0 for v in ious]),
         "hit_iou_ge_0_3": _mean([1.0 if v >= 0.3 else 0.0 for v in ious]),
         "hit_iou_ge_0_5": _mean([1.0 if v >= 0.5 else 0.0 for v in ious]),
-        "mean_start_abs_err": _mean(start_errors),
-        "mean_end_abs_err": _mean(end_errors),
+        "mean_offset_abs_err": _mean(offset_errors),
     }
 
     return metrics, details
