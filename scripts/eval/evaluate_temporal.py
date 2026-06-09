@@ -21,11 +21,18 @@ if __package__ is None or __package__ == "":
 from asa.data import AUDIO_PLACEHOLDER, AUDIO_SPECIAL, PROMPT_TEMPLATE
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records, resolve_audio_path
+from asa.prompts import build_zeroshot_prompt_temporal
 from asa.temporal_tokens import decode_all_times
 
 EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
+
+# Off-the-shelf (untrained) Qwen2-Audio chat model, used as the zero-shot
+# temporal baseline. The source paper reports off-the-shelf audio LLMs cannot do
+# speech quality assessment without fine-tuning; the --zero-shot row reproduces
+# that finding for the temporal-localization task (t-IoU floor before training).
+ZEROSHOT_BASELINE_MODEL = "Qwen/Qwen2-Audio-7B-Instruct"
 
 TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
 NON_TIMESTAMP_SPECIAL_TOKEN_RE = re.compile(r"<\|(?!-?\d+(?:\.\d+)?\|>)[^|]*\|>")
@@ -173,12 +180,25 @@ def _extract_interval_from_plain_numbers(
 def extract_interval(
     text: str,
     duration_seconds: Optional[float],
+    allow_plain: bool = True,
 ) -> tuple[Optional[Interval], str]:
     """Extract one timestamp interval from model text.
 
     Args:
         text: Input text to parse.
         duration_seconds: Optional clip duration for clamping and validity checks.
+        allow_plain: When ``True`` (default, used for fine-tuned models), fall
+            back to "any two plain floats" if no explicit timestamp token or
+            range phrasing is found. When ``False`` (zero-shot baseline), this
+            fallback is suppressed. The plain fallback manufactures an interval
+            from any two numbers in the text, so a free-text answer like "I'd
+            rate this 3 out of 5; the 6 second clip..." would yield a bogus
+            (3.0, 5.0) interval and a non-zero t-IoU. For the untrained baseline
+            that turns "the model emitted no localizable range" into a fake hit,
+            inflating both parse rate and t-IoU. A low parse rate is the honest,
+            defensible result for a baseline, so zero-shot parses only via the
+            explicit ``range`` path. This mirrors the None-on-failure choice in
+            the MOS ``extract_mos``.
 
     Returns:
         Tuple ``(interval, source)`` where source indicates parse strategy.
@@ -195,9 +215,10 @@ def extract_interval(
     if from_range is not None:
         return from_range, "range"
 
-    from_plain = _extract_interval_from_plain_numbers(text, duration_seconds)
-    if from_plain is not None:
-        return from_plain, "plain"
+    if allow_plain:
+        from_plain = _extract_interval_from_plain_numbers(text, duration_seconds)
+        if from_plain is not None:
+            return from_plain, "plain"
 
     return None, "none"
 
@@ -308,8 +329,24 @@ def eval_temporal(
     dataset_paths: List[Path] = typer.Option(
         ..., "--dataset-path", help="Paths to the test JSONL datasets."
     ),
-    model_path: str = typer.Option(
-        ASAModel.SFT, help="Hub repo ID or local checkpoint path."
+    model_path: Optional[str] = typer.Option(
+        None,
+        help=(
+            "Hub repo ID or local checkpoint path. Defaults to the fine-tuned "
+            "SFT model, or to the off-the-shelf Instruct baseline under "
+            "--zero-shot."
+        ),
+    ),
+    zero_shot: bool = typer.Option(
+        False,
+        "--zero-shot",
+        help=(
+            "Evaluate the off-the-shelf (untrained) Qwen2-Audio-7B-Instruct "
+            "baseline. Uses a ChatML chat-template prompt instead of each "
+            "record's bare query prompt, and suppresses the plain-number "
+            "interval fallback so a rambling answer cannot manufacture a bogus "
+            "interval. This is the defensible 'before fine-tuning' t-IoU floor."
+        ),
     ),
     data_root: Path = typer.Option(
         Path("data"),
@@ -347,6 +384,11 @@ def eval_temporal(
     ),
 ) -> None:
     """Run temporal inference and report localization quality metrics."""
+    # In --zero-shot mode the model defaults to the off-the-shelf Instruct
+    # baseline; otherwise it defaults to the fine-tuned SFT checkpoint.
+    if model_path is None:
+        model_path = ZEROSHOT_BASELINE_MODEL if zero_shot else ASAModel.SFT
+
     if output_dir is None:
         model_name = Path(model_path).name or "model"
         output_dir = Path(f"results/evaluation/{model_name}_temporal")
@@ -354,6 +396,24 @@ def eval_temporal(
 
     logging.info("Loading model from %s", model_path)
     processor, model, device = load_model(model_path)
+
+    # The zero-shot baseline uses one ChatML-templated, non-leaking prompt for
+    # every row (overriding the per-record query prompt), and parses predictions
+    # without the plain-number fallback so a non-temporal ramble cannot fake an
+    # interval. allow_plain stays True for fine-tuned models (unchanged path).
+    zeroshot_prompt: Optional[str] = None
+    if zero_shot:
+        zeroshot_prompt = build_zeroshot_prompt_temporal(processor)
+        audio_token_count = zeroshot_prompt.count("<|AUDIO|>")
+        if audio_token_count != 1:
+            raise ValueError(
+                "Zero-shot temporal prompt must contain exactly one <|AUDIO|> "
+                f"token for run_inference alignment, found {audio_token_count}."
+            )
+        logging.info(
+            "Zero-shot temporal baseline: ChatML prompt, plain-number fallback "
+            "suppressed (parse via explicit range only)."
+        )
 
     for dataset_path in dataset_paths:
         logging.info("Loading dataset from %s", dataset_path)
@@ -380,11 +440,12 @@ def eval_temporal(
 
             duration_seconds = _safe_float(item.get("duration_seconds"))
             truth_interval, truth_source = extract_ground_truth_interval(item)
-            prompt = (
-                query_to_prompt(item.get("query"))
-                if use_query_prompt
-                else PROMPT_TEMPLATE
-            )
+            if zeroshot_prompt is not None:
+                prompt = zeroshot_prompt
+            elif use_query_prompt:
+                prompt = query_to_prompt(item.get("query"))
+            else:
+                prompt = PROMPT_TEMPLATE
             resolved_rows.append(
                 {
                     "record": item,
@@ -428,6 +489,11 @@ def eval_temporal(
         end_errors: list[float] = []
         parsed_count = 0
         ground_truth_count = 0
+        # Tally which parse strategy produced each prediction interval. For the
+        # zero-shot baseline this is the audit surface: "plain" should be absent
+        # (it is suppressed), and a healthy baseline parses via "range" or not
+        # at all. A surprising distribution is the smoke-gate signal.
+        pred_source_counts: dict[str, int] = {}
 
         for row, prediction in zip(resolved_rows, predictions):
             record = row["record"]
@@ -435,11 +501,14 @@ def eval_temporal(
             prediction_text = strip_non_timestamp_special_tokens(prediction)
 
             pred_interval, pred_source = extract_interval(
-                prediction_text, duration_seconds
+                prediction_text, duration_seconds, allow_plain=not zero_shot
             )
             truth_interval = row["truth_interval"]
             truth_source = row["truth_source"]
 
+            pred_source_counts[pred_source] = (
+                pred_source_counts.get(pred_source, 0) + 1
+            )
             if pred_interval is not None:
                 parsed_count += 1
             if truth_interval is not None:
@@ -496,7 +565,16 @@ def eval_temporal(
             "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
             "mean_start_abs_err": _mean(start_errors),
             "mean_end_abs_err": _mean(end_errors),
-            "prompt_mode": "query" if use_query_prompt else "default",
+            "parse_rate": parsed_count / len(resolved_rows),
+            "pred_interval_source_counts": pred_source_counts,
+            "prompt_mode": (
+                "zero_shot_chatml"
+                if zero_shot
+                else ("query" if use_query_prompt else "default")
+            ),
+            "zero_shot": zero_shot,
+            "model_path": model_path,
+            "prompt": zeroshot_prompt if zero_shot else None,
             "do_sample": do_sample,
             "temperature": temperature,
             "top_p": top_p,
@@ -507,6 +585,7 @@ def eval_temporal(
         logging.info("TEMPORAL EVALUATION: %s", dataset_path.name)
         logging.info("Samples evaluated: %d", metrics["samples_total"])
         logging.info("Prediction parse rate: %.4f", parsed_count / len(resolved_rows))
+        logging.info("Pred interval sources: %s", pred_source_counts)
         logging.info("Mean t-IoU: %.4f", metrics["mean_tiou"])
         logging.info("Median t-IoU: %.4f", metrics["median_tiou"])
         logging.info("Hit@0.1: %.4f", metrics["hit_iou_ge_0_1"])
