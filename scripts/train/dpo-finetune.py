@@ -14,6 +14,7 @@ import torch
 import typer
 from torch.utils.data import random_split
 from transformers import (
+    AutoConfig,
     AutoProcessor,
     AutoTokenizer,
     AutoModelForCausalLM,
@@ -24,6 +25,7 @@ from transformers import (
 
 # Import the new dataset and dual-stream collator
 from asa.data import DPODataset, ALLDDPOCollator
+from asa.modeling_timeaudio import Qwen2AudioTimeForConditionalGeneration
 
 app = typer.Typer()
 
@@ -259,11 +261,31 @@ def train(
     )
 
     # 1. Load Policy Model (Audio)
-    if is_main:
-        print(f"Loading Policy Model (Audio): {model_id} (dtype={dtype})")
-    model = Qwen2AudioForConditionalGeneration.from_pretrained(
-        model_id, torch_dtype=dtype
+    # TimeAudio checkpoints carry an extra abs_time_embedding param and a
+    # resized vocab/lm_head; the stock class SILENTLY drops abs_time_embedding
+    # (loads with a warning, no crash), which would strip mechanism 2 from a
+    # TimeAudio policy. Detect the subclass from the config the same way
+    # asa.inference.load_model does. Stock SFT checkpoints have neither flag and
+    # load through the stock class unchanged.
+    try:
+        policy_cfg = AutoConfig.from_pretrained(model_id)
+        is_timeaudio = bool(
+            getattr(policy_cfg, "use_abs_time_embedding", False)
+            or getattr(policy_cfg, "use_time_tokens", False)
+        )
+    except Exception:
+        is_timeaudio = False
+    policy_cls = (
+        Qwen2AudioTimeForConditionalGeneration
+        if is_timeaudio
+        else Qwen2AudioForConditionalGeneration
     )
+    if is_main:
+        print(
+            f"Loading Policy Model (Audio): {model_id} (dtype={dtype}, "
+            f"class={policy_cls.__name__})"
+        )
+    model = policy_cls.from_pretrained(model_id, torch_dtype=dtype)
 
     # 2. Load Reference Model (Text)
     if is_main:
