@@ -494,6 +494,13 @@ def eval_temporal(
         # (it is suppressed), and a healthy baseline parses via "range" or not
         # at all. A surprising distribution is the smoke-gate signal.
         pred_source_counts: dict[str, int] = {}
+        # Set of distinct (start, end) predicted intervals (rounded to 0.01 s).
+        # This is the honesty diagnostic, the temporal parallel to the MOS
+        # "unique predictions N/N" line. A near-constant interval (count of 1-2
+        # across many samples) means the model emits a canned answer and any
+        # nonzero t-IoU is chance overlap, NOT localization. A genuinely
+        # localizing model varies its interval with the audio.
+        unique_pred_intervals: set[tuple[float, float]] = set()
 
         for row, prediction in zip(resolved_rows, predictions):
             record = row["record"]
@@ -509,6 +516,10 @@ def eval_temporal(
             pred_source_counts[pred_source] = (
                 pred_source_counts.get(pred_source, 0) + 1
             )
+            if pred_interval is not None:
+                unique_pred_intervals.add(
+                    (round(pred_interval.start, 2), round(pred_interval.end, 2))
+                )
             if pred_interval is not None:
                 parsed_count += 1
             if truth_interval is not None:
@@ -567,6 +578,7 @@ def eval_temporal(
             "mean_end_abs_err": _mean(end_errors),
             "parse_rate": parsed_count / len(resolved_rows),
             "pred_interval_source_counts": pred_source_counts,
+            "unique_pred_intervals": len(unique_pred_intervals),
             "prompt_mode": (
                 "zero_shot_chatml"
                 if zero_shot
@@ -586,6 +598,12 @@ def eval_temporal(
         logging.info("Samples evaluated: %d", metrics["samples_total"])
         logging.info("Prediction parse rate: %.4f", parsed_count / len(resolved_rows))
         logging.info("Pred interval sources: %s", pred_source_counts)
+        logging.info(
+            "Unique predicted intervals: %d of %d parsed (honesty diagnostic; "
+            "near-1 means canned answer, not localization)",
+            len(unique_pred_intervals),
+            parsed_count,
+        )
         logging.info("Mean t-IoU: %.4f", metrics["mean_tiou"])
         logging.info("Median t-IoU: %.4f", metrics["median_tiou"])
         logging.info("Hit@0.1: %.4f", metrics["hit_iou_ge_0_1"])

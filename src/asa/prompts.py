@@ -116,13 +116,22 @@ def build_zeroshot_prompt_MOS(processor) -> str:
 # for plain seconds and let the range parser pick them up. A baseline that
 # cannot produce a localizable range is an honest low parse rate, not a number
 # to manufacture.
+#
+# CRITICAL (2026-06-09): the format ask uses a NEUTRAL placeholder ("X and Y"),
+# never a concrete worked example. The first smoke (28615768) handed the model
+# the example "between 1.2 and 3.4 seconds" and the untrained model parroted
+# that exact interval on all 20 samples, producing a chance-overlap t-IoU ~0.30
+# that would have badly overstated the baseline. Any concrete number here, or
+# any directional hint ("near the start"), is contamination: it biases the
+# baseline toward a constant answer instead of measuring what the model does on
+# its own. Keep the placeholder abstract.
 ZEROSHOT_TASK_TEMPORAL = (
     "Listen to this speech clip. Part of it is degraded in quality while the "
     "rest is clean. First, briefly describe the speech quality and its overall "
     "MOS score (a number from 1 to 5). Then identify the single span of time "
     "where the degradation occurs, and state it explicitly as a time range in "
-    "seconds in the form \"between X and Y seconds\" (for example, \"between "
-    "1.2 and 3.4 seconds\")."
+    "seconds in the form \"between X and Y seconds\", where X and Y are the "
+    "start and end times you identify."
 )
 
 ZEROSHOT_USER_TEXT_TEMPORAL = DIMENSION_DEFINITIONS_MOS + ZEROSHOT_TASK_TEMPORAL
