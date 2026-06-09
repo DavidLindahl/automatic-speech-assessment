@@ -105,6 +105,79 @@ def build_zeroshot_prompt_MOS(processor) -> str:
     )
 
 
+# Non-leaking instruction for the zero-shot *temporal* baseline. It asks the
+# off-the-shelf model to do the same job the fine-tuned temporal models do
+# (describe the speech and say when the degradation occurs), but it never
+# reveals the ground-truth interval. The output format ask is deliberately
+# phrased as "between X and Y seconds" so a free-text answer lands on the
+# `range` regex in evaluate_temporal.extract_interval (between|from ... and|to),
+# which is the honest parse path. The untrained Instruct model does not know our
+# <|float|> or <aN><fK> timestamp conventions, so we do not ask for them; we ask
+# for plain seconds and let the range parser pick them up. A baseline that
+# cannot produce a localizable range is an honest low parse rate, not a number
+# to manufacture.
+ZEROSHOT_TASK_TEMPORAL = (
+    "Listen to this speech clip. Part of it is degraded in quality while the "
+    "rest is clean. First, briefly describe the speech quality and its overall "
+    "MOS score (a number from 1 to 5). Then identify the single span of time "
+    "where the degradation occurs, and state it explicitly as a time range in "
+    "seconds in the form \"between X and Y seconds\" (for example, \"between "
+    "1.2 and 3.4 seconds\")."
+)
+
+ZEROSHOT_USER_TEXT_TEMPORAL = DIMENSION_DEFINITIONS_MOS + ZEROSHOT_TASK_TEMPORAL
+
+
+def build_zeroshot_prompt_temporal(processor) -> str:
+    """Instructed zero-shot prompt for the off-the-shelf temporal baseline.
+
+    This is the temporal-localization counterpart to
+    :func:`build_zeroshot_prompt_MOS`. It measures what Qwen2-Audio can do on
+    "when is the degradation" *before* any fine-tuning, the defensible "before"
+    floor for the temporal results, and the parser counterpart to the source
+    paper's finding that off-the-shelf audio LLMs cannot do this task zero-shot.
+
+    Like the MOS zero-shot prompt, it is rendered through the model's **chat
+    template** (``processor.apply_chat_template``), not as bare text, because the
+    baseline is ``Qwen2-Audio-7B-Instruct`` (ChatML-tuned) while the fine-tuned
+    temporal checkpoints descend from the *base* model and trained on the bare
+    query prompt. Feeding the Instruct model bare text would be off-distribution
+    and would invite the criticism that the baseline failed only because it was
+    prompted wrong. Comparability comes from the shared metric code path
+    (t-IoU, Hit@k, start/end error in ``evaluate_temporal.py``), not from an
+    identical prompt string.
+
+    The user turn carries the non-leaking instruction
+    (``ZEROSHOT_USER_TEXT_TEMPORAL``: dimension definitions + "describe, give an
+    MOS, and state the degraded span as a seconds range", **no** ground-truth
+    interval, **no** worked examples) alongside a single audio placeholder. The
+    chat template expands that placeholder to the standard
+    ``<|audio_bos|><|AUDIO|><|audio_eos|>`` block, so the rendered string flows
+    through :func:`asa.inference.run_inference` unchanged with exactly one audio
+    token.
+
+    Args:
+        processor: A Qwen2-Audio ``AutoProcessor`` whose tokenizer carries the
+            ChatML ``chat_template`` (the Instruct processor does).
+
+    Returns:
+        The fully rendered ChatML prompt string, ending in the assistant
+        generation prompt and ready to pass as a ``prompt_texts`` entry.
+    """
+    conversation = [
+        {
+            "role": "user",
+            "content": [
+                {"type": "audio", "audio_url": "placeholder.wav"},
+                {"type": "text", "text": ZEROSHOT_USER_TEXT_TEMPORAL},
+            ],
+        }
+    ]
+    return processor.apply_chat_template(
+        conversation, add_generation_prompt=True, tokenize=False
+    )
+
+
 def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> str:
     # The trailing "\n" after "Output:" is the reference-stream analogue of
     # the PROMPT_TEMPLATE "\n" delimiter fix (commit a007248). Without it,
