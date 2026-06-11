@@ -13,7 +13,11 @@ from asa.processed_data import (
     load_processed_records,
     resolve_audio_path,
 )
-from asa.prompts import PROMPT_TEMPLATE, build_expert_prompt_MOS
+from asa.prompts import (
+    PROMPT_TEMPLATE,
+    build_expert_prompt_MOS,
+    build_expert_prompt_TEMPORAL,
+)
 
 
 class SFTDataset(Dataset):
@@ -118,6 +122,7 @@ class DPODataset(Dataset):
         json_path: str | Path,
         data_root: str | Path,
         max_samples: Optional[int] = None,
+        dims_source_json: str | Path | None = None,
     ):
         self.data_root = Path(data_root)
         self.samples = self._load_jsonl(Path(json_path))
@@ -125,8 +130,39 @@ class DPODataset(Dataset):
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
 
+        # Temporal records (global-caption format) carry mos but NOT noi/col/loud
+        # (build_nisqa_temporal_json drops them). For the ALLD temporal reference
+        # prompt we need the full quality palette, so join noi/col/loud back from
+        # the source caption file by degraded-filename basename. Only used for
+        # temporal records; the MOS path never touches this.
+        self.dims_index: dict[str, dict[str, float]] = {}
+        if dims_source_json is not None:
+            self.dims_index = self._build_dims_index(Path(dims_source_json))
+
         if int(os.environ.get("LOCAL_RANK", 0)) == 0:
             print(f"DPODataset: loaded {len(self.samples)} samples from {json_path}")
+            if self.dims_index:
+                print(
+                    f"DPODataset: loaded {len(self.dims_index)} quality-dimension "
+                    f"rows from {dims_source_json} for the temporal reference prompt"
+                )
+
+    @staticmethod
+    def _build_dims_index(path: Path) -> dict[str, dict[str, float]]:
+        """Index {deg_basename: {mos, noi, col, loud}} from a caption JSONL."""
+        index: dict[str, dict[str, float]] = {}
+        for record in load_processed_records(path):
+            audios = record.get("audios")
+            if not isinstance(audios, list) or not audios:
+                continue
+            deg = Path(str(audios[0])).name
+            try:
+                index[deg] = {
+                    field: float(record[field]) for field in DPO_METADATA_FIELDS
+                }
+            except (KeyError, TypeError, ValueError):
+                continue
+        return index
 
     @staticmethod
     def _load_jsonl(path: Path) -> list[dict]:
@@ -138,13 +174,45 @@ class DPODataset(Dataset):
     def __len__(self) -> int:
         return len(self.samples)
 
+    def _build_meta_prompt(self, item: Dict[str, Any]) -> str:
+        """Build the ALLD reference prompt, MOS or temporal per record shape.
+
+        Temporal records carry ``mix_deg_segments`` (the degradation interval)
+        and lack ``noi/col/loud``; they use the temporal expert with the full
+        quality palette joined from ``dims_index`` plus the interval. All other
+        records take the original MOS expert path unchanged.
+        """
+        segments = item.get("mix_deg_segments")
+        is_temporal = isinstance(segments, list) and len(segments) > 0
+        if not is_temporal:
+            metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS}
+            return build_expert_prompt_MOS(**metadata)
+
+        deg = item.get("filename_deg") or Path(str(item["audios"][0])).name
+        dims = self.dims_index.get(deg)
+        if dims is None:
+            raise KeyError(
+                f"No quality dimensions (noi/col/loud) for temporal record {deg!r}. "
+                "Pass dims_source_json pointing at the caption file (e.g. "
+                "train_nisqa_llama_10k.json) so the temporal reference prompt "
+                "can be built."
+            )
+        seg = segments[0]
+        return build_expert_prompt_TEMPORAL(
+            mos=float(item["mos"]),
+            noi=dims["noi"],
+            col=dims["col"],
+            loud=dims["loud"],
+            start=round(float(seg["start"]), 2),
+            end=round(float(seg["end"]), 2),
+        )
+
     def __getitem__(self, idx: int) -> Dict[str, Any]:
         item = self.samples[idx]
         audio_path = self._resolve_audio_path(item["audios"][0])
         audio_array = load_audio(str(audio_path))
 
-        metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS}
-        meta_prompt = build_expert_prompt_MOS(**metadata)
+        meta_prompt = self._build_meta_prompt(item)
 
         return {
             "audio_prompt": PROMPT_TEMPLATE,  # For Policy Model

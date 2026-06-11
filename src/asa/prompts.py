@@ -203,3 +203,56 @@ def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> 
         + EXPERT_FEW_SHOT_EXAMPLES_MOS
         + current_input
     )
+
+
+# --- Temporal global-caption reference (ALLD dual-stream, temporal task) ---
+# The temporal expert prompt extends the MOS expert with the degradation
+# interval. The reference text model is given the full quality palette
+# (mos/noi/col/loud) AND the ground-truth start/end, and is asked to produce a
+# target in the exact global-caption-temporal form the policy is trained on:
+# "The degradation in the clip is between <start> and <end> and <quality caption>".
+# Like the MOS expert it is an oracle: it echoes the interval and the scores so
+# the reference logprob is a strong per-example baseline. The few-shot Output
+# strings match the trained target format (leading temporal clause, MOS in the
+# caption) so the reference scores the chosen/rejected text on-distribution.
+
+EXPERT_TASK_TEMPORAL = """I need you to generate a temporal quality evaluation for this speech. Most of the clip is clean; a single span of time carries the degradation. State that span first as "The degradation in the clip is between START and END and", then continue with a description according to the score from noise, coloration, and loudness, analyze how they influence the overall quality, and add the mos in the end.
+"""
+
+EXPERT_FEW_SHOT_EXAMPLES_TEMPORAL = """
+--- Example 1 ---
+Input: {mos: 1.4, noi: 1.4, col: 2.6, loud: 3.0, start: 3.57, end: 4.72}
+Output: The degradation in the clip is between 3.57 and 4.72 and is quite noisy and discontinuous, with moderate distortion. Although the loudness is soft but understandable, the overall MOS score is only 1.4.
+
+--- Example 2 ---
+Input: {mos: 2.4, noi: 3.0, col: 2.5, loud: 2.0, start: 1.66, end: 3.14}
+Output: The degradation in the clip is between 1.66 and 3.14 and is relatively quiet and has some continuity. However, it is somewhat noisy and significantly distorted, which impacts its overall quality. The overall MOS score is about 2.4.
+"""
+
+
+def build_expert_prompt_TEMPORAL(
+    mos: float, noi: float, col: float, loud: float, start: float, end: float
+) -> str:
+    """Build the ALLD reference-stream prompt for the temporal task.
+
+    Args:
+        mos, noi, col, loud: The four NISQA quality dimensions (1-5).
+        start, end: The ground-truth degradation interval in seconds.
+
+    Returns:
+        The text-expert prompt: dimension definitions + temporal task framing +
+        temporal few-shot examples + the structured current-task input. The
+        trailing ``"\\n"`` after ``Output:`` keeps the prompt/response boundary a
+        clean BPE split, matching ``build_expert_prompt_MOS``.
+    """
+    current_input = (
+        "\n--- Current Task ---\n"
+        f"Input: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}, "
+        f"start: {start}, end: {end}}}\nOutput:\n"
+    )
+    return (
+        DIMENSION_DEFINITIONS_MOS
+        + EXPERT_TASK_TEMPORAL
+        + EXPERT_FEW_SHOT_EXAMPLES_TEMPORAL
+        + current_input
+    )

@@ -169,6 +169,16 @@ def train(
     bf16: bool = typer.Option(False, help="Use bf16."),
     fp16: bool = typer.Option(False, help="Use fp16."),
     max_samples: Optional[int] = typer.Option(None, help="Limit dataset size."),
+    dims_source_json: Optional[Path] = typer.Option(
+        None,
+        help=(
+            "Caption JSONL (e.g. train_nisqa_llama_10k.json) to join noi/col/loud "
+            "from, by degraded-filename basename. Required for TEMPORAL DPO "
+            "(temporal records lack these dims); the temporal reference prompt "
+            "needs the full mos/noi/col/loud palette plus the interval. Ignored "
+            "for MOS records."
+        ),
+    ),
     deepspeed: Optional[str] = typer.Option(None, help="Path to DeepSpeed config."),
     val_split: float = typer.Option(
         0, help="Validation fraction."
@@ -245,6 +255,7 @@ def train(
         json_path=json_path,
         data_root=data_root,
         max_samples=max_samples,
+        dims_source_json=dims_source_json,
     )
 
     if val_split > 0:
