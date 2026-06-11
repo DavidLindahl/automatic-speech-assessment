@@ -361,26 +361,48 @@ def save(fig: plt.Figure, figures_dir: Path, stem: str) -> None:
 def fig_mos_distribution(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     """Figure 1: MOS distribution over the full training set."""
     mos = data_frame["mos"].to_numpy()
-    fig, axis = plt.subplots(figsize=(6.0, 3.4))
-    bins = np.arange(1.0, 5.0 + 0.2, 0.2)
-    axis.hist(mos, bins=bins, color=ACCENT, edgecolor="white", linewidth=0.5)
+    fig, axis = plt.subplots(figsize=(6.0, 3.0))
+    sns.histplot(
+        x=mos,
+        bins=np.arange(0.9, 5.11, 0.2),
+        stat="percent",
+        color="#999999",
+        edgecolor="white",
+        linewidth=0.6,
+        alpha=1.0,
+        ax=axis,
+    )
+    quality_scale = plt.get_cmap("viridis")
+    for bar in axis.patches:
+        center = bar.get_x() + bar.get_width() / 2
+        bar.set_facecolor(quality_scale((center - 1.0) / 4.0))
 
     mean_mos = float(np.mean(mos))
     median_mos = float(np.median(mos))
-    axis.axvline(mean_mos, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
-                 label=f"mean = {mean_mos:.2f}")
-    axis.axvline(median_mos, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
-                 label=f"median = {median_mos:.2f}")
+    axis.axvline(
+        mean_mos,
+        color="#252525",
+        linewidth=1.5,
+        linestyle="--",
+        zorder=3,
+    )
+    fig.text(
+        0.98,
+        0.965,
+        f"Mean {mean_mos:.2f}   |   Median {median_mos:.2f}",
+        ha="right",
+        va="top",
+        fontsize=9,
+        color="#333333",
+    )
 
     axis.set_xlabel("Mean Opinion Score (MOS)")
-    axis.set_ylabel("number of clips")
-    axis.set_title(f"MOS distribution of the SFT training set (n = {len(mos):,})")
-    axis.set_xlim(1.0, 5.0)
+    axis.set_ylabel("Share of Clips (%)")
+    axis.set_xlim(0.9, 5.1)
     axis.set_xticks(np.arange(1.0, 5.5, 0.5))
-    axis.legend(loc="upper right")
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
     save(fig, figures_dir, "eda_mos_distribution")
 
     return {
