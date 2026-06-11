@@ -258,6 +258,81 @@ def interval_iou(pred: Interval, truth: Interval) -> float:
     return intersection / union
 
 
+def whole_clip_baseline_mean_tiou(
+    truths: List[Interval],
+    durations: List[Optional[float]],
+) -> float:
+    """Mean t-IoU of the audio-blind strategy that predicts the whole clip.
+
+    For every sample the prediction is ``[0, duration]``. This strategy never
+    reads the audio; any model scoring at or below it has not demonstrated
+    audio-conditioned localization. Samples without a known duration are
+    skipped.
+
+    Args:
+        truths: Ground-truth intervals, one per evaluable sample.
+        durations: Clip durations aligned with ``truths``.
+
+    Returns:
+        Mean t-IoU of the whole-clip prediction over samples with a duration.
+    """
+    ious: List[float] = []
+    for truth, duration in zip(truths, durations):
+        if duration is None or duration <= 0:
+            continue
+        ious.append(interval_iou(Interval(start=0.0, end=duration), truth))
+    return _mean(ious)
+
+
+def best_constant_baseline(
+    truths: List[Interval],
+    start_step: float = 0.25,
+    length_min: float = 0.5,
+    length_max: float = 4.0,
+    length_step: float = 0.25,
+) -> tuple[Optional[Interval], float]:
+    """Grid-search the strongest constant interval for a truth distribution.
+
+    Finds the single fixed ``[start, end]`` guess that maximizes mean t-IoU
+    when applied unchanged to every sample. Like the whole-clip rule it never
+    reads the audio, but it is fit on the evaluated set itself, so it is the
+    oracle ceiling of audio-blind play: the upper edge of the no-information
+    regime. A model below this number has learned less than a lookup of the
+    interval prior.
+
+    Args:
+        truths: Ground-truth intervals to fit against.
+        start_step: Grid resolution for the candidate start time in seconds.
+        length_min: Smallest candidate window length in seconds.
+        length_max: Largest candidate window length in seconds.
+        length_step: Grid resolution for the candidate window length.
+
+    Returns:
+        Tuple of the best constant interval (``None`` when no truths are
+        given) and its mean t-IoU.
+    """
+    if not truths:
+        return None, 0.0
+
+    max_start = max(truth.end for truth in truths)
+    best_interval: Optional[Interval] = None
+    best_score = -1.0
+
+    start = 0.0
+    while start <= max_start:
+        length = length_min
+        while length <= length_max + 1e-9:
+            candidate = Interval(start=start, end=start + length)
+            score = _mean([interval_iou(candidate, truth) for truth in truths])
+            if score > best_score:
+                best_score = score
+                best_interval = candidate
+            length += length_step
+        start += start_step
+
+    return best_interval, max(best_score, 0.0)
+
+
 def query_to_prompt(query: Any) -> str:
     """Convert a dataset query string into a Qwen2-Audio prompt.
 
@@ -563,6 +638,28 @@ def eval_temporal(
             )
             details.append(detail)
 
+        # Audio-blind baselines, computed from the ground-truth intervals of
+        # this dataset. Every eval reports them next to the model so a score
+        # inside the no-information band can never read as localization. The
+        # 2026-06-09 SFT arms scored BELOW both of these; that finding is why
+        # they are baked in here.
+        truth_intervals = [
+            row["truth_interval"]
+            for row in resolved_rows
+            if row["truth_interval"] is not None
+        ]
+        truth_durations = [
+            row["duration_seconds"]
+            for row in resolved_rows
+            if row["truth_interval"] is not None
+        ]
+        baseline_whole_clip = whole_clip_baseline_mean_tiou(
+            truth_intervals, truth_durations
+        )
+        baseline_constant, baseline_constant_tiou = best_constant_baseline(
+            truth_intervals
+        )
+
         metrics = {
             "samples_total": len(resolved_rows),
             "samples_with_ground_truth_interval": ground_truth_count,
@@ -576,6 +673,13 @@ def eval_temporal(
             "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
             "mean_start_abs_err": _mean(start_errors),
             "mean_end_abs_err": _mean(end_errors),
+            "baseline_whole_clip_mean_tiou": baseline_whole_clip,
+            "baseline_best_constant_mean_tiou": baseline_constant_tiou,
+            "baseline_best_constant_interval": (
+                [baseline_constant.start, baseline_constant.end]
+                if baseline_constant is not None
+                else None
+            ),
             "parse_rate": parsed_count / len(resolved_rows),
             "pred_interval_source_counts": pred_source_counts,
             "unique_pred_intervals": len(unique_pred_intervals),
@@ -611,6 +715,22 @@ def eval_temporal(
         logging.info("Hit@0.5: %.4f", metrics["hit_iou_ge_0_5"])
         logging.info("Mean |start error|: %.4f", metrics["mean_start_abs_err"])
         logging.info("Mean |end error|: %.4f", metrics["mean_end_abs_err"])
+        logging.info(
+            "Audio-blind baselines (model must beat BOTH to demonstrate "
+            "audio-conditioned localization):"
+        )
+        logging.info(
+            "  whole-clip guess mean t-IoU: %.4f", baseline_whole_clip
+        )
+        logging.info(
+            "  best constant interval %s mean t-IoU: %.4f",
+            (
+                f"({baseline_constant.start:.2f}, {baseline_constant.end:.2f})"
+                if baseline_constant is not None
+                else "(none)"
+            ),
+            baseline_constant_tiou,
+        )
         logging.info("========================================")
 
         dataset_name = dataset_path.stem

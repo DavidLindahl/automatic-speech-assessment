@@ -102,3 +102,48 @@ def test_strip_non_timestamp_special_tokens_preserves_timestamps() -> None:
     cleaned = strip_non_timestamp_special_tokens(text)
 
     assert cleaned == "assistant degradation <|1.25|> to <|2.75|>"
+
+
+def test_whole_clip_baseline_mean_tiou() -> None:
+    from evaluate_temporal import whole_clip_baseline_mean_tiou
+
+    truths = [Interval(start=2.0, end=4.0), Interval(start=0.0, end=10.0)]
+    durations = [10.0, 10.0]
+
+    # Clip 1: IoU([0,10],[2,4]) = 2/10. Clip 2: IoU([0,10],[0,10]) = 1.0.
+    assert whole_clip_baseline_mean_tiou(truths, durations) == 0.6
+
+
+def test_whole_clip_baseline_skips_missing_durations() -> None:
+    from evaluate_temporal import whole_clip_baseline_mean_tiou
+
+    truths = [Interval(start=2.0, end=4.0), Interval(start=1.0, end=2.0)]
+
+    score = whole_clip_baseline_mean_tiou(truths, [10.0, None])
+
+    assert score == 0.2
+
+
+def test_best_constant_baseline_finds_shared_window() -> None:
+    from evaluate_temporal import best_constant_baseline
+
+    truths = [
+        Interval(start=2.0, end=3.0),
+        Interval(start=2.0, end=3.0),
+        Interval(start=2.25, end=3.25),
+    ]
+
+    interval, score = best_constant_baseline(truths)
+
+    assert interval is not None
+    assert interval.start <= 2.5 <= interval.end
+    assert score > 0.5
+
+
+def test_best_constant_baseline_empty_truths() -> None:
+    from evaluate_temporal import best_constant_baseline
+
+    interval, score = best_constant_baseline([])
+
+    assert interval is None
+    assert score == 0.0

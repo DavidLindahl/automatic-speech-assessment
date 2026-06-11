@@ -213,6 +213,33 @@ def build_temporal_response(
             f"{encode_time(start_time)} and {encode_time(end_time)} and {spliced}"
         )
 
+    if label_style in {
+        "global-caption-timelast",
+        "global-caption-timelast-anchoroffset",
+    }:
+        # Caption-first twins of the two global-caption styles: the full global
+        # caption leads verbatim and the temporal clause closes the response, so
+        # the model commits to the timestamps at the position with the most
+        # self-conditioning instead of as its first content tokens. Information
+        # content matches the timestamp-first styles (no degradation category);
+        # only the order changes, which makes the pair a clean order ablation.
+        # The caption is kept whole (no verb splice) because it opens the
+        # sentence, so its original subject phrase stays grammatical.
+        prefix = normalize_caption(base_caption)
+        if not prefix.endswith((".", "!", "?")):
+            prefix = f"{prefix}."
+        if label_style == "global-caption-timelast":
+            clause = (
+                "The degradation in the clip is between "
+                f"<|{start_time:.2f}|> and <|{end_time:.2f}|>."
+            )
+        else:
+            clause = (
+                "The degradation in the clip is between "
+                f"{encode_time(start_time)} and {encode_time(end_time)}."
+            )
+        return f"{prefix} {clause}"
+
     if label_style == "anchor-offset-localization":
         # TimeAudio-style discrete time tokens, timestamp-only (no category).
         # Matches the target shape: "... there is distortion between <a><f> ...".
@@ -237,9 +264,10 @@ def build_temporal_response(
     if label_style != "caption-plus-localization":
         raise ValueError(
             "label_style must be 'global-caption-localization', "
-            "'global-caption-anchoroffset', 'anchor-offset-localization', "
-            "'clear-speech-localization', 'localization-only', "
-            "or 'caption-plus-localization'"
+            "'global-caption-anchoroffset', 'global-caption-timelast', "
+            "'global-caption-timelast-anchoroffset', "
+            "'anchor-offset-localization', 'clear-speech-localization', "
+            "'localization-only', or 'caption-plus-localization'"
         )
 
     prefix = normalize_caption(base_caption)
@@ -272,13 +300,32 @@ def relabel_existing_temporal_records(
     records: list[dict[str, Any]],
     query: str,
     label_style: str,
-) -> list[dict[str, Any]]:
+    caption_index: dict[str, dict[str, Any]] | None = None,
+) -> tuple[list[dict[str, Any]], int]:
     """Rebuild temporal query/response labels from stored segments and types.
 
     This is useful when the mixed audio and manifest-derived metadata are already
     present in an existing JSONL, but the textual targets need a new style.
+
+    The record's own ``response`` may already carry a temporal clause (e.g. the
+    global-caption styles), so reusing it as the base caption would duplicate
+    the clause. When ``caption_index`` is provided (degraded-filename basename
+    to base caption record, as built by :func:`build_caption_index`), the base
+    caption is taken from there instead and the original caption text is
+    restored verbatim. Records missing from the index fall back to their own
+    response and are counted.
+
+    Args:
+        records: Existing temporal JSONL records.
+        query: Query text written into every output record.
+        label_style: Target text style for :func:`build_temporal_response`.
+        caption_index: Optional caption lookup by ``filename_deg``.
+
+    Returns:
+        Tuple of relabeled records and the number of caption-index misses.
     """
     output_records: list[dict[str, Any]] = []
+    caption_misses = 0
     for record in records:
         segments = parse_existing_list_field(record.get("mix_deg_segments", []))
         start_time, end_time = pick_primary_segment(segments)
@@ -291,18 +338,26 @@ def relabel_existing_temporal_records(
         )
         degradation_phrase = format_degradation_phrase(normalized_types)
 
+        base_caption = str(record.get("response", "")).strip()
+        if caption_index is not None:
+            base_record = caption_index.get(str(record.get("filename_deg", "")))
+            if base_record is not None:
+                base_caption = str(base_record.get("response", "")).strip()
+            else:
+                caption_misses += 1
+
         updated = dict(record)
         updated["query"] = query
         updated["source_degradation_types"] = normalized_types
         updated["response"] = build_temporal_response(
-            base_caption=str(record.get("response", "")).strip(),
+            base_caption=base_caption,
             start_time=start_time,
             end_time=end_time,
             degradation_phrase=degradation_phrase,
             label_style=label_style,
         )
         output_records.append(updated)
-    return output_records
+    return output_records, caption_misses
 
 
 def build_caption_index(
@@ -360,7 +415,10 @@ def main(
             "Target text style: 'global-caption-localization' for the global MOS "
             "caption with a leading temporal clause and free-text <|seconds|> "
             "timestamps, 'global-caption-anchoroffset' for the same with discrete "
-            "<aN><fK> time tokens, 'anchor-offset-localization' for TimeAudio-style "
+            "<aN><fK> time tokens, 'global-caption-timelast' / "
+            "'global-caption-timelast-anchoroffset' for the caption-first twins "
+            "(full caption verbatim, temporal clause appended last; the order "
+            "ablation), 'anchor-offset-localization' for TimeAudio-style "
             "discrete <a><f> time tokens (timestamp-only, no category), "
             "'clear-speech-localization' for the current metadata timestamp "
             "labels, 'localization-only' for short timestamp labels, or "
@@ -377,6 +435,8 @@ def main(
     if label_style not in {
         "global-caption-localization",
         "global-caption-anchoroffset",
+        "global-caption-timelast",
+        "global-caption-timelast-anchoroffset",
         "anchor-offset-localization",
         "clear-speech-localization",
         "localization-only",
@@ -384,23 +444,34 @@ def main(
     }:
         raise ValueError(
             "label_style must be 'global-caption-localization', "
-            "'global-caption-anchoroffset', 'anchor-offset-localization', "
-            "'clear-speech-localization', 'localization-only', "
-            "or 'caption-plus-localization'"
+            "'global-caption-anchoroffset', 'global-caption-timelast', "
+            "'global-caption-timelast-anchoroffset', "
+            "'anchor-offset-localization', 'clear-speech-localization', "
+            "'localization-only', or 'caption-plus-localization'"
         )
 
     if input_jsonl is not None:
         if not input_jsonl.exists():
             raise FileNotFoundError(f"Input temporal JSONL not found: {input_jsonl}")
         records = load_processed_records(input_jsonl)
-        output_records = relabel_existing_temporal_records(
+        # Join the original captions when available so relabeling a styled
+        # JSONL (whose responses already carry a temporal clause) restores the
+        # caption verbatim instead of nesting clauses.
+        caption_index = None
+        if caption_jsonl.exists():
+            caption_index = build_caption_index(load_jsonl(caption_jsonl))
+            print(f"Caption join: {caption_jsonl} ({len(caption_index)} captions)")
+        output_records, caption_misses = relabel_existing_temporal_records(
             records=records,
             query=query,
             label_style=label_style,
+            caption_index=caption_index,
         )
         write_processed_records(output_jsonl, output_records)
         print(f"Input records: {len(records)}")
         print(f"Wrote records: {len(output_records)}")
+        if caption_index is not None:
+            print(f"Caption-index misses (fell back to record response): {caption_misses}")
         print(f"Label style: {label_style}")
         print(f"Output: {output_jsonl}")
         return
