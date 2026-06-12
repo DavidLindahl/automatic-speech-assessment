@@ -36,6 +36,22 @@ ZEROSHOT_BASELINE_MODEL = "Qwen/Qwen2-Audio-7B-Instruct"
 
 TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
 NON_TIMESTAMP_SPECIAL_TOKEN_RE = re.compile(r"<\|(?!-?\d+(?:\.\d+)?\|>)[^|]*\|>")
+# The temporal clause of the global-caption target styles, in both layouts:
+# timestamp-first ("The degradation in the clip is between X and Y and
+# <caption>") and caption-last ("<caption> The degradation in the clip is
+# between X and Y."). Removing it leaves the caption + MOS text for
+# response-health scoring. \S+ matches both timestamp formats (<|1.23|> and
+# <a1><f2>) because each renders as one whitespace-delimited token.
+TEMPORAL_CLAUSE_RE = re.compile(
+    r"\s*The degradation in the clip is between\s+\S+\s+and\s+\S+\s*(?:and\s+|\.\s*)?",
+    re.IGNORECASE,
+)
+# Mirror of extract_mos pattern 1 in scripts/eval/evaluate.py (the explicit
+# "MOS ... <number>" branch, the format the fine-tuned models are trained to
+# emit). Duplicated rather than imported so importing this module never
+# shadows the HuggingFace `evaluate` package. Honest None-on-fail, no
+# last-number fallback.
+MOS_FROM_TEXT_RE = re.compile(r"MOS(?:[^0-9]+)(\d+(?:\.\d+)?)", re.IGNORECASE)
 PLAIN_FLOAT_RE = re.compile(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d.])")
 RANGE_PATTERNS = [
     re.compile(
@@ -399,6 +415,53 @@ def _mean(values: list[float]) -> float:
     return sum(values) / len(values)
 
 
+def extract_caption_part(text: str) -> str:
+    """Strip the temporal clause, leaving the caption + MOS text.
+
+    Handles both global-caption target layouts (timestamp-first and
+    caption-last). Texts without a clause are returned normalized.
+
+    Args:
+        text: A target or predicted response.
+
+    Returns:
+        The caption portion with collapsed whitespace.
+    """
+    stripped = TEMPORAL_CLAUSE_RE.sub(" ", text)
+    return " ".join(stripped.split())
+
+
+def extract_mos_from_response(text: str) -> Optional[float]:
+    """Parse the MOS value from a generated response, None when absent."""
+    match = MOS_FROM_TEXT_RE.search(text)
+    if match is None:
+        return None
+    return _safe_float(match.group(1))
+
+
+def caption_corpus_bleu(
+    predictions: List[str],
+    references: List[str],
+) -> Optional[float]:
+    """Corpus BLEU of caption parts via sacrebleu, None when unavailable.
+
+    Args:
+        predictions: Predicted caption parts.
+        references: Gold caption parts, aligned with ``predictions``.
+
+    Returns:
+        BLEU score, or ``None`` when sacrebleu is not installed or the
+        inputs are empty.
+    """
+    if not predictions or not references:
+        return None
+    try:
+        import sacrebleu
+    except ImportError:
+        return None
+    return float(sacrebleu.corpus_bleu(predictions, [references]).score)
+
+
 @app.command()
 def eval_temporal(
     dataset_paths: List[Path] = typer.Option(
@@ -576,6 +639,15 @@ def eval_temporal(
         # nonzero t-IoU is chance overlap, NOT localization. A genuinely
         # localizing model varies its interval with the audio.
         unique_pred_intervals: set[tuple[float, float]] = set()
+        # Response health (the caption/MOS axis of the collapse). The
+        # 2026-06-09 arms degraded MOS-MAE to ~0.5 and the TimeAudio arm
+        # emitted ONE caption for every clip, so the temporal eval now scores
+        # the whole response, not just the interval.
+        pred_captions: list[str] = []
+        ref_captions: list[str] = []
+        unique_pred_captions: set[str] = set()
+        mos_abs_errors: list[float] = []
+        mos_parsed_count = 0
 
         for row, prediction in zip(resolved_rows, predictions):
             record = row["record"]
@@ -636,6 +708,22 @@ def eval_temporal(
                 if pred_interval is not None and truth_interval is not None
                 else None
             )
+
+            pred_caption = extract_caption_part(prediction_text)
+            ref_caption = extract_caption_part(str(record.get("response", "")))
+            pred_captions.append(pred_caption)
+            ref_captions.append(ref_caption)
+            unique_pred_captions.add(pred_caption)
+            pred_mos = extract_mos_from_response(prediction_text)
+            gold_mos = _safe_float(record.get("mos"))
+            mos_abs_err = None
+            if pred_mos is not None and gold_mos is not None:
+                mos_parsed_count += 1
+                mos_abs_err = abs(pred_mos - gold_mos)
+                mos_abs_errors.append(mos_abs_err)
+            detail["pred_mos"] = pred_mos
+            detail["mos_abs_err"] = mos_abs_err
+
             details.append(detail)
 
         # Audio-blind baselines, computed from the ground-truth intervals of
@@ -683,6 +771,10 @@ def eval_temporal(
             "parse_rate": parsed_count / len(resolved_rows),
             "pred_interval_source_counts": pred_source_counts,
             "unique_pred_intervals": len(unique_pred_intervals),
+            "unique_pred_captions": len(unique_pred_captions),
+            "caption_bleu": caption_corpus_bleu(pred_captions, ref_captions),
+            "mos_parse_rate": mos_parsed_count / len(resolved_rows),
+            "mos_mae": _mean(mos_abs_errors) if mos_abs_errors else None,
             "prompt_mode": (
                 "zero_shot_chatml"
                 if zero_shot
@@ -715,6 +807,23 @@ def eval_temporal(
         logging.info("Hit@0.5: %.4f", metrics["hit_iou_ge_0_5"])
         logging.info("Mean |start error|: %.4f", metrics["mean_start_abs_err"])
         logging.info("Mean |end error|: %.4f", metrics["mean_end_abs_err"])
+        logging.info(
+            "Response health: unique captions %d of %d (near-1 = canned "
+            "response), caption BLEU %s, MOS parse %.4f, MOS MAE %s",
+            metrics["unique_pred_captions"],
+            metrics["samples_total"],
+            (
+                f"{metrics['caption_bleu']:.1f}"
+                if metrics["caption_bleu"] is not None
+                else "n/a (sacrebleu missing)"
+            ),
+            metrics["mos_parse_rate"],
+            (
+                f"{metrics['mos_mae']:.3f}"
+                if metrics["mos_mae"] is not None
+                else "n/a"
+            ),
+        )
         logging.info(
             "Audio-blind baselines (model must beat BOTH to demonstrate "
             "audio-conditioned localization):"
