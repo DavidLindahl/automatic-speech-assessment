@@ -147,3 +147,54 @@ def test_best_constant_baseline_empty_truths() -> None:
 
     assert interval is None
     assert score == 0.0
+
+
+def test_extract_caption_part_timestamp_first_layout() -> None:
+    from evaluate_temporal import extract_caption_part
+
+    text = (
+        "The degradation in the clip is between <a3><f6> and <a4><f7> and "
+        "is quite noisy. The overall MOS score is only 1.4."
+    )
+
+    assert extract_caption_part(text) == (
+        "is quite noisy. The overall MOS score is only 1.4."
+    )
+
+
+def test_extract_caption_part_caption_last_layout() -> None:
+    from evaluate_temporal import extract_caption_part
+
+    text = (
+        "This speech is clear. MOS score is 4.2. "
+        "The degradation in the clip is between <|2.10|> and <|3.40|>."
+    )
+
+    assert extract_caption_part(text) == "This speech is clear. MOS score is 4.2."
+
+
+def test_extract_caption_part_no_clause_passthrough() -> None:
+    from evaluate_temporal import extract_caption_part
+
+    assert extract_caption_part("  Just a   caption. ") == "Just a caption."
+
+
+def test_extract_mos_from_response() -> None:
+    from evaluate_temporal import extract_mos_from_response
+
+    assert extract_mos_from_response("the overall MOS score is only 1.4.") == 1.4
+    assert extract_mos_from_response("MOS of 4.3 overall") == 4.3
+    assert extract_mos_from_response("no score mentioned here") is None
+
+
+def test_caption_corpus_bleu_perfect_match_or_skipped() -> None:
+    import pytest as _pytest
+
+    from evaluate_temporal import caption_corpus_bleu
+
+    captions = ["the speech is clear and natural"] * 3
+    score = caption_corpus_bleu(captions, captions)
+    if score is None:
+        _pytest.skip("sacrebleu not installed")
+    assert score == _pytest.approx(100.0)
+    assert caption_corpus_bleu([], []) is None
