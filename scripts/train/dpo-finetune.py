@@ -215,6 +215,15 @@ def train(
         "without Hub push. Use to capture the collapse-onset curve in a "
         "diagnostic run. save_total_limit still bounds /work3 usage.",
     ),
+    final_save_only: bool = typer.Option(
+        False,
+        help="Skip ALL intermediate checkpoints (save_strategy='no') and write "
+        "exactly one model at the end, then push it to the Hub. Use with "
+        "--hub-model-id when you want a single final model on the Hub and no "
+        "step-checkpoints. The end save is wrapped in OSError -> Hub-rescue, and "
+        "save_only_model keeps it small, so it avoids the classic hang/overflow "
+        "of the naive single-save path while honouring 'save just one'.",
+    ),
     hub_private: bool = typer.Option(True, help="Make Hub repo private."),
 ):
     """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio."""
@@ -313,8 +322,18 @@ def train(
     # diagnostic --save-intermediate flag is set. The flag keeps the saves
     # local (no Hub), so a quota-safe collapse-onset run is possible without
     # an HF account that has private-repo storage.
-    save_steps_strategy = push_to_hub or save_intermediate
-    if push_to_hub and is_main:
+    # --final-save-only overrides both: no step-checkpoints at all, just the
+    # single explicit end save+push below (save_only_model keeps it ~16 GB and
+    # the OSError->Hub-rescue guards the quota-overflow-at-save failure mode).
+    save_steps_strategy = (push_to_hub or save_intermediate) and not final_save_only
+    if final_save_only and is_main:
+        dest = hub_model_id if push_to_hub else str(output_dir)
+        print(
+            f"Final-save-only ENABLED: no intermediate checkpoints; one model "
+            f"saved at the end and "
+            f"{'pushed to ' + hub_model_id if push_to_hub else 'kept local at ' + str(output_dir)}."
+        )
+    elif push_to_hub and is_main:
         print(
             f"Hub streaming ENABLED: pushing checkpoints to {hub_model_id} every {save_steps} steps "
             f"(local rotation: keep last {save_total_limit})."
@@ -353,7 +372,9 @@ def train(
         run_name=wandb_run_name,
         push_to_hub=push_to_hub,
         hub_model_id=hub_model_id,
-        hub_strategy="every_save" if push_to_hub else "end",
+        # every_save streams each step-checkpoint; with final_save_only there are
+        # no step-saves, so "end" is correct (the explicit end push does the work).
+        hub_strategy="end" if (final_save_only or not push_to_hub) else "every_save",
         hub_private_repo=hub_private,
     )
 
