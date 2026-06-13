@@ -43,6 +43,24 @@ def generate(
     ),
     temperature: float = typer.Option(1.1, help="Sampling temperature (paper: 1.1)."),
     top_p: float = typer.Option(0.9, help="Nucleus sampling top_p (paper: 0.9)."),
+    max_new_tokens: int = typer.Option(
+        100,
+        help=(
+            "Max tokens to generate per sample. The default 100 matches the "
+            "original MOS DPO data-gen. Caption-LAST temporal targets put the "
+            "timestamp clause at the END of a full caption, so a 100-token cap "
+            "can truncate before the timestamps; use 300 for those."
+        ),
+    ),
+    use_query_prompt: bool = typer.Option(
+        False,
+        "--use-query-prompt/--use-default-prompt",
+        help=(
+            "Prompt each clip with its stored `query` (what the temporal SFT "
+            "models were trained on) instead of the default MOS prompt. Match "
+            "this to how the policy model was trained."
+        ),
+    ),
 ):
     """Run inference to generate 'rejected' responses and create a DPO dataset."""
 
@@ -62,6 +80,20 @@ def generate(
         str(resolve_audio_path(item["audios"][0], data_root)) for item in data
     ]
 
+    prompt_texts = None
+    if use_query_prompt:
+        from asa.data import AUDIO_PLACEHOLDER, AUDIO_SPECIAL
+
+        prompt_texts = []
+        for item in data:
+            query = str(item.get("query", "")).strip()
+            if AUDIO_PLACEHOLDER in query:
+                query = query.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+            elif "<|AUDIO|>" not in query:
+                query = f"{AUDIO_SPECIAL}{query}"
+            prompt_texts.append(query)
+        logging.info("Using per-record query prompts (temporal SFT training prompt).")
+
     logging.info(
         f"Running inference on {len(audio_paths)} samples with batch size {batch_size}..."
     )
@@ -69,11 +101,13 @@ def generate(
         model=model,
         processor=processor,
         audio_paths=audio_paths,
+        prompt_texts=prompt_texts,
         device=device,
         batch_size=batch_size,
         do_sample=do_sample,
         temperature=temperature,
         top_p=top_p,
+        max_new_tokens=max_new_tokens,
     )
 
     logging.info("Formatting DPO dataset...")
