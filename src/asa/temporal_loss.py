@@ -101,7 +101,9 @@ def gaussian_group_targets(
     Returns:
         ``(N, group_size)`` rows summing to 1, peaked at the true index.
     """
-    positions = torch.arange(group_size, dtype=torch.float32).unsqueeze(0)
+    positions = torch.arange(
+        group_size, dtype=torch.float32, device=label_positions.device
+    ).unsqueeze(0)
     centers = label_positions.float().unsqueeze(1)
     if sigma <= 0:
         return (positions == centers).float()

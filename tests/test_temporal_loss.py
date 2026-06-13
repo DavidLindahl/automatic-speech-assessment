@@ -45,6 +45,24 @@ def test_gaussian_targets_sigma_zero_is_one_hot() -> None:
     assert targets.tolist() == [[0.0, 0.0, 0.0, 1.0, 0.0]]
 
 
+def test_gaussian_targets_output_device_matches_input() -> None:
+    # Regression guard for the 28633523 crash: the internal arange must live
+    # on the same device as label_positions, or any non-CPU run dies with
+    # "two devices, cuda:0 and cpu". CPU here pins the contract; the CUDA test
+    # below exercises the real failing path when a GPU is present.
+    labels = torch.tensor([2, 3, 5])
+    out = gaussian_group_targets(labels, group_size=60, sigma=1.0)
+    assert out.device == labels.device
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="needs CUDA")
+def test_gaussian_targets_runs_on_cuda() -> None:
+    labels = torch.tensor([2, 3, 5], device="cuda")
+    out = gaussian_group_targets(labels, group_size=60, sigma=1.0)
+    assert out.is_cuda
+    assert out.shape == (3, 60)
+
+
 def test_matches_plain_ce_when_inactive() -> None:
     logits, labels = _random_batch()
 
