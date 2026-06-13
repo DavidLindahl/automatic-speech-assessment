@@ -34,14 +34,12 @@ scripts/                       # runnable entrypoints, grouped by purpose
     prepare_temporal_smoke.py
   diagnostics/                   # probes for when DPO collapses again
     diagnose_dpo_empty_output.py
-    diagnose_dpo_label_mask.py
-    probe_collator_labels.py
     dpo_sanity_check.py
     sanity_check_dpo.py
-  analysis/                      # post-eval aggregators
-    analyze_results.py
+  analysis/                      # post-eval aggregators + thesis figures
+    eval_pred_vs_true.py
+    caption_vs_mos.py
     audit_response_diversity.py
-    compare_dpo_variability.py
   _legacy/                       # pre-temporal caption generator; archival only
 
 data/processed/                # training and eval data, grouped by use

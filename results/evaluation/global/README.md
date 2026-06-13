@@ -38,7 +38,7 @@ at-a-glance headline; full numbers are in each dir's `test_<set>_results.json`.
 | `dpo_nonorm_eval_sampled` | (same) | [`..._sampled.sh`](../../../jobs/global/eval/evaluate_dpo_nonorm_sampled.sh) | 0.397 / 22.6 | 28599881 / 28602354 |
 | `dpo_full_sft_lr1e6_eval_greedy` | [`dpo_full_sft_lr1e6.sh`](../../../jobs/global/alld/dpo_full_sft_lr1e6.sh) | [`evaluate_dpo_full_sft_lr1e6_greedy.sh`](../../../jobs/global/eval/evaluate_dpo_full_sft_lr1e6_greedy.sh) | 0.453 / 23.9 | 28517231 / 28554408 |
 | `dpo_full_sft_lr1e6_eval_sampled` | (same) | [`..._sampled.sh`](../../../jobs/global/eval/evaluate_dpo_full_sft_lr1e6_sampled.sh) | 0.463 / 23.2 | 28517231 / 28554409 |
-| `dpo_paper_half_h100_lr1e6_eval_greedy` | [`dpo_paper_half_h100_lr1e6.sh`](../../../jobs/global/alld/dpo_paper_half_h100_lr1e6.sh) | [`evaluate_dpo_lr1e6_delimiterfix.sh`](../../../jobs/global/eval/evaluate_dpo_lr1e6_delimiterfix.sh) | 0.760 / 21.2 | weak - early half-data run |
+| `dpo_paper_half_h100_lr1e6_eval_greedy` | [`dpo_paper_half_h100_lr1e6.sh`](../../../jobs/global/alld/dpo_paper_half_h100_lr1e6.sh) | (greedy eval job pruned) | 0.760 / 21.2 | weak - early half-data run |
 | `dpo_paper_half_h100_lr1e6_sampled` | (same) | [`evaluate_dpo_lr1e6_sampled.sh`](../../../jobs/global/eval/evaluate_dpo_lr1e6_sampled.sh) | 0.823 / 20.2 | weak |
 
 ### `sft/` — supervised fine-tuned
@@ -47,8 +47,6 @@ at-a-glance headline; full numbers are in each dir's `test_<set>_results.json`.
 |---|---|---|---|---|
 | `sft_full_paper_h100_eval_greedy` ⭐ | [`sft_full_paper_h100.sh`](../../../jobs/global/sft/sft_full_paper_h100.sh) | [`evaluate_sft_full_paper_h100_greedy.sh`](../../../jobs/global/eval/evaluate_sft_full_paper_h100_greedy.sh) | **0.273 / 26.4** | 28504316 / 28515705 |
 | `sft_full_paper_h100_eval_sampled` | (same) | [`..._sampled.sh`](../../../jobs/global/eval/evaluate_sft_full_paper_h100_sampled.sh) | 0.348 / 23.1 | 28504316 / 28515706 |
-| `sft_clean9500_eval_greedy` | [`sft_full_clean9500_h100.sh`](../../../jobs/global/sft/sft_full_clean9500_h100.sh) | [`evaluate_sft_clean9500_greedy.sh`](../../../jobs/global/eval/evaluate_sft_clean9500_greedy.sh) | 0.309 / 26.2 | 28599857 / 28602351 |
-| `sft_clean9500_eval_sampled` | (same) | [`..._sampled.sh`](../../../jobs/global/eval/evaluate_sft_clean9500_sampled.sh) | 0.367 / 23.7 | 28599857 / 28602352 |
 | `sft_warmup_paper_half_h100_eval_greedy` | [`sft_warmup_paper_half_h100.sh`](../../../jobs/global/sft/sft_warmup_paper_half_h100.sh) | [`evaluate_sft_warmup_paper_half_h100_greedy.sh`](../../../jobs/global/eval/evaluate_sft_warmup_paper_half_h100_greedy.sh) | 1.382 / 12.1 | weak - warmup-only, half data |
 | `sft_warmup_paper_half_h100_eval_sampled` | (same) | [`evaluate_sft_warmup_paper_half_h100.sh`](../../../jobs/global/eval/evaluate_sft_warmup_paper_half_h100.sh) | 1.629 / 11.5 | weak |
 

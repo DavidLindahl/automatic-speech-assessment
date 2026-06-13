@@ -195,7 +195,7 @@ def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> 
     # " synthesized" instead of "The". That misaligns the DPO reward at
     # position 0: policy sees "The", reference sees " synthesized". The "\n"
     # makes the prompt/response boundary a clean split, identical to the
-    # policy stream. Verified by probe_collator_labels.py.
+    # policy stream.
     current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:\n"
     return (
         DIMENSION_DEFINITIONS_MOS
