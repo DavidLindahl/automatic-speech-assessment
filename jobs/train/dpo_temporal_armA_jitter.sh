@@ -22,9 +22,11 @@
 ###     feature_attention_mask). Earlier DPO ran the policy text-only.
 ###
 ### Same hyperparameters as the working MOS DPO (dpo_full_sft_paired): LR 1e-6,
-### beta 0.4, 1 epoch, batch 2, grad-accum 16. Streams to Hub (quota-safe:
-### save_total_limit=1 => one ~16 GB rotating checkpoint on /work3). Mem:
-### -n 4 x rusage[mem=64GB] = 256 GB total, fits gpuh100 (~720 GB).
+### beta 0.4, 1 epoch, batch 2, grad-accum 16. --final-save-only: NO intermediate
+### checkpoints, exactly one model saved at the end and pushed to the public Hub
+### (save_only_model keeps it ~16 GB, end save wrapped in OSError->Hub-rescue so
+### the single-save path can't hang/overflow silently). Mem: -n 4 x
+### rusage[mem=64GB] = 256 GB total, fits gpuh100 (~720 GB).
 ### ============================================================
 
 #BSUB -q gpuh100
@@ -71,8 +73,7 @@ torchrun --nproc_per_node=1 scripts/train/dpo-finetune.py \
     --deepspeed configs/ds_zero2.json \
     --hub-model-id "$HUB_REPO" \
     --no-hub-private \
-    --save-steps 200 \
-    --save-total-limit 1 \
+    --final-save-only \
     --wandb-run-name "dpo-temporal-armA-jitter"
 
 echo "=========================================="
