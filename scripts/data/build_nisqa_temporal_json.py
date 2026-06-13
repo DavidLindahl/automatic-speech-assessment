@@ -44,6 +44,7 @@ DEFAULT_QUERY = (
     "Please describe and evaluate the synthetic speech, and identify when the "
     "degradation occurs.<audio>"
 )
+LOCALIZED_DEGRADATION_PHRASE = "localized degradation"
 
 app = typer.Typer()
 
@@ -189,7 +190,7 @@ def build_temporal_response(
     base_caption: str,
     start_time: float,
     end_time: float,
-    degradation_phrase: str,
+    degradation_phrase: str = LOCALIZED_DEGRADATION_PHRASE,
     label_style: str = "clear-speech-localization",
 ) -> str:
     """Compose target response that includes both quality text and localization."""
@@ -220,6 +221,12 @@ def build_temporal_response(
             "The overall speech is clear, but there is distortion between "
             f"{encode_time(start_time)} and {encode_time(end_time)}."
         )
+
+    # For the non-global-caption styles below, main (2a490e1) aligned the SFT
+    # labels with the test data by forcing the generic phrase rather than
+    # specific degradation types. The global-caption styles above predate that
+    # and build their phrase from the caption, so they return before this.
+    degradation_phrase = LOCALIZED_DEGRADATION_PHRASE
 
     if label_style == "clear-speech-localization":
         return (
@@ -283,22 +290,13 @@ def relabel_existing_temporal_records(
         segments = parse_existing_list_field(record.get("mix_deg_segments", []))
         start_time, end_time = pick_primary_segment(segments)
 
-        raw_types = parse_existing_list_field(
-            record.get("source_degradation_types", [])
-        )
-        normalized_types = normalize_degradation_types(
-            [str(value) for value in raw_types]
-        )
-        degradation_phrase = format_degradation_phrase(normalized_types)
-
         updated = dict(record)
         updated["query"] = query
-        updated["source_degradation_types"] = normalized_types
+        updated["source_degradation_types"] = []
         updated["response"] = build_temporal_response(
             base_caption=str(record.get("response", "")).strip(),
             start_time=start_time,
             end_time=end_time,
-            degradation_phrase=degradation_phrase,
             label_style=label_style,
         )
         output_records.append(updated)
@@ -343,7 +341,7 @@ def main(
         help="Directory containing mixed WAV files from manifest.",
     ),
     output_jsonl: Path = typer.Option(
-        Path("data/processed/temporal/train_nisqa_temporal_mix_3000.json"),
+        Path("data/processed/temporal/train_nisqa_temporal.json"),
         help="Output JSONL path.",
     ),
     data_root: Path = typer.Option(
@@ -444,20 +442,11 @@ def main(
             segments = []
         start_time, end_time = pick_primary_segment(segments)
 
-        raw_types = parse_json_field(row.get("source_degradation_types", "[]"), [])
-        if not isinstance(raw_types, list):
-            raw_types = []
-        normalized_types = normalize_degradation_types(
-            [str(value) for value in raw_types]
-        )
-        degradation_phrase = format_degradation_phrase(normalized_types)
-
         base_response = str(base_record.get("response", "")).strip()
         response = build_temporal_response(
             base_caption=base_response,
             start_time=start_time,
             end_time=end_time,
-            degradation_phrase=degradation_phrase,
             label_style=label_style,
         )
 
@@ -474,7 +463,7 @@ def main(
             if pd.notna(row.get("duration_seconds", None))
             else None,
             "mix_deg_segments": segments,
-            "source_degradation_types": normalized_types,
+            "source_degradation_types": [],
         }
 
         if include_clean_path and "clean_path" in base_record:

@@ -76,7 +76,10 @@ def test_build_temporal_response_global_caption_anchoroffset() -> None:
     )
 
 
-def test_build_temporal_response_clear_speech_localization_with_types() -> None:
+def test_build_temporal_response_clear_speech_localization_uses_generic_label() -> None:
+    # main (2a490e1) forces the generic phrase for the non-global-caption styles
+    # so the SFT labels match the test data; a specific degradation_phrase passed
+    # in is intentionally ignored for clear-speech-localization.
     response = build_temporal_response(
         base_caption="Old global caption should be ignored.",
         start_time=1.234,
@@ -86,10 +89,12 @@ def test_build_temporal_response_clear_speech_localization_with_types() -> None:
 
     assert response == (
         "The overall speech is clear, but the quality is interrupted by "
-        "background noise and codec artifacts occurring between <|1.23|> "
+        "localized degradation occurring between <|1.23|> "
         "and <|5.68|>."
     )
     assert "Old global caption" not in response
+    assert "background noise" not in response
+    assert "codec artifacts" not in response
 
 
 def test_relabel_existing_temporal_records_rewrites_query_and_response() -> None:
@@ -111,6 +116,6 @@ def test_relabel_existing_temporal_records_rewrites_query_and_response() -> None
     assert relabeled[0]["query"] == "new query<audio>"
     assert relabeled[0]["response"] == (
         "The overall speech is clear, but the quality is interrupted by "
-        "background noise and codec artifacts occurring between <|2.00|> "
+        "localized degradation occurring between <|2.00|> "
         "and <|3.50|>."
     )
