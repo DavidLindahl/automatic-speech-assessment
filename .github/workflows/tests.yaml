@@ -23,7 +23,7 @@ jobs:
         run: uv sync --locked --dev
 
       - name: Ruff
-        run: uv run ruff check src/ scripts/_legacy/
+        run: uv run ruff check src/
 
       - name: Shell syntax check (jobs/)
         run: |

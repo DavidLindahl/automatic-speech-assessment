@@ -16,7 +16,6 @@ src/asa/                       # importable library code (no entrypoints)
   processed_data.py              # dataset I/O + audio path resolution
   generate_temporal_data.py      # library: noise overlay / packet loss / clipping
   distill_temporal_targets.py    # library: smoke-set target distillation
-  sampler.py                     # dataset-sampling utilities
   data.py                        # compatibility shim re-exporting the above
 
 scripts/                       # runnable entrypoints, grouped by purpose
@@ -132,6 +131,7 @@ are skipped in CI; run them on HPC.
 
 ## Archive
 
-`scripts/_legacy/` holds the older NISQA caption-generation flow
-(`caption_generator.py` + `legacy_data_cli.py`). Preserved for archival
-reproducibility of pre-2026-04-13 runs but no longer on the active path.
+The pre-2026-04-13 AB direction and its data pipeline (the old NISQA
+caption-generation flow and standalone CLI) were removed in the 2026-06-13
+cleanup. They remain recoverable from git history if a pre-cutover run ever
+needs reproducing.

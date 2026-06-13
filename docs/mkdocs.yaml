@@ -21,5 +21,4 @@ plugins:
 
 nav:
   - Home: index.md
-  - Caption Generator: caption_generator.md
   - NISQA Temporal Mix Generator: nisqa_temporal_mix_generator.md

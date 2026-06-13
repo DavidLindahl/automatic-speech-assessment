@@ -11,7 +11,7 @@ Training paradigms in active use:
 1. **SFT** (`scripts/train/supervised-finetune.py`) — single-audio MOS-style quality prediction. Primary path.
 2. **DPO** (`scripts/train/dpo-finetune.py`) — Direct Preference Optimization. Uses the ALLD dual-stream method: a trainable Qwen2-Audio policy and a frozen Qwen2-7B text reference model, batched by `ALLDDPOCollator`.
 
-**A/B preference is dropped from the bachelor scope.** All AB-specific entrypoints, datasets, collators, and prompts were removed in Wave 1 of the refactor (2026-05-26). Don't propose new A/B work; if you find an AB reference, it's either historical (in `jobs/_archive/`, `scripts/_legacy/`, or `data/processed/intermediate/`) or a bug that needs flagging.
+**A/B preference is dropped from the bachelor scope.** All AB-specific entrypoints, datasets, collators, and prompts were removed (Wave 1 of the refactor, 2026-05-26; the last AB datasets and the legacy data pipeline went in the 2026-06-13 cleanup). Don't propose new A/B work; any remaining AB reference is recoverable from git history only, and a live one is a bug that needs flagging.
 
 Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/audio.py`, re-exported through `src/asa/data.py`). The public inference API lives in `src/asa/inference.py` (`load_model`, `run_inference`). The MOS-style eval CLI is `scripts/eval/evaluate.py`; the temporal-localization eval CLI is `scripts/eval/evaluate_temporal.py`. Both are typer-based.
 
@@ -46,7 +46,6 @@ automatic-speech-assessment/
 │   ├── processed_data.py              # JSONL loaders, audio-path resolution
 │   ├── generate_temporal_data.py      # library helpers (overlay_noise, ...)
 │   ├── distill_temporal_targets.py    # library: smoke-set target distillation
-│   ├── sampler.py                     # dataset-sampling utilities
 │   ├── data.py                        # compatibility shim re-exporting the above
 │   └── README.md                      # full module map
 │

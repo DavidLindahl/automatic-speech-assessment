@@ -9,5 +9,4 @@ Current DTU HPC flow:
 
 Additional tooling docs:
 
-- `caption_generator.md`
 - `nisqa_temporal_mix_generator.md`

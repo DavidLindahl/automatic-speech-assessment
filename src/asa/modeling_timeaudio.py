@@ -31,7 +31,7 @@ position, so index i corresponds to i * 0.04 s.
 
 from __future__ import annotations
 
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Union
 
 import torch
 import torch.nn as nn
