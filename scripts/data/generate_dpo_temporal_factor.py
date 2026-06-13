@@ -27,10 +27,16 @@ training collator consumes it unchanged.
 import json
 import logging
 import re
+import sys
 from pathlib import Path
 from typing import Any, Optional
 
 import typer
+
+if __package__ is None or __package__ == "":
+    sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
+
+from asa.temporal_tokens import encode_time
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -38,11 +44,26 @@ logging.basicConfig(
 
 app = typer.Typer(help="Build temporal-factor (interval-only-jitter) DPO pairs.")
 
-# Matches the two free-text timestamp tokens, e.g. "<|3.57|>".
+# Free-text timestamp tokens, e.g. "<|3.57|>".
 TS_PATTERN = re.compile(r"<\|(\d+(?:\.\d+)?)\|>")
+# TimeAudio anchor/offset pairs, e.g. "<a3><f6>" (one decoded value each).
+ANCHOROFFSET_PATTERN = re.compile(r"<a\d+>\s*<f\d+>")
 
 # Graded jitter magnitudes in seconds (memo line 53).
 DEFAULT_OFFSETS = (0.5, 1.0, 2.0, 4.0)
+
+
+def detect_timestamp_format(text: str) -> Optional[str]:
+    """Return 'anchoroffset', 'freetext', or None for the target's time format.
+
+    Checks anchor/offset first because a malformed mix would otherwise be
+    misread as free-text; a well-formed target carries exactly one format.
+    """
+    if len(ANCHOROFFSET_PATTERN.findall(text)) >= 2:
+        return "anchoroffset"
+    if len(TS_PATTERN.findall(text)) >= 2:
+        return "freetext"
+    return None
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -104,11 +125,26 @@ def shift_interval(
 def rewrite_timestamps(
     chosen: str, new_start: float, new_end: float
 ) -> Optional[str]:
-    """Replace the two timestamp tokens in `chosen`, leaving all other text intact."""
-    matches = list(TS_PATTERN.finditer(chosen))
+    """Replace the two timestamp tokens in `chosen`, leaving all other text intact.
+
+    Handles both target formats: free-text ``<|s|>`` and TimeAudio
+    ``<aN><fK>``. The format is detected from ``chosen`` itself, so the same
+    generator serves the plain and the anchor-offset arms. Exactly two
+    timestamp tokens must be present, or the record is skipped (returns None).
+    """
+    fmt = detect_timestamp_format(chosen)
+    if fmt == "anchoroffset":
+        pattern = ANCHOROFFSET_PATTERN
+        replacements = [encode_time(new_start), encode_time(new_end)]
+    elif fmt == "freetext":
+        pattern = TS_PATTERN
+        replacements = [f"<|{new_start:.2f}|>", f"<|{new_end:.2f}|>"]
+    else:
+        return None
+
+    matches = list(pattern.finditer(chosen))
     if len(matches) != 2:
         return None
-    replacements = [f"<|{new_start:.2f}|>", f"<|{new_end:.2f}|>"]
     out = []
     cursor = 0
     for match, replacement in zip(matches, replacements):
@@ -123,7 +159,12 @@ def rewrite_timestamps(
 def generate(
     input_json: Path = typer.Option(
         Path("data/processed/dpo/train_dpo_gc_plain.json"),
-        help="Source with gold `chosen` targets + `mix_deg_segments` (the gc-plain DPO file).",
+        help=(
+            "Source with the gold target + `mix_deg_segments`. Accepts either a "
+            "DPO file (gold in `chosen`) or an SFT training file (gold in "
+            "`response`); `chosen` takes precedence when both are present, and "
+            "the output always carries the gold as `chosen`."
+        ),
     ),
     output_json: Path = typer.Option(
         Path("data/processed/dpo/train_dpo_gc_temporal_factor.json"),
@@ -155,7 +196,9 @@ def generate(
 
     with output_json.open("w", encoding="utf-8") as out:
         for record in records:
-            chosen = record.get("chosen")
+            # Gold target: a DPO file carries it as `chosen`; an SFT training
+            # file carries it as `response`. Prefer `chosen` when present.
+            chosen = record.get("chosen") or record.get("response")
             interval = gold_interval(record)
             duration = float(record.get("duration_seconds") or 0.0)
             if not chosen:
@@ -182,6 +225,7 @@ def generate(
                     continue
 
                 pair = dict(record)
+                pair["chosen"] = chosen
                 pair["rejected"] = rejected
                 pair["temporal_jitter_seconds"] = round(magnitude, 3)
                 pair["rejected_interval"] = [
