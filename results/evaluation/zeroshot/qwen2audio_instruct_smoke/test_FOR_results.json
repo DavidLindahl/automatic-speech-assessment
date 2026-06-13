@@ -1,0 +1,188 @@
+{
+  "metrics": {
+    "samples": 10,
+    "mos_parsed": 10,
+    "mos_parse_rate": 1.0,
+    "mae": 0.8300000000000001,
+    "mse": 0.841,
+    "bleu": 2.6966820399784135,
+    "bleu_lowercased": 2.9579262898974967,
+    "rouge1_f": 0.2788679334854451,
+    "rouge2_f": 0.05195619824084744,
+    "rougeL_f": 0.18440847616753325,
+    "bertscore_precision": 0.8670486211776733,
+    "bertscore_recall": 0.8990579843521118,
+    "bertscore_f1": 0.8827435374259949,
+    "bertscore_model": "roberta-large",
+    "caption_metric_aggregation": {
+      "bleu": "corpus",
+      "rouge": "sample_mean_f1",
+      "bertscore": "sample_mean"
+    },
+    "unique_predictions": 10,
+    "top_prediction_frequency": 0.1
+  },
+  "decoding": {
+    "do_sample": false,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "max_new_tokens": 300
+  },
+  "run": {
+    "model_path": "Qwen/Qwen2-Audio-7B-Instruct",
+    "zero_shot": true,
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nAudio 1: <|audio_bos|><|AUDIO|><|audio_eos|>\nI will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are\nrating from 1 to 5. For all these factors, higher is better.\n    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.\n    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.\n    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.\n    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.\nI need you to generate a descriptive evaluation for this speech, including a description according to its noise, coloration, and loudness, analyze how they influence the overall quality, and add the overall MOS score (a number from 1 to 5) at the end.<|im_end|>\n<|im_start|>assistant\n"
+  },
+  "results": [
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00001_for_cnv_m_0103_01.wav"
+      ],
+      "response": "The synthesized speech is clear and clean, with good continuity and appropriate loudness. It also has minimal distortion, contributing to its high overall quality. With an overall MOS of 4.3, this speech is somewhat natural and of good quality.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 4.3,
+      "noi": 4.3,
+      "col": 4.2,
+      "loud": 4.4,
+      "dis": 4.4,
+      "predicted_response": "The speech has a moderate amount of noise, with a clear understanding of the words despite some background disturbance. The tone appears to be slightly distorted, possibly due to room acoustics or equipment used during recording. The volume seems to be set appropriately, neither too quiet nor too loud. Overall, considering these factors, I would rate the speech's quality as a fair 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 1.2999999999999998
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00001_for_cnv_m_1035_02.wav"
+      ],
+      "response": "This synthesized speech is clear and loud with a relatively low level of noise and minor discontinuity. It also has a moderate level of distortion. Overall, it has a MOS score of 4.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 4.5,
+      "noi": 4.3,
+      "col": 4.3,
+      "loud": 4.4,
+      "dis": 4.1,
+      "predicted_response": "The speech has a moderate amount of noise, which could be distracting at times but does not overpower the content. The coloration of the speech is slightly distorted, possibly due to compression artifacts or other forms of signal processing. The volume or loudness of the speech is set appropriately, neither too quiet nor too loud.\n\nBased on these factors, the overall quality of the speech can be rated as 4 out of 5. The presence of some noise and distortion do not significantly detract from the clarity and understandability of the spoken words. However, a perfect score would require the absence of any noticeable interference or distortions.",
+      "predicted_mos": 4.0,
+      "mos_error": 0.5
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00001_for_cnv_f_0104_02.wav"
+      ],
+      "response": "The synthesized speech is very clean and clear, with slight discontinuity. It has slight distortion and is clearly loud. I think it is a qualified synthesized speech with overall MOS of 4.3.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 4.3,
+      "noi": 4.4,
+      "col": 4.3,
+      "loud": 4.3,
+      "dis": 4.0,
+      "predicted_response": "The speech has a moderate amount of noise (MOS: 3), which might be distracting but does not entirely obscure the content. The speech's coloration is slightly distorted (MOS: 3), possibly due to compression artifacts or other forms of signal manipulation. The volume appears to be set appropriately (MOS: 4), providing a comfortable listening level without being overpowering. Overall, considering these factors, I would rate the speech as having an average quality (MOS: 3).",
+      "predicted_mos": 3.0,
+      "mos_error": 1.2999999999999998
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00001_for_cnv_f_0113_03.wav"
+      ],
+      "response": "The synthesized speech is clear and clean, with slight discontinuity and minor distortion. Overall, it has a good quality with an MOS score of 4.5.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 4.5,
+      "noi": 4.4,
+      "col": 4.1,
+      "loud": 4.3,
+      "dis": 4.3,
+      "predicted_response": "The speech has a moderate amount of noise, which could be distracting to some listeners. The audio quality appears to be fair with minimal distortions or colorations. The volume or loudness of the speech is soft but clear enough to understand. Overall, considering the given factors, I would rate the speech's quality as a 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 1.5
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00002_for_cnv_m_0068_01.wav"
+      ],
+      "response": "This synthesized speech is moderately clear with good continuity, but it has a somewhat noisy background and moderate distortion. The volume is soft but understandable. Considering these factors, I think it is an average synthesized speech with an overall MOS of 3.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.7,
+      "noi": 3.6,
+      "col": 3.2,
+      "loud": 3.9,
+      "dis": 4.0,
+      "predicted_response": "The speech has a moderate amount of noise, which could be distracting at times. The audio's coloration is slightly distorted, giving it a slightly unconventional tone that might affect understanding. The loudness is set appropriately, neither too quiet nor too loud. Overall, considering these factors, I would rate the audio as a 3 out of 5 in terms of quality.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.7000000000000002
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00002_for_cnv_m_0055_02.wav"
+      ],
+      "response": "This synthesized speech is moderately clean and has a soft but understandable volume. However, it has moderate distortion and discontinuity. Overall, the MOS score is 3.3, indicating that it is neither natural nor unnatural.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.3,
+      "noi": 3.5,
+      "col": 3.3,
+      "loud": 3.7,
+      "dis": 3.2,
+      "predicted_response": "The speech has a moderate amount of noise, which could be distracting to some listeners. The distortion present in the speech adds a layer of harshness and clarity that might affect the overall enjoyment. The volume appears to be set appropriately, neither too quiet nor too loud. Overall, I would rate the quality as a fair 3 out of 5.\n\nThe noise factor impacts the clarity of the speech, making it harder to discern individual words or sounds. The distortion affects the natural sound of the voice, adding an artificial texture to the audio. The loudness is appropriate, neither too quiet nor too overpowering.\n\nConsidering these factors together, the overall quality of the speech is fair. However, the presence of noise and distortion may detract from the listening experience for some listeners. Based on these observations, I would assign a MOS score of 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.2999999999999998
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00002_for_cnv_f_0036_01.wav"
+      ],
+      "response": "This synthesized speech is somewhat clean and has good continuity. Although it has a moderate level of distortion and noise, the overall MOS score is 3.7, indicating it is neither natural nor unnatural, and generally acceptable.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.7,
+      "noi": 3.3,
+      "col": 3.5,
+      "loud": 4.1,
+      "dis": 4.1,
+      "predicted_response": "The speech has a moderate amount of noise, with a MOS score of 3. The audio is neither too noisy nor too clean, providing a balanced listening experience without any harsh distortions. There's a noticeable level of distortion present, which could affect clarity slightly, contributing to a MOS score of 3. The volume or loudness of the speech is moderate, neither too quiet nor too loud, making it easy to hear and understand, thus a MOS score of 3.\n\nOverall, considering the combined scores of noise, distortion, and loudness, the speech's quality can be rated as a 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.7000000000000002
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00002_for_cnv_f_0087_02.wav"
+      ],
+      "response": "This synthesized speech is moderately clean and has a relatively normal volume. Although it has moderate distortion and discontinuity, the overall MOS score is about 3.7.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 3.7,
+      "noi": 3.7,
+      "col": 3.9,
+      "loud": 4.3,
+      "dis": 3.9,
+      "predicted_response": "The speech has a moderate amount of noise, which might be distracting but does not obscure the content. The speech's coloration is slightly distorted, possibly due to compression artifacts or other forms of signal processing. The volume of the speech is set appropriately, neither too quiet nor too loud. Overall, considering these factors, I would rate the speech as a fair 3 out of 5 in terms of quality.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.7000000000000002
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00003_for_cnv_m_0056_03.wav"
+      ],
+      "response": "This synthesized speech is moderately distorted and has good loudness. However, it suffers from a noisy background and moderate discontinuity, resulting in an overall MOS score of 2.1.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.1,
+      "noi": 1.5,
+      "col": 3.6,
+      "loud": 3.8,
+      "dis": 3.8,
+      "predicted_response": "The speech has a moderate amount of noise, with a clear understanding of the words despite some background disturbance. The sound appears to be distorted, possibly due to the use of a phone or other low-quality recording device. The volume is moderate, neither too quiet nor too loud, which contributes to an average overall quality rating of 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.8999999999999999
+    },
+    {
+      "audios": [
+        "/workspace/data/nisqa/NISQA_Corpus/NISQA_TEST_FOR/deg/c00003_for_cnv_m_0067_03.wav"
+      ],
+      "response": "This synthesized speech has good continuity and is relatively clear of distortion. However, it suffers from a high level of background noise, which detracts from its overall quality. Given these factors, I would rate its overall MOS score as 2.6.",
+      "query": "Please describe and evaluate the synthetic speech<audio>.",
+      "mos": 2.6,
+      "noi": 1.6,
+      "col": 3.9,
+      "loud": 3.6,
+      "dis": 4.1,
+      "predicted_response": "The speech has a moderate amount of noise, with a level that is neither too intrusive nor distracting. The coloration of the speech is slightly distorted, which may affect clarity and understanding. The volume or loudness of the speech is at a moderate level, neither too quiet nor too loud. Overall, considering these factors, I would rate the speech as a fair-quality recording, with an MOS score of 3 out of 5.",
+      "predicted_mos": 3.0,
+      "mos_error": 0.3999999999999999
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "model_path": "Qwen/Qwen2-Audio-7B",
+  "json_path": "data/processed/temporal/train_nisqa_temporal_global_caption_aug_anchoroffset.json",
+  "clips": 2000,
+  "train_clips": 1599,
+  "val_clips": 401,
+  "val_baselines_audio_blind": {
+    "whole_clip_mean_tiou": 0.13230502508719025,
+    "best_constant_mean_tiou": 0.15421619084957475,
+    "best_constant_interval": [
+      1.25,
+      5.0
+    ]
+  },
+  "taps": {
+    "encoder": {
+      "val_frame_auc": 0.8438084222588814,
+      "recovery_threshold": 0.7500000000000001,
+      "val_mean_tiou": 0.38680282272280486,
+      "val_median_tiou": 0.3322259136212621,
+      "val_hit_iou_ge_0_5": 0.3690773067331671
+    },
+    "projector": {
+      "val_frame_auc": 0.8425054125133588,
+      "recovery_threshold": 0.7500000000000001,
+      "val_mean_tiou": 0.40793201190603684,
+      "val_median_tiou": 0.38646616541353385,
+      "val_hit_iou_ge_0_5": 0.4114713216957606
+    }
+  },
+  "gate_verdict": "INFORMATION PRESENT: probe beats audio-blind baselines; the SFT failure is an objective problem, loss-level fixes can work"
+}

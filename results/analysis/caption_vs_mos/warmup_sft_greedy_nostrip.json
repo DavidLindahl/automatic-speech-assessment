@@ -1,0 +1,50 @@
+{
+  "summary": [
+    {
+      "results_path": "results/evaluation/sft/sft_warmup_paper_half_h100_eval_greedy/test_FOR_results.json",
+      "test_set": "test_FOR_results",
+      "mos_stripped": false,
+      "n": 240,
+      "skipped": 0,
+      "spearman_bertscore_vs_mos_error": -0.6766674831063625,
+      "p_bertscore": 1.7304768582054138e-33,
+      "spearman_rougeL_vs_mos_error": -0.6329377166724163,
+      "p_rougeL": 2.8614357637547084e-28,
+      "spearman_rougeL_vs_bertscore": 0.8317019147755081,
+      "dist_mos_error": "mos_error: n=240 mean=1.3825 min=0.0000 p25=0.7000 median=1.2000 p75=2.1000 max=3.3000",
+      "dist_bertscore_f1": "bertscore_f1: n=240 mean=0.9285 min=0.9048 p25=0.9199 median=0.9263 p75=0.9372 max=0.9569",
+      "dist_rougeL": "rougeL: n=240 mean=0.3571 min=0.1905 p25=0.2813 median=0.3385 p75=0.4348 max=0.6286"
+    },
+    {
+      "results_path": "results/evaluation/sft/sft_warmup_paper_half_h100_eval_greedy/test_LIVE_results.json",
+      "test_set": "test_LIVE_results",
+      "mos_stripped": false,
+      "n": 200,
+      "skipped": 0,
+      "spearman_bertscore_vs_mos_error": -0.6006793156810372,
+      "p_bertscore": 5.341193096254297e-21,
+      "spearman_rougeL_vs_mos_error": -0.5070747516940193,
+      "p_rougeL": 1.830598044491592e-14,
+      "spearman_rougeL_vs_bertscore": 0.8195868232594901,
+      "dist_mos_error": "mos_error: n=200 mean=1.4960 min=0.0000 p25=1.0000 median=1.4000 p75=2.0000 max=3.0000",
+      "dist_bertscore_f1": "bertscore_f1: n=200 mean=0.9281 min=0.9044 p25=0.9189 median=0.9258 p75=0.9358 max=0.9691",
+      "dist_rougeL": "rougeL: n=200 mean=0.3685 min=0.1798 p25=0.2857 median=0.3548 p75=0.4444 max=0.6885"
+    },
+    {
+      "results_path": "results/evaluation/sft/sft_warmup_paper_half_h100_eval_greedy/test_P501_results.json",
+      "test_set": "test_P501_results",
+      "mos_stripped": false,
+      "n": 240,
+      "skipped": 0,
+      "spearman_bertscore_vs_mos_error": -0.6813929721897467,
+      "p_bertscore": 4.1663818353975094e-34,
+      "spearman_rougeL_vs_mos_error": -0.5717228183314984,
+      "p_rougeL": 3.1359261377760662e-22,
+      "spearman_rougeL_vs_bertscore": 0.8315164285045469,
+      "dist_mos_error": "mos_error: n=240 mean=1.5333 min=0.0000 p25=0.8000 median=1.4000 p75=2.2000 max=3.5000",
+      "dist_bertscore_f1": "bertscore_f1: n=240 mean=0.9291 min=0.8939 p25=0.9218 median=0.9271 p75=0.9355 max=0.9608",
+      "dist_rougeL": "rougeL: n=240 mean=0.3472 min=0.1772 p25=0.2769 median=0.3380 p75=0.4000 max=0.6389"
+    }
+  ],
+  "sign_consistent": true
+}

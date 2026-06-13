@@ -1,0 +1,341 @@
+{
+  "metrics": {
+    "samples_total": 10,
+    "samples_with_ground_truth_interval": 10,
+    "samples_with_parsed_prediction_interval": 10,
+    "skipped_missing_audios_field": 0,
+    "skipped_missing_audio_file": 0,
+    "mean_tiou": 0.11626146957145782,
+    "median_tiou": 0.007596218771100597,
+    "hit_iou_ge_0_1": 0.3,
+    "hit_iou_ge_0_3": 0.2,
+    "hit_iou_ge_0_5": 0.0,
+    "mean_start_abs_err": 1.4282,
+    "mean_end_abs_err": 2.0183,
+    "parse_rate": 1.0,
+    "pred_interval_source_counts": {
+      "range": 10
+    },
+    "unique_pred_intervals": 8,
+    "prompt_mode": "zero_shot_chatml",
+    "zero_shot": true,
+    "model_path": "Qwen/Qwen2-Audio-7B-Instruct",
+    "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nAudio 1: <|audio_bos|><|AUDIO|><|audio_eos|>\nI will give you a tuple of meta information for speech quality evaluation, it contains 4 factors are\nrating from 1 to 5. For all these factors, higher is better.\n    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.\n    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.\n    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.\n    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.\nListen to this speech clip. Part of it is degraded in quality while the rest is clean. First, briefly describe the speech quality and its overall MOS score (a number from 1 to 5). Then identify the single span of time where the degradation occurs, and state it explicitly as a time range in seconds in the form \"between X and Y seconds\", where X and Y are the start and end times you identify.<|im_end|>\n<|im_start|>assistant\n",
+    "do_sample": false,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "max_new_tokens": 300
+  },
+  "results": [
+    {
+      "id": "nisqa_temporal_00001",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/001_mix_c00029_for_cnv_m_0068_02.wav"
+      ],
+      "response": "The degradation in the clip is between <|0.86|> and <|2.00|> and has a relatively low overall MOS score of 2.3. Although the noise level is somewhat moderate, the speech suffers from significant distortion and discontinuity, which negatively impacts its overall quality. Furthermore, the loudness is extremely quiet, making it difficult to hear clearly.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 2.28125,
+      "filename_deg": "c00029_for_cnv_m_0068_02.wav",
+      "filename_ref": "for_cnv_m_0068_02.wav",
+      "mix_filename": "001_mix_c00029_for_cnv_m_0068_02.wav",
+      "duration_seconds": 6.045,
+      "mix_deg_segments": [
+        {
+          "start": 0.863,
+          "end": 1.995
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/001_mix_c00029_for_cnv_m_0068_02.wav",
+      "predicted_response": "The speech has an overall MOS score of 4.0. The degradation occurs between 2.8 and 4.6 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 0.863,
+      "gt_end": 1.995,
+      "pred_start": 2.8,
+      "pred_end": 4.6,
+      "tiou": 0.0,
+      "start_abs_err": 1.9369999999999998,
+      "end_abs_err": 2.6049999999999995
+    },
+    {
+      "id": "nisqa_temporal_00002",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/002_mix_c00003_for_cnv_m_0067_03.wav"
+      ],
+      "response": "The degradation in the clip is between <|1.54|> and <|2.54|> and has good continuity and is relatively clear of distortion. However, it suffers from a high level of background noise, which detracts from its overall quality. Given these factors, I would rate its overall MOS score as 2.6.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 2.57575757575758,
+      "filename_deg": "c00003_for_cnv_m_0067_03.wav",
+      "filename_ref": "for_cnv_m_0067_03.wav",
+      "mix_filename": "002_mix_c00003_for_cnv_m_0067_03.wav",
+      "duration_seconds": 8.928,
+      "mix_deg_segments": [
+        {
+          "start": 1.538,
+          "end": 2.545
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/002_mix_c00003_for_cnv_m_0067_03.wav",
+      "predicted_response": "The speech has a MOS score of 4.0, indicating that it is generally clear and easy to understand. However, there is a noticeable degradation in quality between 2.50 and 4.50 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 1.538,
+      "gt_end": 2.545,
+      "pred_start": 2.5,
+      "pred_end": 4.5,
+      "tiou": 0.015192437542201193,
+      "start_abs_err": 0.962,
+      "end_abs_err": 1.955
+    },
+    {
+      "id": "nisqa_temporal_00003",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/003_mix_c00022_for_cnv_m_0002_03.wav"
+      ],
+      "response": "The degradation in the clip is between <|1.32|> and <|2.85|> and is somewhat noisy and discontinuous with significant distortion. Although it has a moderate volume, the overall MOS score is only 1.9.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 1.93548387096774,
+      "filename_deg": "c00022_for_cnv_m_0002_03.wav",
+      "filename_ref": "for_cnv_m_0002_03.wav",
+      "mix_filename": "003_mix_c00022_for_cnv_m_0002_03.wav",
+      "duration_seconds": 7.706,
+      "mix_deg_segments": [
+        {
+          "start": 1.317,
+          "end": 2.848
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/003_mix_c00022_for_cnv_m_0002_03.wav",
+      "predicted_response": "The speech has an overall MOS score of 4.5, indicating that the quality is good. There is a single span of time where the degradation occurs between 3.0 and 5.0 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 1.317,
+      "gt_end": 2.848,
+      "pred_start": 3.0,
+      "pred_end": 5.0,
+      "tiou": 0.0,
+      "start_abs_err": 1.683,
+      "end_abs_err": 2.152
+    },
+    {
+      "id": "nisqa_temporal_00005",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/005_mix_c00050_for_cnv_m_0001_01.wav"
+      ],
+      "response": "The degradation in the clip is between <|2.63|> and <|3.79|> and has relatively low noise level and moderate loudness. However, it suffers from significant distortion and severe discontinuity, which greatly impacts its overall quality. Therefore, the overall MOS score is only 1.2.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 1.1764705882352902,
+      "filename_deg": "c00050_for_cnv_m_0001_01.wav",
+      "filename_ref": "for_cnv_m_0001_01.wav",
+      "mix_filename": "005_mix_c00050_for_cnv_m_0001_01.wav",
+      "duration_seconds": 8.512,
+      "mix_deg_segments": [
+        {
+          "start": 2.63,
+          "end": 3.792
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/005_mix_c00050_for_cnv_m_0001_01.wav",
+      "predicted_response": "The speech has an overall MOS score of 4.0. The degradation occurs between 2.89 and 4.67 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 2.63,
+      "gt_end": 3.792,
+      "pred_start": 2.89,
+      "pred_end": 4.67,
+      "tiou": 0.44215686274509786,
+      "start_abs_err": 0.26000000000000023,
+      "end_abs_err": 0.8780000000000001
+    },
+    {
+      "id": "nisqa_temporal_00006",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/006_mix_c00053_for_cnv_m_0055_01.wav"
+      ],
+      "response": "The degradation in the clip is between <|6.17|> and <|7.43|> and is relatively clean but quiet and discontinuous, with severe distortion. The overall MOS score is about 1.4.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 1.41935483870968,
+      "filename_deg": "c00053_for_cnv_m_0055_01.wav",
+      "filename_ref": "for_cnv_m_0055_01.wav",
+      "mix_filename": "006_mix_c00053_for_cnv_m_0055_01.wav",
+      "duration_seconds": 9.384,
+      "mix_deg_segments": [
+        {
+          "start": 6.175,
+          "end": 7.432
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/006_mix_c00053_for_cnv_m_0055_01.wav",
+      "predicted_response": "The speech has a MOS score of 4.0. The degradation occurs between 2.78 and 4.96 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 6.175,
+      "gt_end": 7.432,
+      "pred_start": 2.78,
+      "pred_end": 4.96,
+      "tiou": 0.0,
+      "start_abs_err": 3.395,
+      "end_abs_err": 2.4720000000000004
+    },
+    {
+      "id": "nisqa_temporal_00007",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/007_mix_c00034_for_cnv_m_0076_02.wav"
+      ],
+      "response": "The degradation in the clip is between <|3.13|> and <|5.54|> and is somewhat unnatural and has somewhat noisy, significantly distorted and moderately discontinuous. Although the loudness is just soft but understandable, the overall MOS score is about 2.1.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 2.05882352941176,
+      "filename_deg": "c00034_for_cnv_m_0076_02.wav",
+      "filename_ref": "for_cnv_m_0076_02.wav",
+      "mix_filename": "007_mix_c00034_for_cnv_m_0076_02.wav",
+      "duration_seconds": 7.217,
+      "mix_deg_segments": [
+        {
+          "start": 3.133,
+          "end": 5.537
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/007_mix_c00034_for_cnv_m_0076_02.wav",
+      "predicted_response": "The speech has a MOS score of 4.0. The degradation occurs between 2.92 and 4.28 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 3.133,
+      "gt_end": 5.537,
+      "pred_start": 2.92,
+      "pred_end": 4.28,
+      "tiou": 0.4382881161635461,
+      "start_abs_err": 0.21300000000000008,
+      "end_abs_err": 1.2569999999999997
+    },
+    {
+      "id": "nisqa_temporal_00010",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/010_mix_c00032_for_cnv_f_0585_01.wav"
+      ],
+      "response": "The degradation in the clip is between <|0.95|> and <|2.08|> and is somewhat noisy and discontinuous with significant distortion, and it's also relatively quiet. Overall, the MOS score is 1.4.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 1.38709677419355,
+      "filename_deg": "c00032_for_cnv_f_0585_01.wav",
+      "filename_ref": "for_cnv_f_0585_01.wav",
+      "mix_filename": "010_mix_c00032_for_cnv_f_0585_01.wav",
+      "duration_seconds": 10.289,
+      "mix_deg_segments": [
+        {
+          "start": 0.95,
+          "end": 2.078
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/010_mix_c00032_for_cnv_f_0585_01.wav",
+      "predicted_response": "The speech has an overall MOS score of 4.5, indicating that it is generally clear and easy to understand. However, there is a noticeable degradation in quality between 2.0 and 4.0 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 0.95,
+      "gt_end": 2.078,
+      "pred_start": 2.0,
+      "pred_end": 4.0,
+      "tiou": 0.025573770491803226,
+      "start_abs_err": 1.05,
+      "end_abs_err": 1.9220000000000002
+    },
+    {
+      "id": "nisqa_temporal_00011",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/011_mix_c00049_for_cnv_m_1035_03.wav"
+      ],
+      "response": "The degradation in the clip is between <|0.07|> and <|1.23|> and is somewhat unnatural and has noticeable distortion and discontinuity. Although the noise level is moderate and the loudness is soft but understandable, I think it is a mediocre synthesized speech with overall MOS of 2.8.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 2.7741935483871,
+      "filename_deg": "c00049_for_cnv_m_1035_03.wav",
+      "filename_ref": "for_cnv_m_1035_03.wav",
+      "mix_filename": "011_mix_c00049_for_cnv_m_1035_03.wav",
+      "duration_seconds": 7.668,
+      "mix_deg_segments": [
+        {
+          "start": 0.065,
+          "end": 1.233
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/011_mix_c00049_for_cnv_m_1035_03.wav",
+      "predicted_response": "The speech has a MOS score of 4.5, indicating it is generally clear and easy to understand. The degradation occurs between 2.0 and 4.0 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 0.065,
+      "gt_end": 1.233,
+      "pred_start": 2.0,
+      "pred_end": 4.0,
+      "tiou": 0.0,
+      "start_abs_err": 1.935,
+      "end_abs_err": 2.767
+    },
+    {
+      "id": "nisqa_temporal_00012",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/012_mix_c00008_for_cnv_m_0028_03.wav"
+      ],
+      "response": "The degradation in the clip is between <|4.79|> and <|7.54|> and is relatively clean but has significant discontinuity and moderate distortion. Although the volume is acceptable, the overall MOS score is only 1.6.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 1.6060606060606102,
+      "filename_deg": "c00008_for_cnv_m_0028_03.wav",
+      "filename_ref": "for_cnv_m_0028_03.wav",
+      "mix_filename": "012_mix_c00008_for_cnv_m_0028_03.wav",
+      "duration_seconds": 9.603,
+      "mix_deg_segments": [
+        {
+          "start": 4.787,
+          "end": 7.543
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/012_mix_c00008_for_cnv_m_0028_03.wav",
+      "predicted_response": "The speech has an overall MOS score of 4.0. The degradation occurs between 2.79 and 4.68 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 4.787,
+      "gt_end": 7.543,
+      "pred_start": 2.79,
+      "pred_end": 4.68,
+      "tiou": 0.0,
+      "start_abs_err": 1.9969999999999999,
+      "end_abs_err": 2.8630000000000004
+    },
+    {
+      "id": "nisqa_temporal_00013",
+      "audios": [
+        "processed/temporal/nisqa_test_for_mixes/013_mix_c00020_for_cnv_f_0045_01.wav"
+      ],
+      "response": "The degradation in the clip is between <|1.65|> and <|3.19|> and has moderate noise level and acceptable loudness. However, it suffers from significant distortion and discontinuity, resulting in an overall MOS score of 2.3.",
+      "query": "Please describe and evaluate the synthetic speech, and identify when the degradation occurs.<audio>",
+      "mos": 2.3333333333333304,
+      "filename_deg": "c00020_for_cnv_f_0045_01.wav",
+      "filename_ref": "for_cnv_f_0045_01.wav",
+      "mix_filename": "013_mix_c00020_for_cnv_f_0045_01.wav",
+      "duration_seconds": 7.021,
+      "mix_deg_segments": [
+        {
+          "start": 1.65,
+          "end": 3.188
+        }
+      ],
+      "source_degradation_types": [],
+      "audio_path_resolved": "data/processed/temporal/nisqa_test_for_mixes/013_mix_c00020_for_cnv_f_0045_01.wav",
+      "predicted_response": "The speech has a MOS score of 4.5, indicating that it is generally clear and easy to understand. However, there is a noticeable degradation in quality between 2.50 and 4.50 seconds.",
+      "gt_interval_source": "mix_deg_segments",
+      "pred_interval_source": "range",
+      "gt_start": 1.65,
+      "gt_end": 3.188,
+      "pred_start": 2.5,
+      "pred_end": 4.5,
+      "tiou": 0.24140350877192987,
+      "start_abs_err": 0.8500000000000001,
+      "end_abs_err": 1.3119999999999998
+    }
+  ]
+}

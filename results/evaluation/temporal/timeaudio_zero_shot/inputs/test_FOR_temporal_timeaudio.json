@@ -1,0 +1,2162 @@
+[
+  {
+    "id": "nisqa_temporal_00000",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/000_mix_c00012_for_cnv_m_0016_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.61 - 5.96 seconds.",
+    "duration": 10.151,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00001",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/001_mix_c00029_for_cnv_m_0068_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.86 - 2.00 seconds.",
+    "duration": 6.045,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00002",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/002_mix_c00003_for_cnv_m_0067_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.54 - 2.54 seconds.",
+    "duration": 8.928,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00003",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/003_mix_c00022_for_cnv_m_0002_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.32 - 2.85 seconds.",
+    "duration": 7.706,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00004",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/004_mix_c00027_for_cnv_m_0048_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.76 - 7.09 seconds.",
+    "duration": 7.933,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00005",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/005_mix_c00050_for_cnv_m_0001_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.63 - 3.79 seconds.",
+    "duration": 8.512,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00006",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/006_mix_c00053_for_cnv_m_0055_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.17 - 7.43 seconds.",
+    "duration": 9.384,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00007",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/007_mix_c00034_for_cnv_m_0076_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.13 - 5.54 seconds.",
+    "duration": 7.217,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00008",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/008_mix_c00058_for_cnv_f_0009_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.51 - 2.40 seconds.",
+    "duration": 8.782,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00009",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/009_mix_c00012_for_cnv_m_0628_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 2.26 seconds.",
+    "duration": 6.405,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00010",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/010_mix_c00032_for_cnv_f_0585_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.95 - 2.08 seconds.",
+    "duration": 10.289,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00011",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/011_mix_c00049_for_cnv_m_1035_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.07 - 1.23 seconds.",
+    "duration": 7.668,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00012",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/012_mix_c00008_for_cnv_m_0028_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.79 - 7.54 seconds.",
+    "duration": 9.603,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00013",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/013_mix_c00020_for_cnv_f_0045_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.65 - 3.19 seconds.",
+    "duration": 7.021,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00014",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/014_mix_c00029_for_cnv_f_0097_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.28 - 2.06 seconds.",
+    "duration": 6.94,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00015",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/015_mix_c00036_for_cnv_m_0049_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.13 - 7.10 seconds.",
+    "duration": 7.733,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00016",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/016_mix_c00006_for_cnv_m_1046_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.34 - 4.38 seconds.",
+    "duration": 6.286,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00017",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/017_mix_c00031_for_cnv_f_0023_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.02 - 2.53 seconds.",
+    "duration": 7.362,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00018",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/018_mix_c00048_for_cnv_f_0021_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.23 - 1.70 seconds.",
+    "duration": 9.308,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00019",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/019_mix_c00052_for_cnv_f_0102_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.46 - 1.78 seconds.",
+    "duration": 7.883,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00020",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/020_mix_c00039_for_cnv_f_0088_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.42 - 1.82 seconds.",
+    "duration": 6.697,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00021",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/021_mix_c00045_for_cnv_m_0616_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.80 - 7.29 seconds.",
+    "duration": 8.978,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00022",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/022_mix_c00017_for_cnv_f_0071_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.87 - 2.71 seconds.",
+    "duration": 9.236,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00023",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/023_mix_c00031_for_cnv_f_0098_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.06 - 7.67 seconds.",
+    "duration": 7.924,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00024",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/024_mix_c00038_for_cnv_m_0094_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.63 - 1.76 seconds.",
+    "duration": 7.768,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00025",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/025_mix_c00056_for_cnv_f_0021_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.89 - 2.43 seconds.",
+    "duration": 7.4,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00026",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/026_mix_c00022_for_cnv_m_0056_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.47 - 2.27 seconds.",
+    "duration": 6.665,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00027",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/027_mix_c00058_for_cnv_m_0076_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.78 - 6.49 seconds.",
+    "duration": 7.384,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00028",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/028_mix_c00051_for_cnv_f_0119_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.19 - 3.17 seconds.",
+    "duration": 9.335,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00029",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/029_mix_c00030_for_cnv_f_0096_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.60 - 3.05 seconds.",
+    "duration": 8.602,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00030",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/030_mix_c00041_for_cnv_f_0112_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.70 - 5.41 seconds.",
+    "duration": 7.884,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00031",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/031_mix_c00016_for_cnv_m_1036_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.78 - 5.91 seconds.",
+    "duration": 9.472,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00032",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/032_mix_c00019_for_cnv_m_0075_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.45 - 1.88 seconds.",
+    "duration": 7.461,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00033",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/033_mix_c00059_for_cnv_m_0001_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.60 - 9.05 seconds.",
+    "duration": 10.22,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00034",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/034_mix_c00004_for_cnv_m_1007_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 1.27 seconds.",
+    "duration": 6.433,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00035",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/035_mix_c00060_for_cnv_f_0102_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.00 - 3.41 seconds.",
+    "duration": 6.487,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00036",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/036_mix_c00026_for_cnv_m_1046_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.66 - 1.79 seconds.",
+    "duration": 6.954,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00037",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/037_mix_c00007_for_cnv_f_0112_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.49 - 5.01 seconds.",
+    "duration": 9.089,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00038",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/038_mix_c00051_for_cnv_m_0003_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.37 - 3.69 seconds.",
+    "duration": 11.386,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00039",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/039_mix_c00028_for_cnv_m_1021_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.27 - 5.51 seconds.",
+    "duration": 7.267,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00040",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/040_mix_c00035_for_cnv_f_0097_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.14 - 5.26 seconds.",
+    "duration": 8.364,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00041",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/041_mix_c00003_for_cnv_f_0114_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.16 - 9.90 seconds.",
+    "duration": 10.091,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00042",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/042_mix_c00055_for_cnv_f_0009_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.11 - 7.93 seconds.",
+    "duration": 8.274,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00043",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/043_mix_c00008_for_cnv_f_0023_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.27 - 2.04 seconds.",
+    "duration": 9.469,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00044",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/044_mix_c00011_for_cnv_f_0079_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.35 - 2.53 seconds.",
+    "duration": 7.312,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00045",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/045_mix_c00054_for_cnv_f_0047_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.88 - 5.45 seconds.",
+    "duration": 11.968,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00046",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/046_mix_c00026_for_cnv_f_0113_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.91 - 5.54 seconds.",
+    "duration": 11.029,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00047",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/047_mix_c00023_for_cnv_m_0003_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.34 - 2.22 seconds.",
+    "duration": 10.642,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00048",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/048_mix_c00002_for_cnv_m_0068_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.07 - 2.82 seconds.",
+    "duration": 7.043,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00049",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/049_mix_c00046_for_cnv_f_0112_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.86 - 8.68 seconds.",
+    "duration": 8.81,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00050",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/050_mix_c00031_for_cnv_m_0063_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.30 - 3.42 seconds.",
+    "duration": 8.953,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00051",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/051_mix_c00014_for_cnv_m_0049_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.83 - 4.63 seconds.",
+    "duration": 6.149,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00052",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/052_mix_c00002_for_cnv_m_0055_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.50 - 3.87 seconds.",
+    "duration": 8.505,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00053",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/053_mix_c00033_for_cnv_f_0114_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.26 - 6.27 seconds.",
+    "duration": 7.436,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00054",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/054_mix_c00016_for_cnv_m_0639_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.85 - 6.40 seconds.",
+    "duration": 7.745,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00055",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/055_mix_c00001_for_cnv_f_0113_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.31 - 6.57 seconds.",
+    "duration": 8.675,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00056",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/056_mix_c00004_for_cnv_f_0040_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 1.44 seconds.",
+    "duration": 7.418,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00057",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/057_mix_c00019_for_cnv_m_0081_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.04 - 7.11 seconds.",
+    "duration": 7.346,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00058",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/058_mix_c00031_for_cnv_m_0032_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.39 - 1.54 seconds.",
+    "duration": 6.157,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00059",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/059_mix_c00040_for_cnv_m_0028_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.27 - 2.85 seconds.",
+    "duration": 7.825,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00060",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/060_mix_c00037_for_cnv_f_0585_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.09 - 2.11 seconds.",
+    "duration": 9.064,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00061",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/061_mix_c00049_for_cnv_m_0109_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.20 - 3.75 seconds.",
+    "duration": 10.649,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00062",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/062_mix_c00025_for_cnv_f_0023_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 2.80 seconds.",
+    "duration": 8.161,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00063",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/063_mix_c00051_for_cnv_f_0080_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.54 - 7.58 seconds.",
+    "duration": 9.376,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00064",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/064_mix_c00001_for_cnv_f_0104_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.67 - 3.01 seconds.",
+    "duration": 6.712,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00065",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/065_mix_c00039_for_cnv_m_0093_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.87 - 3.78 seconds.",
+    "duration": 9.264,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00066",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/066_mix_c00057_for_cnv_m_0010_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.18 - 1.96 seconds.",
+    "duration": 7.815,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00067",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/067_mix_c00021_for_cnv_m_0031_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 2.16 seconds.",
+    "duration": 8.745,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00068",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/068_mix_c00025_for_cnv_f_0004_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.89 - 6.47 seconds.",
+    "duration": 7.73,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00069",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/069_mix_c00038_for_cnv_m_0093_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.09 - 1.37 seconds.",
+    "duration": 7.857,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00070",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/070_mix_c00037_for_cnv_m_0010_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.21 - 6.24 seconds.",
+    "duration": 11.381,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00071",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/071_mix_c00012_for_cnv_f_0098_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.27 - 8.04 seconds.",
+    "duration": 8.069,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00072",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/072_mix_c00029_for_cnv_m_0092_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.21 - 3.98 seconds.",
+    "duration": 7.384,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00073",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/073_mix_c00042_for_cnv_m_1036_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.20 - 2.50 seconds.",
+    "duration": 10.99,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00074",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/074_mix_c00020_for_cnv_m_1026_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.20 - 5.67 seconds.",
+    "duration": 7.079,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00075",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/075_mix_c00010_for_cnv_f_0013_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.59 - 8.66 seconds.",
+    "duration": 9.721,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00076",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/076_mix_c00004_for_cnv_m_1021_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.90 - 5.51 seconds.",
+    "duration": 7.604,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00077",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/077_mix_c00020_for_cnv_f_0570_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.25 - 5.62 seconds.",
+    "duration": 7.32,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00078",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/078_mix_c00057_for_cnv_f_0038_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.97 - 2.17 seconds.",
+    "duration": 8.436,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00079",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/079_mix_c00017_for_cnv_m_0048_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.72 - 6.08 seconds.",
+    "duration": 7.875,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00080",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/080_mix_c00009_for_cnv_m_0016_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.52 - 4.14 seconds.",
+    "duration": 10.031,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00081",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/081_mix_c00001_for_cnv_m_0103_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.18 - 7.95 seconds.",
+    "duration": 11.531,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00082",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/082_mix_c00054_for_cnv_f_0040_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.22 - 8.28 seconds.",
+    "duration": 8.56,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00083",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/083_mix_c00051_for_cnv_m_0011_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.99 - 5.00 seconds.",
+    "duration": 7.78,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00084",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/084_mix_c00050_for_cnv_m_0011_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.35 - 4.83 seconds.",
+    "duration": 8.299,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00085",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/085_mix_c00010_for_cnv_m_0010_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.18 - 6.60 seconds.",
+    "duration": 7.44,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00086",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/086_mix_c00041_for_cnv_m_0012_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.55 - 3.82 seconds.",
+    "duration": 9.166,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00087",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/087_mix_c00047_for_cnv_f_0047_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.41 - 1.86 seconds.",
+    "duration": 8.222,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00088",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/088_mix_c00021_for_cnv_f_0119_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.50 - 1.96 seconds.",
+    "duration": 6.394,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00089",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/089_mix_c00009_for_cnv_f_0096_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.75 - 6.81 seconds.",
+    "duration": 6.989,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00090",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/090_mix_c00053_for_cnv_f_0070_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.33 - 1.71 seconds.",
+    "duration": 6.895,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00091",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/091_mix_c00040_for_cnv_f_0062_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.27 - 1.63 seconds.",
+    "duration": 9.14,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00092",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/092_mix_c00028_for_cnv_f_0021_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.98 - 3.37 seconds.",
+    "duration": 7.766,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00093",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/093_mix_c00044_for_cnv_f_0585_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.90 - 6.35 seconds.",
+    "duration": 9.705,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00094",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/094_mix_c00027_for_cnv_f_0088_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.19 - 4.79 seconds.",
+    "duration": 7.908,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00095",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/095_mix_c00052_for_cnv_m_0639_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.29 - 4.36 seconds.",
+    "duration": 9.439,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00096",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/096_mix_c00059_for_cnv_f_0004_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.73 - 5.04 seconds.",
+    "duration": 8.493,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00097",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/097_mix_c00009_for_cnv_m_0616_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 9.28 - 10.46 seconds.",
+    "duration": 10.618,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00098",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/098_mix_c00034_for_cnv_f_0101_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.94 - 3.98 seconds.",
+    "duration": 6.701,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00099",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/099_mix_c00054_for_cnv_m_1007_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.20 - 4.54 seconds.",
+    "duration": 8.671,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00100",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/100_mix_c00027_for_cnv_m_0076_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.82 - 5.16 seconds.",
+    "duration": 6.369,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00101",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/101_mix_c00013_for_cnv_m_0028_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.25 - 2.78 seconds.",
+    "duration": 8.864,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00102",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/102_mix_c00058_for_cnv_m_0081_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.10 - 1.76 seconds.",
+    "duration": 8.749,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00103",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/103_mix_c00044_for_cnv_f_0087_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.15 - 6.59 seconds.",
+    "duration": 7.737,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00104",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/104_mix_c00020_for_cnv_m_0006_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.55 - 4.13 seconds.",
+    "duration": 8.848,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00105",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/105_mix_c00032_for_cnv_m_0103_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.01 - 3.02 seconds.",
+    "duration": 7.772,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00106",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/106_mix_c00050_for_cnv_f_0118_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.16 - 6.02 seconds.",
+    "duration": 11.399,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00107",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/107_mix_c00034_for_cnv_m_0012_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.42 - 1.44 seconds.",
+    "duration": 8.713,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00108",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/108_mix_c00042_for_cnv_f_0570_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.96 - 4.67 seconds.",
+    "duration": 11.164,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00109",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/109_mix_c00039_for_cnv_m_0067_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 1.45 seconds.",
+    "duration": 6.166,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00110",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/110_mix_c00005_for_cnv_f_0038_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.89 - 4.65 seconds.",
+    "duration": 9.366,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00111",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/111_mix_c00037_for_cnv_m_0054_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.46 - 5.96 seconds.",
+    "duration": 10.318,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00112",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/112_mix_c00028_for_cnv_f_0043_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.41 - 1.42 seconds.",
+    "duration": 6.087,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00113",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/113_mix_c00055_for_cnv_m_0626_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.28 - 3.45 seconds.",
+    "duration": 9.085,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00114",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/114_mix_c00046_for_cnv_m_0092_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.06 - 5.72 seconds.",
+    "duration": 6.988,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00115",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/115_mix_c00043_for_cnv_f_0089_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.74 - 1.90 seconds.",
+    "duration": 6.872,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00116",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/116_mix_c00033_for_cnv_m_0031_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.97 - 3.15 seconds.",
+    "duration": 10.161,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00117",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/117_mix_c00017_for_cnv_m_0103_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.85 - 2.95 seconds.",
+    "duration": 6.817,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00118",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/118_mix_c00044_for_cnv_m_0626_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.26 - 8.29 seconds.",
+    "duration": 9.854,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00119",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/119_mix_c00060_for_cnv_f_0008_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.30 - 5.88 seconds.",
+    "duration": 7.497,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00120",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/120_mix_c00012_for_cnv_f_0062_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.16 - 1.33 seconds.",
+    "duration": 8.876,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00121",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/121_mix_c00013_for_cnv_f_0572_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.38 - 1.75 seconds.",
+    "duration": 6.281,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00122",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/122_mix_c00032_for_cnv_m_1021_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.18 - 8.25 seconds.",
+    "duration": 10.036,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00123",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/123_mix_c00052_for_cnv_f_0104_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.58 - 5.97 seconds.",
+    "duration": 9.711,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00124",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/124_mix_c00034_for_cnv_f_0071_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.39 - 4.08 seconds.",
+    "duration": 7.939,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00125",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/125_mix_c00043_for_cnv_m_0626_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.18 - 4.29 seconds.",
+    "duration": 8.592,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00126",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/126_mix_c00024_for_cnv_f_0101_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.31 - 4.73 seconds.",
+    "duration": 8.187,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00127",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/127_mix_c00033_for_cnv_f_0087_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.07 - 1.34 seconds.",
+    "duration": 7.584,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00128",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/128_mix_c00016_for_cnv_f_0062_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.20 - 2.85 seconds.",
+    "duration": 8.427,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00129",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/129_mix_c00059_for_cnv_m_1046_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.53 - 4.55 seconds.",
+    "duration": 6.925,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00130",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/130_mix_c00047_for_cnv_f_0004_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.35 - 9.40 seconds.",
+    "duration": 10.57,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00131",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/131_mix_c00010_for_cnv_m_0094_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.45 - 2.50 seconds.",
+    "duration": 7.316,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00132",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/132_mix_c00047_for_cnv_m_0068_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.65 - 5.25 seconds.",
+    "duration": 8.056,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00133",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/133_mix_c00026_for_cnv_m_0059_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.17 - 1.73 seconds.",
+    "duration": 6.307,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00134",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/134_mix_c00032_for_cnv_f_0105_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.17 - 7.70 seconds.",
+    "duration": 7.98,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00135",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/135_mix_c00054_for_cnv_m_0094_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.27 - 2.30 seconds.",
+    "duration": 9.571,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00136",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/136_mix_c00053_for_cnv_f_0043_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.40 - 1.84 seconds.",
+    "duration": 6.436,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00137",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/137_mix_c00014_for_cnv_f_0053_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 1.55 seconds.",
+    "duration": 7.588,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00138",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/138_mix_c00005_for_cnv_m_1026_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.23 - 5.69 seconds.",
+    "duration": 10.155,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00139",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/139_mix_c00040_for_cnv_m_0056_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.39 - 1.41 seconds.",
+    "duration": 7.636,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00140",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/140_mix_c00026_for_cnv_f_0080_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.17 - 2.01 seconds.",
+    "duration": 6.702,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00141",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/141_mix_c00021_for_cnv_m_0041_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.28 - 6.26 seconds.",
+    "duration": 7.059,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00142",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/142_mix_c00056_for_cnv_f_0036_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.37 - 7.03 seconds.",
+    "duration": 8.998,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00143",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/143_mix_c00043_for_cnv_f_0008_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.92 - 6.28 seconds.",
+    "duration": 11.652,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00144",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/144_mix_c00004_for_cnv_f_0119_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.27 - 2.51 seconds.",
+    "duration": 8.335,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00145",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/145_mix_c00021_for_cnv_f_0045_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.71 - 4.07 seconds.",
+    "duration": 8.411,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00146",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/146_mix_c00053_for_cnv_m_0002_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.38 - 4.11 seconds.",
+    "duration": 8.438,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00147",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/147_mix_c00036_for_cnv_f_0098_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 2.41 seconds.",
+    "duration": 6.514,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00148",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/148_mix_c00018_for_cnv_m_0012_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.72 - 3.93 seconds.",
+    "duration": 7.32,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00149",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/149_mix_c00042_for_cnv_m_0058_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.22 - 8.71 seconds.",
+    "duration": 9.585,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00150",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/150_mix_c00030_for_cnv_f_0052_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.17 - 1.22 seconds.",
+    "duration": 6.239,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00151",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/151_mix_c00045_for_cnv_m_0006_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 10.48 - 11.69 seconds.",
+    "duration": 11.755,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00152",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/152_mix_c00059_for_cnv_f_0104_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.75 - 3.43 seconds.",
+    "duration": 6.808,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00153",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/153_mix_c00035_for_cnv_m_1036_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.18 - 4.50 seconds.",
+    "duration": 6.409,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00154",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/154_mix_c00011_for_cnv_f_0009_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.91 - 4.52 seconds.",
+    "duration": 6.568,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00155",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/155_mix_c00005_for_cnv_f_0036_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.40 - 4.42 seconds.",
+    "duration": 7.552,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00156",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/156_mix_c00018_for_cnv_m_0032_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.88 - 4.02 seconds.",
+    "duration": 8.567,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00157",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/157_mix_c00014_for_cnv_m_1007_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.36 - 5.41 seconds.",
+    "duration": 6.414,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00158",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/158_mix_c00023_for_cnv_f_0579_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.36 - 9.25 seconds.",
+    "duration": 9.566,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00159",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/159_mix_c00024_for_cnv_f_0118_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.66 - 4.44 seconds.",
+    "duration": 8.425,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00160",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/160_mix_c00011_for_cnv_m_0628_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.26 - 1.34 seconds.",
+    "duration": 6.978,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00161",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/161_mix_c00024_for_cnv_m_0063_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.71 - 2.79 seconds.",
+    "duration": 6.605,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00162",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/162_mix_c00030_for_cnv_m_0016_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.98 - 3.02 seconds.",
+    "duration": 8.625,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00163",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/163_mix_c00050_for_cnv_f_0052_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.38 - 2.26 seconds.",
+    "duration": 6.468,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00164",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/164_mix_c00048_for_cnv_f_0070_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.45 - 1.76 seconds.",
+    "duration": 6.327,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00165",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/165_mix_c00007_for_cnv_m_0006_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.47 - 4.89 seconds.",
+    "duration": 9.919,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00166",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/166_mix_c00055_for_cnv_f_0572_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.26 - 2.40 seconds.",
+    "duration": 6.069,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00167",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/167_mix_c00046_for_cnv_m_0058_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.71 - 2.48 seconds.",
+    "duration": 10.409,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00168",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/168_mix_c00019_for_cnv_f_0097_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.92 - 2.10 seconds.",
+    "duration": 10.592,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00169",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/169_mix_c00015_for_cnv_f_0572_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.37 - 2.68 seconds.",
+    "duration": 10.326,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00170",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/170_mix_c00043_for_cnv_m_0109_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.60 - 3.38 seconds.",
+    "duration": 8.984,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00171",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/171_mix_c00047_for_cnv_m_0001_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.53 - 6.60 seconds.",
+    "duration": 8.148,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00172",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/172_mix_c00005_for_cnv_m_1035_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.38 - 1.67 seconds.",
+    "duration": 7.549,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00173",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/173_mix_c00013_for_cnv_m_1026_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.22 - 1.58 seconds.",
+    "duration": 6.01,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00174",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/174_mix_c00037_for_cnv_f_0020_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.69 - 3.76 seconds.",
+    "duration": 8.227,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00175",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/175_mix_c00024_for_cnv_m_0031_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.27 - 1.56 seconds.",
+    "duration": 9.303,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00176",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/176_mix_c00040_for_cnv_f_0089_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.42 - 5.01 seconds.",
+    "duration": 7.429,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00177",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/177_mix_c00041_for_cnv_m_0059_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 1.85 seconds.",
+    "duration": 6.893,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00178",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/178_mix_c00019_for_cnv_f_0026_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 1.38 seconds.",
+    "duration": 9.626,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00179",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/179_mix_c00036_for_cnv_m_0011_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.19 - 1.55 seconds.",
+    "duration": 8.645,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00180",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/180_mix_c00006_for_cnv_m_0041_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.35 - 3.47 seconds.",
+    "duration": 6.785,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00181",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/181_mix_c00025_for_cnv_m_0109_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.79 - 1.94 seconds.",
+    "duration": 7.003,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00182",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/182_mix_c00008_for_cnv_f_0114_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.82 - 5.00 seconds.",
+    "duration": 8.855,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00183",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/183_mix_c00035_for_cnv_m_0093_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.83 - 4.11 seconds.",
+    "duration": 9.717,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00184",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/184_mix_c00030_for_cnv_m_0075_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.20 - 2.93 seconds.",
+    "duration": 7.166,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00185",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/185_mix_c00003_for_cnv_f_0038_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.40 - 4.83 seconds.",
+    "duration": 11.961,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00186",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/186_mix_c00017_for_cnv_f_0071_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.47 - 6.54 seconds.",
+    "duration": 8.229,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00187",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/187_mix_c00055_for_cnv_m_0063_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.30 - 2.42 seconds.",
+    "duration": 9.128,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00188",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/188_mix_c00023_for_cnv_m_0002_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 8.24 - 11.64 seconds.",
+    "duration": 11.755,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00189",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/189_mix_c00023_for_cnv_f_0043_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.19 - 1.48 seconds.",
+    "duration": 9.807,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00190",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/190_mix_c00007_for_cnv_m_0054_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.24 - 1.51 seconds.",
+    "duration": 6.454,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00191",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/191_mix_c00025_for_cnv_m_0639_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.15 - 1.31 seconds.",
+    "duration": 6.08,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00192",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/192_mix_c00056_for_cnv_m_0067_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.13 - 1.62 seconds.",
+    "duration": 7.297,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00193",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/193_mix_c00058_for_cnv_f_0579_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 7.90 - 9.03 seconds.",
+    "duration": 9.797,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00194",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/194_mix_c00022_for_cnv_f_0070_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.31 - 1.46 seconds.",
+    "duration": 7.495,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00195",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/195_mix_c00049_for_cnv_f_0102_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.28 - 2.26 seconds.",
+    "duration": 7.57,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00196",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/196_mix_c00056_for_cnv_m_0054_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.32 - 1.75 seconds.",
+    "duration": 9.997,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00197",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/197_mix_c00010_for_cnv_f_0088_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.22 - 7.19 seconds.",
+    "duration": 7.846,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00198",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/198_mix_c00052_for_cnv_m_0081_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.57 - 1.77 seconds.",
+    "duration": 8.429,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00199",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/199_mix_c00022_for_cnv_f_0113_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.26 - 1.38 seconds.",
+    "duration": 11.479,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00200",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/200_mix_c00057_for_cnv_m_0003_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.84 - 1.87 seconds.",
+    "duration": 7.126,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00201",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/201_mix_c00045_for_cnv_f_0053_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.99 - 5.62 seconds.",
+    "duration": 7.655,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00202",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/202_mix_c00011_for_cnv_m_0075_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.77 - 3.40 seconds.",
+    "duration": 9.496,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00203",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/203_mix_c00049_for_cnv_f_0040_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.70 - 2.56 seconds.",
+    "duration": 7.146,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00204",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/204_mix_c00001_for_cnv_m_1035_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.23 - 1.40 seconds.",
+    "duration": 9.07,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00205",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/205_mix_c00018_for_cnv_f_0080_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.48 - 5.98 seconds.",
+    "duration": 6.333,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00206",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/206_mix_c00038_for_cnv_f_0052_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.21 - 2.60 seconds.",
+    "duration": 8.927,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00207",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/207_mix_c00029_for_cnv_f_0053_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.30 - 5.44 seconds.",
+    "duration": 11.361,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00208",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/208_mix_c00015_for_cnv_m_0032_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.17 - 1.58 seconds.",
+    "duration": 6.312,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00209",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/209_mix_c00027_for_cnv_f_0008_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.86 - 6.10 seconds.",
+    "duration": 10.43,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00210",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/210_mix_c00057_for_cnv_f_0570_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.06 - 3.09 seconds.",
+    "duration": 11.408,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00211",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/211_mix_c00045_for_cnv_f_0026_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.58 - 7.72 seconds.",
+    "duration": 8.225,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00212",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/212_mix_c00042_for_cnv_f_0118_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.74 - 6.65 seconds.",
+    "duration": 11.211,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00213",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/213_mix_c00046_for_cnv_f_0089_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.10 - 2.87 seconds.",
+    "duration": 9.39,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00214",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/214_mix_c00013_for_cnv_f_0013_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.94 - 4.94 seconds.",
+    "duration": 11.11,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00215",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/215_mix_c00036_for_cnv_f_0079_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.70 - 4.95 seconds.",
+    "duration": 7.314,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00216",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/216_mix_c00060_for_cnv_m_0058_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.80 - 5.27 seconds.",
+    "duration": 9.338,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00217",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/217_mix_c00039_for_cnv_f_0026_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.98 - 4.77 seconds.",
+    "duration": 11.303,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00218",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/218_mix_c00033_for_cnv_m_0048_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 1.91 - 3.11 seconds.",
+    "duration": 6.509,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00219",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/219_mix_c00015_for_cnv_f_0101_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.40 - 1.74 seconds.",
+    "duration": 8.278,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00220",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/220_mix_c00014_for_cnv_f_0020_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 3.80 - 6.28 seconds.",
+    "duration": 9.328,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00221",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/221_mix_c00006_for_cnv_f_0020_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.14 - 1.40 seconds.",
+    "duration": 6.642,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00222",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/222_mix_c00002_for_cnv_f_0087_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.17 - 6.90 seconds.",
+    "duration": 6.967,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00223",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/223_mix_c00003_for_cnv_m_0056_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.49 - 5.83 seconds.",
+    "duration": 8.478,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00224",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/224_mix_c00028_for_cnv_m_0041_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 5.92 - 8.56 seconds.",
+    "duration": 8.656,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00225",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/225_mix_c00038_for_cnv_f_0579_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.19 - 5.54 seconds.",
+    "duration": 8.777,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00226",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/226_mix_c00006_for_cnv_f_0045_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.81 - 6.01 seconds.",
+    "duration": 6.716,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00227",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/227_mix_c00035_for_cnv_f_0013_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 6.52 - 7.63 seconds.",
+    "duration": 9.2,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00228",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/228_mix_c00060_for_cnv_m_0049_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.67 - 4.36 seconds.",
+    "duration": 8.2,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00229",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/229_mix_c00044_for_cnv_m_0616_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 2.94 - 3.98 seconds.",
+    "duration": 6.658,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00230",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/230_mix_c00007_for_cnv_f_0105_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.21 - 3.57 seconds.",
+    "duration": 8.683,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00231",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/231_mix_c00048_for_cnv_m_0059_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.38 - 6.65 seconds.",
+    "duration": 6.857,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00232",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/232_mix_c00009_for_cnv_f_0079_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.24 - 1.58 seconds.",
+    "duration": 9.044,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00233",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/233_mix_c00015_for_cnv_m_0092_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 4.42 - 7.22 seconds.",
+    "duration": 9.047,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00234",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/234_mix_c00016_for_cnv_f_0105_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.58 - 2.98 seconds.",
+    "duration": 10.252,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00235",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/235_mix_c00018_for_cnv_f_0047_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.38 - 1.63 seconds.",
+    "duration": 7.24,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00236",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/236_mix_c00048_for_cnv_m_0628_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.34 - 2.37 seconds.",
+    "duration": 6.237,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00237",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/237_mix_c00002_for_cnv_f_0036_01.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.17 - 1.56 seconds.",
+    "duration": 8.291,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00238",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/238_mix_c00008_for_cnv_m_0055_03.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.12 - 1.37 seconds.",
+    "duration": 7.804,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  },
+  {
+    "id": "nisqa_temporal_00239",
+    "audio": "/work3/s234817/automatic-speech-assessment/data/processed/temporal/nisqa_test_for_mixes/239_mix_c00041_for_cnv_f_0096_02.wav",
+    "question": "Please describe and evaluate the synthetic speech, and find timestamps for the degradation.",
+    "answer": "The localized degradation occurs between 0.58 - 1.89 seconds.",
+    "duration": 9.114,
+    "source_dataset": "data/processed/temporal/test_FOR_temporal.json",
+    "source_model_format": "timeaudio"
+  }
+]
