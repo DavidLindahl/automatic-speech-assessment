@@ -20,11 +20,11 @@ src/asa/                       # importable library code (no entrypoints)
   data.py                        # compatibility shim re-exporting the above
 
 scripts/                       # runnable entrypoints, grouped by purpose
-  train/                         # SFT and DPO trainers (called by jobs/sft/, jobs/train/)
+  train/                         # SFT and DPO trainers (called by jobs/*/sft/, jobs/*/alld/)
     supervised-finetune.py
     dpo-finetune.py
     submit_dpo_paper_half_pipeline.sh
-  eval/                          # eval CLIs (called by jobs/evaluate/)
+  eval/                          # eval CLIs (called by jobs/*/eval/)
     evaluate.py
     evaluate_temporal.py
   data/                          # dataset builders + smoke prep
@@ -51,11 +51,16 @@ data/processed/                # training and eval data, grouped by use
   temporal/                      # temporal-localization mixes and metadata (current scope)
   intermediate/                  # build artifacts, AB legacy; not direct inputs
 
-jobs/                          # LSF job submission
-  sft/                           # SFT training jobs
-  train/                         # DPO + data-generation jobs
-  evaluate/                      # eval jobs
-  upload_*.sh                    # HF Hub uploaders
+jobs/                          # LSF job submission, grouped by task then role
+  global/                        # global MOS-caption task
+    alld/                          # DPO training jobs
+    sft/                           # SFT training jobs
+    eval/                          # eval jobs
+    data/                          # generate_*/build_* data-prep jobs
+  temporal/                      # time-localization task (same alld/sft/eval/data split)
+    alld/  sft/  eval/  data/
+  upload/                        # HF Hub checkpoint uploaders
+  tests/                         # pipeline smoke tests
   _lib/                          # shared preamble + memory-budget linter + eval template
   _archive/                      # historical scripts; not on the live path
 
@@ -84,8 +89,8 @@ LSF job scripts live under `jobs/`. Sourceable infrastructure under
   greedy/sampled drivers.
 
 Reference migrations:
-- `jobs/sft/sft_warmup_paper_half_h100.sh` (preamble pattern)
-- `jobs/evaluate/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh` (template pattern)
+- `jobs/global/sft/sft_warmup_paper_half_h100.sh` (preamble pattern)
+- `jobs/global/eval/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh` (template pattern)
 
 See `jobs/_lib/README.md` for the conventions.
 

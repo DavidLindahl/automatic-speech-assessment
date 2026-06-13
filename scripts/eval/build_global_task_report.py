@@ -23,9 +23,9 @@ FIG = OUT / "figures"
 EVAL = REPO / "results" / "evaluation"
 
 MODEL_DIRS = {
-    "zeroshot": EVAL / "zeroshot" / "qwen2audio_instruct_baseline",
-    "sft": EVAL / "sft" / "sft_full_paper_h100_eval_greedy",
-    "dpo": EVAL / "dpo" / "dpo_full_sft_paired_lr1e6_eval_greedy",
+    "zeroshot": EVAL / "global" / "zeroshot" / "qwen2audio_instruct_baseline",
+    "sft": EVAL / "global" / "sft" / "sft_full_paper_h100_eval_greedy",
+    "dpo": EVAL / "global" / "alld" / "dpo_full_sft_paired_lr1e6_eval_greedy",
 }
 LABELS = {"zeroshot": "Zero-shot", "sft": "Full SFT", "dpo": "Full DPO"}
 SETS = ["FOR", "LIVE", "P501", "nisqa_indomain"]

@@ -7,7 +7,7 @@
 #   #!/bin/bash
 #   #BSUB -q gpuh100
 #   #BSUB ...                                    # job-specific BSUB block
-#   source "$(dirname "$0")/../_lib/preamble.sh"
+#   source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 #   torchrun ...                                 # job-specific command
 #
 # Sets up: strict mode, EXPERIMENT_DIR, cwd, logs/ + models/, CUDA module,

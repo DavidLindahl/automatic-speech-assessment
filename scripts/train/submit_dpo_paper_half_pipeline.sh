@@ -30,12 +30,12 @@ submit_job() {
 
 cd "$EXPERIMENT_DIR"
 
-WARMUP_JOB=$(submit_job "$PIPELINE_ROOT/jobs/sft/sft_warmup_paper_half_h100.sh")
-WARMUP_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/evaluate/evaluate_sft_warmup_paper_half_h100.sh" "done($WARMUP_JOB)")
-GENERATE_JOB=$(submit_job "$PIPELINE_ROOT/jobs/train/generate_dpo_paper_half_h100.sh" "done($WARMUP_JOB)")
-DPO_JOB=$(submit_job "$PIPELINE_ROOT/jobs/train/dpo_paper_half_h100.sh" "done($GENERATE_JOB)")
-GREEDY_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/evaluate/evaluate_dpo_paper_half_h100_greedy.sh" "done($DPO_JOB)")
-SAMPLED_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/evaluate/evaluate_dpo_paper_half_h100_sampled.sh" "done($DPO_JOB)")
+WARMUP_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/sft/sft_warmup_paper_half_h100.sh")
+WARMUP_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/eval/evaluate_sft_warmup_paper_half_h100.sh" "done($WARMUP_JOB)")
+GENERATE_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/data/generate_dpo_paper_half_h100.sh" "done($WARMUP_JOB)")
+DPO_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/alld/dpo_paper_half_h100.sh" "done($GENERATE_JOB)")
+GREEDY_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/eval/evaluate_dpo_paper_half_h100_greedy.sh" "done($DPO_JOB)")
+SAMPLED_EVAL_JOB=$(submit_job "$PIPELINE_ROOT/jobs/global/eval/evaluate_dpo_paper_half_h100_sampled.sh" "done($DPO_JOB)")
 
 cat <<EOF
 Submitted paper-style DPO pipeline:

@@ -41,9 +41,9 @@ FIG.mkdir(parents=True, exist_ok=True)
 
 # Canonical thesis runs (greedy decoding) ----------------------------------
 MODELS = {
-    "zeroshot": EVAL / "zeroshot" / "qwen2audio_instruct_baseline",
-    "sft": EVAL / "sft" / "sft_full_paper_h100_eval_greedy",
-    "dpo": EVAL / "dpo" / "dpo_full_sft_paired_lr1e6_eval_greedy",
+    "zeroshot": EVAL / "global" / "zeroshot" / "qwen2audio_instruct_baseline",
+    "sft": EVAL / "global" / "sft" / "sft_full_paper_h100_eval_greedy",
+    "dpo": EVAL / "global" / "alld" / "dpo_full_sft_paired_lr1e6_eval_greedy",
 }
 MODEL_LABELS = {
     "zeroshot": "Zero-shot",

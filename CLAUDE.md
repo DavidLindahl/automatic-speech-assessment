@@ -161,11 +161,16 @@ Claude is authorized to submit jobs freely when the user asks. Prefer copying an
 **HTML / frontend artifacts — use the `frontend-design` skill.** Any HTML report, dashboard, or frontend output goes through `/frontend-design` for production-grade design; do not hand-roll CSS/HTML.
 
 ```bash
-bsub < jobs/sft/sft_full.sh              # SFT full
-bsub < jobs/sft/sft_warmup.sh            # SFT warmup
-bsub < jobs/train/dpo.sh                 # DPO
-bsub < jobs/evaluate/evaluate-sft-mos.sh # MOS evaluation
+bsub < jobs/global/sft/sft_full.sh         # SFT full
+bsub < jobs/global/sft/sft_warmup.sh       # SFT warmup
+bsub < jobs/global/alld/dpo.sh             # DPO
+bsub < jobs/global/eval/evaluate-sft-mos.sh # MOS evaluation
 ```
+
+Jobs are organized by task then role: `jobs/<global|temporal>/<alld|sft|eval|data>/`.
+`alld/` and `sft/` hold training scripts (DPO and SFT respectively), `eval/` holds all
+evaluation scripts for that task, `data/` holds the `generate_*`/`build_*` data-prep jobs.
+Checkpoint uploads live in `jobs/upload/`.
 
 Queues in use:
 
@@ -176,7 +181,7 @@ Queues in use:
 | `gpul40s` | L40S 48 GB | Legacy SFT runs only — do not submit new training here |
 | `gpua40`  | A40 40 GB  | Legacy DPO runs only — do not submit new training here |
 
-**Training submission rule:** every new training run (SFT, DPO, continuation) goes to `gpuh100`. Older `jobs/sft/*.sh` and `jobs/train/*.sh` scripts that target `gpul40s` or `gpua40` predate this rule — when reusing them, swap the queue to `gpuh100` and commit the change before submitting. Don't carry stale queues forward.
+**Training submission rule:** every new training run (SFT, DPO, continuation) goes to `gpuh100`. Older `jobs/global/sft/*.sh` and `jobs/global/alld/*.sh` (and the `temporal/` equivalents) that target `gpul40s` or `gpua40` predate this rule — when reusing them, swap the queue to `gpuh100` and commit the change before submitting. Don't carry stale queues forward.
 
 Typical training resource ask on H100: `#BSUB -n 8`, `#BSUB -gpu "num=1:mode=exclusive_process"` (single H100 has enough VRAM for SFT+DPO at typical batch sizes), `#BSUB -R "rusage[mem=64GB]"`, `#BSUB -M 64GB`, `#BSUB -W 24:00`. Bump to `num=2` only if VRAM forces it.
 
@@ -188,7 +193,7 @@ logs/<name>_<LSB_JOBID>.err
 
 ## Example: reference SFT submit script
 
-This is the recommended template for new SFT runs (H100, single GPU is usually enough). The on-disk `jobs/sft/sft_full.sh` may still target `gpul40s` from older work — swap the queue when copying.
+This is the recommended template for new SFT runs (H100, single GPU is usually enough). The on-disk `jobs/global/sft/sft_full.sh` may still target `gpul40s` from older work — swap the queue when copying.
 
 ```sh
 #!/bin/sh

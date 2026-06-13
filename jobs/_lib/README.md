@@ -22,16 +22,22 @@ a startup banner.
 #BSUB -o logs/my_job_%J.out
 #BSUB -e logs/my_job_%J.err
 
-source "$(dirname "$0")/../_lib/preamble.sh"
+source /work3/s234817/automatic-speech-assessment/jobs/_lib/preamble.sh
 
 torchrun --nproc_per_node=1 scripts/train/supervised-finetune.py ...
 ```
 
+Use the **absolute** `/work3/.../jobs/_lib/preamble.sh` path, not a relative
+`$(dirname "$0")/../_lib/` one. LSF copies the bsub script to a spool dir
+before running it, so `$0` does not resolve to the repo path — the relative
+form has silently broken jobs before. The absolute path is also depth-
+independent, so it survives scripts living at `jobs/<task>/<method>/`.
+
 Source the preamble **after** the `#BSUB` header — LSF reads BSUB directives
 from the literal file header, so they cannot live in a sourced file.
 
-`jobs/sft/sft_warmup_paper_half_h100.sh` is the reference migration; copy it
-when wiring a new script.
+`jobs/global/sft/sft_warmup_paper_half_h100.sh` is the reference migration;
+copy it when wiring a new script.
 
 ## `templates/`
 
@@ -44,7 +50,7 @@ source the template.
 MOS evaluation template for SFT or DPO checkpoints. Drivers set
 `MODEL_NAME` and `DECODE_MODE` (`greedy` | `sampled`), the template handles
 the rest. Reference drivers:
-`jobs/evaluate/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh`.
+`jobs/global/eval/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh`.
 
 Knobs (all have defaults): `BATCH_SIZE`, `MAX_NEW_TOKENS`, `TEMPERATURE`,
 `TOP_P`, `RUN_SANITY`, plus a `DATASETS` bash array if you need a non-default
@@ -53,7 +59,7 @@ test set bundle.
 This collapses the greedy/sampled variant pair (and any future temperature
 sweep) from ~75 lines apiece down to ~22-line drivers. Existing variant
 scripts have not been retrofitted yet — see the existing list under
-`jobs/evaluate/`.
+`jobs/global/eval/` and `jobs/temporal/eval/`.
 
 ## `lint-budget.sh`
 
