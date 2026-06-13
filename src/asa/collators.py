@@ -138,8 +138,22 @@ class ALLDDPOCollator:
 
         batch["policy_input_ids"] = policy_inputs["input_ids"]
         batch["policy_attention_mask"] = policy_inputs["attention_mask"]
-        batch["policy_audio_values"] = policy_inputs.get("audio_values", None)
-        batch["policy_audio_features"] = policy_inputs.get("audio_features", None)
+        # Audio features for the policy audio tower. The Qwen2-Audio processor
+        # (transformers >= 4.45) emits `input_features` + `feature_attention_mask`;
+        # older builds used `audio_values` / `audio_features`. Earlier code only
+        # read the legacy names, so on 4.48.3 both came back None and the policy
+        # was trained AUDIO-BLIND (text-only DPO). Read the current names first,
+        # fall back to the legacy ones, so audio actually reaches the model.
+        batch["policy_input_features"] = (
+            policy_inputs.get("input_features")
+            if policy_inputs.get("input_features") is not None
+            else policy_inputs.get("audio_values")
+        )
+        batch["policy_feature_attention_mask"] = (
+            policy_inputs.get("feature_attention_mask")
+            if policy_inputs.get("feature_attention_mask") is not None
+            else policy_inputs.get("audio_features")
+        )
         # Prompt length per row = count of real tokens in the prompt-only batch.
         # Derived from attention_mask, not token-id != pad, so it is correct
         # even when pad_token_id collides with a content token.

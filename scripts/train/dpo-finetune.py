@@ -54,17 +54,22 @@ class ALLDDPOTrainer(Trainer):
             "attention_mask": inputs["policy_attention_mask"],
             "labels": inputs["policy_labels"],
         }
-        # Safely handle audio features depending on the exact Qwen2 version
-        if (
-            "policy_audio_values" in inputs
-            and inputs["policy_audio_values"] is not None
-        ):
-            policy_inputs["audio_values"] = inputs["policy_audio_values"]
-        if (
-            "policy_audio_features" in inputs
-            and inputs["policy_audio_features"] is not None
-        ):
-            policy_inputs["audio_features"] = inputs["policy_audio_features"]
+        # Feed the audio tower. The collator emits `policy_input_features` +
+        # `policy_feature_attention_mask` (the Qwen2-Audio 4.48.x processor
+        # names). These MUST reach the model: without them the policy runs
+        # text-only and no audio grounding is learned. The legacy
+        # `policy_audio_values` / `policy_audio_features` keys are also honored
+        # for backward compatibility with older collated batches.
+        if inputs.get("policy_input_features") is not None:
+            policy_inputs["input_features"] = inputs["policy_input_features"]
+        elif inputs.get("policy_audio_values") is not None:
+            policy_inputs["input_features"] = inputs["policy_audio_values"]
+        if inputs.get("policy_feature_attention_mask") is not None:
+            policy_inputs["feature_attention_mask"] = inputs[
+                "policy_feature_attention_mask"
+            ]
+        elif inputs.get("policy_audio_features") is not None:
+            policy_inputs["feature_attention_mask"] = inputs["policy_audio_features"]
 
         ref_inputs = {
             "input_ids": inputs["ref_input_ids"],
