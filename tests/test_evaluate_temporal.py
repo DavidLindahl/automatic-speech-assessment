@@ -2,11 +2,19 @@ from evaluate_temporal import (
     Interval,
     extract_ground_truth_interval,
     extract_interval,
-    interval_offset_error,
     interval_iou,
+    interval_offset_error,
     query_to_prompt,
     strip_non_timestamp_special_tokens,
+    strip_time_tokens_for_caption,
 )
+
+
+def test_interval_offset_error_is_signed_endpoint_bias() -> None:
+    truth = Interval(start=3.0, end=6.0)
+
+    assert interval_offset_error(Interval(start=4.0, end=7.0), truth) == 1.0
+    assert interval_offset_error(Interval(start=2.0, end=5.0), truth) == -1.0
 
 
 def test_extract_interval_prefers_timestamp_tokens() -> None:
@@ -66,7 +74,9 @@ def test_extract_interval_zero_shot_keeps_explicit_range() -> None:
     # Suppressing the plain fallback must NOT break the honest range path: a
     # clean "between X and Y seconds" still parses under zero-shot.
     text = "The degradation occurs between 1.2 and 3.4 seconds."
-    interval, source = extract_interval(text, duration_seconds=6.0, allow_plain=False)
+    interval, source = extract_interval(
+        text, duration_seconds=6.0, allow_plain=False
+    )
 
     assert interval == Interval(start=1.2, end=3.4)
     assert source == "range"
@@ -77,13 +87,6 @@ def test_interval_iou() -> None:
     truth = Interval(start=3.0, end=6.0)
 
     assert interval_iou(pred, truth) == 0.5
-
-
-def test_interval_offset_error_is_signed_endpoint_bias() -> None:
-    truth = Interval(start=3.0, end=6.0)
-
-    assert interval_offset_error(Interval(start=4.0, end=7.0), truth) == 1.0
-    assert interval_offset_error(Interval(start=2.0, end=5.0), truth) == -1.0
 
 
 def test_extract_ground_truth_interval_prefers_manifest_segments() -> None:
@@ -110,97 +113,34 @@ def test_strip_non_timestamp_special_tokens_preserves_timestamps() -> None:
     assert cleaned == "assistant degradation <|1.25|> to <|2.75|>"
 
 
-def test_whole_clip_baseline_mean_tiou() -> None:
-    from evaluate_temporal import whole_clip_baseline_mean_tiou
-
-    truths = [Interval(start=2.0, end=4.0), Interval(start=0.0, end=10.0)]
-    durations = [10.0, 10.0]
-
-    # Clip 1: IoU([0,10],[2,4]) = 2/10. Clip 2: IoU([0,10],[0,10]) = 1.0.
-    assert whole_clip_baseline_mean_tiou(truths, durations) == 0.6
-
-
-def test_whole_clip_baseline_skips_missing_durations() -> None:
-    from evaluate_temporal import whole_clip_baseline_mean_tiou
-
-    truths = [Interval(start=2.0, end=4.0), Interval(start=1.0, end=2.0)]
-
-    score = whole_clip_baseline_mean_tiou(truths, [10.0, None])
-
-    assert score == 0.2
-
-
-def test_best_constant_baseline_finds_shared_window() -> None:
-    from evaluate_temporal import best_constant_baseline
-
-    truths = [
-        Interval(start=2.0, end=3.0),
-        Interval(start=2.0, end=3.0),
-        Interval(start=2.25, end=3.25),
-    ]
-
-    interval, score = best_constant_baseline(truths)
-
-    assert interval is not None
-    assert interval.start <= 2.5 <= interval.end
-    assert score > 0.5
-
-
-def test_best_constant_baseline_empty_truths() -> None:
-    from evaluate_temporal import best_constant_baseline
-
-    interval, score = best_constant_baseline([])
-
-    assert interval is None
-    assert score == 0.0
-
-
-def test_extract_caption_part_timestamp_first_layout() -> None:
-    from evaluate_temporal import extract_caption_part
-
+def test_strip_time_tokens_for_caption_removes_anchor_offset() -> None:
+    # The trained timestamp-last format: caption prose + an anchor/offset clause.
+    # Caption scoring must drop the clause's time tokens so BLEU/ROUGE/BERT see
+    # the prose only (the interval is scored separately by IoU).
     text = (
-        "The degradation in the clip is between <a3><f6> and <a4><f7> and "
-        "is quite noisy. The overall MOS score is only 1.4."
+        "This synthesized speech has a low MOS score of 2.3. The degradation in "
+        "the clip is between <a0><f9> and <a2><f0>."
     )
+    cleaned = strip_time_tokens_for_caption(text)
 
-    assert extract_caption_part(text) == (
-        "is quite noisy. The overall MOS score is only 1.4."
-    )
-
-
-def test_extract_caption_part_caption_last_layout() -> None:
-    from evaluate_temporal import extract_caption_part
-
-    text = (
-        "This speech is clear. MOS score is 4.2. "
-        "The degradation in the clip is between <|2.10|> and <|3.40|>."
-    )
-
-    assert extract_caption_part(text) == "This speech is clear. MOS score is 4.2."
+    assert "<a0>" not in cleaned and "<f9>" not in cleaned
+    assert "<a2>" not in cleaned and "<f0>" not in cleaned
+    assert "This synthesized speech has a low MOS score of 2.3." in cleaned
 
 
-def test_extract_caption_part_no_clause_passthrough() -> None:
-    from evaluate_temporal import extract_caption_part
+def test_strip_time_tokens_for_caption_removes_freetext_timestamps() -> None:
+    # The plain free-text mechanism uses <|float|> tokens; strip those too.
+    text = "Quality is interrupted between <|1.25|> and <|2.75|>."
+    cleaned = strip_time_tokens_for_caption(text)
 
-    assert extract_caption_part("  Just a   caption. ") == "Just a caption."
-
-
-def test_extract_mos_from_response() -> None:
-    from evaluate_temporal import extract_mos_from_response
-
-    assert extract_mos_from_response("the overall MOS score is only 1.4.") == 1.4
-    assert extract_mos_from_response("MOS of 4.3 overall") == 4.3
-    assert extract_mos_from_response("no score mentioned here") is None
+    assert "<|1.25|>" not in cleaned and "<|2.75|>" not in cleaned
+    assert cleaned.startswith("Quality is interrupted between")
 
 
-def test_caption_corpus_bleu_perfect_match_or_skipped() -> None:
-    import pytest as _pytest
+def test_strip_time_tokens_for_caption_is_symmetric_scaffolding() -> None:
+    # Stripping leaves identical "between and" scaffolding on prediction and
+    # reference, so the residual contributes the same n-grams to both sides.
+    pred = "Noise throughout. The degradation is between <a1><f0> and <a3><f5>."
+    ref = "Noise throughout. The degradation is between <a0><f8> and <a4><f1>."
 
-    from evaluate_temporal import caption_corpus_bleu
-
-    captions = ["the speech is clear and natural"] * 3
-    score = caption_corpus_bleu(captions, captions)
-    if score is None:
-        _pytest.skip("sacrebleu not installed")
-    assert score == _pytest.approx(100.0)
-    assert caption_corpus_bleu([], []) is None
+    assert strip_time_tokens_for_caption(pred) == strip_time_tokens_for_caption(ref)

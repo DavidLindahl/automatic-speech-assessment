@@ -24,9 +24,28 @@ from asa.processed_data import load_processed_records, resolve_audio_path
 from asa.prompts import build_zeroshot_prompt_temporal
 from asa.temporal_tokens import decode_all_times
 
+# The temporal model produces a joint answer: a MOS-style quality caption plus a
+# localized degradation interval. Its caption and MOS content are scored with the
+# exact same code path as the global MOS task (compute_caption_metrics and
+# extract_mos in the sibling evaluate.py), so the numbers are directly comparable
+# to the global-task tables. Those helpers are imported lazily inside eval_temporal
+# so this module still loads on a node without the caption-metric extras
+# (sacrebleu / rouge-score / bert-score), e.g. the interval-only / zero-shot path.
+
 EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
+
+# Default BERTScore backbone, recorded in the output for reproducibility (the
+# same default the global MOS eval uses). BERTScore values depend on the
+# backbone, so cited numbers stay comparable only when this is pinned.
+BERTSCORE_MODEL = "roberta-large"
+
+# Matches a discrete anchor or offset time token, e.g. ``<a2>`` or ``<f9>``, used
+# only to strip the localization clause out of a caption before caption-quality
+# scoring (see strip_time_tokens_for_caption). The interval itself is parsed
+# separately, by value, via decode_all_times / the timestamp regexes above.
+ANCHOR_OFFSET_TOKEN_RE = re.compile(r"<[af]\d+>")
 
 # Off-the-shelf (untrained) Qwen2-Audio chat model, used as the zero-shot
 # temporal baseline. The source paper reports off-the-shelf audio LLMs cannot do
@@ -36,22 +55,6 @@ ZEROSHOT_BASELINE_MODEL = "Qwen/Qwen2-Audio-7B-Instruct"
 
 TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
 NON_TIMESTAMP_SPECIAL_TOKEN_RE = re.compile(r"<\|(?!-?\d+(?:\.\d+)?\|>)[^|]*\|>")
-# The temporal clause of the global-caption target styles, in both layouts:
-# timestamp-first ("The degradation in the clip is between X and Y and
-# <caption>") and caption-last ("<caption> The degradation in the clip is
-# between X and Y."). Removing it leaves the caption + MOS text for
-# response-health scoring. \S+ matches both timestamp formats (<|1.23|> and
-# <a1><f2>) because each renders as one whitespace-delimited token.
-TEMPORAL_CLAUSE_RE = re.compile(
-    r"\s*The degradation in the clip is between\s+\S+\s+and\s+\S+\s*(?:and\s+|\.\s*)?",
-    re.IGNORECASE,
-)
-# Mirror of extract_mos pattern 1 in scripts/eval/evaluate.py (the explicit
-# "MOS ... <number>" branch, the format the fine-tuned models are trained to
-# emit). Duplicated rather than imported so importing this module never
-# shadows the HuggingFace `evaluate` package. Honest None-on-fail, no
-# last-number fallback.
-MOS_FROM_TEXT_RE = re.compile(r"MOS(?:[^0-9]+)(\d+(?:\.\d+)?)", re.IGNORECASE)
 PLAIN_FLOAT_RE = re.compile(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d.])")
 RANGE_PATTERNS = [
     re.compile(
@@ -252,6 +255,34 @@ def strip_non_timestamp_special_tokens(text: str) -> str:
     return " ".join(cleaned.split())
 
 
+def strip_time_tokens_for_caption(text: str) -> str:
+    """Remove timestamp tokens so caption metrics score the prose, not the time.
+
+    The joint temporal target is a quality caption followed by a localization
+    clause, e.g. ``"... overall quality. The degradation in the clip is between
+    <a0><f9> and <a2><f0>."``. Caption BLEU/ROUGE/BERTScore should reflect the
+    descriptive content only, independent of whether the model placed the
+    interval correctly (that is what temporal IoU measures). This strips both
+    timestamp encodings, the discrete anchor/offset tokens ``<aN><fK>`` and the
+    free-text ``<|float|>`` tokens, from a caption. It is applied identically to
+    the prediction and the reference, so the residual "... is between and."
+    scaffolding contributes the same n-grams to both sides and does not bias the
+    comparison; what is removed is exactly the part IoU already scores.
+
+    Args:
+        text: A caption that may contain a trailing localization clause.
+
+    Returns:
+        The caption with timestamp tokens removed and whitespace collapsed.
+    """
+    cleaned = ANCHOR_OFFSET_TOKEN_RE.sub("", text)
+    cleaned = TIMESTAMP_TOKEN_RE.sub("", cleaned)
+    # Tidy the punctuation left dangling by the removed tokens ("between  and .")
+    # so it does not introduce spurious tokens; cosmetic and symmetric.
+    cleaned = re.sub(r"\s+([,.])", r"\1", cleaned)
+    return " ".join(cleaned.split())
+
+
 def interval_iou(pred: Interval, truth: Interval) -> float:
     """Compute temporal IoU.
 
@@ -281,81 +312,6 @@ def interval_offset_error(pred: Interval, truth: Interval) -> float:
     values mean they are early on average.
     """
     return ((pred.start - truth.start) + (pred.end - truth.end)) / 2
-
-
-def whole_clip_baseline_mean_tiou(
-    truths: List[Interval],
-    durations: List[Optional[float]],
-) -> float:
-    """Mean t-IoU of the audio-blind strategy that predicts the whole clip.
-
-    For every sample the prediction is ``[0, duration]``. This strategy never
-    reads the audio; any model scoring at or below it has not demonstrated
-    audio-conditioned localization. Samples without a known duration are
-    skipped.
-
-    Args:
-        truths: Ground-truth intervals, one per evaluable sample.
-        durations: Clip durations aligned with ``truths``.
-
-    Returns:
-        Mean t-IoU of the whole-clip prediction over samples with a duration.
-    """
-    ious: List[float] = []
-    for truth, duration in zip(truths, durations):
-        if duration is None or duration <= 0:
-            continue
-        ious.append(interval_iou(Interval(start=0.0, end=duration), truth))
-    return _mean(ious)
-
-
-def best_constant_baseline(
-    truths: List[Interval],
-    start_step: float = 0.25,
-    length_min: float = 0.5,
-    length_max: float = 4.0,
-    length_step: float = 0.25,
-) -> tuple[Optional[Interval], float]:
-    """Grid-search the strongest constant interval for a truth distribution.
-
-    Finds the single fixed ``[start, end]`` guess that maximizes mean t-IoU
-    when applied unchanged to every sample. Like the whole-clip rule it never
-    reads the audio, but it is fit on the evaluated set itself, so it is the
-    oracle ceiling of audio-blind play: the upper edge of the no-information
-    regime. A model below this number has learned less than a lookup of the
-    interval prior.
-
-    Args:
-        truths: Ground-truth intervals to fit against.
-        start_step: Grid resolution for the candidate start time in seconds.
-        length_min: Smallest candidate window length in seconds.
-        length_max: Largest candidate window length in seconds.
-        length_step: Grid resolution for the candidate window length.
-
-    Returns:
-        Tuple of the best constant interval (``None`` when no truths are
-        given) and its mean t-IoU.
-    """
-    if not truths:
-        return None, 0.0
-
-    max_start = max(truth.end for truth in truths)
-    best_interval: Optional[Interval] = None
-    best_score = -1.0
-
-    start = 0.0
-    while start <= max_start:
-        length = length_min
-        while length <= length_max + 1e-9:
-            candidate = Interval(start=start, end=start + length)
-            score = _mean([interval_iou(candidate, truth) for truth in truths])
-            if score > best_score:
-                best_score = score
-                best_interval = candidate
-            length += length_step
-        start += start_step
-
-    return best_interval, max(best_score, 0.0)
 
 
 def query_to_prompt(query: Any) -> str:
@@ -424,53 +380,6 @@ def _mean(values: list[float]) -> float:
     return sum(values) / len(values)
 
 
-def extract_caption_part(text: str) -> str:
-    """Strip the temporal clause, leaving the caption + MOS text.
-
-    Handles both global-caption target layouts (timestamp-first and
-    caption-last). Texts without a clause are returned normalized.
-
-    Args:
-        text: A target or predicted response.
-
-    Returns:
-        The caption portion with collapsed whitespace.
-    """
-    stripped = TEMPORAL_CLAUSE_RE.sub(" ", text)
-    return " ".join(stripped.split())
-
-
-def extract_mos_from_response(text: str) -> Optional[float]:
-    """Parse the MOS value from a generated response, None when absent."""
-    match = MOS_FROM_TEXT_RE.search(text)
-    if match is None:
-        return None
-    return _safe_float(match.group(1))
-
-
-def caption_corpus_bleu(
-    predictions: List[str],
-    references: List[str],
-) -> Optional[float]:
-    """Corpus BLEU of caption parts via sacrebleu, None when unavailable.
-
-    Args:
-        predictions: Predicted caption parts.
-        references: Gold caption parts, aligned with ``predictions``.
-
-    Returns:
-        BLEU score, or ``None`` when sacrebleu is not installed or the
-        inputs are empty.
-    """
-    if not predictions or not references:
-        return None
-    try:
-        import sacrebleu
-    except ImportError:
-        return None
-    return float(sacrebleu.corpus_bleu(predictions, [references]).score)
-
-
 @app.command()
 def eval_temporal(
     dataset_paths: List[Path] = typer.Option(
@@ -529,8 +438,17 @@ def eval_temporal(
         EVAL_MAX_NEW_TOKENS,
         help="Max new tokens to generate per sample.",
     ),
+    bertscore_model: str = typer.Option(
+        BERTSCORE_MODEL,
+        help="HuggingFace backbone for caption BERTScore (recorded in output).",
+    ),
 ) -> None:
     """Run temporal inference and report localization quality metrics."""
+    # Lazy import (see module header): caption/MOS scoring reuses the global
+    # eval helpers verbatim, but pulling them in here keeps this module loadable
+    # without sacrebleu/rouge-score/bert-score when only IoU is wanted.
+    from evaluate import compute_caption_metrics, extract_mos
+
     # In --zero-shot mode the model defaults to the off-the-shelf Instruct
     # baseline; otherwise it defaults to the fine-tuned SFT checkpoint.
     if model_path is None:
@@ -634,6 +552,9 @@ def eval_temporal(
         ious: list[float] = []
         start_errors: list[float] = []
         end_errors: list[float] = []
+        # Signed endpoint offsets (predicted - truth): positive = predicted late,
+        # negative = predicted early. Reported as means to expose directional bias
+        # that the absolute errors above hide.
         start_offsets: list[float] = []
         end_offsets: list[float] = []
         offset_errors: list[float] = []
@@ -651,15 +572,14 @@ def eval_temporal(
         # nonzero t-IoU is chance overlap, NOT localization. A genuinely
         # localizing model varies its interval with the audio.
         unique_pred_intervals: set[tuple[float, float]] = set()
-        # Response health (the caption/MOS axis of the collapse). The
-        # 2026-06-09 arms degraded MOS-MAE to ~0.5 and the TimeAudio arm
-        # emitted ONE caption for every clip, so the temporal eval now scores
-        # the whole response, not just the interval.
-        pred_captions: list[str] = []
-        ref_captions: list[str] = []
-        unique_pred_captions: set[str] = set()
-        mos_abs_errors: list[float] = []
-        mos_parsed_count = 0
+        # Caption and MOS accumulators. The temporal answer carries the same
+        # MOS-style caption as the global task, so we score it identically:
+        # MOS MAE/MSE over samples whose MOS parsed, and corpus/sample caption
+        # metrics over the prose with the timestamp clause stripped (the interval
+        # is already scored by IoU). hyps/refs are gold-aligned 1:1.
+        caption_hyps: list[str] = []
+        caption_refs: list[str] = []
+        mos_errors: list[float] = []
 
         for row, prediction in zip(resolved_rows, predictions):
             record = row["record"]
@@ -672,7 +592,25 @@ def eval_temporal(
             truth_interval = row["truth_interval"]
             truth_source = row["truth_source"]
 
-            pred_source_counts[pred_source] = pred_source_counts.get(pred_source, 0) + 1
+            # MOS: parse the predicted score from the same cleaned text, compare
+            # to the construction-time gold MOS. None means an honest parse
+            # failure (excluded from MAE/MSE, surfaced via the MOS parse rate).
+            gold_mos = _safe_float(record.get("mos"))
+            pred_mos = extract_mos(prediction_text)
+            mos_abs_err: Optional[float] = None
+            if gold_mos is not None and pred_mos is not None:
+                mos_abs_err = abs(gold_mos - pred_mos)
+                mos_errors.append(mos_abs_err)
+
+            # Caption: strip the localization clause from both sides so BLEU/
+            # ROUGE/BERTScore reflect the descriptive prose only.
+            gold_caption = str(record.get("response", ""))
+            caption_hyps.append(strip_time_tokens_for_caption(prediction_text))
+            caption_refs.append(strip_time_tokens_for_caption(gold_caption))
+
+            pred_source_counts[pred_source] = (
+                pred_source_counts.get(pred_source, 0) + 1
+            )
             if pred_interval is not None:
                 unique_pred_intervals.add(
                     (round(pred_interval.start, 2), round(pred_interval.end, 2))
@@ -685,14 +623,13 @@ def eval_temporal(
             tiou = 0.0
             if pred_interval is not None and truth_interval is not None:
                 tiou = interval_iou(pred_interval, truth_interval)
-                start_offset = pred_interval.start - truth_interval.start
-                end_offset = pred_interval.end - truth_interval.end
-                offset_error = interval_offset_error(pred_interval, truth_interval)
-                start_offsets.append(start_offset)
-                end_offsets.append(end_offset)
-                offset_errors.append(offset_error)
-                start_errors.append(abs(start_offset))
-                end_errors.append(abs(end_offset))
+                start_errors.append(abs(pred_interval.start - truth_interval.start))
+                end_errors.append(abs(pred_interval.end - truth_interval.end))
+                start_offsets.append(pred_interval.start - truth_interval.start)
+                end_offsets.append(pred_interval.end - truth_interval.end)
+                offset_errors.append(
+                    interval_offset_error(pred_interval, truth_interval)
+                )
             if truth_interval is not None:
                 ious.append(tiou)
 
@@ -724,59 +661,41 @@ def eval_temporal(
                 if pred_interval is not None and truth_interval is not None
                 else None
             )
+            _has_both = pred_interval is not None and truth_interval is not None
             detail["start_offset_err"] = (
-                pred_interval.start - truth_interval.start
-                if pred_interval is not None and truth_interval is not None
-                else None
+                pred_interval.start - truth_interval.start if _has_both else None
             )
             detail["end_offset_err"] = (
-                pred_interval.end - truth_interval.end
-                if pred_interval is not None and truth_interval is not None
-                else None
+                pred_interval.end - truth_interval.end if _has_both else None
             )
             detail["offset_err"] = (
                 interval_offset_error(pred_interval, truth_interval)
-                if pred_interval is not None and truth_interval is not None
+                if _has_both
                 else None
             )
-
-            pred_caption = extract_caption_part(prediction_text)
-            ref_caption = extract_caption_part(str(record.get("response", "")))
-            pred_captions.append(pred_caption)
-            ref_captions.append(ref_caption)
-            unique_pred_captions.add(pred_caption)
-            pred_mos = extract_mos_from_response(prediction_text)
-            gold_mos = _safe_float(record.get("mos"))
-            mos_abs_err = None
-            if pred_mos is not None and gold_mos is not None:
-                mos_parsed_count += 1
-                mos_abs_err = abs(pred_mos - gold_mos)
-                mos_abs_errors.append(mos_abs_err)
-            detail["pred_mos"] = pred_mos
-            detail["mos_abs_err"] = mos_abs_err
-
+            # MOS fields mirror the global eval's per-record schema so the same
+            # downstream analysis (e.g. caption-vs-MOS) works on these JSONs too.
+            detail["gold_mos"] = gold_mos
+            detail["predicted_mos"] = pred_mos
+            detail["mos_error"] = mos_abs_err
             details.append(detail)
 
-        # Audio-blind baselines, computed from the ground-truth intervals of
-        # this dataset. Every eval reports them next to the model so a score
-        # inside the no-information band can never read as localization. The
-        # 2026-06-09 SFT arms scored BELOW both of these; that finding is why
-        # they are baked in here.
-        truth_intervals = [
-            row["truth_interval"]
-            for row in resolved_rows
-            if row["truth_interval"] is not None
-        ]
-        truth_durations = [
-            row["duration_seconds"]
-            for row in resolved_rows
-            if row["truth_interval"] is not None
-        ]
-        baseline_whole_clip = whole_clip_baseline_mean_tiou(
-            truth_intervals, truth_durations
+        # MOS MAE/MSE over samples whose MOS parsed (same convention as the
+        # global eval: an unparsed prediction is honest-failure, not a zero).
+        n_mos_parsed = len(mos_errors)
+        mos_parse_rate = n_mos_parsed / len(resolved_rows)
+        mos_mae = _mean(mos_errors) if n_mos_parsed else float("nan")
+        mos_mse = (
+            sum(error**2 for error in mos_errors) / n_mos_parsed
+            if n_mos_parsed
+            else float("nan")
         )
-        baseline_constant, baseline_constant_tiou = best_constant_baseline(
-            truth_intervals
+
+        # Caption metrics over the timestamp-stripped prose. compute_caption_metrics
+        # is the global eval's helper, so BLEU (corpus, cased), ROUGE-1/2/L F1 and
+        # BERTScore P/R/F1 are computed exactly as on the global MOS task.
+        caption_metrics = compute_caption_metrics(
+            caption_hyps, caption_refs, bertscore_model=bertscore_model
         )
 
         metrics = {
@@ -790,25 +709,28 @@ def eval_temporal(
             "hit_iou_ge_0_1": _mean([1.0 if value >= 0.1 else 0.0 for value in ious]),
             "hit_iou_ge_0_3": _mean([1.0 if value >= 0.3 else 0.0 for value in ious]),
             "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
+            "mean_start_abs_err": _mean(start_errors),
+            "mean_end_abs_err": _mean(end_errors),
             "expected_offset_error": _mean(offset_errors),
             "mean_start_offset_err": _mean(start_offsets),
             "mean_end_offset_err": _mean(end_offsets),
-            "mean_start_abs_err": _mean(start_errors),
-            "mean_end_abs_err": _mean(end_errors),
-            "baseline_whole_clip_mean_tiou": baseline_whole_clip,
-            "baseline_best_constant_mean_tiou": baseline_constant_tiou,
-            "baseline_best_constant_interval": (
-                [baseline_constant.start, baseline_constant.end]
-                if baseline_constant is not None
-                else None
-            ),
             "parse_rate": parsed_count / len(resolved_rows),
             "pred_interval_source_counts": pred_source_counts,
             "unique_pred_intervals": len(unique_pred_intervals),
-            "unique_pred_captions": len(unique_pred_captions),
-            "caption_bleu": caption_corpus_bleu(pred_captions, ref_captions),
-            "mos_parse_rate": mos_parsed_count / len(resolved_rows),
-            "mos_mae": _mean(mos_abs_errors) if mos_abs_errors else None,
+            # MOS regression on the joint answer. Same scoring as the global task.
+            "mos_mae": mos_mae,
+            "mos_mse": mos_mse,
+            "mos_parse_rate": mos_parse_rate,
+            "samples_with_parsed_mos": n_mos_parsed,
+            # Caption quality on the timestamp-stripped prose. The thesis grid
+            # reads caption_bleu, rouge_l and bertscore; the remaining BLEU/ROUGE/
+            # BERTScore sub-scores are kept for completeness and parity with the
+            # global eval JSONs.
+            "caption_bleu": caption_metrics["bleu"],
+            "rouge_l": caption_metrics["rougeL_f"],
+            "bertscore": caption_metrics["bertscore_f1"],
+            "caption_metrics": caption_metrics,
+            "caption_scoring": "timestamp_tokens_stripped",
             "prompt_mode": (
                 "zero_shot_chatml"
                 if zero_shot
@@ -839,40 +761,28 @@ def eval_temporal(
         logging.info("Hit@0.1: %.4f", metrics["hit_iou_ge_0_1"])
         logging.info("Hit@0.3: %.4f", metrics["hit_iou_ge_0_3"])
         logging.info("Hit@0.5: %.4f", metrics["hit_iou_ge_0_5"])
-        logging.info("Expected offset error: %.4f", metrics["expected_offset_error"])
-        logging.info(
-            "Mean signed start/end offset: %.4f / %.4f",
-            metrics["mean_start_offset_err"],
-            metrics["mean_end_offset_err"],
-        )
         logging.info("Mean |start error|: %.4f", metrics["mean_start_abs_err"])
         logging.info("Mean |end error|: %.4f", metrics["mean_end_abs_err"])
         logging.info(
-            "Response health: unique captions %d of %d (near-1 = canned "
-            "response), caption BLEU %s, MOS parse %.4f, MOS MAE %s",
-            metrics["unique_pred_captions"],
-            metrics["samples_total"],
-            (
-                f"{metrics['caption_bleu']:.1f}"
-                if metrics["caption_bleu"] is not None
-                else "n/a (sacrebleu missing)"
-            ),
-            metrics["mos_parse_rate"],
-            (f"{metrics['mos_mae']:.3f}" if metrics["mos_mae"] is not None else "n/a"),
+            "Mean signed start/end offset: %.4f / %.4f  (expected offset %.4f)",
+            metrics["mean_start_offset_err"],
+            metrics["mean_end_offset_err"],
+            metrics["expected_offset_error"],
         )
         logging.info(
-            "Audio-blind baselines (model must beat BOTH to demonstrate "
-            "audio-conditioned localization):"
+            "MOS MAE: %.4f  MOS MSE: %.4f  (parse rate %.4f, %d/%d)",
+            mos_mae,
+            mos_mse,
+            mos_parse_rate,
+            n_mos_parsed,
+            len(resolved_rows),
         )
-        logging.info("  whole-clip guess mean t-IoU: %.4f", baseline_whole_clip)
         logging.info(
-            "  best constant interval %s mean t-IoU: %.4f",
-            (
-                f"({baseline_constant.start:.2f}, {baseline_constant.end:.2f})"
-                if baseline_constant is not None
-                else "(none)"
-            ),
-            baseline_constant_tiou,
+            "Caption (timestamps stripped) -> BLEU: %.2f  ROUGE-L: %.4f  "
+            "BERTScore-F1: %.4f",
+            metrics["caption_bleu"],
+            metrics["rouge_l"],
+            metrics["bertscore"],
         )
         logging.info("========================================")
 
@@ -899,14 +809,17 @@ def eval_temporal(
             "pred_start",
             "pred_end",
             "tiou",
-            "offset_err",
-            "start_offset_err",
-            "end_offset_err",
             "start_abs_err",
             "end_abs_err",
+            "start_offset_err",
+            "end_offset_err",
+            "offset_err",
             "gt_interval_source",
             "pred_interval_source",
             "mos",
+            "gold_mos",
+            "predicted_mos",
+            "mos_error",
             "predicted_response",
         ]
         with out_csv.open("w", encoding="utf-8", newline="") as handle:
