@@ -7,8 +7,7 @@
 ###   - train_dpo_armA_cycle_mos.json              (sampled MOS only)
 ###   - train_dpo_armA_cycle_caption.json          (sampled caption + its MOS)
 ###   - train_dpo_armA_cycle_timestamp_sampled.json (sampled timestamps only)
-### The timestamp cycle's other source is the synthetic-jitter set
-### (train_dpo_armA_jitter.json), already on disk; the two run as a 2-way A/B.
+### Each cycle's rejected is the model's own sampled mistake on that one factor.
 ### Submit with: bsub < jobs/global/data/build_dpo_cycle_splices.sh
 ### ============================================================
 
