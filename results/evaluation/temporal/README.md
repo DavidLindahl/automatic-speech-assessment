@@ -38,10 +38,10 @@ mechanism change. JOBIDs reference the DTU/LSF runs in the vault `runs/` ledger
 | `gc-anchoroffset__timeaudio-h100__greedy` | caption with anchor/offset time tokens | anchor/offset tokens + abs-time embedding | 0.145 / 0.083 / 0.100 | 28615749 / 28618994 |
 | `gc-plain__h100__greedy` | caption with plain `<\|s\|>…<\|e\|>` | none (plain decimal timestamps) | 0.095 / 0.022 / 0.007 | 28615748 / 28618993 |
 
-Train entrypoints: `gc-plain` via [`jobs/temporal/alld/dpo_temporal_gc_plain.sh`](../../../jobs/temporal/alld/dpo_temporal_gc_plain.sh);
-`gc-timelast` via the armA-jitter temporal variant [`jobs/temporal/alld/dpo_temporal_armA_jitter.sh`](../../../jobs/temporal/alld/dpo_temporal_armA_jitter.sh).
-`gc-timeaudio` and `gc-timelast-softloss` were trained through the temporal SFT path and are
-identified by JOBID above.
+Train entrypoints: `gc-plain` via [`jobs/temporal/alld/dpo_temporal_gc_plain.sh`](../../../jobs/temporal/alld/dpo_temporal_gc_plain.sh).
+`gc-timelast`, `gc-timeaudio`, and `gc-timelast-softloss` were trained through the temporal
+SFT path ([`jobs/temporal/sft/sft_temporal.sh`](../../../jobs/temporal/sft/sft_temporal.sh))
+and are identified by JOBID above.
 
 ### `zeroshot/` — untrained baseline
 

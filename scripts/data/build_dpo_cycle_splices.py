@@ -17,7 +17,7 @@ So three independently-corruptible factors live in one string:
   3. the timestamp interval (the trailing clause).
 
 Hard rule (memo line 62): never corrupt two factors in the same rejected. The
-raw sample jitters all three at once, so it cannot be used as a DPO rejected
+raw sample corrupts all three at once, so it cannot be used as a DPO rejected
 directly. We split chosen and rejected at the timestamp clause, then build:
 
   MOS cycle      chosen = gold; rejected = gold head with ONLY the MOS number
@@ -30,10 +30,8 @@ directly. We split chosen and rejected at the timestamp clause, then build:
                  deliberately, this is the "caption+MOS" cycle of the plan.
 
   timestamp      chosen = gold; rejected = gold head with ONLY the sampled
-  cycle          timestamps. Localization pressure. This is the SAMPLED source
-                 for the timestamp cycle; the synthetic-jitter set
-                 (train_dpo_armA_jitter.json) is the other source, and the two
-                 are run head-to-head as a 2-way A/B.
+  cycle          timestamps. Localization pressure, from the model's own
+                 interval mistakes.
 
 Every output record keeps the source schema (audios, query, mos, mix_deg_segments,
 ...) and overwrites only `chosen` / `rejected`, so the DPO collator consumes them
