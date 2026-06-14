@@ -40,6 +40,13 @@ cd "$PROJECT_DIR"
 # Which DPO arm to evaluate. Required.
 DPO_MODEL_NAME="${DPO_MODEL_NAME:?set DPO_MODEL_NAME to the local model dir name, e.g. dpo_temporal_armA_jitter}"
 
+# Generation budget (chars/tokens). DPO can inflate captions so the trailing
+# timestamp clause runs off the end at 300; bump for a re-eval. Default 300.
+MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-300}"
+# Optional output-dir suffix so a larger-budget re-eval does not overwrite the
+# original results. Empty => the plain "<name>_greedy" dir.
+OUTPUT_SUFFIX="${OUTPUT_SUFFIX:-}"
+
 mkdir -p "$EXPERIMENT_DIR/logs" "$EXPERIMENT_DIR/results/evaluation"
 module load cuda/11.8 || true
 source .venv/bin/activate
@@ -50,13 +57,14 @@ export PYTHONPATH=src
 export HF_HOME="$EXPERIMENT_DIR/.cache/huggingface"
 
 MODEL_PATH="$PROJECT_DIR/models/$DPO_MODEL_NAME"
-OUTPUT_DIR="$EXPERIMENT_DIR/results/evaluation/temporal/${DPO_MODEL_NAME}_greedy"
+OUTPUT_DIR="$EXPERIMENT_DIR/results/evaluation/temporal/${DPO_MODEL_NAME}_greedy${OUTPUT_SUFFIX}"
 
 echo "=========================================="
 echo "Job ID   : $LSB_JOBID"
 echo "Host     : $(hostname)"
 echo "Model    : $MODEL_PATH (DPO arm, TimeAudio <a><f>)"
 echo "Output   : $OUTPUT_DIR"
+echo "MaxTokens: $MAX_NEW_TOKENS"
 echo "Started  : $(date)"
 echo "=========================================="
 nvidia-smi
@@ -91,7 +99,7 @@ uv run python scripts/eval/evaluate_temporal.py \
   --batch-size 4 \
   --greedy \
   --temperature 0.0 \
-  --max-new-tokens 300 \
+  --max-new-tokens "$MAX_NEW_TOKENS" \
   --use-query-prompt
 
 echo "=========================================="
