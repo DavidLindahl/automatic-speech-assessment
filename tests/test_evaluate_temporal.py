@@ -5,6 +5,7 @@ from evaluate_temporal import (
     interval_iou,
     query_to_prompt,
     strip_non_timestamp_special_tokens,
+    strip_time_tokens_for_caption,
 )
 
 
@@ -102,3 +103,36 @@ def test_strip_non_timestamp_special_tokens_preserves_timestamps() -> None:
     cleaned = strip_non_timestamp_special_tokens(text)
 
     assert cleaned == "assistant degradation <|1.25|> to <|2.75|>"
+
+
+def test_strip_time_tokens_for_caption_removes_anchor_offset() -> None:
+    # The trained timestamp-last format: caption prose + an anchor/offset clause.
+    # Caption scoring must drop the clause's time tokens so BLEU/ROUGE/BERT see
+    # the prose only (the interval is scored separately by IoU).
+    text = (
+        "This synthesized speech has a low MOS score of 2.3. The degradation in "
+        "the clip is between <a0><f9> and <a2><f0>."
+    )
+    cleaned = strip_time_tokens_for_caption(text)
+
+    assert "<a0>" not in cleaned and "<f9>" not in cleaned
+    assert "<a2>" not in cleaned and "<f0>" not in cleaned
+    assert "This synthesized speech has a low MOS score of 2.3." in cleaned
+
+
+def test_strip_time_tokens_for_caption_removes_freetext_timestamps() -> None:
+    # The plain free-text mechanism uses <|float|> tokens; strip those too.
+    text = "Quality is interrupted between <|1.25|> and <|2.75|>."
+    cleaned = strip_time_tokens_for_caption(text)
+
+    assert "<|1.25|>" not in cleaned and "<|2.75|>" not in cleaned
+    assert cleaned.startswith("Quality is interrupted between")
+
+
+def test_strip_time_tokens_for_caption_is_symmetric_scaffolding() -> None:
+    # Stripping leaves identical "between and" scaffolding on prediction and
+    # reference, so the residual contributes the same n-grams to both sides.
+    pred = "Noise throughout. The degradation is between <a1><f0> and <a3><f5>."
+    ref = "Noise throughout. The degradation is between <a0><f8> and <a4><f1>."
+
+    assert strip_time_tokens_for_caption(pred) == strip_time_tokens_for_caption(ref)
