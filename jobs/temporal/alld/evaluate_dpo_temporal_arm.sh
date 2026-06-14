@@ -65,6 +65,7 @@ echo "Host     : $(hostname)"
 echo "Model    : $MODEL_PATH (DPO arm, TimeAudio <a><f>)"
 echo "Output   : $OUTPUT_DIR"
 echo "MaxTokens: $MAX_NEW_TOKENS"
+echo "TestVar  : ${TEST_VARIANT:-anchoroffset}"
 echo "Started  : $(date)"
 echo "=========================================="
 nvidia-smi
@@ -76,10 +77,16 @@ if [ ! -f "$MODEL_PATH/model.safetensors.index.json" ]; then
   exit 1
 fi
 
+# Test-set variant suffix. Default "anchoroffset" (timestamp-FIRST, the original
+# sets). Set TEST_VARIANT=timelast_anchoroffset to score on the format-matched
+# timestamp-LAST sets (caption first, interval last, same order as the training
+# targets), which makes caption-BLEU a fair comparison. t-IoU is identical on
+# both (the scorer parses the interval by value, position-independent).
+TEST_VARIANT="${TEST_VARIANT:-anchoroffset}"
 DATASETS=(
-  "data/processed/temporal/test_FOR_temporal_global_caption_anchoroffset.json"
-  "data/processed/temporal/test_LIVE_temporal_global_caption_anchoroffset.json"
-  "data/processed/temporal/test_P501_temporal_global_caption_anchoroffset.json"
+  "data/processed/temporal/test_FOR_temporal_global_caption_${TEST_VARIANT}.json"
+  "data/processed/temporal/test_LIVE_temporal_global_caption_${TEST_VARIANT}.json"
+  "data/processed/temporal/test_P501_temporal_global_caption_${TEST_VARIANT}.json"
 )
 
 for ds in "${DATASETS[@]}"; do
