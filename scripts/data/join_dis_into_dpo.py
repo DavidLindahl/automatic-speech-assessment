@@ -57,13 +57,12 @@ def _deg_basename(record: dict) -> Optional[str]:
 
 @app.command()
 def main(
-    in_json: Path = typer.Option(..., "--in-json", help="Existing DPO preference file (JSON array)."),
+    in_json: Path = typer.Option(..., "--in-json", help="Existing DPO preference file (JSONL, one record per line)."),
     csv_path: Path = typer.Option(..., "--csv", help="NISQA_TRAIN_SIM_file.csv with the `dis` column."),
     out_json: Path = typer.Option(..., "--out-json", help="Output file with `dis` joined onto each record."),
 ) -> None:
-    records = json.loads(in_json.read_text())
-    if not isinstance(records, list):
-        raise typer.BadParameter("Input must be a JSON array of records.")
+    # The preference files are JSONL (one record per line), not a JSON array.
+    records = [json.loads(line) for line in in_json.read_text().splitlines() if line.strip()]
 
     dis_index = _build_dis_index(csv_path)
     typer.echo(f"dis index: {len(dis_index)} clips from {csv_path.name}")
@@ -80,7 +79,7 @@ def main(
         matched += 1
 
     out_json.parent.mkdir(parents=True, exist_ok=True)
-    out_json.write_text(json.dumps(records))
+    out_json.write_text("\n".join(json.dumps(rec) for rec in records) + "\n")
     typer.echo(
         f"Wrote {len(records)} records to {out_json} "
         f"({matched} with dis, {missing} unmatched)."
