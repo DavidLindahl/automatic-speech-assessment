@@ -75,7 +75,7 @@ DATASETS=(
 #   * scores with the identical MAE/MSE/BLEU/ROUGE/BERTScore code path
 uv run python scripts/eval/evaluate.py eval-mos \
     --zero-shot \
-    --output-dir "$EXPERIMENT_DIR/results/evaluation/zeroshot/qwen2audio_instruct_baseline" \
+    --output-dir "$EXPERIMENT_DIR/results/evaluation/zeroshot/qwen2audio_instruct_corrected_prompt" \
     --dataset-path "${DATASETS[0]}" \
     --dataset-path "${DATASETS[1]}" \
     --dataset-path "${DATASETS[2]}" \

@@ -70,7 +70,7 @@ nvidia-smi
 # captions before the score landed.
 uv run python scripts/eval/evaluate.py eval-mos \
     --zero-shot \
-    --output-dir "$EXPERIMENT_DIR/results/evaluation/zeroshot/qwen2audio_instruct_smoke" \
+    --output-dir "$EXPERIMENT_DIR/results/evaluation/zeroshot/qwen2audio_instruct_corrected_prompt_smoke" \
     --dataset-path "data/processed/eval/test_FOR.json" \
     --dataset-path "data/processed/eval/test_P501.json" \
     --max-samples 10 \

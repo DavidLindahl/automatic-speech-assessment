@@ -21,6 +21,13 @@ rating from 1 to 5. For all these factors, higher is better.
     (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
 """
 
+DIMENSION_DEFINITIONS_ZEROSHOT = """Here are the definitions of the 4 factors for speech quality evaluation, each rated from 1 to 5. For all these factors, higher is better.
+    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
+    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
+    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
+    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+"""
+
 EXPERT_TASK_MOS = """I need you to generate a descriptive evaluation for this speech, including a description according to
 the score from noise, coloration, and loudness, analyze how they influence the overall quality, and add the mos in the end.
 """
@@ -37,11 +44,11 @@ Output: The volume of the speech is clear and adequately loud. However, there is
 
 
 # Non-leaking instruction for the zero-shot baseline: dimension definitions plus
-# an explicit "describe and end with an MOS score" ask. It deliberately omits
-# the ground-truth (mos, noi, col, loud) tuple that build_expert_prompt_MOS
-# injects (that is the DPO reference stream, where leaking the label is the
-# point), and it includes no worked examples, so the baseline stays strictly
-# zero-shot rather than few-shot.
+# an explicit "describe and end with an MOS score" ask. The definitions do not
+# promise a tuple because the ground-truth (mos, noi, col, loud) tuple is
+# deliberately omitted. Promising a tuple here causes instruction-following
+# models to invent one instead of assessing the audio. No worked examples are
+# included, so the baseline stays strictly zero-shot rather than few-shot.
 ZEROSHOT_TASK_MOS = (
     "I need you to generate a descriptive evaluation for this speech, "
     "including a description according to its noise, coloration, and loudness, "
@@ -49,7 +56,7 @@ ZEROSHOT_TASK_MOS = (
     "score (a number from 1 to 5) at the end."
 )
 
-ZEROSHOT_USER_TEXT_MOS = DIMENSION_DEFINITIONS_MOS + ZEROSHOT_TASK_MOS
+ZEROSHOT_USER_TEXT_MOS = DIMENSION_DEFINITIONS_ZEROSHOT + ZEROSHOT_TASK_MOS
 
 
 def build_zeroshot_prompt_MOS(processor) -> str:
@@ -130,11 +137,11 @@ ZEROSHOT_TASK_TEMPORAL = (
     "rest is clean. First, briefly describe the speech quality and its overall "
     "MOS score (a number from 1 to 5). Then identify the single span of time "
     "where the degradation occurs, and state it explicitly as a time range in "
-    "seconds in the form \"between X and Y seconds\", where X and Y are the "
+    'seconds in the form "between X and Y seconds", where X and Y are the '
     "start and end times you identify."
 )
 
-ZEROSHOT_USER_TEXT_TEMPORAL = DIMENSION_DEFINITIONS_MOS + ZEROSHOT_TASK_TEMPORAL
+ZEROSHOT_USER_TEXT_TEMPORAL = DIMENSION_DEFINITIONS_ZEROSHOT + ZEROSHOT_TASK_TEMPORAL
 
 
 def build_zeroshot_prompt_temporal(processor) -> str:

@@ -6,7 +6,7 @@ LSF entrypoints, lives here.
 | Subdir | Purpose | Called by |
 |---|---|---|
 | `train/` | SFT and DPO trainers + the multi-step submission shell. | `jobs/sft/`, `jobs/train/` |
-| `eval/` | `evaluate.py` (MOS-style eval) and `evaluate_temporal.py` (temporal IoU + interval metrics). | `jobs/evaluate/` |
+| `eval/` | `evaluate.py` (MOS-style eval), `evaluate_temporal.py` (temporal IoU + interval metrics), and `evaluate_gemini_mos.py` (resumable Gemini zero-shot MOS baseline). | `jobs/evaluate/` or local API inference |
 | `data/` | Dataset builders and smoke-set prep. `generate_nisqa_sim_lowmos_active.py` synthesises REF/DEG mixes, `build_nisqa_temporal_json.py` produces the SFT JSONL, `generate_dpo_data.py` builds chosen/rejected pairs, `prepare_temporal_smoke.py` builds the small smoke set. | `jobs/train/generate_*.sh`, ad-hoc |
 | `diagnostics/` | One-shot probes for when DPO collapses again: empty-output diagnosis, label-mask alignment, collator label probing, sanity checks. | ad-hoc + a few eval jobs |
 | `analysis/` | Post-eval aggregators: result summaries, response-diversity audit, DPO run comparison. | ad-hoc |

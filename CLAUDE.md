@@ -13,7 +13,7 @@ Training paradigms in active use:
 
 **A/B preference is dropped from the bachelor scope.** All AB-specific entrypoints, datasets, collators, and prompts were removed in Wave 1 of the refactor (2026-05-26). Don't propose new A/B work; if you find an AB reference, it's either historical (in `jobs/_archive/`, `scripts/_legacy/`, or `data/processed/intermediate/`) or a bug that needs flagging.
 
-Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/audio.py`, re-exported through `src/asa/data.py`). The public inference API lives in `src/asa/inference.py` (`load_model`, `run_inference`). The MOS-style eval CLI is `scripts/eval/evaluate.py`; the temporal-localization eval CLI is `scripts/eval/evaluate_temporal.py`. Both are typer-based.
+Target sample rate is fixed at 16 kHz (`TARGET_SR` in `src/asa/audio.py`, re-exported through `src/asa/data.py`). The public inference API lives in `src/asa/inference.py` (`load_model`, `run_inference`). The MOS-style eval CLI is `scripts/eval/evaluate.py`; the temporal-localization eval CLI is `scripts/eval/evaluate_temporal.py`; the external Gemini zero-shot MOS runner is `scripts/eval/evaluate_gemini_mos.py`. All are typer-based.
 
 ## Workflow split: laptop vs HPC
 
@@ -52,7 +52,7 @@ automatic-speech-assessment/
 │
 ├── scripts/                         # RUNNABLE ENTRYPOINTS, grouped by purpose
 │   ├── train/                         # SFT + DPO trainers, submission shell
-│   ├── eval/                          # evaluate.py, evaluate_temporal.py
+│   ├── eval/                          # local-model evaluators + Gemini API MOS runner
 │   ├── data/                          # data builders + smoke prep
 │   ├── diagnostics/                   # collapse probes, sanity checkers
 │   ├── analysis/                      # post-eval aggregators
