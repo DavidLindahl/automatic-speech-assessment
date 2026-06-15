@@ -10,12 +10,14 @@ from torch.utils.data import Dataset
 from asa.audio import AUDIO_PLACEHOLDER, AUDIO_SPECIAL, TARGET_SR, load_audio
 from asa.processed_data import (
     DPO_METADATA_FIELDS,
+    DPO_METADATA_FIELDS_DIS,
     load_processed_records,
     resolve_audio_path,
 )
 from asa.prompts import (
     PROMPT_TEMPLATE,
     build_expert_prompt_MOS,
+    build_expert_prompt_MOS_DIS,
     build_expert_prompt_TEMPORAL,
 )
 
@@ -123,9 +125,15 @@ class DPODataset(Dataset):
         data_root: str | Path,
         max_samples: Optional[int] = None,
         dims_source_json: str | Path | None = None,
+        use_discontinuity: bool = False,
     ):
         self.data_root = Path(data_root)
         self.samples = self._load_jsonl(Path(json_path))
+        # Discontinuity-deviation ablation (global ALLD only): when True, the
+        # MOS reference prompt is built from 5 scores incl. `dis` instead of 4.
+        # Requires each record to carry a `dis` field. Default 4-dim path
+        # (False) is byte-identical to the paper-faithful reference stream.
+        self.use_discontinuity = use_discontinuity
 
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
@@ -185,6 +193,11 @@ class DPODataset(Dataset):
         segments = item.get("mix_deg_segments")
         is_temporal = isinstance(segments, list) and len(segments) > 0
         if not is_temporal:
+            if self.use_discontinuity:
+                metadata = {
+                    field: float(item[field]) for field in DPO_METADATA_FIELDS_DIS
+                }
+                return build_expert_prompt_MOS_DIS(**metadata)
             metadata = {field: float(item[field]) for field in DPO_METADATA_FIELDS}
             return build_expert_prompt_MOS(**metadata)
 
