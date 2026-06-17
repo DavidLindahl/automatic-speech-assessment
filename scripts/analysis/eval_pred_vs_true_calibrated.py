@@ -112,10 +112,15 @@ def calibration_curve(true: np.ndarray, pred: np.ndarray,
     return centers[ok], means[ok]
 
 
-def brighten(hex_color: str, amount: float = 0.45) -> tuple[float, float, float]:
-    """Return a brighter shade of a hex color (mix toward white by `amount`)."""
-    rgb = np.array(matplotlib.colors.to_rgb(hex_color))
-    return tuple(rgb + (1.0 - rgb) * amount)
+def pop(hex_color: str) -> tuple[float, float, float]:
+    """Vivid version of a hex color: same hue, pushed to full saturation and a
+    punchy value so the line pops against the pale dot cloud."""
+    import colorsys
+    r, g, b = matplotlib.colors.to_rgb(hex_color)
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    s = min(1.0, max(s, 0.85))        # near-max saturation
+    v = min(1.0, max(v, 0.80))        # bright but not white
+    return colorsys.hsv_to_rgb(h, s, v)
 
 
 def fig_stacked(per_model: dict[str, dict], figures_dir: Path) -> None:
@@ -126,20 +131,21 @@ def fig_stacked(per_model: dict[str, dict], figures_dir: Path) -> None:
     for ax, spec in zip(axes, MODELS):
         true = per_model[spec["key"]]["true"]
         pred = per_model[spec["key"]]["pred"]
-        # Jittered scatter.
+        # Jittered scatter, kept pale so the line stands out.
         jt = true + rng.normal(0, 0.035, len(true))
         jp = pred + rng.normal(0, 0.035, len(pred))
-        ax.scatter(jt, jp, s=9, alpha=0.20, color=spec["color"], linewidths=0,
+        ax.scatter(jt, jp, s=9, alpha=0.16, color=spec["color"], linewidths=0,
                    zorder=2)
         # Perfect-prediction diagonal.
         ax.plot([1, 5], [1, 5], ls="--", lw=1.0, color="#b0b0b0", zorder=1,
                 label="perfect")
-        # Binned calibration line: this panel's dot color, brightened, with a
-        # thin dark edge on the markers so it still reads on the pale cloud.
+        # Binned calibration line: a vivid version of this panel's hue, thick,
+        # with a white halo + dark marker edge so it pops off the dot cloud.
         cx, cy = calibration_curve(true, pred, edges)
-        line_color = brighten(spec["color"])
-        ax.plot(cx, cy, "-o", lw=2.2, ms=4.5, color=line_color,
-                markeredgecolor="#2d2d2d", markeredgewidth=0.5, zorder=4,
+        line_color = pop(spec["color"])
+        ax.plot(cx, cy, "-", lw=4.0, color="white", alpha=0.9, zorder=3)
+        ax.plot(cx, cy, "-o", lw=2.6, ms=5.5, color=line_color,
+                markeredgecolor="white", markeredgewidth=0.8, zorder=4,
                 label="calibration")
         r = per_model[spec["key"]]["pearson"]
         if not np.isnan(r):
