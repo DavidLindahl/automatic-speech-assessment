@@ -112,10 +112,16 @@ def calibration_curve(true: np.ndarray, pred: np.ndarray,
     return centers[ok], means[ok]
 
 
+def brighten(hex_color: str, amount: float = 0.45) -> tuple[float, float, float]:
+    """Return a brighter shade of a hex color (mix toward white by `amount`)."""
+    rgb = np.array(matplotlib.colors.to_rgb(hex_color))
+    return tuple(rgb + (1.0 - rgb) * amount)
+
+
 def fig_stacked(per_model: dict[str, dict], figures_dir: Path) -> None:
-    """Three vertically-stacked panels: scatter + binned calibration line."""
+    """Three side-by-side panels: scatter + binned calibration line."""
     edges = np.arange(1.0, 5.01, 0.5)
-    fig, axes = plt.subplots(3, 1, figsize=(4.6, 11.4), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.9), sharex=True, sharey=True)
     rng = np.random.default_rng(0)
     for ax, spec in zip(axes, MODELS):
         true = per_model[spec["key"]]["true"]
@@ -128,22 +134,25 @@ def fig_stacked(per_model: dict[str, dict], figures_dir: Path) -> None:
         # Perfect-prediction diagonal.
         ax.plot([1, 5], [1, 5], ls="--", lw=1.0, color="#b0b0b0", zorder=1,
                 label="perfect")
-        # Binned calibration line (replaces the old straight LS fit).
+        # Binned calibration line: this panel's dot color, brightened, with a
+        # thin dark edge on the markers so it still reads on the pale cloud.
         cx, cy = calibration_curve(true, pred, edges)
-        ax.plot(cx, cy, "-o", lw=1.9, ms=4, color="#2d2d2d", zorder=4,
+        line_color = brighten(spec["color"])
+        ax.plot(cx, cy, "-o", lw=2.2, ms=4.5, color=line_color,
+                markeredgecolor="#2d2d2d", markeredgewidth=0.5, zorder=4,
                 label="calibration")
         r = per_model[spec["key"]]["pearson"]
         if not np.isnan(r):
             ax.text(0.05, 0.94, f"$r = {r:.2f}$", transform=ax.transAxes,
                     va="top", fontsize=11, color="#222222")
         ax.set_title(spec["label"])
-        ax.set_ylabel("Predicted MOS")
+        ax.set_xlabel("True MOS")
         ax.set_xlim(0.9, 5.1)
         ax.set_ylim(0.9, 5.1)
         ax.set_aspect("equal", adjustable="box")
         ax.legend(loc="lower right", fontsize=8)
         sns.despine(ax=ax)
-    axes[-1].set_xlabel("True MOS")
+    axes[0].set_ylabel("Predicted MOS")
     fig.tight_layout()
     for ext in ("pdf", "png"):
         fig.savefig(figures_dir / f"eval_pred_vs_true_calibrated.{ext}")
