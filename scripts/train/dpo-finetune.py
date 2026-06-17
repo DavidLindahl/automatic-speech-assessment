@@ -184,6 +184,15 @@ def train(
             "for MOS records."
         ),
     ),
+    use_discontinuity: bool = typer.Option(
+        False,
+        help=(
+            "Discontinuity-deviation ablation (global ALLD only): build the MOS "
+            "reference prompt from 5 scores incl. `dis` instead of 4. Requires "
+            "each record to carry a `dis` field (see generate_dpo_data.py "
+            "--add-discontinuity-from). Default False = paper-faithful 4-dim."
+        ),
+    ),
     deepspeed: Optional[str] = typer.Option(None, help="Path to DeepSpeed config."),
     val_split: float = typer.Option(
         0, help="Validation fraction."
@@ -270,6 +279,7 @@ def train(
         data_root=data_root,
         max_samples=max_samples,
         dims_source_json=dims_source_json,
+        use_discontinuity=use_discontinuity,
     )
 
     if val_split > 0:

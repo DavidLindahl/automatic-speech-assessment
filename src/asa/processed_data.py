@@ -8,6 +8,10 @@ from typing import Any, Iterable
 
 
 DPO_METADATA_FIELDS = ("mos", "noi", "col", "loud")
+# 5-dim variant for the discontinuity-deviation ablation: re-adds NISQA's `dis`
+# score, which the paper's released caption set drops. Used only when a DPO
+# record carries `dis` and DPODataset is built with use_discontinuity=True.
+DPO_METADATA_FIELDS_DIS = ("mos", "noi", "col", "dis", "loud")
 
 
 def load_processed_records(path: str | Path) -> list[dict[str, Any]]:

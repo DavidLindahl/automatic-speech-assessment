@@ -36,6 +36,37 @@ Output: The volume of the speech is clear and adequately loud. However, there is
 """
 
 
+# --- 5-dimension variant (deliberate-deviation ablation) -------------------
+# Identical to the 4-dim blocks above but re-adds NISQA's discontinuity (dis)
+# score. The paper's released caption set (train_nisqa_llama_10k) ships only
+# {mos, noi, col, loud}, but raw NISQA-SIM has `dis` for every clip. This
+# variant feeds the reference model all five scores so we can measure whether
+# the dropped dimension changes global ALLD. The default 4-dim path is left
+# byte-identical; this is opt-in via DPODataset(use_discontinuity=True).
+DIMENSION_DEFINITIONS_MOS_DIS = """I will give you a tuple of meta information for speech quality evaluation, it contains 5 factors are
+rating from 1 to 5. For all these factors, higher is better.
+    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.
+    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.
+    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.
+    (4) dis: the continuity of the speech, reflecting interruptions, dropouts, or other breaks in the signal. 1 is severely discontinuous, 2 is significantly discontinuous, 3 is moderately discontinuous, 4 is slightly discontinuous, and 5 is perfectly continuous.
+    (5) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.
+"""
+
+EXPERT_TASK_MOS_DIS = """I need you to generate a descriptive evaluation for this speech, including a description according to
+the score from noise, coloration, discontinuity, and loudness, analyze how they influence the overall quality, and add the mos in the end.
+"""
+
+EXPERT_FEW_SHOT_EXAMPLES_MOS_DIS = """
+--- Example 1 ---
+Input: {mos: 4.5, noi: 5.0, col: 4.5, dis: 4.8, loud: 4.8}
+Output: This speech is highly intelligible and perfectly loud. There is no background noise, the speech is continuous, and there is only a very slight coloration that is barely noticeable. Taking all factors into account, the overall MOS is 4.5.
+
+--- Example 2 ---
+Input: {mos: 2.1, noi: 3.0, col: 2.5, dis: 2.4, loud: 4.0}
+Output: The volume of the speech is clear and adequately loud. However, there is moderate background noise, noticeable distortion, and the speech is frequently discontinuous. These degradations make the speech sound unnatural overall, so the MOS score is only 2.1.
+"""
+
+
 # Non-leaking instruction for the zero-shot baseline: dimension definitions plus
 # an explicit "describe and end with an MOS score" ask. It deliberately omits
 # the ground-truth (mos, noi, col, loud) tuple that build_expert_prompt_MOS
@@ -195,12 +226,41 @@ def build_expert_prompt_MOS(mos: float, noi: float, col: float, loud: float) -> 
     # " synthesized" instead of "The". That misaligns the DPO reward at
     # position 0: policy sees "The", reference sees " synthesized". The "\n"
     # makes the prompt/response boundary a clean split, identical to the
-    # policy stream. Verified by probe_collator_labels.py.
+    # policy stream.
     current_input = f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, col: {col}, loud: {loud}}}\nOutput:\n"
     return (
         DIMENSION_DEFINITIONS_MOS
         + EXPERT_TASK_MOS
         + EXPERT_FEW_SHOT_EXAMPLES_MOS
+        + current_input
+    )
+
+
+def build_expert_prompt_MOS_DIS(
+    mos: float, noi: float, col: float, dis: float, loud: float
+) -> str:
+    """5-dimension reference prompt with discontinuity (`dis`) re-added.
+
+    Deliberate deviation from the paper's 4-dim released setup, used only by the
+    discontinuity ablation (\\Cref{sec:results-ablation-dis}) to measure whether
+    the dropped score changes global ALLD. Mirrors ``build_expert_prompt_MOS``
+    exactly, including the trailing ``"Output:\\n"`` BPE-boundary fix, so the
+    only difference from the 4-dim reference stream is the extra score.
+
+    Args:
+        mos, noi, col, dis, loud: The five NISQA quality dimensions (1-5).
+
+    Returns:
+        The reference-stream prompt the frozen text model scores against.
+    """
+    current_input = (
+        f"\n--- Current Task ---\nInput: {{mos: {mos}, noi: {noi}, "
+        f"col: {col}, dis: {dis}, loud: {loud}}}\nOutput:\n"
+    )
+    return (
+        DIMENSION_DEFINITIONS_MOS_DIS
+        + EXPERT_TASK_MOS_DIS
+        + EXPERT_FEW_SHOT_EXAMPLES_MOS_DIS
         + current_input
     )
 
