@@ -1,0 +1,14 @@
+{
+  "name": "batches/9n1tt7a7gsy3qe8lnuprbfdnlp4uz6uvmsdw",
+  "display_name": "FOR temporal zero-shot full",
+  "state": "JOB_STATE_PENDING",
+  "error": null,
+  "create_time": "2026-06-17T12:11:01.042596Z",
+  "start_time": null,
+  "end_time": null,
+  "update_time": "2026-06-17T12:11:01.042596Z",
+  "model": "models/gemini-3.1-pro-preview",
+  "src": null,
+  "dest": null,
+  "completion_stats": null
+}
