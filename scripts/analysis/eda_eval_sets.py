@@ -299,16 +299,18 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     axis.set_ylim(y_low, y_high)
 
     axis.set_xticks(x_base)
-    axis.set_xticklabels(metric_names)
+    axis.set_xticklabels(metric_names, fontsize=11)
     axis.set_xlim(-0.5, len(metric_keys) - 0.5)
-    axis.set_ylabel("Mean rating (1-5 scale)")
-    axis.set_title("MOS & Quality assessment")
+    axis.set_ylabel("Mean rating (1-5 scale)", fontsize=12)
+    axis.set_title("MOS & Quality assessment", fontsize=14)
     axis.legend(
         title="eval set",
         ncol=4,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.12),
+        bbox_to_anchor=(0.5, -0.14),
         columnspacing=1.4,
+        fontsize=10,
+        title_fontsize=11,
     )
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
