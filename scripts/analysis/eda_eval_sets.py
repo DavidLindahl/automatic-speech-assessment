@@ -307,10 +307,10 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
         title="eval set",
         ncol=4,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.14),
+        bbox_to_anchor=(0.5, -0.17),
         columnspacing=1.4,
-        fontsize=10,
-        title_fontsize=11,
+        fontsize=11,
+        title_fontsize=12,
     )
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
