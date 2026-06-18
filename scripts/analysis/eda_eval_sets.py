@@ -110,19 +110,19 @@ def set_paper_style() -> None:
             "savefig.dpi": 300,
             "savefig.bbox": "tight",
             "font.family": "serif",
-            "font.size": 10.5,
-            "axes.titlesize": 11.5,
+            "font.size": 12.5,
+            "axes.titlesize": 14,
             "axes.titleweight": "semibold",
-            "axes.labelsize": 10,
+            "axes.labelsize": 12,
             "axes.labelcolor": "#222222",
             "axes.edgecolor": "#5c6b73",
             "axes.linewidth": 0.9,
             "text.color": "#222222",
-            "xtick.labelsize": 9,
-            "ytick.labelsize": 9,
+            "xtick.labelsize": 11,
+            "ytick.labelsize": 11,
             "xtick.color": "#444444",
             "ytick.color": "#444444",
-            "legend.fontsize": 9,
+            "legend.fontsize": 11,
             "legend.frameon": False,
             "grid.color": GRID_GREY,
             "grid.linewidth": 0.7,
@@ -204,8 +204,8 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
 
     # Divider between the in-domain set and the OOD sets.
     axis.axvline(1.5, color="#b0b0b0", linewidth=1.0, linestyle="--", zorder=0)
-    axis.text(1.0, 5.18, "in-domain", ha="center", fontsize=9, color="#2a6f7f")
-    axis.text(3.0, 5.18, "out-of-domain", ha="center", fontsize=9, color="#9c5a33")
+    axis.text(1.0, 5.18, "in-domain", ha="center", fontsize=11, color="#2a6f7f")
+    axis.text(3.0, 5.18, "out-of-domain", ha="center", fontsize=11, color="#9c5a33")
 
     tick_labels = [f"{s['label']}\n(n={data[s['key']]['n']})" for s in EVAL_SETS]
     axis.set_xticks(range(1, len(EVAL_SETS) + 1))
@@ -246,7 +246,7 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     metric_keys = ["mos"] + [d for d, _ in SHARED_DIMS]
     metric_names = ["overall\nMOS"] + [n for _, n in SHARED_DIMS]
 
-    fig, axis = plt.subplots(figsize=(9.0, 4.6))
+    fig, axis = plt.subplots(figsize=(9.5, 5.0))
     n_sets = len(order_keys)
     group_width = 0.82
     bar_width = group_width / n_sets
@@ -283,7 +283,7 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
                 ha="center",
                 va="bottom",
                 rotation=90,
-                fontsize=7.5,
+                fontsize=9.5,
                 color="#333333",
                 zorder=4,
             )
@@ -299,18 +299,18 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     axis.set_ylim(y_low, y_high)
 
     axis.set_xticks(x_base)
-    axis.set_xticklabels(metric_names, fontsize=11)
+    axis.set_xticklabels(metric_names, fontsize=13)
     axis.set_xlim(-0.5, len(metric_keys) - 0.5)
-    axis.set_ylabel("Mean rating (1-5 scale)", fontsize=12)
-    axis.set_title("MOS & Quality assessment", fontsize=14)
+    axis.set_ylabel("Mean rating (1-5 scale)", fontsize=14.5)
+    axis.set_title("MOS & Quality assessment", fontsize=16.5)
     axis.legend(
         title="eval set",
         ncol=4,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.17),
+        bbox_to_anchor=(0.5, -0.21),
         columnspacing=1.4,
-        fontsize=11,
-        title_fontsize=12,
+        fontsize=13,
+        title_fontsize=14,
     )
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
