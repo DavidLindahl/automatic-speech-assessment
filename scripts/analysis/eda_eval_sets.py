@@ -110,20 +110,19 @@ def set_paper_style() -> None:
             "savefig.dpi": 300,
             "savefig.bbox": "tight",
             "font.family": "serif",
-            "font.size": 16,
-            "axes.titlesize": 18,
+            "font.size": 10.5,
+            "axes.titlesize": 11.5,
             "axes.titleweight": "semibold",
-            "axes.labelsize": 17,
+            "axes.labelsize": 10,
             "axes.labelcolor": "#222222",
             "axes.edgecolor": "#5c6b73",
             "axes.linewidth": 0.9,
             "text.color": "#222222",
-            "xtick.labelsize": 15,
-            "ytick.labelsize": 15,
+            "xtick.labelsize": 9,
+            "ytick.labelsize": 9,
             "xtick.color": "#444444",
             "ytick.color": "#444444",
-            "legend.fontsize": 15,
-            "legend.title_fontsize": 15,
+            "legend.fontsize": 9,
             "legend.frameon": False,
             "grid.color": GRID_GREY,
             "grid.linewidth": 0.7,
@@ -205,8 +204,8 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
 
     # Divider between the in-domain set and the OOD sets.
     axis.axvline(1.5, color="#b0b0b0", linewidth=1.0, linestyle="--", zorder=0)
-    axis.text(1.0, 5.18, "in-domain", ha="center", fontsize=14, color="#2a6f7f")
-    axis.text(3.0, 5.18, "out-of-domain", ha="center", fontsize=14, color="#9c5a33")
+    axis.text(1.0, 5.18, "in-domain", ha="center", fontsize=9, color="#2a6f7f")
+    axis.text(3.0, 5.18, "out-of-domain", ha="center", fontsize=9, color="#9c5a33")
 
     tick_labels = [f"{s['label']}\n(n={data[s['key']]['n']})" for s in EVAL_SETS]
     axis.set_xticks(range(1, len(EVAL_SETS) + 1))
@@ -284,7 +283,7 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
                 ha="center",
                 va="bottom",
                 rotation=90,
-                fontsize=11,
+                fontsize=7.5,
                 color="#333333",
                 zorder=4,
             )
