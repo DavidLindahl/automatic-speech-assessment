@@ -100,11 +100,11 @@ CATEGORY_ORDER: list[str] = [
 # harmonious set (deep teal, amber, sage, plum, terracotta, slate) reused for the
 # degradation categories so a colour always means the same family.
 
-PRIMARY = "#2a6f7f"        # deep teal: main bars / histograms
-PRIMARY_DARK = "#1f5360"   # darker teal: emphasis / edges
-HIGHLIGHT = "#d98b34"      # warm amber: mean reference line
-HIGHLIGHT_2 = "#3d3d3d"    # near-black: secondary (median) reference line
-MUTED = "#b7c4c7"          # soft grey-teal: baseline / zero category
+PRIMARY = "#2a6f7f"  # deep teal: main bars / histograms
+PRIMARY_DARK = "#1f5360"  # darker teal: emphasis / edges
+HIGHLIGHT = "#d98b34"  # warm amber: mean reference line
+HIGHLIGHT_2 = "#3d3d3d"  # near-black: secondary (median) reference line
+MUTED = "#b7c4c7"  # soft grey-teal: baseline / zero category
 
 # Six-colour qualitative palette for the degradation categories (harmonious,
 # colour-blind-friendlier than the old primary/secondary clash).
@@ -120,8 +120,7 @@ CATEGORY_PALETTE: list[str] = [
 # One colour per collapsed category; raw tags inherit their family colour so the
 # two panels of the taxonomy figure read as the same grouping.
 CATEGORY_COLORS: dict[str, str] = {
-    category: CATEGORY_PALETTE[index]
-    for index, category in enumerate(CATEGORY_ORDER)
+    category: CATEGORY_PALETTE[index] for index, category in enumerate(CATEGORY_ORDER)
 }
 
 # Back-compat aliases used throughout the figure functions.
@@ -149,19 +148,20 @@ def set_paper_style() -> None:
             "savefig.dpi": 300,
             "savefig.bbox": "tight",
             "font.family": "serif",
-            "font.size": 10.5,
-            "axes.titlesize": 11.5,
+            "font.size": 16,
+            "axes.titlesize": 18,
             "axes.titleweight": "semibold",
-            "axes.labelsize": 10,
+            "axes.labelsize": 17,
             "axes.labelcolor": "#222222",
             "axes.edgecolor": "#5c6b73",
             "axes.linewidth": 0.9,
             "text.color": "#222222",
-            "xtick.labelsize": 9,
-            "ytick.labelsize": 9,
+            "xtick.labelsize": 15,
+            "ytick.labelsize": 15,
             "xtick.color": "#444444",
             "ytick.color": "#444444",
-            "legend.fontsize": 9,
+            "legend.fontsize": 15,
+            "legend.title_fontsize": 15,
             "legend.frameon": False,
             "grid.color": GRID_GREY,
             "grid.linewidth": 0.7,
@@ -344,7 +344,7 @@ def annotate_bars(axis: plt.Axes, bars, values, fmt: str = "{:.0f}") -> None:
             textcoords="offset points",
             ha="center",
             va="bottom",
-            fontsize=7.5,
+            fontsize=11,
             color="#333333",
         )
 
@@ -392,7 +392,7 @@ def fig_mos_distribution(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
         f"Mean {mean_mos:.2f}   |   Median {median_mos:.2f}",
         ha="right",
         va="top",
-        fontsize=9,
+        fontsize=14,
         color="#333333",
     )
 
@@ -435,10 +435,15 @@ def fig_degradation_taxonomy(data_frame: pd.DataFrame, figures_dir: Path) -> dic
     raw_order = DEGRADATION_COLUMNS
     raw_vals = [raw_counts.get(tag, 0) for tag in raw_order]
     raw_colors = [CATEGORY_COLORS[CATEGORY_MAP[tag]] for tag in raw_order]
-    bars_raw = ax_raw.bar(range(len(raw_order)), raw_vals, color=raw_colors,
-                          edgecolor="white", linewidth=0.5)
+    bars_raw = ax_raw.bar(
+        range(len(raw_order)),
+        raw_vals,
+        color=raw_colors,
+        edgecolor="white",
+        linewidth=0.5,
+    )
     ax_raw.set_xticks(range(len(raw_order)))
-    ax_raw.set_xticklabels(raw_order, rotation=45, ha="right", fontsize=8)
+    ax_raw.set_xticklabels(raw_order, rotation=45, ha="right", fontsize=12)
     ax_raw.set_ylabel("clips containing tag")
     ax_raw.set_title("(a) 13 raw NISQA degradation tags")
     ax_raw.grid(axis="x", visible=False)
@@ -448,12 +453,15 @@ def fig_degradation_taxonomy(data_frame: pd.DataFrame, figures_dir: Path) -> dic
     cat_order = [c for c in CATEGORY_ORDER if c in cat_counts]
     cat_vals = [cat_counts[c] for c in cat_order]
     cat_colors = [CATEGORY_COLORS[c] for c in cat_order]
-    bars_cat = ax_cat.bar(range(len(cat_order)), cat_vals, color=cat_colors,
-                          edgecolor="white", linewidth=0.5)
-    ax_cat.set_xticks(range(len(cat_order)))
-    ax_cat.set_xticklabels(
-        [c.replace(" ", "\n") for c in cat_order], fontsize=8
+    bars_cat = ax_cat.bar(
+        range(len(cat_order)),
+        cat_vals,
+        color=cat_colors,
+        edgecolor="white",
+        linewidth=0.5,
     )
+    ax_cat.set_xticks(range(len(cat_order)))
+    ax_cat.set_xticklabels([c.replace(" ", "\n") for c in cat_order], fontsize=12)
     ax_cat.set_ylabel("clips containing category")
     ax_cat.set_title("(b) 6 collapsed categories")
     ax_cat.grid(axis="x", visible=False)
@@ -461,7 +469,8 @@ def fig_degradation_taxonomy(data_frame: pd.DataFrame, figures_dir: Path) -> dic
 
     fig.suptitle(
         "Degradation taxonomy: the 13 NISQA tags collapse to 6 legible categories",
-        fontsize=11, y=1.02,
+        fontsize=18,
+        y=1.02,
     )
     fig.tight_layout()
     save(fig, figures_dir, "eda_degradation_taxonomy")
@@ -491,8 +500,13 @@ def fig_degradations_per_clip(data_frame: pd.DataFrame, figures_dir: Path) -> di
     bars = axis.bar(xs, ys, color=colors, edgecolor="white", linewidth=0.6)
     annotate_bars(axis, bars, ys)
     mean_tags = float(np.mean(num_tags))
-    axis.axvline(mean_tags, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
-                 label=f"mean = {mean_tags:.2f} tags / clip")
+    axis.axvline(
+        mean_tags,
+        color=HIGHLIGHT,
+        linewidth=1.6,
+        linestyle="--",
+        label=f"mean = {mean_tags:.2f} tags / clip",
+    )
     axis.set_xlabel("number of simultaneous degradation tags on a clip")
     axis.set_ylabel("number of clips")
     axis.set_title("Most clips carry several degradations at once")
@@ -519,14 +533,23 @@ def fig_clip_duration(durations: np.ndarray, figures_dir: Path) -> dict:
     if durations.size:
         upper = float(np.percentile(durations, 99.5))
         bins = np.linspace(0, max(upper, 1.0), 40)
-        axis.hist(durations, bins=bins, color=ACCENT, edgecolor="white",
-                  linewidth=0.5)
+        axis.hist(durations, bins=bins, color=ACCENT, edgecolor="white", linewidth=0.5)
         mean_d = float(np.mean(durations))
         median_d = float(np.median(durations))
-        axis.axvline(mean_d, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
-                     label=f"mean = {mean_d:.2f} s")
-        axis.axvline(median_d, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
-                     label=f"median = {median_d:.2f} s")
+        axis.axvline(
+            mean_d,
+            color=HIGHLIGHT,
+            linewidth=1.6,
+            linestyle="--",
+            label=f"mean = {mean_d:.2f} s",
+        )
+        axis.axvline(
+            median_d,
+            color=HIGHLIGHT_2,
+            linewidth=1.2,
+            linestyle=":",
+            label=f"median = {median_d:.2f} s",
+        )
         axis.legend(loc="upper right")
     else:
         mean_d = median_d = 0.0
@@ -557,32 +580,46 @@ def fig_source_composition(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     order = source_counts.index.tolist()
 
     fig, (ax_count, ax_mos) = plt.subplots(
-        1, 2, figsize=(9.2, 3.6), gridspec_kw={"width_ratios": [1.0, 1.1]}
+        1, 2, figsize=(9.2, 4.2), gridspec_kw={"width_ratios": [1.0, 1.1]}
     )
 
     # Left: clip count per source corpus, one palette colour per corpus so the
     # two panels share a per-source colour identity.
-    count_colors = [CATEGORY_PALETTE[i % len(CATEGORY_PALETTE)]
-                    for i in range(len(order))]
-    bars = ax_count.bar(range(len(order)), source_counts.values, color=count_colors,
-                        edgecolor="white", linewidth=0.6)
+    count_colors = [
+        CATEGORY_PALETTE[i % len(CATEGORY_PALETTE)] for i in range(len(order))
+    ]
+    bars = ax_count.bar(
+        range(len(order)),
+        source_counts.values,
+        color=count_colors,
+        edgecolor="white",
+        linewidth=0.6,
+    )
     annotate_bars(ax_count, bars, source_counts.values)
     ax_count.set_xticks(range(len(order)))
-    ax_count.set_xticklabels(order, fontsize=8)
+    ax_count.set_xticklabels(order, fontsize=13)
     ax_count.set_ylabel("number of clips")
-    ax_count.set_title("(a) clips per source corpus")
+    ax_count.set_title("(a) clips per source corpus", fontsize=15)
     ax_count.grid(axis="x", visible=False)
 
     # Right: MOS distribution per source corpus (boxplot).
-    mos_by_source = [data_frame.loc[data_frame["source"] == s, "mos"].to_numpy()
-                     for s in order]
+    mos_by_source = [
+        data_frame.loc[data_frame["source"] == s, "mos"].to_numpy() for s in order
+    ]
     box = ax_mos.boxplot(
-        mos_by_source, vert=True, patch_artist=True, widths=0.62,
+        mos_by_source,
+        vert=True,
+        patch_artist=True,
+        widths=0.62,
         medianprops={"color": "white", "linewidth": 1.5},
         whiskerprops={"color": "#5c6b73", "linewidth": 1.1},
         capprops={"color": "#5c6b73", "linewidth": 1.1},
-        flierprops={"marker": ".", "markersize": 3,
-                    "markerfacecolor": "#999999", "markeredgecolor": "none"},
+        flierprops={
+            "marker": ".",
+            "markersize": 3,
+            "markerfacecolor": "#999999",
+            "markeredgecolor": "none",
+        },
     )
     for index, patch in enumerate(box["boxes"]):
         patch.set_facecolor(CATEGORY_PALETTE[index % len(CATEGORY_PALETTE)])
@@ -590,15 +627,16 @@ def fig_source_composition(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
         patch.set_edgecolor("white")
         patch.set_linewidth(0.8)
     ax_mos.set_xticks(range(1, len(order) + 1))
-    ax_mos.set_xticklabels(order, fontsize=8)
+    ax_mos.set_xticklabels(order, fontsize=13)
     ax_mos.set_ylabel("MOS")
     ax_mos.set_ylim(1.0, 5.0)
-    ax_mos.set_title("(b) MOS spread per source corpus")
+    ax_mos.set_title("(b) MOS spread per source corpus", fontsize=15)
     ax_mos.grid(axis="x", visible=False)
 
-    fig.suptitle("Source-corpus composition of the SFT training set",
-                 fontsize=11, y=1.02)
-    fig.tight_layout()
+    fig.suptitle(
+        "Source-corpus composition of the SFT training set", fontsize=16, y=0.98
+    )
+    fig.tight_layout(rect=(0, 0, 1, 0.88), w_pad=2.2)
     save(fig, figures_dir, "eda_source_composition")
 
     return {
@@ -630,22 +668,31 @@ def fig_caption_length(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     pearson = float(np.corrcoef(word_counts, mos)[0, 1])
 
     fig, (ax_hist, ax_scatter) = plt.subplots(
-        1, 2, figsize=(9.2, 3.6), gridspec_kw={"width_ratios": [1.0, 1.1]}
+        1, 2, figsize=(9.2, 4.2), gridspec_kw={"width_ratios": [1.0, 1.1]}
     )
 
     # Left: caption-length histogram.
     bins = np.arange(word_counts.min(), word_counts.max() + 2)
-    ax_hist.hist(word_counts, bins=bins, color=ACCENT, edgecolor="white",
-                 linewidth=0.4)
+    ax_hist.hist(word_counts, bins=bins, color=ACCENT, edgecolor="white", linewidth=0.4)
     mean_w = float(np.mean(word_counts))
     median_w = float(np.median(word_counts))
-    ax_hist.axvline(mean_w, color=HIGHLIGHT, linewidth=1.6, linestyle="--",
-                    label=f"mean = {mean_w:.1f}")
-    ax_hist.axvline(median_w, color=HIGHLIGHT_2, linewidth=1.2, linestyle=":",
-                    label=f"median = {median_w:.0f}")
+    ax_hist.axvline(
+        mean_w,
+        color=HIGHLIGHT,
+        linewidth=1.6,
+        linestyle="--",
+        label=f"mean = {mean_w:.1f}",
+    )
+    ax_hist.axvline(
+        median_w,
+        color=HIGHLIGHT_2,
+        linewidth=1.2,
+        linestyle=":",
+        label=f"median = {median_w:.0f}",
+    )
     ax_hist.set_xlabel("caption length (words)")
     ax_hist.set_ylabel("number of captions")
-    ax_hist.set_title("(a) caption-length distribution")
+    ax_hist.set_title("(a) caption-length distribution", fontsize=15)
     ax_hist.legend(loc="upper right")
     ax_hist.grid(axis="x", visible=False)
 
@@ -656,18 +703,23 @@ def fig_caption_length(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     for low, high in zip(band_edges[:-1], band_edges[1:]):
         mask = (mos >= low) & (mos < high)
         band_means.append(float(np.mean(word_counts[mask])) if mask.any() else 0.0)
-    bars = ax_scatter.bar(range(len(band_labels)), band_means, color=ACCENT,
-                          edgecolor="white", linewidth=0.5)
+    bars = ax_scatter.bar(
+        range(len(band_labels)),
+        band_means,
+        color=ACCENT,
+        edgecolor="white",
+        linewidth=0.5,
+    )
     annotate_bars(ax_scatter, bars, band_means, fmt="{:.1f}")
     ax_scatter.set_xticks(range(len(band_labels)))
     ax_scatter.set_xticklabels(band_labels)
     ax_scatter.set_xlabel("MOS band")
     ax_scatter.set_ylabel("mean caption length (words)")
-    ax_scatter.set_title(f"(b) length rises with MOS (Pearson r = {pearson:.2f})")
+    ax_scatter.set_title(f"(b) length by MOS band (r = {pearson:.2f})", fontsize=15)
     ax_scatter.grid(axis="x", visible=False)
 
-    fig.suptitle("Caption length and its coupling with MOS", fontsize=11, y=1.02)
-    fig.tight_layout()
+    fig.suptitle("Caption length and its coupling with MOS", fontsize=16, y=0.98)
+    fig.tight_layout(rect=(0, 0, 1, 0.88), w_pad=2.2)
     save(fig, figures_dir, "eda_caption_length")
 
     return {
@@ -677,7 +729,9 @@ def fig_caption_length(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
         "words_median": median_w,
         "words_std": float(np.std(word_counts)),
         "pearson_r_words_mos": pearson,
-        "mean_words_by_mos_band": dict(zip(band_labels, [round(v, 1) for v in band_means])),
+        "mean_words_by_mos_band": dict(
+            zip(band_labels, [round(v, 1) for v in band_means])
+        ),
     }
 
 
@@ -696,7 +750,7 @@ def fig_caption_templating(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     vocab = len(set(all_tokens))
 
     def distinct_n(tokens: list[str], order: int) -> float:
-        grams = [tuple(tokens[i:i + order]) for i in range(len(tokens) - order + 1)]
+        grams = [tuple(tokens[i : i + order]) for i in range(len(tokens) - order + 1)]
         return len(set(grams)) / len(grams) if grams else 0.0
 
     distinct = {k: distinct_n(all_tokens, k) for k in (1, 2, 3)}
@@ -710,15 +764,21 @@ def fig_caption_templating(data_frame: pd.DataFrame, figures_dir: Path) -> dict:
     labels = [f'"{phrase}…"' for phrase, _ in top_openings]
     values = [count for _, count in top_openings]
     y_pos = range(len(labels))
-    bars = axis.barh(list(y_pos), values, color=ACCENT, edgecolor="white",
-                     linewidth=0.5)
+    bars = axis.barh(
+        list(y_pos), values, color=ACCENT, edgecolor="white", linewidth=0.5
+    )
     for rect, value in zip(bars, values):
-        axis.annotate(f"{100 * value / n:.1f}%",
-                      xy=(rect.get_width(), rect.get_y() + rect.get_height() / 2),
-                      xytext=(3, 0), textcoords="offset points",
-                      va="center", fontsize=8, color="#333333")
+        axis.annotate(
+            f"{100 * value / n:.1f}%",
+            xy=(rect.get_width(), rect.get_y() + rect.get_height() / 2),
+            xytext=(3, 0),
+            textcoords="offset points",
+            va="center",
+            fontsize=15,
+            color="#333333",
+        )
     axis.set_yticks(list(y_pos))
-    axis.set_yticklabels(labels, fontsize=8)
+    axis.set_yticklabels(labels, fontsize=17)
     axis.invert_yaxis()
     axis.set_xlabel("number of captions")
     axis.set_title(
@@ -751,9 +811,20 @@ def analyse_quality_vocabulary(data_frame: pd.DataFrame) -> dict:
     responses = [text.lower() for text in data_frame["response"].tolist()]
     n = len(responses)
     terms = [
-        "distortion", "discontinu", "noise", "noisy", "loud", "volume",
-        "clear", "clean", "natural", "unnatural", "soft", "quiet",
-        "background", "distorted",
+        "distortion",
+        "discontinu",
+        "noise",
+        "noisy",
+        "loud",
+        "volume",
+        "clear",
+        "clean",
+        "natural",
+        "unnatural",
+        "soft",
+        "quiet",
+        "background",
+        "distorted",
     ]
     counts = {term: sum(1 for text in responses if term in text) for term in terms}
     ordered = sorted(counts.items(), key=lambda item: -item[1])
@@ -808,9 +879,7 @@ def main() -> None:
     parser.add_argument(
         "--nisqa-csv",
         type=Path,
-        default=Path(
-            "data/raw/NISQA_Corpus/NISQA_TRAIN_SIM/NISQA_TRAIN_SIM_file.csv"
-        ),
+        default=Path("data/raw/NISQA_Corpus/NISQA_TRAIN_SIM/NISQA_TRAIN_SIM_file.csv"),
         help="NISQA per-file metadata CSV used to recover tags and source.",
     )
     parser.add_argument(
