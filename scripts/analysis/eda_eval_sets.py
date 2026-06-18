@@ -60,11 +60,25 @@ CATEGORY_PALETTE: list[str] = [
 
 # The four eval sets in display order, with whether each is in- or out-of-domain.
 EVAL_SETS: list[dict] = [
-    {"key": "indomain", "file": "test_nisqa_indomain.json",
-     "label": "in-domain\n(NISQA-SIM)", "domain": "in-domain"},
+    {
+        "key": "indomain",
+        "file": "test_nisqa_indomain.json",
+        "label": "in-domain\n(NISQA-SIM)",
+        "domain": "in-domain",
+    },
     {"key": "FOR", "file": "test_FOR.json", "label": "FOR", "domain": "out-of-domain"},
-    {"key": "LIVE", "file": "test_LIVE.json", "label": "LIVE", "domain": "out-of-domain"},
-    {"key": "P501", "file": "test_P501.json", "label": "P501", "domain": "out-of-domain"},
+    {
+        "key": "LIVE",
+        "file": "test_LIVE.json",
+        "label": "LIVE",
+        "domain": "out-of-domain",
+    },
+    {
+        "key": "P501",
+        "file": "test_P501.json",
+        "label": "P501",
+        "domain": "out-of-domain",
+    },
 ]
 
 # One colour per eval set (teal for in-domain, warm tones for the OOD sets).
@@ -87,8 +101,9 @@ OOD_ONLY_DIM: tuple[str, str] = ("dis", "discontinuity")
 
 def set_paper_style() -> None:
     """Apply the same cohesive seaborn theme used by the training-set EDA."""
-    sns.set_theme(context="paper", style="whitegrid", palette=CATEGORY_PALETTE,
-                  font="serif")
+    sns.set_theme(
+        context="paper", style="whitegrid", palette=CATEGORY_PALETTE, font="serif"
+    )
     plt.rcParams.update(
         {
             "figure.dpi": 150,
@@ -142,8 +157,7 @@ def collect(data_dir: Path) -> dict[str, dict]:
         mos = np.array([float(r["mos"]) for r in records if r.get("mos") is not None])
         dims: dict[str, np.ndarray] = {}
         for dim, _ in SHARED_DIMS + [OOD_ONLY_DIM]:
-            values = [float(r[dim]) for r in records
-                      if dim in r and r[dim] is not None]
+            values = [float(r[dim]) for r in records if dim in r and r[dim] is not None]
             if values:
                 dims[dim] = np.array(values)
         out[spec["key"]] = {"mos": mos, "dims": dims, "n": len(records)}
@@ -157,10 +171,13 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     order_keys = [s["key"] for s in EVAL_SETS]
     mos_arrays = [data[k]["mos"] for k in order_keys]
     colors = [SET_COLORS[k] for k in order_keys]
-    labels = [s["label"] for s in EVAL_SETS]
 
     box = axis.boxplot(
-        mos_arrays, vert=True, patch_artist=True, widths=0.6, showfliers=False,
+        mos_arrays,
+        vert=True,
+        patch_artist=True,
+        widths=0.6,
+        showfliers=False,
         medianprops={"color": "white", "linewidth": 1.6},
         whiskerprops={"color": "#5c6b73", "linewidth": 1.1},
         capprops={"color": "#5c6b73", "linewidth": 1.1},
@@ -175,8 +192,15 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     rng = np.random.default_rng(0)
     for index, (key, arr) in enumerate(zip(order_keys, mos_arrays), start=1):
         jitter = rng.uniform(-0.16, 0.16, size=len(arr))
-        axis.scatter(np.full(len(arr), index) + jitter, arr, s=5, alpha=0.25,
-                     color="#2d2d2d", linewidths=0, zorder=3)
+        axis.scatter(
+            np.full(len(arr), index) + jitter,
+            arr,
+            s=5,
+            alpha=0.25,
+            color="#2d2d2d",
+            linewidths=0,
+            zorder=3,
+        )
 
     # Divider between the in-domain set and the OOD sets.
     axis.axvline(1.5, color="#b0b0b0", linewidth=1.0, linestyle="--", zorder=0)
@@ -239,18 +263,29 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
         vals = [metric_value(key, m) for m in metric_keys]
         means[key] = {m: v for m, v in zip(metric_keys, vals)}
         offsets = x_base - group_width / 2 + bar_width * (set_index + 0.5)
-        bars = axis.bar(offsets, vals, width=bar_width * 0.9,
-                        color=SET_COLORS[key], edgecolor="white", linewidth=0.6,
-                        label=EVAL_SETS[set_index]["label"].replace("\n", " "),
-                        zorder=3)
+        bars = axis.bar(
+            offsets,
+            vals,
+            width=bar_width * 0.9,
+            color=SET_COLORS[key],
+            edgecolor="white",
+            linewidth=0.6,
+            label=EVAL_SETS[set_index]["label"].replace("\n", " "),
+            zorder=3,
+        )
         # Value label on every bar (rotated to fit the narrow grouped bars).
         for rect, value in zip(bars, vals):
             axis.annotate(
                 f"{value:.2f}",
                 xy=(rect.get_x() + rect.get_width() / 2, rect.get_height()),
-                xytext=(0, 2), textcoords="offset points",
-                ha="center", va="bottom", rotation=90,
-                fontsize=7.5, color="#333333", zorder=4,
+                xytext=(0, 2),
+                textcoords="offset points",
+                ha="center",
+                va="bottom",
+                rotation=90,
+                fontsize=7.5,
+                color="#333333",
+                zorder=4,
             )
 
     # Soft shaded band behind the overall-MOS group so it reads as the headline.
@@ -266,10 +301,15 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     axis.set_xticks(x_base)
     axis.set_xticklabels(metric_names)
     axis.set_xlim(-0.5, len(metric_keys) - 0.5)
-    axis.set_ylabel("mean rating (1-5 scale)")
-    axis.set_title("Overall MOS and quality sub-dimensions across the evaluation sets")
-    axis.legend(title="eval set", ncol=4, loc="upper center",
-                bbox_to_anchor=(0.5, -0.12), columnspacing=1.4)
+    axis.set_ylabel("Mean rating (1-5 scale)")
+    axis.set_title("MOS & Quality assessment")
+    axis.legend(
+        title="eval set",
+        ncol=4,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.12),
+        columnspacing=1.4,
+    )
     axis.grid(axis="x", visible=False)
     sns.despine(ax=axis)
     fig.tight_layout()
@@ -282,7 +322,8 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     dis_key, _ = OOD_ONLY_DIM
     dis_means = {
         key: float(np.mean(data[key]["dims"][dis_key]))
-        for key in order_keys if dis_key in data[key]["dims"]
+        for key in order_keys
+        if dis_key in data[key]["dims"]
     }
     return {
         "mos_and_shared_dim_means": means,
