@@ -282,8 +282,8 @@ def fig_subdims_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
                 textcoords="offset points",
                 ha="center",
                 va="bottom",
-                rotation=90,
-                fontsize=9.5,
+                rotation=0,
+                fontsize=10.5,
                 color="#333333",
                 zorder=4,
             )
