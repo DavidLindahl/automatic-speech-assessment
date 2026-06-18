@@ -1,0 +1,25 @@
+{
+  "task": "zero_shot_mos",
+  "model": "gemini-3.1-pro-preview",
+  "dataset_path": "data/processed/eval/test_FOR.json",
+  "data_root": "data",
+  "system_instruction": "You are a helpful assistant.",
+  "audio_label": "Audio 1:",
+  "user_prompt": "Here are the definitions of the 4 factors for speech quality evaluation, each rated from 1 to 5. For all these factors, higher is better.\n    (1) mos: the overall quality. 1 is very bad, 2 is poor, 3 is fair, 4 is good, 5 is excellent.\n    (2) noi: the level of noise in the audio, reflecting the impact of background noise or other non-speech interference on audio quality. 1 is very noisy, 2 is somewhat noisy, 3 is neither noisy nor clean, 4 is somewhat clean, and 5 is completely clean.\n    (3) col: the alterations in the natural sound of speech caused by distortions or unwanted modifications. 1 is severely distorted, 2 is significantly distorted, 3 is moderately distorted, 4 is slightly distorted, and 5 is no distortion.\n    (4) loud: the perceived volume or loudness of the audio. 1 is extremely quiet, 2 is significantly quiet, 3 is soft but understandable, 4 is clearly loud, and 5 is perfectly loud.\nI need you to generate a descriptive evaluation for this speech, including a description according to its noise, coloration, and loudness, analyze how they influence the overall quality, and add the overall MOS score (a number from 1 to 5) at the end.",
+  "prompt_sha256": "90182fd1f8269e88a4a7697e194a9869156dae95c768f596310d0b489a8bb8c6",
+  "decoding": {
+    "mode": "greedy_like",
+    "temperature": 0.0,
+    "seed": 42,
+    "max_output_tokens": null,
+    "thinking_level": "LOW"
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 2.0,
+    "output_including_thoughts": 12.0
+  },
+  "prompt_parity": "Shared corrected non-leaking zero-shot instruction; audio is attached through Gemini's native API instead of Qwen ChatML.",
+  "api_mode": "batch",
+  "batch_cost_multiplier": 0.5,
+  "samples_submitted": 240
+}

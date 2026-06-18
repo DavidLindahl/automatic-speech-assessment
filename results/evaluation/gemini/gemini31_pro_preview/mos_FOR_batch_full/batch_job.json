@@ -1,0 +1,14 @@
+{
+  "name": "batches/nwxdgtsae3k3qhx4wv7hm6cg7w236vgk9p1e",
+  "display_name": "FOR MOS corrected prompt full",
+  "state": "JOB_STATE_PENDING",
+  "error": null,
+  "create_time": "2026-06-15T15:24:02.080784Z",
+  "start_time": null,
+  "end_time": null,
+  "update_time": "2026-06-15T15:24:02.080784Z",
+  "model": "models/gemini-3.1-pro-preview",
+  "src": null,
+  "dest": null,
+  "completion_stats": null
+}
