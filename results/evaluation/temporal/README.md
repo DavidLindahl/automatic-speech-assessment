@@ -43,6 +43,20 @@ Train entrypoints: `gc-plain` via [`jobs/temporal/alld/dpo_temporal_gc_plain.sh`
 SFT path ([`jobs/temporal/sft/sft_temporal.sh`](../../../jobs/temporal/sft/sft_temporal.sh))
 and are identified by JOBID above.
 
+**Epoch-count and data-size variants of `gc-timelast`** (suffix `__3ep` / `__4ep` /
+`__nNNNN` / `__mos4`) are exploratory runs, kept here for the raw record:
+
+| Result dir | Variant | FOR / LIVE / P501 t-IoU |
+|---|---|---|
+| `gc-timelast__timeaudio-h100__greedy` ⭐ | 2 epochs, full 13 495 mixes — **the thesis headline** | **0.883 / 0.896 / 0.871** |
+| `gc-timelast__timeaudio-h100__greedy__3ep` | 3 epochs | 0.917 / 0.925 / 0.894 |
+| `gc-timelast__timeaudio-h100__greedy__4ep` | 4 epochs | 0.951 / 0.963 / 0.938 |
+| `gc-timelast__timeaudio-h100__greedy__n500…n5105` | data-size ablation (sub-sampled mixes) | collapses < 0.18 until the full set |
+
+Note: the longer 3/4-epoch runs score *above* the 2-epoch headline on t-IoU, but the
+thesis reports the 2-epoch run as the headline. They are **not cited** in the thesis and
+are retained only as the complete experimental record.
+
 ### `zeroshot/` — untrained baseline
 
 | Result dir | Model | Eval JOBID | FOR / LIVE / P501 t-IoU |
