@@ -33,7 +33,7 @@ timestamps have no ordered single-token vocabulary to smooth over.
 
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Tuple
 
 import torch
 import torch.nn.functional as F

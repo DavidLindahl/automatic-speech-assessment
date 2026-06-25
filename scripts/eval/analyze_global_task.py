@@ -21,7 +21,6 @@ Run from the repo root with the project venv active:
 from __future__ import annotations
 
 import json
-import re
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path

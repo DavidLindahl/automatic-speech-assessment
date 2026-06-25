@@ -14,7 +14,7 @@ import re
 from collections import Counter
 from difflib import SequenceMatcher
 from pathlib import Path
-from statistics import mean, pstdev
+from statistics import pstdev
 
 import typer
 
