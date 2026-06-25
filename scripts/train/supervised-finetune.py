@@ -17,6 +17,7 @@ from transformers import (
     Qwen2AudioForConditionalGeneration,
     Trainer,
     TrainingArguments,
+    set_seed,
 )
 
 from asa.data import Qwen2AudioCollator, SFTDataset
@@ -47,6 +48,9 @@ def train(
         help="Name of the model to save (saved under models/<model_name>).",
     ),
     batch_size: int = typer.Option(4, help="Per-device batch size."),
+    seed: int = typer.Option(
+        42, help="Random seed for reproducibility (data split, init, shuffling)."
+    ),
     epochs: int = typer.Option(2, help="Number of training epochs."),
     lr: float = typer.Option(1e-5, help="Learning rate."),
     warmup_ratio: float = typer.Option(
@@ -112,6 +116,8 @@ def train(
     """Run supervised fine-tuning on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     is_main = local_rank == 0
+    # Seed everything (Python, NumPy, torch) before any model/data work.
+    set_seed(seed)
     # ── 0. W&B setup ─────────────────────────────────────────────────────
     if wandb_project and is_main:
         import wandb
@@ -158,7 +164,11 @@ def train(
     if val_split > 0:
         val_size = int(len(full_dataset) * val_split)
         train_size = len(full_dataset) - val_size
-        train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
+        train_dataset, val_dataset = random_split(
+            full_dataset,
+            [train_size, val_size],
+            generator=torch.Generator().manual_seed(seed),
+        )
         if is_main:
             print(f"Train: {len(train_dataset)}, Val: {len(val_dataset)}")
     else:
@@ -231,6 +241,8 @@ def train(
     # footprint to ~32 GB and overflowed the /work3 hard limit mid-save.
     training_args = TrainingArguments(
         output_dir=str(output_dir),
+        seed=seed,
+        data_seed=seed,
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
         learning_rate=lr,
