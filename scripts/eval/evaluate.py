@@ -293,8 +293,14 @@ def eval_mos(
             "every fine-tuned row, so the baseline stays comparable."
         ),
     ),
+    seed: int = typer.Option(
+        42, help="Random seed; makes sampled decoding reproducible across runs."
+    ),
 ):
     """Run model inference and evaluate quality based on MOS and BLEU."""
+    import torch
+
+    torch.manual_seed(seed)
 
     # Resolve model_path: prefer the command option, then the global, then the
     # default. In --zero-shot mode the default is the off-the-shelf baseline

@@ -21,6 +21,7 @@ from transformers import (
     Qwen2AudioForConditionalGeneration,
     Trainer,
     TrainingArguments,
+    set_seed,
 )
 
 # Import the new dataset and dual-stream collator
@@ -160,6 +161,9 @@ def train(
         ..., help="Name of the model to save (saved under models/<model_name>)."
     ),
     batch_size: int = typer.Option(2, help="Per-device batch size."),
+    seed: int = typer.Option(
+        42, help="Random seed for reproducibility (data split, init, shuffling)."
+    ),
     epochs: int = typer.Option(2, help="Training epochs."),
     beta: float = typer.Option(0.4, help="DPO margin parameter beta."),
     length_norm: bool = typer.Option(
@@ -238,6 +242,8 @@ def train(
     """Run ALLD (Alignment with LLM Distillation) on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     is_main = local_rank == 0
+    # Seed everything (Python, NumPy, torch) before any model/data work.
+    set_seed(seed)
 
     if wandb_project and is_main:
         import wandb
@@ -285,7 +291,11 @@ def train(
     if val_split > 0:
         val_size = int(len(full_dataset) * val_split)
         train_size = len(full_dataset) - val_size
-        train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
+        train_dataset, val_dataset = random_split(
+            full_dataset,
+            [train_size, val_size],
+            generator=torch.Generator().manual_seed(seed),
+        )
     else:
         train_dataset = full_dataset
         val_dataset = None
@@ -361,6 +371,8 @@ def train(
 
     training_args = TrainingArguments(
         output_dir=str(output_dir),
+        seed=seed,
+        data_seed=seed,
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
         learning_rate=lr,

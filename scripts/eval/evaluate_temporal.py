@@ -433,8 +433,14 @@ def eval_temporal(
         BERTSCORE_MODEL,
         help="HuggingFace backbone for caption BERTScore (recorded in output).",
     ),
+    seed: int = typer.Option(
+        42, help="Random seed; makes sampled decoding reproducible across runs."
+    ),
 ) -> None:
     """Run temporal inference and report localization quality metrics."""
+    import torch
+
+    torch.manual_seed(seed)
     # Lazy import (see module header): caption/MOS scoring reuses the global
     # eval helpers verbatim, but pulling them in here keeps this module loadable
     # without sacrebleu/rouge-score/bert-score when only IoU is wanted.
