@@ -347,7 +347,6 @@ def train(
     # the OSError->Hub-rescue guards the quota-overflow-at-save failure mode).
     save_steps_strategy = (push_to_hub or save_intermediate) and not final_save_only
     if final_save_only and is_main:
-        dest = hub_model_id if push_to_hub else str(output_dir)
         print(
             f"Final-save-only ENABLED: no intermediate checkpoints; one model "
             f"saved at the end and "

@@ -62,7 +62,6 @@ def shifted_interval(start: float, end: float, dur: float, shift: float):
 
     Returns (s2, e2) or None if the result is degenerate or lands back on gold.
     """
-    span = end - start
     # Prefer shifting later; if that runs off the clip, shift earlier.
     if end + shift <= dur:
         s2, e2 = start + shift, end + shift

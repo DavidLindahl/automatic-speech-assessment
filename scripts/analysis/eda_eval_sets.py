@@ -157,7 +157,6 @@ def fig_mos_by_set(data: dict[str, dict], figures_dir: Path) -> dict:
     order_keys = [s["key"] for s in EVAL_SETS]
     mos_arrays = [data[k]["mos"] for k in order_keys]
     colors = [SET_COLORS[k] for k in order_keys]
-    labels = [s["label"] for s in EVAL_SETS]
 
     box = axis.boxplot(
         mos_arrays, vert=True, patch_artist=True, widths=0.6, showfliers=False,
