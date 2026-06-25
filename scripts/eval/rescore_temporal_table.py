@@ -43,8 +43,8 @@ from evaluate_temporal import (  # noqa: E402
 SETS = ["FOR", "LIVE", "P501"]
 
 # Each arm: label -> (branch_or_None_for_local, path-template with {s} for the set).
-# branch None means the file is in the current working tree.
-HARDNEG = "origin/exp/temporal-dpo-hardneg-iou"
+# branch None means the file is in the current working tree. Every reported arm is
+# committed locally under the new results layout, so all entries read from None.
 B = "results/evaluation/temporal"
 
 ARMS: dict[str, tuple[Optional[str], str]] = {
@@ -74,19 +74,19 @@ ARMS: dict[str, tuple[Optional[str], str]] = {
 }
 for n in ["500", "1000", "2500", "5105"]:
     ARMS[f"sweep{n}"] = (
-        HARDNEG,
-        f"{B}/sft_gc_timelast_sweep{n}_greedy_timelast_600tok/"
-        "test_{s}_temporal_global_caption_timelast_anchoroffset_results.json",
+        None,
+        f"{B}/sft/gc-timelast__timeaudio-h100__greedy__n{n}/"
+        "test_{s}_temporal_global_caption_anchoroffset_results.json",
     )
 for label, dirname in [
-    ("dpo_norm", "dpo_temporal_armA_hardneg_ts_iou06_greedy_timelast_600tok"),
-    ("dpo_nonorm", "dpo_temporal_armA_hardneg_ts_iou06_nonorm_greedy_timelast_600tok"),
-    ("dpo_lr5e6", "dpo_temporal_armA_hardneg_ts_iou06_lr5e6_beta1_greedy_timelast_600tok"),
-    ("dpo_medshift", "dpo_temporal_armA_medshift_greedy_timelast_600tok"),
+    ("dpo_norm", "alld/armA-hardneg-iou06__h100__greedy"),
+    ("dpo_nonorm", "alld/armA-hardneg-iou06-nonorm__h100__greedy"),
+    ("dpo_lr5e6", "alld/armA-hardneg-iou06-lr5e6-beta1__h100__greedy"),
+    ("dpo_medshift", "alld/armA-medshift__h100__greedy"),
 ]:
     ARMS[label] = (
-        HARDNEG,
-        f"{B}/{dirname}/test_{{s}}_temporal_global_caption_timelast_anchoroffset_results.json",
+        None,
+        f"{B}/{dirname}/test_{{s}}_temporal_global_caption_anchoroffset_results.json",
     )
 
 

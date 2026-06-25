@@ -15,7 +15,7 @@ Each task splits into method subdirs:
 global/                       temporal/
   alld/      DPO checkpoints     sft/       gc-* SFT checkpoints
   sft/       SFT checkpoints     zeroshot/  zero-shot baseline
-  zeroshot/  zero-shot baseline  (alld/)    reserved - none yet
+  zeroshot/  zero-shot baseline  alld/      hard-negative DPO arms
 ```
 
 See the per-task README for the full experiment-to-result mapping (each dir linked to its

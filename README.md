@@ -37,29 +37,26 @@ scripts/                       # runnable entrypoints, grouped by purpose
     sanity_check_dpo.py
   analysis/                      # post-eval aggregators + thesis figures
     eval_pred_vs_true.py
+    extract_datasize_sweep.py      # data-size sweep -> datasize_iou_mse_bars figure
+    probe_temporal_frames.py       # frozen-feature linear probe (appendix)
     caption_vs_mos.py
     audit_response_diversity.py
-  _legacy/                       # pre-temporal caption generator; archival only
 
 data/processed/                # training and eval data, grouped by use
   sft/                           # SFT training inputs
   dpo/                           # DPO chosen/rejected pairs
   eval/                          # held-out test splits (test_FOR, _LIVE, _P501, _nisqa_indomain)
   temporal/                      # temporal-localization mixes and metadata (current scope)
-  intermediate/                  # build artifacts, AB legacy; not direct inputs
 
 jobs/                          # LSF job submission, grouped by task then role
   global/                        # global MOS-caption task
-    alld/                          # DPO training jobs
+    alld/                          # ALLD (DPO-style) training jobs
     sft/                           # SFT training jobs
     eval/                          # eval jobs
     data/                          # generate_*/build_* data-prep jobs
   temporal/                      # time-localization task (same alld/sft/eval/data split)
     alld/  sft/  eval/  data/
-  upload/                        # HF Hub checkpoint uploaders
-  tests/                         # pipeline smoke tests
   _lib/                          # shared preamble + memory-budget linter + eval template
-  _archive/                      # historical scripts; not on the live path
 
 tests/                         # pytest, CPU-safe subset runs in CI
 ```
@@ -102,6 +99,29 @@ Run state lives in the parent vault, not in this repo:
 
 Do not invent a parallel tracking surface in this repo.
 
+## Reproducing the thesis results
+
+Every reported number traces to a committed eval under `results/evaluation/`
+and a job under `jobs/`. The headline runs:
+
+- **Global MOS-caption** — train `jobs/global/sft/sft_full_paper_h100.sh`, then
+  the ALLD stage `jobs/global/alld/dpo_full_sft_paired_lr1e6.sh`; score with
+  `jobs/global/eval/evaluate_*`. Outputs land in
+  `results/evaluation/global/{sft,alld,zeroshot}/`.
+- **Temporal localization (headline t-IoU 0.883)** — train
+  `jobs/temporal/sft/sft_gc_timelast_full13495.sh` (timestamp-last,
+  TimeAudio anchor/offset tokens), score with
+  `jobs/temporal/eval/evaluate_gc_timelast_temporal.sh`. Outputs land in
+  `results/evaluation/temporal/sft/`.
+- **Data-size ablation** — the sweep jobs
+  `jobs/temporal/sft/sft_gc_timelast_sweep{500,1000,2500,5105}.sh`; regenerate
+  the table and figures locally with
+  `python scripts/analysis/extract_datasize_sweep.py` (reads the committed eval
+  dirs) and `python scripts/analysis/plot_datasize_sweep.py`.
+
+The trained checkpoints are published on the Hugging Face Hub under the
+`Leng2beat/` namespace; the appendix lists all released checkpoints.
+
 ## Setup
 
 ```sh
@@ -133,5 +153,9 @@ are skipped in CI; run them on HPC.
 
 The pre-2026-04-13 AB direction and its data pipeline (the old NISQA
 caption-generation flow and standalone CLI) were removed in the 2026-06-13
-cleanup. They remain recoverable from git history if a pre-cutover run ever
-needs reproducing.
+cleanup. The 2026-06-25 submission cleanup consolidated the temporal /
+data-size / detect-localize / hard-negative experiment branches onto `main`,
+removed the unused cookiecutter scaffolding (`tasks.py`, `dockerfiles/`), and
+moved every reported eval into the `results/evaluation/{global,temporal}/`
+layout. Anything removed remains recoverable from git history if a pre-cutover
+run ever needs reproducing.

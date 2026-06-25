@@ -205,14 +205,14 @@ def build_table() -> None:
 
 # Reported eval directories for the 4-model caption-quality table.
 EVAL_DIRS = [
-    ("Warmup SFT", "greedy", "sft/sft_warmup_paper_half_h100_eval_greedy"),
-    ("Warmup SFT", "sampled", "sft/sft_warmup_paper_half_h100_eval_sampled"),
-    ("Full SFT", "greedy", "sft/sft_full_paper_h100_eval_greedy"),
-    ("Full SFT", "sampled", "sft/sft_full_paper_h100_eval_sampled"),
-    ("Warmup-DPO", "greedy", "dpo/dpo_paper_half_h100_lr1e6_delimiterfix_eval_greedy"),
-    ("Warmup-DPO", "sampled", "dpo/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled"),
-    ("Full-DPO", "greedy", "dpo/dpo_full_sft_paired_lr1e6_eval_greedy"),
-    ("Full-DPO", "sampled", "dpo/dpo_full_sft_paired_lr1e6_eval_sampled"),
+    ("Warmup SFT", "greedy", "global/sft/sft_warmup_paper_half_h100_eval_greedy"),
+    ("Warmup SFT", "sampled", "global/sft/sft_warmup_paper_half_h100_eval_sampled"),
+    ("Full SFT", "greedy", "global/sft/sft_full_paper_h100_eval_greedy"),
+    ("Full SFT", "sampled", "global/sft/sft_full_paper_h100_eval_sampled"),
+    ("Warmup-DPO", "greedy", "global/alld/dpo_paper_half_h100_lr1e6_delimiterfix_eval_greedy"),
+    ("Warmup-DPO", "sampled", "global/alld/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled"),
+    ("Full-DPO", "greedy", "global/alld/dpo_full_sft_paired_lr1e6_eval_greedy"),
+    ("Full-DPO", "sampled", "global/alld/dpo_full_sft_paired_lr1e6_eval_sampled"),
 ]
 EVAL_ROOT = Path("results/evaluation")
 TABLE_SETS = ["FOR", "LIVE", "P501", "nisqa_indomain"]

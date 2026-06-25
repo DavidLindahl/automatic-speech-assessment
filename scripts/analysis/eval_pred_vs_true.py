@@ -47,13 +47,13 @@ GRID_GREY = "#d9d9d9"
 # trained models take the teal/amber accent pair used elsewhere.
 MODELS: list[dict] = [
     {"key": "zeroshot", "label": "Zero-shot",
-     "dir": "results/evaluation/zeroshot/qwen2audio_instruct_baseline",
+     "dir": "results/evaluation/global/zeroshot/qwen2audio_instruct_baseline",
      "color": "#5c6b73"},
     {"key": "sft", "label": "Full SFT",
-     "dir": "results/evaluation/sft/sft_full_paper_h100_eval_greedy",
+     "dir": "results/evaluation/global/sft/sft_full_paper_h100_eval_greedy",
      "color": "#2a6f7f"},
     {"key": "dpo", "label": "Full DPO",
-     "dir": "results/evaluation/dpo/dpo_full_sft_paired_lr1e6_eval_greedy",
+     "dir": "results/evaluation/global/alld/dpo_full_sft_paired_lr1e6_eval_greedy",
      "color": "#d98b34"},
 ]
 SETS = ["FOR", "LIVE", "P501", "nisqa_indomain"]

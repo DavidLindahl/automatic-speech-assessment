@@ -1,7 +1,7 @@
 # Temporal-localization evaluations
 
-Results for the time-localized degradation task on the `feat/timeaudio-temporal-localization`
-branch. Each model reads a synthetic NISQA mix (mostly clean, one degraded window) and predicts
+Results for the time-localized degradation task (consolidated onto `main`).
+Each model reads a synthetic NISQA mix (mostly clean, one degraded window) and predicts
 the degraded interval `[start, end]` plus a global MOS-style caption. The headline metric is
 mean temporal IoU (`mean_tiou`) between the predicted and construction-time ground-truth
 interval, on three NISQA test sets: FOR, LIVE, P501.
