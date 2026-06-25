@@ -1,16 +1,20 @@
-# `notebooks/` — interactive demos and exploratory scratch
+# `notebooks/` — local exploratory scratch (not tracked)
 
-Notebooks are not on the reproducibility path (the thesis results come from
-`jobs/` + `scripts/`); they are for inspecting the model and the data by hand.
+The notebooks in this directory are exploratory scratch for inspecting the
+model and data by hand. They are **gitignored** (only this README is tracked),
+because they are not part of the reproducibility path: the thesis results come
+from `jobs/` + `scripts/`, not from notebooks.
 
-| Notebook | What it is |
-|---|---|
-| `inference_demo.ipynb` | **Start here.** Loads a trained checkpoint and runs it on a clip, so you can see the joint caption + interval output end to end. |
-| `gemini31_pro_zero_shot_timestamp_pilot.ipynb` | The Gemini-3.1-Pro zero-shot temporal pilot (the baseline the thesis compares against). |
-| `nisqa_sim_mix_lowmos_active_segment_generator.ipynb` | Scratch for the temporal mix generator; the production version is `scripts/data/generate_nisqa_sim_lowmos_active.py`. |
-| `temporal_generation_samples.ipynb` | Eyeballs generated mixes (waveform + ground-truth interval). |
-| `audio_player.ipynb` | Small helper for playing clips inline. |
-| `build_temporal_inspector_site.py` | Not a notebook — builds the standalone HTML inspector for grouped temporal mixes. Referenced by the temporal data jobs. |
+If you have a local checkout, the notebooks you may find here include an
+inference demo (load a checkpoint, run it on a clip, see the joint caption +
+interval output), a Gemini zero-shot pilot, and mix-generation/inspection
+scratch. None are required to reproduce the thesis.
 
-To run the notebooks, install the project first (`uv sync --locked`) and select
-the project venv as the kernel.
+The one runnable helper that used to live here,
+`build_temporal_inspector_site.py` (builds the standalone HTML inspector for
+grouped temporal mixes), has moved to
+[`scripts/data/build_temporal_inspector_site.py`](../scripts/data/build_temporal_inspector_site.py),
+since it is called by the temporal data jobs and belongs on the runnable path.
+
+To run any local notebook, install the project first (`uv sync --locked`) and
+select the project venv as the kernel.

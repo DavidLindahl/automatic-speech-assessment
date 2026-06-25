@@ -83,7 +83,7 @@ uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
   --overwrite
 
 ### Build the inspector site for visual QA of the placements.
-uv run python notebooks/build_temporal_inspector_site.py \
+uv run python scripts/data/build_temporal_inspector_site.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv"
 
 ### Build the SFT JSONL in the SAME anchor-offset format as the current

@@ -125,7 +125,7 @@ if ! generate_dataset "$TOTAL_MIX_FILES" 2>&1 | tee "$GEN_LOG"; then
   generate_dataset "$FALLBACK_COUNT"
 fi
 
-uv run python notebooks/build_temporal_inspector_site.py \
+uv run python scripts/data/build_temporal_inspector_site.py \
   --manifest-path "$OUTPUT_DIR/manifest.csv"
 
 uv run python scripts/data/build_nisqa_temporal_json.py \

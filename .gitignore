@@ -223,6 +223,9 @@ logs/
 *.blg
 
 .claude/
+
+# Notebooks are exploratory scratch and not part of the reproducibility path.
+# The runnable helper that lived here moved to scripts/data/. Keep the README
+# so the directory stays documented even though its notebooks are ignored.
 notebooks/
-scripts/diagnostics/
-scripts/analysis/
+!notebooks/README.md
