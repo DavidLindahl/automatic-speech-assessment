@@ -53,8 +53,9 @@ automatic-speech-assessment/
 │   ├── train/                         # SFT + DPO trainers, submission shell
 │   ├── eval/                          # evaluate.py, evaluate_temporal.py
 │   ├── data/                          # data builders + smoke prep
-│   ├── diagnostics/                   # collapse probes, sanity checkers
 │   ├── analysis/                      # post-eval aggregators
+│   │   ├── replication/                 # reproduction-path aggregators (datasize, frame probe)
+│   │   └── thesis_figures/              # one-off thesis figure generators
 │   ├── _legacy/                       # pre-temporal caption generator (archival only)
 │   └── README.md
 │

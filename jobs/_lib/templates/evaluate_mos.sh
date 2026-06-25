@@ -16,7 +16,6 @@
 #   MAX_NEW_TOKENS — generation budget (default: 150)
 #   TEMPERATURE   — sampling temperature when DECODE_MODE=sampled (default: 0.7)
 #   TOP_P         — nucleus top-p when DECODE_MODE=sampled (default: 0.9)
-#   RUN_SANITY    — "1" to run scripts/diagnostics/dpo_sanity_check.py after eval (default: 1)
 #
 # Drivers should `set -euo pipefail` themselves before sourcing the preamble.
 
@@ -36,7 +35,6 @@ BATCH_SIZE="${BATCH_SIZE:-8}"
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-150}"
 TEMPERATURE="${TEMPERATURE:-0.7}"
 TOP_P="${TOP_P:-0.9}"
-RUN_SANITY="${RUN_SANITY:-1}"
 
 if [ -z "${DATASETS+x}" ]; then
     DATASETS=(
@@ -74,10 +72,6 @@ uv run python scripts/eval/evaluate.py eval-mos \
     --batch-size "$BATCH_SIZE" \
     --max-new-tokens "$MAX_NEW_TOKENS" \
     "${DECODE_FLAGS[@]}"
-
-if [ "$RUN_SANITY" = "1" ]; then
-    uv run python scripts/diagnostics/dpo_sanity_check.py "$OUTPUT_DIR"
-fi
 
 echo "=========================================="
 echo "Evaluation complete ($DECODE_MODE): $(date)"

@@ -53,7 +53,7 @@ the rest. Reference drivers:
 `jobs/global/eval/evaluate_dpo_paper_half_h100_{greedy,sampled}.sh`.
 
 Knobs (all have defaults): `BATCH_SIZE`, `MAX_NEW_TOKENS`, `TEMPERATURE`,
-`TOP_P`, `RUN_SANITY`, plus a `DATASETS` bash array if you need a non-default
+`TOP_P`, plus a `DATASETS` bash array if you need a non-default
 test set bundle.
 
 This collapses the greedy/sampled variant pair (and any future temperature

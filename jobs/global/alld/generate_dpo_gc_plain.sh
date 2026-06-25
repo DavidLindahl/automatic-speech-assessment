@@ -64,8 +64,6 @@ uv run python scripts/data/generate_dpo_data.py \
     --temperature 1.1 \
     --top-p 0.9
 
-uv run python scripts/diagnostics/sanity_check_dpo.py "$OUTPUT_JSON"
-
 echo "=========================================="
 echo "DPO data generation (gc-plain) complete: $(date)"
 echo "=========================================="

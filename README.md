@@ -31,16 +31,13 @@ scripts/                       # runnable entrypoints, grouped by purpose
     build_nisqa_temporal_json.py
     generate_dpo_data.py
     prepare_temporal_smoke.py
-  diagnostics/                   # probes for when DPO collapses again
-    diagnose_dpo_empty_output.py
-    dpo_sanity_check.py
-    sanity_check_dpo.py
   analysis/                      # post-eval aggregators + thesis figures
-    eval_pred_vs_true.py
-    extract_datasize_sweep.py      # data-size sweep -> datasize_iou_mse_bars figure
-    probe_temporal_frames.py       # frozen-feature linear probe (appendix)
-    caption_vs_mos.py
-    audit_response_diversity.py
+    replication/                   # on the documented reproduction path
+      extract_datasize_sweep.py    # data-size sweep -> datasize_iou_mse_bars figure
+      plot_datasize_sweep.py
+      probe_temporal_frames.py     # frozen-feature linear probe (appendix)
+    thesis_figures/                # one-off generators that write into thesis figures/
+      eval_pred_vs_true_calibrated.py
 
 data/processed/                # training and eval data, grouped by use
   sft/                           # SFT training inputs
@@ -127,8 +124,8 @@ and a job under `jobs/`. The headline runs:
 - **Data-size ablation** — the sweep jobs
   `jobs/temporal/sft/sft_gc_timelast_sweep{500,1000,2500,5105}.sh`; regenerate
   the table and figures locally with
-  `python scripts/analysis/extract_datasize_sweep.py` (reads the committed eval
-  dirs) and `python scripts/analysis/plot_datasize_sweep.py`.
+  `python scripts/analysis/replication/extract_datasize_sweep.py` (reads the
+  committed eval dirs) and `python scripts/analysis/replication/plot_datasize_sweep.py`.
 
 The trained checkpoints are published on the Hugging Face Hub under the
 `Leng2beat/` namespace; the appendix lists all released checkpoints.

@@ -54,9 +54,6 @@ uv run python scripts/eval/evaluate.py eval-mos \
     --top-p 0.9 \
     --max-new-tokens 150
 
-uv run python scripts/diagnostics/dpo_sanity_check.py \
-    "$EXPERIMENT_DIR/results/evaluation/dpo/dpo_paper_half_h100_lr1e6_delimiterfix_eval_sampled"
-
 echo "=========================================="
 echo "Sampled delimiter-fix DPO evaluation complete: $(date)"
 echo "=========================================="

@@ -3,7 +3,7 @@ import pytest
 
 pytest.importorskip("torch")
 
-from scripts.analysis.probe_temporal_frames import (
+from scripts.analysis.replication.probe_temporal_frames import (
     FRAME_SECONDS,
     best_constant_interval,
     frame_labels,

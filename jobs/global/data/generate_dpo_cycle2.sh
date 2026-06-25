@@ -68,9 +68,6 @@ uv run python scripts/data/generate_dpo_data.py \
     --temperature 1.1 \
     --top-p 0.9
 
-uv run python scripts/diagnostics/sanity_check_dpo.py \
-    "$EXPERIMENT_DIR/data/processed/dpo/train_dpo_cycle2.json"
-
 echo "=========================================="
 echo "DPO cycle-2 data generation complete: $(date)"
 echo "=========================================="

@@ -69,7 +69,7 @@ if [ ! -f "$SFT_MODEL/model.safetensors.index.json" ]; then
 fi
 
 echo "---- probe 1/2: base Qwen2-Audio-7B ----"
-uv run python scripts/analysis/probe_temporal_frames.py \
+uv run python scripts/analysis/replication/probe_temporal_frames.py \
   --model-path "Qwen/Qwen2-Audio-7B" \
   --json-path "$JSON_PATH" \
   --data-root data \
@@ -80,7 +80,7 @@ uv run python scripts/analysis/probe_temporal_frames.py \
   --output-dir "$EXPERIMENT_DIR/results/analysis/frame_probe_base"
 
 echo "---- probe 2/2: gc-timeaudio SFT checkpoint ----"
-uv run python scripts/analysis/probe_temporal_frames.py \
+uv run python scripts/analysis/replication/probe_temporal_frames.py \
   --model-path "$SFT_MODEL" \
   --json-path "$JSON_PATH" \
   --data-root data \

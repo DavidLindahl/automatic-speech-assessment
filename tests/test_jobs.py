@@ -659,7 +659,7 @@ def test_job_python_targets_exist(invocation: JobInvocation) -> None:
         inv
         for inv in JOB_INVOCATIONS
         if inv.target.startswith(("src/asa/", "scripts/train/", "scripts/eval/",
-                                  "scripts/data/", "scripts/diagnostics/"))
+                                  "scripts/data/"))
     ],
     ids=_invocation_id,
 )

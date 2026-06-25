@@ -26,5 +26,4 @@ This package holds only library code. Anything runnable as a CLI or via
 - Training: `scripts/train/supervised-finetune.py`, `scripts/train/dpo-finetune.py`
 - Evaluation: `scripts/eval/evaluate.py`, `scripts/eval/evaluate_temporal.py`
 - Data generation: `scripts/data/`
-- Debugging / collapse probes: `scripts/diagnostics/`
-- Post-eval analysis: `scripts/analysis/`
+- Post-eval analysis: `scripts/analysis/` (`replication/` for reproduction-path aggregators, `thesis_figures/` for one-off figure generators)
