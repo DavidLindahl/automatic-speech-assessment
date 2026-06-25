@@ -224,3 +224,5 @@ logs/
 
 .claude/
 notebooks/
+scripts/diagnostics/
+scripts/analysis/
