@@ -65,8 +65,20 @@ tests/                         # pytest, CPU-safe subset runs in CI
 `prompts.py`, `datasets.py`, `collators.py`. Existing
 `from asa.data import SFTDataset` imports keep working unchanged.
 
-Per-directory READMEs in `src/asa/`, `scripts/`, and `data/processed/`
-restate this map close to the files they describe.
+### Where to read next (per-directory READMEs)
+
+Every directory a reader needs has its own README restating the map next to
+the files. Start here depending on what you want:
+
+| If you want to… | Read |
+|---|---|
+| Understand the importable library code | [`src/asa/README.md`](src/asa/README.md) |
+| Find a runnable script (train / eval / data / analysis) | [`scripts/README.md`](scripts/README.md) |
+| Know which dataset file feeds which stage | [`data/processed/README.md`](data/processed/README.md) |
+| Submit or write an LSF job | [`jobs/_lib/README.md`](jobs/_lib/README.md) |
+| Read the eval results + map each to a thesis number | [`results/evaluation/README.md`](results/evaluation/README.md) → [`global/`](results/evaluation/global/README.md), [`temporal/`](results/evaluation/temporal/README.md) |
+| Run the model on a clip interactively | [`notebooks/README.md`](notebooks/README.md) |
+| Understand or run the test suite | [`tests/README.md`](tests/README.md) |
 
 ## Running on the DTU HPC
 

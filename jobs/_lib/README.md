@@ -79,13 +79,14 @@ Queue caps are conservative; verify against `nodestat -F <queue>` if you
 need to push higher. Caps live in the `queue_cap()` function at the top of
 the script.
 
-Excluded by design: `jobs/_archive/` (frozen history) and `jobs/_lib/`
-(this directory itself).
+Excluded by design: `jobs/_lib/` (this directory itself). A CPU-only queue
+the linter doesn't know about (e.g. `milan`) is reported as a skipped WARN,
+not a failure.
 
-### Known violators (as of Phase 4)
+### Status
 
-The first run flagged 13 live scripts that already violate the rule. They
-have not been fixed in this PR — landing the linter without churning the
-queue scripts keeps the blast radius small. Fix-up is a follow-up: pick
-the script, decide the intended total memory, divide by `-n` cores, set
-both `rusage[mem]` and `-M`. Then re-run the linter to confirm.
+The suite is clean: `bash jobs/_lib/lint-budget.sh` reports **0 violations**
+across all `jobs/**/*.sh`. The earlier batch of over-budget scripts has been
+fixed. If you add a new job, run the linter before submitting — getting the
+per-core memory math wrong is a relationship-with-DTU-IT issue, not just a
+queue issue.
