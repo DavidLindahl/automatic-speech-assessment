@@ -17,8 +17,6 @@ This package holds only library code. Anything runnable as a CLI or via
 | `modeling_timeaudio.py` | `Qwen2AudioTimeForConditionalGeneration` (Qwen2-Audio + optional learnable absolute-time frame embedding, TimeAudio mechanism 2) and `install_time_tokens` (register + numeral-seed the time tokens). Time embedding is zero-init and gated by `config.use_abs_time_embedding` so on/off is a clean ablation. |
 | `temporal_loss.py` | `TemporalLossConfig`, `compute_temporal_loss`: timestamp-weighted, distance-aware cross-entropy for temporal SFT. Up-weights the loss at time-token positions and optionally smooths anchor/offset targets with a Gaussian (Phase-1 loss redesign). Wired into `scripts/train/supervised-finetune.py` via `--time-token-loss-weight` / `--time-token-soft-sigma`. |
 | `processed_data.py` | `load_processed_records`, `write_processed_records`, `resolve_audio_path`. |
-| `generate_temporal_data.py` | `overlay_noise`, `apply_packet_loss`, `apply_clipping`. Library helpers; the runnable mix builder is `scripts/data/generate_nisqa_sim_lowmos_active.py`. |
-| `distill_temporal_targets.py` | `generate_targets`. Used by `scripts/data/prepare_temporal_smoke.py`. |
 | `data.py` | Compatibility shim re-exporting from `audio.py`, `prompts.py`, `datasets.py`, `collators.py`. Kept so existing `from asa.data import SFTDataset` callers keep working. Remove after callers migrate. |
 
 ## Where the things you'd actually run live

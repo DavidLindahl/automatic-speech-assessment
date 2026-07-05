@@ -14,8 +14,6 @@ src/asa/                       # importable library code (no entrypoints)
   collators.py                   # Qwen2AudioCollator, ALLDDPOCollator
   inference.py                   # public load_model() + run_inference()
   processed_data.py              # dataset I/O + audio path resolution
-  generate_temporal_data.py      # library: noise overlay / packet loss / clipping
-  distill_temporal_targets.py    # library: smoke-set target distillation
   data.py                        # compatibility shim re-exporting the above
 
 scripts/                       # runnable entrypoints, grouped by purpose
@@ -26,11 +24,10 @@ scripts/                       # runnable entrypoints, grouped by purpose
   eval/                          # eval CLIs (called by jobs/*/eval/)
     evaluate.py
     evaluate_temporal.py
-  data/                          # dataset builders + smoke prep
+  data/                          # dataset builders
     generate_nisqa_sim_lowmos_active.py
     build_nisqa_temporal_json.py
     generate_dpo_data.py
-    prepare_temporal_smoke.py
   analysis/                      # post-eval aggregators + thesis figures
     replication/                   # on the documented reproduction path
       extract_datasize_sweep.py    # data-size sweep -> datasize_iou_mse_bars figure

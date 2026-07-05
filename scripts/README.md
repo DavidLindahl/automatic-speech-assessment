@@ -7,7 +7,7 @@ LSF entrypoints, lives here.
 |---|---|---|
 | `train/` | SFT and DPO trainers + the multi-step submission shell. | `jobs/*/sft/`, `jobs/*/alld/` |
 | `eval/` | `evaluate.py` (MOS-style eval) and `evaluate_temporal.py` (temporal IoU + interval metrics). | `jobs/*/eval/` |
-| `data/` | Dataset builders and smoke-set prep. `generate_nisqa_sim_lowmos_active.py` synthesises REF/DEG mixes, `build_nisqa_temporal_json.py` produces the SFT JSONL, `generate_dpo_data.py` builds chosen/rejected pairs, `prepare_temporal_smoke.py` builds the small smoke set. | `jobs/*/data/`, ad-hoc |
+| `data/` | Dataset builders. `generate_nisqa_sim_lowmos_active.py` synthesises REF/DEG mixes, `build_nisqa_temporal_json.py` produces the SFT JSONL, `generate_dpo_data.py` builds chosen/rejected pairs. | `jobs/*/data/`, ad-hoc |
 | `analysis/replication/` | Aggregators in the documented reproduction path: `extract_datasize_sweep.py` + `plot_datasize_sweep.py` (data-size figures), `probe_temporal_frames.py` (frozen-feature linear probe, also exercised by `tests/`). | `jobs/temporal/eval/frame_probe_temporal.sh`, README repro steps |
 | `analysis/thesis_figures/` | One-off figure generators that write straight into the thesis `figures/` dir: `eval_pred_vs_true_calibrated.py` (the cited calibration scatter). Not on any job path. | ad-hoc |
 

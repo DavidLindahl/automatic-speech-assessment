@@ -1,6 +1,6 @@
-# CLAUDE.md — Automatic Speech Assessment (ASA)
+# AGENTS.md — Automatic Speech Assessment (ASA)
 
-In-repo playbook for Claude Code when operating inside this project. This file is **standalone** — it duplicates the relevant parts of `AGENTS.md` so a fresh Claude session doesn't need to read two files to get started.
+In-repo playbook for Codex when operating inside this project. This file is **standalone** — it duplicates the relevant parts of `AGENTS.md` so a fresh Codex session doesn't need to read two files to get started.
 
 ## What this project does
 
@@ -150,7 +150,7 @@ Home dir quota is ~30 GB — never write large artifacts to `~`. Everything live
 
 ## Submitting jobs
 
-Claude is authorized to submit jobs freely when the user asks. Prefer copying an existing script in `jobs/` over writing a new one — they already encode the right queue, modules, env vars, and log paths.
+Codex is authorized to submit jobs freely when the user asks. Prefer copying an existing script in `jobs/` over writing a new one — they already encode the right queue, modules, env vars, and log paths.
 
 **Hard workflow rule — jobs reach the HPC via GitHub, never by editing on DTU.** Write the `.sh` job script (and any code change) in this repo on the laptop, commit, push/merge to GitHub, then on DTU `git pull` and `bsub`. Never `ssh dtu` and edit a script or source file in place — that creates untracked drift between the HPC checkout and GitHub. Never run ad-hoc `python -c` training/eval on the HPC; wrap everything that runs on the cluster in a committed job script. Local one-off Python for *inspection* (tokenizer/data sanity checks) is fine.
 
