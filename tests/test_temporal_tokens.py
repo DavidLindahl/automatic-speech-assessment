@@ -34,33 +34,23 @@ def test_encode_out_of_range_saturates():
 
 @pytest.mark.parametrize("seconds", [0.0, 0.1, 2.9, 4.7, 12.3, 33.6, 59.9])
 def test_round_trip(seconds):
-    decoded = tt.decode_first_time(tt.encode_time(seconds))
-    assert decoded is not None
-    assert decoded == pytest.approx(seconds, abs=0.05)
+    decoded = tt.decode_all_times(tt.encode_time(seconds))
+    assert len(decoded) == 1
+    assert decoded[0] == pytest.approx(seconds, abs=0.05)
 
 
-def test_decode_interval_in_sentence():
+def test_decode_all_times_in_sentence():
     text = (
         "The overall speech is clear, but there is distortion between "
         "<a2><f9> and <a4><f7>."
     )
-    interval = tt.decode_interval(text)
-    assert interval is not None
-    start, end = interval
-    assert start == pytest.approx(2.9, abs=0.05)
-    assert end == pytest.approx(4.7, abs=0.05)
+    values = tt.decode_all_times(text)
+    assert values == pytest.approx([2.9, 4.7], abs=0.05)
 
 
-def test_decode_interval_orders_start_before_end():
-    text = "noise between <a5><f0> and <a1><f0>"
-    start, end = tt.decode_interval(text)
-    assert start == pytest.approx(1.0, abs=0.05)
-    assert end == pytest.approx(5.0, abs=0.05)
-
-
-def test_decode_missing_returns_none():
-    assert tt.decode_first_time("no timestamps here") is None
-    assert tt.decode_interval("only one <a3><f3> here") is None
+def test_decode_missing_returns_empty():
+    assert tt.decode_all_times("no timestamps here") == []
+    assert tt.decode_all_times("only one <a3><f3> here") == pytest.approx([3.3], abs=0.05)
 
 
 def test_all_time_tokens_count():

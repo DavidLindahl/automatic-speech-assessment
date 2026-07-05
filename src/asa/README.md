@@ -13,7 +13,7 @@ This package holds only library code. Anything runnable as a CLI or via
 | `datasets.py` | `SFTDataset`, `DPODataset`. Read JSONL records, resolve audio paths, return PyTorch dicts. |
 | `collators.py` | `Qwen2AudioCollator` (SFT), `ALLDDPOCollator` (DPO dual-stream with label masking). |
 | `inference.py` | `load_model(model_id)`, `run_inference(...)`. Used by evaluators and by `scripts/data/generate_dpo_data.py`. Auto-detects TimeAudio checkpoints (via `config.use_abs_time_embedding`) and loads the subclass. |
-| `temporal_tokens.py` | Anchor/offset `<aN><fK>` time tokens for temporal localization (TimeAudio mechanism 1). `encode_time`, `decode_interval`, `all_time_tokens` at 0.1 s resolution. |
+| `temporal_tokens.py` | Anchor/offset `<aN><fK>` time tokens for temporal localization (TimeAudio mechanism 1). `encode_time`, `decode_all_times`, `all_time_tokens` at 0.1 s resolution. |
 | `modeling_timeaudio.py` | `Qwen2AudioTimeForConditionalGeneration` (Qwen2-Audio + optional learnable absolute-time frame embedding, TimeAudio mechanism 2) and `install_time_tokens` (register + numeral-seed the time tokens). Time embedding is zero-init and gated by `config.use_abs_time_embedding` so on/off is a clean ablation. |
 | `temporal_loss.py` | `TemporalLossConfig`, `compute_temporal_loss`: timestamp-weighted, distance-aware cross-entropy for temporal SFT. Up-weights the loss at time-token positions and optionally smooths anchor/offset targets with a Gaussian (Phase-1 loss redesign). Wired into `scripts/train/supervised-finetune.py` via `--time-token-loss-weight` / `--time-token-soft-sigma`. |
 | `processed_data.py` | `load_processed_records`, `write_processed_records`, `resolve_audio_path`. |

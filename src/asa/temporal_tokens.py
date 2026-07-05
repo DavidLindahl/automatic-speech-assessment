@@ -28,7 +28,7 @@ read them back regardless of that flag.
 from __future__ import annotations
 
 import re
-from typing import List, Optional, Tuple
+from typing import List
 
 # Max integer seconds we can encode. NISQA mixes are <= 60 s (Qwen2-Audio's own
 # encoder caps at 1500 frames @ 25 fps = 60 s), so 60 anchor tokens cover the
@@ -89,23 +89,6 @@ def encode_time(seconds: float) -> str:
     return f"{anchor_token(anchor)}{offset_token(tenth)}"
 
 
-def decode_first_time(text: str) -> Optional[float]:
-    """Decode the first ``<aN><fK>`` pair found in text into seconds.
-
-    Args:
-        text: Text that may contain anchor/offset token pairs.
-
-    Returns:
-        Decoded seconds, or ``None`` if no valid pair is present.
-    """
-    match = _PAIR_RE.search(text)
-    if match is None:
-        return None
-    anchor = int(match.group(1))
-    tenth = int(match.group(2))
-    return anchor + tenth * OFFSET_STEP
-
-
 def decode_all_times(text: str) -> List[float]:
     """Decode every ``<aN><fK>`` pair in text, left to right.
 
@@ -121,22 +104,3 @@ def decode_all_times(text: str) -> List[float]:
         tenth = int(match.group(2))
         values.append(anchor + tenth * OFFSET_STEP)
     return values
-
-
-def decode_interval(text: str) -> Optional[Tuple[float, float]]:
-    """Decode the first two time tokens in text as a ``(start, end)`` interval.
-
-    Args:
-        text: Text that may contain at least two anchor/offset pairs.
-
-    Returns:
-        ``(start, end)`` with ``start <= end``, or ``None`` if fewer than two
-        pairs are present.
-    """
-    values = decode_all_times(text)
-    if len(values) < 2:
-        return None
-    start, end = values[0], values[1]
-    if end < start:
-        start, end = end, start
-    return start, end
