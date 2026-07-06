@@ -451,56 +451,6 @@ def serialize_segments(segments: list[Segment]) -> str:
     return json.dumps(payload)
 
 
-def timeline_from_segment(
-    duration_seconds: float, segment: Segment
-) -> list[dict[str, float | str]]:
-    """Build REF/DEG timeline from one degradation segment.
-
-    Args:
-        duration_seconds: Full clip duration.
-        segment: Degradation segment.
-
-    Returns:
-        Timeline entries with source labels.
-    """
-
-    timeline: list[dict[str, float | str]] = []
-    if segment.start > 0.0:
-        timeline.append({"start": 0.0, "end": round(segment.start, 3), "source": "REF"})
-    timeline.append(
-        {
-            "start": round(segment.start, 3),
-            "end": round(segment.end, 3),
-            "source": "DEG",
-        }
-    )
-    if segment.end < duration_seconds:
-        timeline.append(
-            {
-                "start": round(segment.end, 3),
-                "end": round(duration_seconds, 3),
-                "source": "REF",
-            }
-        )
-    return timeline
-
-
-def switch_points_from_timeline(timeline: list[dict[str, float | str]]) -> list[float]:
-    """Extract unique boundary points from timeline entries.
-
-    Args:
-        timeline: Timeline entries.
-
-    Returns:
-        Sorted unique switch points.
-    """
-
-    points: list[float] = []
-    for item in timeline:
-        points.extend([float(item["start"]), float(item["end"])])
-    return sorted(set(round(point, 3) for point in points))
-
-
 def prepare_output_dir(output_dir: Path, overwrite: bool) -> None:
     """Create or validate output directory state.
 
@@ -647,13 +597,10 @@ def select_accepted_mix(
 
 def build_manifest_record(
     index: int,
-    src_idx: int,
-    pass_idx: int,
     row: pd.Series,
     out_path: Path,
     mixed_audio: np.ndarray,
     selected_segment: Segment,
-    selected_threshold: float,
     selected_active_fraction: float,
     target_sample_rate: int,
 ) -> dict[str, object]:
@@ -661,13 +608,10 @@ def build_manifest_record(
 
     Args:
         index: Output index.
-        src_idx: Source-row index in filtered dataframe.
-        pass_idx: Source pass index.
         row: Source metadata row.
         out_path: Saved output WAV path.
         mixed_audio: Generated mixed waveform.
         selected_segment: Chosen degradation segment.
-        selected_threshold: Activity threshold used in selection.
         selected_active_fraction: Active fraction in chosen segment.
         target_sample_rate: Output sample rate.
 
@@ -676,11 +620,6 @@ def build_manifest_record(
     """
 
     duration_seconds = round(len(mixed_audio) / target_sample_rate, 3)
-    text_segments = json.dumps([{"start": 0.0, "end": duration_seconds}])
-    timeline = timeline_from_segment(
-        duration_seconds=duration_seconds, segment=selected_segment
-    )
-    switch_points = switch_points_from_timeline(timeline)
     return {
         "index": index,
         "filename_ref": row["filename_ref"],
@@ -688,16 +627,9 @@ def build_manifest_record(
         "mix_filename": out_path.name,
         "mos": float(row["mos"]),
         "duration_seconds": duration_seconds,
-        "text_segments": text_segments,
         "mix_deg_segments": serialize_segments([selected_segment]),
-        "switch_points": json.dumps(switch_points),
-        "mix_timeline": json.dumps(timeline),
         "source_degradation_types": json.dumps(row["active_degradation_types"]),
-        "num_source_degradation_types": int(row["num_source_degradation_types"]),
-        "activity_threshold": round(float(selected_threshold), 6),
         "segment_active_fraction": round(float(selected_active_fraction), 4),
-        "source_row_index": int(src_idx),
-        "source_pass": int(pass_idx),
     }
 
 
@@ -805,7 +737,7 @@ def generate_mixes(
             (
                 selected_mix,
                 selected_segment,
-                selected_threshold,
+                _selected_threshold,
                 selected_active_fraction,
             ) = selected
 
@@ -818,13 +750,10 @@ def generate_mixes(
             records.append(
                 build_manifest_record(
                     index=index,
-                    src_idx=src_idx,
-                    pass_idx=pass_idx,
                     row=row,
                     out_path=out_path,
                     mixed_audio=selected_mix,
                     selected_segment=selected_segment,
-                    selected_threshold=selected_threshold,
                     selected_active_fraction=selected_active_fraction,
                     target_sample_rate=target_sample_rate,
                 )

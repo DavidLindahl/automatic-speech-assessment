@@ -82,10 +82,6 @@ uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
   --output-active-fraction-min 0.40 \
   --overwrite
 
-### Build the inspector site for visual QA of the placements.
-uv run python scripts/data/build_temporal_inspector_site.py \
-  --manifest-path "$OUTPUT_DIR/manifest.csv"
-
 ### Build the SFT JSONL in the SAME anchor-offset format as the current
 ### TimeAudio target, so the augmented set is a drop-in replacement.
 uv run python scripts/data/build_nisqa_temporal_json.py \

@@ -1,16 +1,38 @@
+"""Global MOS-captioning evaluation CLI for Qwen2-Audio checkpoints.
+
+Thin entrypoint: the scoring math (MOS parsing, caption metrics, diagnostics)
+lives in :mod:`asa.eval.metrics` and is shared with every other eval. This file
+is just the ``eval-mos`` command plus the audio-path plumbing around it. Metric
+helpers are re-exported at module level so ``from evaluate import extract_mos``
+(and the sibling temporal/Gemini scripts) keep working unchanged.
+"""
+
 import json
 import logging
-import re
-from collections import Counter
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
-import sacrebleu
 import typer
 
+from asa.eval.metrics import (
+    compute_caption_metrics,
+    diversity_metrics,
+    extract_mos,
+    log_caption_metrics,
+    mos_regression_metrics,
+)
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records
 from asa.prompts import build_zeroshot_prompt_MOS
+
+# Re-exported for callers/tests that import these names from this module.
+__all__ = [
+    "compute_caption_metrics",
+    "extract_mos",
+    "log_caption_metrics",
+    "app",
+    "eval_mos",
+]
 
 # Off-the-shelf (untrained) Qwen2-Audio chat model, used as the zero-shot
 # baseline. The source paper reports this model cannot do speech quality
@@ -21,118 +43,9 @@ EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
 
-# Default BERTScore backbone. roberta-large is the bert-score library default and
-# the most commonly cited choice for English; record it in the output for
-# reproducibility since BERTScore values depend on the backbone.
-BERTSCORE_MODEL = "roberta-large"
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 app = typer.Typer(help="Evaluate fine-tuned Qwen2-Audio models on standard datasets.")
-
-
-def compute_caption_metrics(
-    hyps: List[str],
-    refs: List[str],
-    bertscore_model: str = BERTSCORE_MODEL,
-) -> Dict[str, Any]:
-    """Compute lexical and semantic caption-quality metrics.
-
-    Three complementary views of how close each predicted caption is to its
-    reference:
-
-    - BLEU (sacrebleu corpus): n-gram precision, the surface phrasing overlap.
-      Reported cased and lowercased. Corpus-level aggregation.
-    - ROUGE-1/2/L (rouge-score): n-gram recall plus longest-common-subsequence.
-      The recall-side mirror of BLEU. Per-sample F1, then averaged.
-    - BERTScore P/R/F1 (bert-score): token-embedding cosine similarity, the only
-      semantic (synonym-aware) view. Per-sample, then averaged.
-
-    Args:
-        hyps: Predicted captions.
-        refs: Reference captions, aligned 1:1 with ``hyps``.
-        bertscore_model: HuggingFace backbone for BERTScore (recorded in output).
-
-    Returns:
-        Flat dict of metric name to score. BLEU on the 0-100 sacrebleu scale;
-        ROUGE and BERTScore on 0-1.
-    """
-    if len(hyps) != len(refs):
-        raise ValueError(f"hyps/refs length mismatch: {len(hyps)} vs {len(refs)}")
-
-    # Imported lazily so the module loads even when these extras are absent
-    # (e.g. on a node where only MOS/BLEU is needed).
-    from rouge_score import rouge_scorer
-    from bert_score import score as bertscore_fn
-
-    # BLEU: corpus-level n-gram precision, cased and lowercased.
-    bleu_cased = sacrebleu.corpus_bleu(hyps, [refs]).score
-    bleu_lc = sacrebleu.corpus_bleu(
-        [h.lower() for h in hyps], [[r.lower() for r in refs]]
-    ).score
-
-    # ROUGE: per-sample F1 for unigram, bigram, and LCS overlap, then averaged.
-    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
-    rouge1, rouge2, rougel = [], [], []
-    for hyp, ref in zip(hyps, refs):
-        scores = scorer.score(ref, hyp)  # (target, prediction) order
-        rouge1.append(scores["rouge1"].fmeasure)
-        rouge2.append(scores["rouge2"].fmeasure)
-        rougel.append(scores["rougeL"].fmeasure)
-
-    n = max(len(hyps), 1)
-    rouge1_f = sum(rouge1) / n
-    rouge2_f = sum(rouge2) / n
-    rougel_f = sum(rougel) / n
-
-    # BERTScore: semantic similarity via contextual embeddings, averaged.
-    logging.info("Computing BERTScore with backbone %s...", bertscore_model)
-    bs_p, bs_r, bs_f1 = bertscore_fn(
-        hyps,
-        refs,
-        model_type=bertscore_model,
-        lang="en",
-        rescale_with_baseline=False,
-        verbose=False,
-    )
-
-    return {
-        "bleu": bleu_cased,
-        "bleu_lowercased": bleu_lc,
-        "rouge1_f": rouge1_f,
-        "rouge2_f": rouge2_f,
-        "rougeL_f": rougel_f,
-        "bertscore_precision": bs_p.mean().item(),
-        "bertscore_recall": bs_r.mean().item(),
-        "bertscore_f1": bs_f1.mean().item(),
-        "bertscore_model": bertscore_model,
-        # BLEU is corpus-level (sacrebleu); ROUGE and BERTScore are per-sample
-        # then averaged. Recorded so cited numbers stay comparable across runs.
-        "caption_metric_aggregation": {
-            "bleu": "corpus",
-            "rouge": "sample_mean_f1",
-            "bertscore": "sample_mean",
-        },
-    }
-
-
-def log_caption_metrics(metrics: Dict[str, Any]) -> None:
-    """Pretty-print the caption metrics produced by ``compute_caption_metrics``."""
-    logging.info("BLEU (corpus, cased):       %.2f", metrics["bleu"])
-    logging.info("BLEU (corpus, lowercased):  %.2f", metrics["bleu_lowercased"])
-    logging.info(
-        "ROUGE-1 / -2 / -L F1 (mean): %.4f / %.4f / %.4f",
-        metrics["rouge1_f"],
-        metrics["rouge2_f"],
-        metrics["rougeL_f"],
-    )
-    logging.info(
-        "BERTScore P / R / F1 (mean, %s): %.4f / %.4f / %.4f",
-        metrics["bertscore_model"],
-        metrics["bertscore_precision"],
-        metrics["bertscore_recall"],
-        metrics["bertscore_f1"],
-    )
 
 
 @app.callback(invoke_without_command=True)
@@ -192,59 +105,6 @@ def main(
         else:
             # No subcommand and no dataset paths: show help
             print("No subcommand provided. Use --help to list available commands.")
-
-
-def extract_mos(text: str) -> Optional[float]:
-    """Extract the model's MOS score from generated text.
-
-    Returns the parsed score, or ``None`` when no score can be confidently
-    located. ``None`` is deliberate: the old behaviour fell back to "the last
-    number in the text", which on a zero-shot baseline that rambles or rates
-    "3 out of 5" grabs the wrong digit (the "5" denominator) and fabricates a
-    plausible-but-wrong MOS. An honest parse failure is better than a fake
-    number, especially for the untrained baseline whose whole point is that it
-    cannot do the task. Callers treat ``None`` as unparsed and report a parse
-    rate alongside the error over parsed samples.
-
-    Patterns are tried most-specific first:
-
-    1. Explicit "MOS" mention, e.g. "MOS of 4.3", "overall MOS is 4.3". This is
-       the format the fine-tuned models were trained to emit, so this branch is
-       unchanged from the original implementation and their parsed scores are
-       byte-for-byte identical.
-    2. Out-of-5 ratings, e.g. "3 out of 5", "rated as 4 out of 5", "3/5". Takes
-       the numerator, not the "5" denominator.
-    3. "score/rating of X" and "rate ... as X" phrasings.
-
-    There is intentionally NO blind last-number fallback.
-    """
-    # 1. Explicit MOS mention (fine-tuned format) — unchanged.
-    match = re.search(r"MOS(?:[^0-9]+)(\d+(?:\.\d+)?)", text, re.IGNORECASE)
-    if match:
-        return float(match.group(1))
-
-    # 2. "X out of 5" / "X/5" — take the numerator (the rating), not the 5.
-    match = re.search(r"(\d+(?:\.\d+)?)\s*(?:out\s+of|/)\s*5\b", text, re.IGNORECASE)
-    if match:
-        return float(match.group(1))
-
-    # 3. "score of X" / "rating of X" / "rating is X" / "rating: X" / "rate ...
-    #    as X" / "rate it (a) X".
-    match = re.search(
-        r"(?:score|rating)\s*(?:of|is|:|=)\s*(\d+(?:\.\d+)?)", text, re.IGNORECASE
-    )
-    if match:
-        return float(match.group(1))
-    match = re.search(
-        r"rate\s+(?:it|the\s+\w+(?:\s+\w+)?)\s+(?:as\s+)?(?:a\s+)?(\d+(?:\.\d+)?)",
-        text,
-        re.IGNORECASE,
-    )
-    if match:
-        return float(match.group(1))
-
-    # No confident match — honest parse failure.
-    return None
 
 
 @app.command()
@@ -411,15 +271,17 @@ def eval_mos(
         # for all fine-tuned runs, whose captions always end in "MOS of X"),
         # parsed == total, so these numbers are identical to the previous
         # implementation and previously reported results do not move.
-        n_parsed = len(mos_errors)
-        parse_rate = n_parsed / max(len(data), 1)
-        mae = sum(mos_errors) / n_parsed if n_parsed else float("nan")
-        mse = sum(e**2 for e in mos_errors) / n_parsed if n_parsed else float("nan")
+        mos_agg = mos_regression_metrics(mos_errors, len(data))
+        n_parsed = mos_agg["parsed"]
+        parse_rate = mos_agg["parse_rate"]
+        mae = mos_agg["mae"]
+        mse = mos_agg["mse"]
 
         caption_metrics = compute_caption_metrics(hyps, refs)
 
-        unique_predictions = len(set(hyps))
-        top_prediction_frequency = max(Counter(hyps).values()) / max(len(hyps), 1)
+        diversity = diversity_metrics(hyps)
+        unique_predictions = diversity["unique_predictions"]
+        top_prediction_frequency = diversity["top_prediction_frequency"]
 
         logging.info("=" * 40)
         logging.info(f"EVALUATION RESULTS FOR {dataset_path.name}:")
@@ -472,86 +334,6 @@ def eval_mos(
             )
 
         logging.info(f"Saved detailed results to {out_file}\n")
-
-
-@app.command()
-def rescore(
-    ctx: typer.Context,
-    results_paths: List[Path] = typer.Option(
-        ...,
-        "--results-path",
-        help="Existing *_results.json file(s) from a prior eval run to re-score.",
-    ),
-    bertscore_model: str = typer.Option(
-        BERTSCORE_MODEL, help="HuggingFace backbone for BERTScore."
-    ),
-    in_place: bool = typer.Option(
-        False,
-        "--in-place/--no-in-place",
-        help="Merge caption metrics back into the source JSON instead of a sidecar.",
-    ),
-):
-    """Re-score saved predictions with BLEU + ROUGE + BERTScore, no inference.
-
-    Reads each ``*_results.json`` (produced by ``eval-mos``), pulls the stored
-    reference (``response``) and prediction (``predicted_response``) for every
-    sample, and computes the caption metrics offline. Useful for adding the new
-    metrics to past runs without re-running the model. Writes a
-    ``*_caption_metrics.json`` sidecar by default, or merges into the source
-    file with ``--in-place``.
-    """
-    for results_path in results_paths:
-        logging.info("Re-scoring %s", results_path)
-        with open(results_path, "r", encoding="utf-8") as f:
-            payload = json.load(f)
-
-        records = payload.get("results", [])
-        hyps: List[str] = []
-        refs: List[str] = []
-        skipped = 0
-        for record in records:
-            hyp = record.get("predicted_response")
-            ref = record.get("response")
-            if not isinstance(hyp, str) or not isinstance(ref, str):
-                skipped += 1
-                continue
-            hyps.append(hyp.strip())
-            refs.append(ref.strip())
-
-        if not hyps:
-            logging.warning(
-                "No scorable (response, predicted_response) pairs in %s; skipping.",
-                results_path,
-            )
-            continue
-        if skipped:
-            logging.warning(
-                "Skipped %d record(s) missing response/predicted_response.", skipped
-            )
-
-        caption_metrics = compute_caption_metrics(
-            hyps, refs, bertscore_model=bertscore_model
-        )
-
-        logging.info("=" * 40)
-        logging.info("RE-SCORE: %s", results_path.name)
-        logging.info("Samples scored: %d", len(hyps))
-        log_caption_metrics(caption_metrics)
-        logging.info("=" * 40)
-
-        scored = {"samples_scored": len(hyps), **caption_metrics}
-        if in_place:
-            payload.setdefault("metrics", {}).update(scored)
-            with open(results_path, "w", encoding="utf-8") as f:
-                json.dump(payload, f, indent=2, ensure_ascii=False)
-            logging.info("Merged caption metrics into %s\n", results_path)
-        else:
-            sidecar = results_path.with_name(
-                f"{results_path.stem}_caption_metrics.json"
-            )
-            with open(sidecar, "w", encoding="utf-8") as f:
-                json.dump(scored, f, indent=2, ensure_ascii=False)
-            logging.info("Saved caption metrics to %s\n", sidecar)
 
 
 if __name__ == "__main__":

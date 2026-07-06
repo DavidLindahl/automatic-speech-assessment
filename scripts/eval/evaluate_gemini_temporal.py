@@ -1,11 +1,19 @@
-"""Run and score the Appendix-B zero-shot temporal prompt on Gemini."""
+"""Zero-shot temporal baseline on Gemini: interactive + Batch, resumable.
+
+Thin entrypoint over :mod:`asa.eval.gemini_api` (client, quota, cost, JSONL
+resume, upload/batch helpers), :mod:`asa.eval.intervals` (interval parsing,
+t-IoU, offsets, audio-blind baselines) and :mod:`asa.eval.metrics` (MOS parse).
+This file supplies only the temporal-specific parts: the Appendix-B temporal
+prompt, per-record scoring under the strict (no plain-number) parser, and the
+temporal metric aggregation. Same parser contract as the Qwen temporal eval, so
+the Gemini row is a comparable baseline.
+"""
 
 from __future__ import annotations
 
 import hashlib
 import json
 import logging
-import os
 import sys
 import time
 from collections import Counter
@@ -14,7 +22,6 @@ from statistics import median
 from typing import Any, Optional
 
 import typer
-from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
@@ -22,39 +29,37 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[2]))
     sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
 
-from asa.processed_data import load_processed_records, resolve_audio_path
-from asa.prompts import ZEROSHOT_USER_TEXT_TEMPORAL
-from evaluate import extract_mos
-from evaluate_gemini_mos import (
+from asa.eval.gemini_api import (
     AUDIO_LABEL,
-    DailyQuotaExhausted,
+    BATCH_COST_MULTIPLIER,
     MODEL_NAME,
     SEED,
     SYSTEM_INSTRUCTION,
     TEMPERATURE,
+    DailyQuotaExhausted,
     append_prediction,
     calculate_cost_usd,
-    is_daily_quota_error,
-    latest_predictions,
-    load_predictions,
-    usage_to_dict,
-)
-from evaluate_gemini_mos_batch import (
-    BATCH_COST_MULTIPLIER,
+    generate_text,
+    generation_config,
     load_jsonl,
+    load_predictions,
     make_client,
     save_model,
     upload_with_retries,
+    usage_to_dict,
 )
-from evaluate_temporal import (
+from asa.eval.intervals import (
     Interval,
     best_constant_baseline,
     extract_ground_truth_interval,
     extract_interval,
-    interval_offset_error,
     interval_iou,
+    interval_offset_error,
     whole_clip_baseline_mean_tiou,
 )
+from asa.eval.metrics import extract_mos
+from asa.processed_data import load_processed_records, resolve_audio_path
+from asa.prompts import ZEROSHOT_USER_TEXT_TEMPORAL
 
 DEFAULT_DATASET = Path("data/processed/temporal/test_FOR_temporal_global_caption.json")
 DEFAULT_OUTPUT_DIR = Path(
@@ -74,16 +79,6 @@ def prompt_sha256() -> str:
         f"{SYSTEM_INSTRUCTION}\n{AUDIO_LABEL}\n{ZEROSHOT_USER_TEXT_TEMPORAL}".encode()
     )
     return hashlib.sha256(payload).hexdigest()
-
-
-def generation_config() -> types.GenerateContentConfig:
-    """Return the shared temperature-zero Gemini generation configuration."""
-    return types.GenerateContentConfig(
-        system_instruction=SYSTEM_INSTRUCTION,
-        temperature=TEMPERATURE,
-        seed=SEED,
-        thinking_config=types.ThinkingConfig(thinking_level=types.ThinkingLevel.LOW),
-    )
 
 
 def build_run_config(dataset_path: Path, data_root: Path) -> dict[str, Any]:
@@ -147,6 +142,11 @@ def validate_rows(
     return validated
 
 
+def generation_config_temporal() -> types.GenerateContentConfig:
+    """Return the shared temperature-zero Gemini generation configuration."""
+    return generation_config()
+
+
 def score_record(
     sample_index: int,
     row: dict[str, Any],
@@ -198,6 +198,8 @@ def write_results(
     predictions: list[dict[str, Any]],
 ) -> None:
     """Write temporal metrics using the same strict parser contract as Qwen."""
+    from asa.eval.gemini_api import latest_predictions
+
     predictions = latest_predictions(predictions)
     successful = [item for item in predictions if item.get("status") == "ok"]
     interval_parsed = [
@@ -291,31 +293,12 @@ def generate_one(
     client: genai.Client, audio_path: Path, max_retries: int
 ) -> tuple[str, dict[str, int]]:
     """Send one temporal request, retrying transient failures."""
-    last_error: Exception | None = None
-    for attempt in range(max_retries + 1):
-        try:
-            response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=[
-                    AUDIO_LABEL,
-                    types.Part.from_bytes(
-                        data=audio_path.read_bytes(), mime_type="audio/wav"
-                    ),
-                    ZEROSHOT_USER_TEXT_TEMPORAL,
-                ],
-                config=generation_config(),
-            )
-            return (response.text or "").strip(), usage_to_dict(response.usage_metadata)
-        except Exception as exc:
-            if is_daily_quota_error(exc):
-                raise DailyQuotaExhausted(str(exc)) from exc
-            last_error = exc
-            if attempt >= max_retries:
-                break
-            time.sleep(min(2**attempt, 60))
-    raise RuntimeError(
-        f"Gemini request failed after retries: {last_error}"
-    ) from last_error
+    contents = [
+        AUDIO_LABEL,
+        types.Part.from_bytes(data=audio_path.read_bytes(), mime_type="audio/wav"),
+        ZEROSHOT_USER_TEXT_TEMPORAL,
+    ]
+    return generate_text(client, contents, max_retries)
 
 
 def build_batch_request(sample_index: int, file_uri: str) -> types.InlinedRequest:
@@ -342,7 +325,6 @@ def run(
     dry_run: bool = typer.Option(False, "--dry-run"),
 ) -> None:
     """Run resumable interactive temporal inference, optionally on selected rows."""
-    load_dotenv(Path(__file__).resolve().parents[2] / ".env")
     rows = load_processed_records(dataset_path)
     validated = validate_rows(rows, data_root, sample_indices)
     config = build_run_config(dataset_path, data_root)
@@ -353,9 +335,6 @@ def run(
         logging.info("Dry run complete: no Gemini API request was sent.")
         return
 
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError("GEMINI_API_KEY is missing from the environment or root .env.")
     output_dir.mkdir(parents=True, exist_ok=True)
     config_path = output_dir / "run_config.json"
     if config_path.exists() and json.loads(config_path.read_text()) != config:
@@ -367,9 +346,7 @@ def run(
         int(item["sample_index"]) for item in existing if item["status"] == "ok"
     }
     accrued = sum(float(item.get("cost_usd", 0.0)) for item in existing)
-    client = genai.Client(
-        api_key=api_key, http_options=types.HttpOptions(timeout=120_000)
-    )
+    client = make_client()
     for sample_index, row, audio_path, truth in validated:
         if sample_index in complete or accrued >= max_cost_usd:
             continue
@@ -410,7 +387,7 @@ def submit(
     data_root: Path = typer.Option(Path("data")),
     output_dir: Path = typer.Option(DEFAULT_BATCH_OUTPUT_DIR),
 ) -> None:
-    """Upload the 179 FOR WAVs and submit one temporal Batch job."""
+    """Upload the FOR WAVs and submit one temporal Batch job."""
     output_dir.mkdir(parents=True, exist_ok=True)
     job_path = output_dir / "batch_job.json"
     if job_path.exists():

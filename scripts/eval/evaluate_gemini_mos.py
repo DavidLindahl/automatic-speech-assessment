@@ -1,11 +1,17 @@
-"""Run the Appendix-B zero-shot MOS prompt on Gemini audio inputs."""
+"""Zero-shot MOS baseline on Gemini: interactive + Batch, resumable and costed.
+
+Thin entrypoint over :mod:`asa.eval.gemini_api` (client, quota, cost, JSONL
+resume, upload/batch helpers) and :mod:`asa.eval.metrics` (MOS parse + caption
+metrics). This file supplies only the MOS-specific parts: the Appendix-B prompt,
+the run-config, the per-record scoring, and the correlation metrics. Prompt
+parity with the Qwen zero-shot row makes the Gemini number a comparable baseline.
+"""
 
 from __future__ import annotations
 
 import hashlib
 import json
 import logging
-import os
 import sys
 import time
 from collections import Counter
@@ -13,7 +19,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import typer
-from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from scipy.stats import pearsonr, spearmanr
@@ -22,15 +27,29 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[2]))
     sys.path.append(str(Path(__file__).resolve().parents[2] / "src"))
 
+from asa.eval.gemini_api import (
+    AUDIO_LABEL,
+    BATCH_COST_MULTIPLIER,
+    MODEL_NAME,
+    SEED,
+    SYSTEM_INSTRUCTION,
+    TEMPERATURE,
+    DailyQuotaExhausted,
+    append_prediction,
+    calculate_cost_usd,
+    generation_config,
+    latest_predictions,
+    load_jsonl,
+    load_predictions,
+    make_client,
+    save_model,
+    upload_with_retries,
+    usage_to_dict,
+)
+from asa.eval.metrics import compute_caption_metrics, extract_mos
 from asa.processed_data import load_processed_records, resolve_audio_path
 from asa.prompts import ZEROSHOT_USER_TEXT_MOS
-from evaluate import compute_caption_metrics, extract_mos
 
-MODEL_NAME = "gemini-3.1-pro-preview"
-SYSTEM_INSTRUCTION = "You are a helpful assistant."
-AUDIO_LABEL = "Audio 1:"
-TEMPERATURE = 0.0
-SEED = 42
 INPUT_USD_PER_MILLION_TOKENS = 2.0
 OUTPUT_USD_PER_MILLION_TOKENS = 12.0
 
@@ -38,22 +57,12 @@ DEFAULT_DATASET = Path("data/processed/eval/test_FOR.json")
 DEFAULT_OUTPUT_DIR = Path(
     "results/evaluation/gemini/gemini31_pro_preview/mos_FOR_greedy"
 )
+DEFAULT_BATCH_OUTPUT_DIR = Path(
+    "results/evaluation/gemini/gemini31_pro_preview/mos_FOR_batch_full"
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 app = typer.Typer(help=__doc__)
-
-
-class DailyQuotaExhausted(RuntimeError):
-    """Raised when Gemini's per-model daily request quota is exhausted."""
-
-
-def is_daily_quota_error(exc: Exception) -> bool:
-    """Return whether an API error reports the per-model daily request quota."""
-    message = str(exc)
-    return (
-        "RESOURCE_EXHAUSTED" in message
-        and "generate_requests_per_model_per_day" in message
-    )
 
 
 def prompt_sha256() -> str:
@@ -91,54 +100,6 @@ def build_run_config(dataset_path: Path, data_root: Path) -> dict[str, Any]:
     }
 
 
-def usage_to_dict(usage: Any) -> dict[str, int]:
-    """Normalize Gemini usage metadata to the token counts used for costing."""
-    if usage is None:
-        return {}
-    fields = (
-        "prompt_token_count",
-        "candidates_token_count",
-        "thoughts_token_count",
-        "total_token_count",
-    )
-    return {field: int(getattr(usage, field, 0) or 0) for field in fields}
-
-
-def calculate_cost_usd(usage: dict[str, int]) -> float:
-    """Calculate standard-tier cost from Gemini usage metadata."""
-    input_tokens = usage.get("prompt_token_count", 0)
-    output_tokens = usage.get("candidates_token_count", 0) + usage.get(
-        "thoughts_token_count", 0
-    )
-    return (
-        input_tokens * INPUT_USD_PER_MILLION_TOKENS
-        + output_tokens * OUTPUT_USD_PER_MILLION_TOKENS
-    ) / 1_000_000
-
-
-def load_predictions(path: Path) -> list[dict[str, Any]]:
-    """Load an incremental prediction JSONL if it exists."""
-    if not path.exists():
-        return []
-    return load_processed_records(path)
-
-
-def latest_predictions(predictions: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Keep the latest attempt for each sample index."""
-    latest: dict[int, dict[str, Any]] = {}
-    for prediction in predictions:
-        latest[int(prediction["sample_index"])] = prediction
-    return [latest[index] for index in sorted(latest)]
-
-
-def append_prediction(path: Path, record: dict[str, Any]) -> None:
-    """Append one completed request immediately for interruption-safe resume."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(record, ensure_ascii=False) + "\n")
-        handle.flush()
-
-
 def validate_rows(
     rows: list[dict[str, Any]], data_root: Path
 ) -> list[tuple[int, dict[str, Any], Path]]:
@@ -157,13 +118,41 @@ def validate_rows(
     return validated
 
 
+def score_record(
+    sample_index: int,
+    row: dict[str, Any],
+    audio_path: Path,
+    response_text: str,
+    usage: dict[str, int],
+    cost_multiplier: float = 1.0,
+    api_mode: str = "interactive",
+) -> dict[str, Any]:
+    """Parse and score one successful Gemini MOS response into a record."""
+    predicted_mos = extract_mos(response_text)
+    true_mos = float(row["mos"])
+    return {
+        **row,
+        "sample_index": sample_index,
+        "audio_path_resolved": str(audio_path),
+        "status": "ok",
+        "api_mode": api_mode,
+        "predicted_response": response_text.strip(),
+        "predicted_mos": predicted_mos,
+        "mos_error": (
+            abs(true_mos - predicted_mos) if predicted_mos is not None else None
+        ),
+        "usage": usage,
+        "cost_usd": calculate_cost_usd(usage) * cost_multiplier,
+    }
+
+
 def write_results(
     output_path: Path,
     config: dict[str, Any],
     predictions: list[dict[str, Any]],
     include_caption_metrics: bool,
 ) -> None:
-    """Score saved predictions through the existing MOS evaluation functions."""
+    """Score saved predictions through the shared MOS evaluation functions."""
     predictions = latest_predictions(predictions)
     successful = [item for item in predictions if item.get("status") == "ok"]
     parsed = [item for item in successful if item.get("predicted_mos") is not None]
@@ -212,44 +201,28 @@ def generate_one(
     audio_path: Path,
     max_retries: int,
 ) -> tuple[str, dict[str, int]]:
-    """Send one Gemini request, retrying transient failures."""
-    audio_bytes = audio_path.read_bytes()
-    last_error: Optional[Exception] = None
-    for attempt in range(max_retries + 1):
-        try:
-            response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=[
-                    AUDIO_LABEL,
-                    types.Part.from_bytes(data=audio_bytes, mime_type="audio/wav"),
-                    ZEROSHOT_USER_TEXT_MOS,
-                ],
-                config=types.GenerateContentConfig(
-                    system_instruction=SYSTEM_INSTRUCTION,
-                    temperature=TEMPERATURE,
-                    seed=SEED,
-                    thinking_config=types.ThinkingConfig(
-                        thinking_level=types.ThinkingLevel.LOW
-                    ),
-                ),
-            )
-            return (response.text or "").strip(), usage_to_dict(response.usage_metadata)
-        except Exception as exc:
-            if is_daily_quota_error(exc):
-                raise DailyQuotaExhausted(str(exc)) from exc
-            last_error = exc
-            if attempt >= max_retries:
-                break
-            wait_seconds = min(2**attempt, 60)
-            logging.warning(
-                "Request failed (%s); retrying in %ds.",
-                type(exc).__name__,
-                wait_seconds,
-            )
-            time.sleep(wait_seconds)
-    raise RuntimeError(
-        f"Gemini request failed after retries: {last_error}"
-    ) from last_error
+    """Send one Gemini MOS request, retrying transient failures."""
+    from asa.eval.gemini_api import generate_text
+
+    contents = [
+        AUDIO_LABEL,
+        types.Part.from_bytes(data=audio_path.read_bytes(), mime_type="audio/wav"),
+        ZEROSHOT_USER_TEXT_MOS,
+    ]
+    return generate_text(client, contents, max_retries)
+
+
+def build_batch_request(sample_index: int, file_uri: str) -> types.InlinedRequest:
+    """Build one keyed MOS Batch request using a previously uploaded WAV."""
+    return types.InlinedRequest(
+        contents=[
+            AUDIO_LABEL,
+            types.Part.from_uri(file_uri=file_uri, mime_type="audio/wav"),
+            ZEROSHOT_USER_TEXT_MOS,
+        ],
+        metadata={"sample_index": str(sample_index)},
+        config=generation_config(),
+    )
 
 
 @app.command()
@@ -273,10 +246,7 @@ def run(
         help="Compute BLEU, ROUGE, and BERTScore after inference.",
     ),
 ) -> None:
-    """Evaluate Gemini 3.1 Pro greedily on the FOR MOS task."""
-    repo_root = Path(__file__).resolve().parents[2]
-    load_dotenv(repo_root / ".env")
-
+    """Evaluate Gemini greedily on the FOR MOS task, resumable and cost-capped."""
     rows = load_processed_records(dataset_path)
     if max_samples is not None:
         rows = rows[:max_samples]
@@ -301,10 +271,6 @@ def run(
         logging.info("Dry run complete: no Gemini API request was sent.")
         return
 
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError("GEMINI_API_KEY is missing from the environment or root .env.")
-
     output_dir.mkdir(parents=True, exist_ok=True)
     if config_path.exists():
         previous_config = json.loads(config_path.read_text(encoding="utf-8"))
@@ -318,10 +284,7 @@ def run(
             json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8"
         )
 
-    client = genai.Client(
-        api_key=api_key,
-        http_options=types.HttpOptions(timeout=120_000),
-    )
+    client = make_client()
     for sample_index, row, audio_path in validated:
         if sample_index in completed_indices:
             continue
@@ -334,22 +297,7 @@ def run(
         logging.info("[%d/%d] %s", sample_index + 1, len(validated), audio_path.name)
         try:
             response_text, usage = generate_one(client, audio_path, max_retries)
-            predicted_mos = extract_mos(response_text)
-            true_mos = float(row["mos"])
-            mos_error = (
-                abs(true_mos - predicted_mos) if predicted_mos is not None else None
-            )
-            record = {
-                **row,
-                "sample_index": sample_index,
-                "audio_path_resolved": str(audio_path),
-                "status": "ok",
-                "predicted_response": response_text,
-                "predicted_mos": predicted_mos,
-                "mos_error": mos_error,
-                "usage": usage,
-                "cost_usd": calculate_cost_usd(usage),
-            }
+            record = score_record(sample_index, row, audio_path, response_text, usage)
         except DailyQuotaExhausted as exc:
             logging.warning(
                 "Daily Gemini request quota exhausted at sample %d; stopping "
@@ -381,6 +329,160 @@ def run(
 
     write_results(results_path, config, existing, include_caption_metrics)
     logging.info("Saved results: %s", results_path)
+
+
+@app.command()
+def submit(
+    dataset_path: Path = typer.Option(DEFAULT_DATASET, help="MOS evaluation JSONL."),
+    data_root: Path = typer.Option(Path("data"), help="Root used to resolve audio."),
+    output_dir: Path = typer.Option(DEFAULT_BATCH_OUTPUT_DIR, help="Batch run dir."),
+) -> None:
+    """Upload all WAVs and submit exactly one all-sample MOS Batch job."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    job_path = output_dir / "batch_job.json"
+    if job_path.exists():
+        raise ValueError(
+            f"{job_path} already exists. Batch creation is not idempotent; "
+            "inspect the existing job instead of submitting another."
+        )
+
+    rows = load_processed_records(dataset_path)
+    validated = validate_rows(rows, data_root)
+    config = build_run_config(dataset_path, data_root)
+    config["api_mode"] = "batch"
+    config["batch_cost_multiplier"] = BATCH_COST_MULTIPLIER
+    config["samples_submitted"] = len(validated)
+    config_path = output_dir / "run_config.json"
+    if config_path.exists():
+        previous = json.loads(config_path.read_text(encoding="utf-8"))
+        if previous != config:
+            raise ValueError(f"Run configuration differs from existing {config_path}.")
+    else:
+        config_path.write_text(
+            json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+
+    client = make_client()
+    uploads_path = output_dir / "uploads.jsonl"
+    uploads = {int(row["sample_index"]): row for row in load_jsonl(uploads_path)}
+    for sample_index, _row, audio_path in validated:
+        if sample_index in uploads:
+            continue
+        logging.info(
+            "Uploading [%d/%d] %s", sample_index + 1, len(rows), audio_path.name
+        )
+        uploaded = upload_with_retries(
+            client, audio_path, f"FOR-{sample_index:03d}-{audio_path.name}"
+        )
+        record = {
+            "sample_index": sample_index,
+            "audio_path": str(audio_path),
+            "file_name": uploaded.name,
+            "file_uri": uploaded.uri,
+            "mime_type": uploaded.mime_type,
+            "size_bytes": uploaded.size_bytes,
+            "expiration_time": (
+                uploaded.expiration_time.isoformat()
+                if uploaded.expiration_time is not None
+                else None
+            ),
+        }
+        append_prediction(uploads_path, record)
+        uploads[sample_index] = record
+
+    requests = [
+        build_batch_request(sample_index, uploads[sample_index]["file_uri"])
+        for sample_index, _row, _audio_path in validated
+    ]
+    logging.info("Submitting one Batch job with %d requests.", len(requests))
+    job = client.batches.create(
+        model=MODEL_NAME,
+        src=requests,
+        config=types.CreateBatchJobConfig(display_name="FOR MOS corrected prompt full"),
+    )
+    save_model(job_path, job)
+    logging.info("Submitted Batch job %s in state %s.", job.name, job.state)
+
+
+@app.command()
+def status(
+    output_dir: Path = typer.Option(DEFAULT_BATCH_OUTPUT_DIR, help="Batch run dir."),
+) -> None:
+    """Fetch and save the latest state of a submitted Batch job."""
+    job_path = output_dir / "batch_job.json"
+    job_record = json.loads(job_path.read_text(encoding="utf-8"))
+    client = make_client()
+    job = client.batches.get(name=job_record["name"])
+    save_model(output_dir / "batch_job_status.json", job)
+    logging.info("Batch job %s: %s", job.name, job.state)
+    if job.error is not None:
+        logging.error("Batch job error: %s", job.error)
+
+
+@app.command("import-results")
+def import_results(
+    dataset_path: Path = typer.Option(DEFAULT_DATASET, help="MOS evaluation JSONL."),
+    data_root: Path = typer.Option(Path("data"), help="Root used to resolve audio."),
+    output_dir: Path = typer.Option(DEFAULT_BATCH_OUTPUT_DIR, help="Batch run dir."),
+    include_caption_metrics: bool = typer.Option(
+        True,
+        "--caption-metrics/--no-caption-metrics",
+        help="Compute BLEU, ROUGE, and BERTScore after importing responses.",
+    ),
+) -> None:
+    """Import a completed inline MOS Batch job into the standard result format."""
+    rows = load_processed_records(dataset_path)
+    validated = validate_rows(rows, data_root)
+    job_record = json.loads((output_dir / "batch_job.json").read_text(encoding="utf-8"))
+    client = make_client()
+    job = client.batches.get(name=job_record["name"])
+    save_model(output_dir / "batch_job_status.json", job)
+    if not job.done:
+        raise ValueError(f"Batch job is not complete: {job.state}")
+    if job.dest is None or not job.dest.inlined_responses:
+        raise ValueError(f"Batch job has no inline responses: {job.error}")
+
+    predictions_path = output_dir / "predictions.jsonl"
+    if predictions_path.exists():
+        raise ValueError(
+            f"{predictions_path} already exists; refusing to import responses twice."
+        )
+
+    by_index = {index: (row, audio_path) for index, row, audio_path in validated}
+    for item in job.dest.inlined_responses:
+        if item.metadata is None or "sample_index" not in item.metadata:
+            raise ValueError("Batch response is missing sample_index metadata.")
+        sample_index = int(item.metadata["sample_index"])
+        row, audio_path = by_index[sample_index]
+        if item.error is not None or item.response is None:
+            record = {
+                **row,
+                "sample_index": sample_index,
+                "audio_path_resolved": str(audio_path),
+                "status": "error",
+                "error": str(item.error),
+                "api_mode": "batch",
+                "cost_usd": 0.0,
+            }
+        else:
+            usage = usage_to_dict(item.response.usage_metadata)
+            record = score_record(
+                sample_index,
+                row,
+                audio_path,
+                item.response.text or "",
+                usage,
+                BATCH_COST_MULTIPLIER,
+                "batch",
+            )
+        append_prediction(predictions_path, record)
+
+    config = json.loads((output_dir / "run_config.json").read_text(encoding="utf-8"))
+    predictions = load_jsonl(predictions_path)
+    write_results(
+        output_dir / "results.json", config, predictions, include_caption_metrics
+    )
+    logging.info("Imported %d Batch responses.", len(predictions))
 
 
 if __name__ == "__main__":

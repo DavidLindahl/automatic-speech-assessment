@@ -1,14 +1,23 @@
-"""Temporal localization evaluation for Qwen2-Audio checkpoints."""
+"""Temporal-localization evaluation CLI for Qwen2-Audio checkpoints.
+
+Thin entrypoint. The temporal model emits a joint answer: a MOS-style quality
+caption plus a localized degradation interval. Interval parsing, t-IoU, offsets,
+ground-truth extraction, caption timestamp stripping and the audio-blind
+baselines live in :mod:`asa.eval.intervals`; the caption/MOS scoring reuses
+:mod:`asa.eval.metrics` verbatim, so those numbers are directly comparable to
+the global-task tables. This file is the ``eval-temporal`` command around them.
+
+Interval and metric helpers are re-exported at module level so
+``from evaluate_temporal import Interval, extract_interval, ...`` (used by the
+tests and by ``evaluate_gemini_temporal.py``) keeps working unchanged.
+"""
 
 from __future__ import annotations
 
 import csv
 import json
 import logging
-import math
-import re
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 from statistics import median
 from typing import Any, List, Optional
@@ -19,34 +28,51 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from asa.data import PROMPT_TEMPLATE
-from asa.datasets import query_to_prompt
+from asa.eval.intervals import (
+    Interval,
+    best_constant_baseline,
+    extract_ground_truth_interval,
+    extract_interval,
+    interval_iou,
+    interval_offset_error,
+    query_to_prompt,
+    strip_non_timestamp_special_tokens,
+    strip_time_tokens_for_caption,
+    whole_clip_baseline_mean_tiou,
+    _safe_float,
+)
+from asa.eval.metrics import (
+    BERTSCORE_MODEL,
+    compute_caption_metrics,
+    extract_mos,
+    mean_or_zero,
+    mos_regression_metrics,
+)
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records, resolve_audio_path
 from asa.prompts import build_zeroshot_prompt_temporal
-from asa.temporal_tokens import decode_all_times
 
-# The temporal model produces a joint answer: a MOS-style quality caption plus a
-# localized degradation interval. Its caption and MOS content are scored with the
-# exact same code path as the global MOS task (compute_caption_metrics and
-# extract_mos in the sibling evaluate.py), so the numbers are directly comparable
-# to the global-task tables. Those helpers are imported lazily inside eval_temporal
-# so this module still loads on a node without the caption-metric extras
-# (sacrebleu / rouge-score / bert-score), e.g. the interval-only / zero-shot path.
+# Re-exported so `from evaluate_temporal import ...` keeps resolving for the test
+# suite and the Gemini temporal script (the historical public surface of this
+# module before the scoring logic moved into asa.eval).
+__all__ = [
+    "Interval",
+    "best_constant_baseline",
+    "extract_ground_truth_interval",
+    "extract_interval",
+    "interval_iou",
+    "interval_offset_error",
+    "query_to_prompt",
+    "strip_non_timestamp_special_tokens",
+    "strip_time_tokens_for_caption",
+    "whole_clip_baseline_mean_tiou",
+    "app",
+    "eval_temporal",
+]
 
 EVAL_TEMPERATURE = 0.7
 EVAL_TOP_P = 0.9
 EVAL_MAX_NEW_TOKENS = 150
-
-# Default BERTScore backbone, recorded in the output for reproducibility (the
-# same default the global MOS eval uses). BERTScore values depend on the
-# backbone, so cited numbers stay comparable only when this is pinned.
-BERTSCORE_MODEL = "roberta-large"
-
-# Matches a discrete anchor or offset time token, e.g. ``<a2>`` or ``<f9>``, used
-# only to strip the localization clause out of a caption before caption-quality
-# scoring (see strip_time_tokens_for_caption). The interval itself is parsed
-# separately, by value, via decode_all_times / the timestamp regexes above.
-ANCHOR_OFFSET_TOKEN_RE = re.compile(r"<[af]\d+>")
 
 # Off-the-shelf (untrained) Qwen2-Audio chat model, used as the zero-shot
 # temporal baseline. The source paper reports off-the-shelf audio LLMs cannot do
@@ -54,309 +80,11 @@ ANCHOR_OFFSET_TOKEN_RE = re.compile(r"<[af]\d+>")
 # that finding for the temporal-localization task (t-IoU floor before training).
 ZEROSHOT_BASELINE_MODEL = "Qwen/Qwen2-Audio-7B-Instruct"
 
-TIMESTAMP_TOKEN_RE = re.compile(r"<\|(-?\d+(?:\.\d+)?)\|>")
-NON_TIMESTAMP_SPECIAL_TOKEN_RE = re.compile(r"<\|(?!-?\d+(?:\.\d+)?\|>)[^|]*\|>")
-PLAIN_FLOAT_RE = re.compile(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d.])")
-RANGE_PATTERNS = [
-    re.compile(
-        r"(?:between|from)\s+(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?"
-        r"\s*(?:and|to|-)\s*(-?\d+(?:\.\d+)?)",
-        re.IGNORECASE,
-    ),
-    re.compile(
-        r"(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?\s*(?:to|-)\s*"
-        r"(-?\d+(?:\.\d+)?)\s*(?:s|sec|secs|seconds)?",
-        re.IGNORECASE,
-    ),
-]
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 app = typer.Typer(
     help="Evaluate fine-tuned Qwen2-Audio models on temporal localization."
 )
-
-
-@dataclass(frozen=True)
-class Interval:
-    """Time interval in seconds."""
-
-    start: float
-    end: float
-
-
-def _safe_float(value: Any) -> Optional[float]:
-    """Parse float-like values safely.
-
-    Args:
-        value: Any numeric-like value.
-
-    Returns:
-        Parsed float, or ``None`` when parsing fails.
-    """
-    try:
-        parsed = float(value)
-    except (TypeError, ValueError):
-        return None
-    if not math.isfinite(parsed):
-        return None
-    return parsed
-
-
-def _sanitize_interval(
-    start: float,
-    end: float,
-    duration_seconds: Optional[float],
-) -> Optional[Interval]:
-    """Normalize, clamp, and validate an interval.
-
-    Args:
-        start: Interval start.
-        end: Interval end.
-        duration_seconds: Optional clip duration for clamping.
-
-    Returns:
-        A valid interval, or ``None`` if invalid.
-    """
-    if end < start:
-        start, end = end, start
-
-    if duration_seconds is not None and duration_seconds > 0:
-        start = max(0.0, min(start, duration_seconds))
-        end = max(0.0, min(end, duration_seconds))
-    else:
-        start = max(0.0, start)
-        end = max(0.0, end)
-
-    if end <= start:
-        return None
-    return Interval(start=start, end=end)
-
-
-def _extract_interval_from_anchor_offset(
-    text: str,
-    duration_seconds: Optional[float],
-) -> Optional[Interval]:
-    """Extract interval from TimeAudio-style ``<aN><fK>`` token pairs."""
-    matches = decode_all_times(text)
-    if len(matches) < 2:
-        return None
-    return _sanitize_interval(matches[0], matches[1], duration_seconds)
-
-
-def _extract_interval_from_tags(
-    text: str,
-    duration_seconds: Optional[float],
-) -> Optional[Interval]:
-    """Extract interval from ``<|...|>`` timestamp tokens."""
-    matches = [float(m) for m in TIMESTAMP_TOKEN_RE.findall(text)]
-    if len(matches) < 2:
-        return None
-    return _sanitize_interval(matches[0], matches[1], duration_seconds)
-
-
-def _extract_interval_from_ranges(
-    text: str,
-    duration_seconds: Optional[float],
-) -> Optional[Interval]:
-    """Extract interval from range-style expressions."""
-    for pattern in RANGE_PATTERNS:
-        match = pattern.search(text)
-        if not match:
-            continue
-        start = _safe_float(match.group(1))
-        end = _safe_float(match.group(2))
-        if start is None or end is None:
-            continue
-        candidate = _sanitize_interval(start, end, duration_seconds)
-        if candidate is not None:
-            return candidate
-    return None
-
-
-def _extract_interval_from_plain_numbers(
-    text: str,
-    duration_seconds: Optional[float],
-) -> Optional[Interval]:
-    """Extract interval from plain numeric text when explicit ranges are absent."""
-    text_without_timestamp_tokens = TIMESTAMP_TOKEN_RE.sub(" ", text)
-    values = [float(m) for m in PLAIN_FLOAT_RE.findall(text_without_timestamp_tokens)]
-    if len(values) < 2:
-        return None
-
-    for left, right in zip(values, values[1:]):
-        candidate = _sanitize_interval(left, right, duration_seconds)
-        if candidate is not None:
-            return candidate
-
-    for i, left in enumerate(values[:-1]):
-        for right in values[i + 1 :]:
-            candidate = _sanitize_interval(left, right, duration_seconds)
-            if candidate is not None:
-                return candidate
-    return None
-
-
-def extract_interval(
-    text: str,
-    duration_seconds: Optional[float],
-    allow_plain: bool = True,
-) -> tuple[Optional[Interval], str]:
-    """Extract one timestamp interval from model text.
-
-    Args:
-        text: Input text to parse.
-        duration_seconds: Optional clip duration for clamping and validity checks.
-        allow_plain: When ``True`` (default, used for fine-tuned models), fall
-            back to "any two plain floats" if no explicit timestamp token or
-            range phrasing is found. When ``False`` (zero-shot baseline), this
-            fallback is suppressed. The plain fallback manufactures an interval
-            from any two numbers in the text, so a free-text answer like "I'd
-            rate this 3 out of 5; the 6 second clip..." would yield a bogus
-            (3.0, 5.0) interval and a non-zero t-IoU. For the untrained baseline
-            that turns "the model emitted no localizable range" into a fake hit,
-            inflating both parse rate and t-IoU. A low parse rate is the honest,
-            defensible result for a baseline, so zero-shot parses only via the
-            explicit ``range`` path. This mirrors the None-on-failure choice in
-            the MOS ``extract_mos``.
-
-    Returns:
-        Tuple ``(interval, source)`` where source indicates parse strategy.
-    """
-    from_anchor_offset = _extract_interval_from_anchor_offset(text, duration_seconds)
-    if from_anchor_offset is not None:
-        return from_anchor_offset, "anchor_offset"
-
-    from_tags = _extract_interval_from_tags(text, duration_seconds)
-    if from_tags is not None:
-        return from_tags, "token"
-
-    from_range = _extract_interval_from_ranges(text, duration_seconds)
-    if from_range is not None:
-        return from_range, "range"
-
-    if allow_plain:
-        from_plain = _extract_interval_from_plain_numbers(text, duration_seconds)
-        if from_plain is not None:
-            return from_plain, "plain"
-
-    return None, "none"
-
-
-def strip_non_timestamp_special_tokens(text: str) -> str:
-    """Remove generated control tokens while keeping timestamp tokens.
-
-    Args:
-        text: Decoded model text that may contain Qwen control tokens.
-
-    Returns:
-        Text with non-timestamp ``<|...|>`` tokens removed.
-    """
-    cleaned = NON_TIMESTAMP_SPECIAL_TOKEN_RE.sub("", text)
-    return " ".join(cleaned.split())
-
-
-def strip_time_tokens_for_caption(text: str) -> str:
-    """Remove timestamp tokens so caption metrics score the prose, not the time.
-
-    The joint temporal target is a quality caption followed by a localization
-    clause, e.g. ``"... overall quality. The degradation in the clip is between
-    <a0><f9> and <a2><f0>."``. Caption BLEU/ROUGE/BERTScore should reflect the
-    descriptive content only, independent of whether the model placed the
-    interval correctly (that is what temporal IoU measures). This strips both
-    timestamp encodings, the discrete anchor/offset tokens ``<aN><fK>`` and the
-    free-text ``<|float|>`` tokens, from a caption. It is applied identically to
-    the prediction and the reference, so the residual "... is between and."
-    scaffolding contributes the same n-grams to both sides and does not bias the
-    comparison; what is removed is exactly the part IoU already scores.
-
-    Args:
-        text: A caption that may contain a trailing localization clause.
-
-    Returns:
-        The caption with timestamp tokens removed and whitespace collapsed.
-    """
-    cleaned = ANCHOR_OFFSET_TOKEN_RE.sub("", text)
-    cleaned = TIMESTAMP_TOKEN_RE.sub("", cleaned)
-    # Tidy the punctuation left dangling by the removed tokens ("between  and .")
-    # so it does not introduce spurious tokens; cosmetic and symmetric.
-    cleaned = re.sub(r"\s+([,.])", r"\1", cleaned)
-    return " ".join(cleaned.split())
-
-
-def interval_iou(pred: Interval, truth: Interval) -> float:
-    """Compute temporal IoU.
-
-    Args:
-        pred: Predicted interval.
-        truth: Ground-truth interval.
-
-    Returns:
-        Temporal intersection-over-union score.
-    """
-    intersection_start = max(pred.start, truth.start)
-    intersection_end = min(pred.end, truth.end)
-    if intersection_end <= intersection_start:
-        return 0.0
-
-    intersection = intersection_end - intersection_start
-    union = (pred.end - pred.start) + (truth.end - truth.start) - intersection
-    if union <= 0:
-        return 0.0
-    return intersection / union
-
-
-def interval_offset_error(pred: Interval, truth: Interval) -> float:
-    """Compute signed expected endpoint offset in seconds.
-
-    Positive values mean the predicted endpoints are late on average; negative
-    values mean they are early on average.
-    """
-    return ((pred.start - truth.start) + (pred.end - truth.end)) / 2
-
-
-def extract_ground_truth_interval(
-    record: dict[str, Any],
-) -> tuple[Optional[Interval], str]:
-    """Read ground-truth interval from a temporal record.
-
-    Args:
-        record: Processed JSON/JSONL record.
-
-    Returns:
-        Tuple ``(interval, source)`` where source names extraction method.
-    """
-    duration = _safe_float(record.get("duration_seconds"))
-    segments = record.get("mix_deg_segments")
-    if isinstance(segments, list):
-        valid: list[Interval] = []
-        for segment in segments:
-            if not isinstance(segment, dict):
-                continue
-            start = _safe_float(segment.get("start"))
-            end = _safe_float(segment.get("end"))
-            if start is None or end is None:
-                continue
-            interval = _sanitize_interval(start, end, duration)
-            if interval is not None:
-                valid.append(interval)
-
-        if valid:
-            longest = max(valid, key=lambda item: item.end - item.start)
-            return longest, "mix_deg_segments"
-
-    response_text = str(record.get("response", ""))
-    from_text, source = extract_interval(response_text, duration)
-    if from_text is not None:
-        return from_text, f"response_{source}"
-    return None, "none"
-
-
-def _mean(values: list[float]) -> float:
-    """Mean helper that returns zero for empty lists."""
-    if not values:
-        return 0.0
-    return sum(values) / len(values)
 
 
 @app.command()
@@ -429,10 +157,6 @@ def eval_temporal(
     import torch
 
     torch.manual_seed(seed)
-    # Lazy import (see module header): caption/MOS scoring reuses the global
-    # eval helpers verbatim, but pulling them in here keeps this module loadable
-    # without sacrebleu/rouge-score/bert-score when only IoU is wanted.
-    from evaluate import compute_caption_metrics, extract_mos
 
     # In --zero-shot mode the model defaults to the off-the-shelf Instruct
     # baseline; otherwise it defaults to the fine-tuned SFT checkpoint.
@@ -600,21 +324,30 @@ def eval_temporal(
                 unique_pred_intervals.add(
                     (round(pred_interval.start, 2), round(pred_interval.end, 2))
                 )
-            if pred_interval is not None:
                 parsed_count += 1
             if truth_interval is not None:
                 ground_truth_count += 1
 
+            # Compute the endpoint errors once and reuse them for both the
+            # accumulators and the per-record detail row.
             tiou = 0.0
+            start_abs_err: Optional[float] = None
+            end_abs_err: Optional[float] = None
+            start_offset_err: Optional[float] = None
+            end_offset_err: Optional[float] = None
+            offset_err: Optional[float] = None
             if pred_interval is not None and truth_interval is not None:
                 tiou = interval_iou(pred_interval, truth_interval)
-                start_errors.append(abs(pred_interval.start - truth_interval.start))
-                end_errors.append(abs(pred_interval.end - truth_interval.end))
-                start_offsets.append(pred_interval.start - truth_interval.start)
-                end_offsets.append(pred_interval.end - truth_interval.end)
-                offset_errors.append(
-                    interval_offset_error(pred_interval, truth_interval)
-                )
+                start_offset_err = pred_interval.start - truth_interval.start
+                end_offset_err = pred_interval.end - truth_interval.end
+                start_abs_err = abs(start_offset_err)
+                end_abs_err = abs(end_offset_err)
+                offset_err = interval_offset_error(pred_interval, truth_interval)
+                start_errors.append(start_abs_err)
+                end_errors.append(end_abs_err)
+                start_offsets.append(start_offset_err)
+                end_offsets.append(end_offset_err)
+                offset_errors.append(offset_err)
             if truth_interval is not None:
                 ious.append(tiou)
 
@@ -636,28 +369,11 @@ def eval_temporal(
                 pred_interval.end if pred_interval is not None else None
             )
             detail["tiou"] = tiou
-            detail["start_abs_err"] = (
-                abs(pred_interval.start - truth_interval.start)
-                if pred_interval is not None and truth_interval is not None
-                else None
-            )
-            detail["end_abs_err"] = (
-                abs(pred_interval.end - truth_interval.end)
-                if pred_interval is not None and truth_interval is not None
-                else None
-            )
-            _has_both = pred_interval is not None and truth_interval is not None
-            detail["start_offset_err"] = (
-                pred_interval.start - truth_interval.start if _has_both else None
-            )
-            detail["end_offset_err"] = (
-                pred_interval.end - truth_interval.end if _has_both else None
-            )
-            detail["offset_err"] = (
-                interval_offset_error(pred_interval, truth_interval)
-                if _has_both
-                else None
-            )
+            detail["start_abs_err"] = start_abs_err
+            detail["end_abs_err"] = end_abs_err
+            detail["start_offset_err"] = start_offset_err
+            detail["end_offset_err"] = end_offset_err
+            detail["offset_err"] = offset_err
             # MOS fields mirror the global eval's per-record schema so the same
             # downstream analysis (e.g. caption-vs-MOS) works on these JSONs too.
             detail["gold_mos"] = gold_mos
@@ -667,14 +383,11 @@ def eval_temporal(
 
         # MOS MAE/MSE over samples whose MOS parsed (same convention as the
         # global eval: an unparsed prediction is honest-failure, not a zero).
-        n_mos_parsed = len(mos_errors)
-        mos_parse_rate = n_mos_parsed / len(resolved_rows)
-        mos_mae = _mean(mos_errors) if n_mos_parsed else float("nan")
-        mos_mse = (
-            sum(error**2 for error in mos_errors) / n_mos_parsed
-            if n_mos_parsed
-            else float("nan")
-        )
+        mos_agg = mos_regression_metrics(mos_errors, len(resolved_rows))
+        n_mos_parsed = mos_agg["parsed"]
+        mos_parse_rate = mos_agg["parse_rate"]
+        mos_mae = mos_agg["mae"]
+        mos_mse = mos_agg["mse"]
 
         # Caption metrics over the timestamp-stripped prose. compute_caption_metrics
         # is the global eval's helper, so BLEU (corpus, cased), ROUGE-1/2/L F1 and
@@ -689,16 +402,16 @@ def eval_temporal(
             "samples_with_parsed_prediction_interval": parsed_count,
             "skipped_missing_audios_field": missing_audio_ref,
             "skipped_missing_audio_file": missing_audio_file,
-            "mean_tiou": _mean(ious),
+            "mean_tiou": mean_or_zero(ious),
             "median_tiou": median(ious) if ious else 0.0,
-            "hit_iou_ge_0_1": _mean([1.0 if value >= 0.1 else 0.0 for value in ious]),
-            "hit_iou_ge_0_3": _mean([1.0 if value >= 0.3 else 0.0 for value in ious]),
-            "hit_iou_ge_0_5": _mean([1.0 if value >= 0.5 else 0.0 for value in ious]),
-            "mean_start_abs_err": _mean(start_errors),
-            "mean_end_abs_err": _mean(end_errors),
-            "expected_offset_error": _mean(offset_errors),
-            "mean_start_offset_err": _mean(start_offsets),
-            "mean_end_offset_err": _mean(end_offsets),
+            "hit_iou_ge_0_1": mean_or_zero([1.0 if v >= 0.1 else 0.0 for v in ious]),
+            "hit_iou_ge_0_3": mean_or_zero([1.0 if v >= 0.3 else 0.0 for v in ious]),
+            "hit_iou_ge_0_5": mean_or_zero([1.0 if v >= 0.5 else 0.0 for v in ious]),
+            "mean_start_abs_err": mean_or_zero(start_errors),
+            "mean_end_abs_err": mean_or_zero(end_errors),
+            "expected_offset_error": mean_or_zero(offset_errors),
+            "mean_start_offset_err": mean_or_zero(start_offsets),
+            "mean_end_offset_err": mean_or_zero(end_offsets),
             "parse_rate": parsed_count / len(resolved_rows),
             "pred_interval_source_counts": pred_source_counts,
             "unique_pred_intervals": len(unique_pred_intervals),

@@ -104,11 +104,7 @@ uv run python scripts/data/generate_nisqa_sim_lowmos_active.py \
   --no-allow-source-reuse \
   --overwrite
 
-uv run python scripts/data/build_temporal_inspector_site.py \
-  --manifest-path "$OUTPUT_DIR/manifest.csv"
-
 echo "=========================================="
 echo "Finished: $(date)"
 echo "Manifest: $OUTPUT_DIR/manifest.csv"
-echo "Inspector: $OUTPUT_DIR/inspector/index.html"
 echo "=========================================="
