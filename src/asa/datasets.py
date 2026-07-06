@@ -22,6 +22,29 @@ from asa.prompts import (
 )
 
 
+def query_to_prompt(query: Any) -> str:
+    """Convert a record ``query`` string into a Qwen2-Audio policy prompt.
+
+    Falls back to ``PROMPT_TEMPLATE`` when the query is missing or empty. When a
+    query is present, the audio placeholder is normalized to the real
+    ``<|audio_bos|><|AUDIO|><|audio_eos|>`` block so the audio token is always
+    present exactly once. Shared by both SFTDataset and DPODataset so the policy
+    model sees the same task-specific prompt (e.g. the temporal query) at SFT and
+    DPO time.
+    """
+    if not isinstance(query, str):
+        return PROMPT_TEMPLATE
+
+    text = " ".join(query.strip().split())
+    if not text:
+        return PROMPT_TEMPLATE
+    if AUDIO_PLACEHOLDER in text:
+        return text.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
+    if "<|AUDIO|>" in text:
+        return text
+    return f"{AUDIO_SPECIAL}{text}"
+
+
 class SFTDataset(Dataset):
     """
     Loads train_nisqa_llama_10k.json (JSONL) and serves samples for SFT.
@@ -81,17 +104,7 @@ class SFTDataset(Dataset):
     @staticmethod
     def _query_to_prompt(query: Any) -> str:
         """Convert a record query string into a Qwen2-Audio prompt."""
-        if not isinstance(query, str):
-            return PROMPT_TEMPLATE
-
-        text = " ".join(query.strip().split())
-        if not text:
-            return PROMPT_TEMPLATE
-        if AUDIO_PLACEHOLDER in text:
-            return text.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
-        if "<|AUDIO|>" in text:
-            return text
-        return f"{AUDIO_SPECIAL}{text}"
+        return query_to_prompt(query)
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -227,8 +240,14 @@ class DPODataset(Dataset):
 
         meta_prompt = self._build_meta_prompt(item)
 
+        # Policy prompt mirrors the SFT stage: temporal records carry a task
+        # `query` ("...identify when the degradation occurs"), so the policy model
+        # is prompted the same way it was fine-tuned. MOS records have no `query`
+        # and fall back to the bare PROMPT_TEMPLATE (unchanged behavior).
+        audio_prompt = query_to_prompt(item.get("query"))
+
         return {
-            "audio_prompt": PROMPT_TEMPLATE,  # For Policy Model
+            "audio_prompt": audio_prompt,  # For Policy Model
             "meta_prompt": meta_prompt,  # For Reference Model
             "chosen": item["chosen"],
             "rejected": item["rejected"],

@@ -1,8 +1,9 @@
-"""Unit tests for DPODataset._build_meta_prompt (MOS vs temporal branch).
+"""Unit tests for DPODataset prompt selection.
 
-These exercise only the prompt-selection logic, so they construct a DPODataset
-without loading audio: __init__ reads the JSONL, and _build_meta_prompt is pure
-given a record + the joined dims index.
+Covers both the reference-stream prompt (_build_meta_prompt: MOS vs temporal
+branch, dims join) and the policy-stream prompt (query_to_prompt: temporal
+records carry a task query, MOS records fall back to the bare template). These
+exercise only prompt logic, so they avoid loading audio.
 """
 
 import json
@@ -10,7 +11,8 @@ from pathlib import Path
 
 import pytest
 
-from asa.datasets import DPODataset
+from asa.datasets import DPODataset, query_to_prompt
+from asa.prompts import PROMPT_TEMPLATE
 
 
 def _write_jsonl(path: Path, records: list[dict]) -> None:
@@ -64,6 +66,33 @@ def test_temporal_record_uses_temporal_expert_with_joined_dims(tmp_path):
     # full palette + rounded interval, temporal task framing
     assert "{mos: 1.4, noi: 1.4, col: 2.6, loud: 3.0, start: 3.57, end: 4.72}" in prompt
     assert "The degradation in the clip is between START and END" in prompt
+
+
+def test_mos_record_policy_prompt_is_bare_template():
+    """A MOS record has no `query`, so the policy prompt stays the bare template."""
+    rec = {"audios": ["a/deg1.wav"], "chosen": "c", "rejected": "r", "mos": 2.1}
+    assert query_to_prompt(rec.get("query")) == PROMPT_TEMPLATE
+
+
+def test_temporal_record_policy_prompt_carries_query():
+    """A temporal record carries the temporal `query`, so the policy model is
+    prompted the same way it was fine-tuned (not the bare MOS template)."""
+    rec = {
+        "audios": ["processed/temporal/mix_deg1.wav"],
+        "chosen": "c",
+        "rejected": "r",
+        "mos": 1.4,
+        "mix_deg_segments": [{"start": 3.5, "end": 4.7}],
+        "query": (
+            "Please describe and evaluate the synthetic speech, and identify "
+            "when the degradation occurs.<audio>"
+        ),
+    }
+    prompt = query_to_prompt(rec.get("query"))
+    assert prompt != PROMPT_TEMPLATE
+    assert "identify when the degradation occurs" in prompt
+    assert prompt.count("<|AUDIO|>") == 1
+    assert "<audio>" not in prompt  # shorthand replaced with the real block
 
 
 def test_temporal_record_without_dims_raises(tmp_path):

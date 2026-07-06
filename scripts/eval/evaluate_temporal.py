@@ -18,7 +18,8 @@ import typer
 if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from asa.data import AUDIO_PLACEHOLDER, AUDIO_SPECIAL, PROMPT_TEMPLATE
+from asa.data import PROMPT_TEMPLATE
+from asa.datasets import query_to_prompt
 from asa.inference import ASAModel, load_model, run_inference
 from asa.processed_data import load_processed_records, resolve_audio_path
 from asa.prompts import build_zeroshot_prompt_temporal
@@ -312,28 +313,6 @@ def interval_offset_error(pred: Interval, truth: Interval) -> float:
     values mean they are early on average.
     """
     return ((pred.start - truth.start) + (pred.end - truth.end)) / 2
-
-
-def query_to_prompt(query: Any) -> str:
-    """Convert a dataset query string into a Qwen2-Audio prompt.
-
-    Args:
-        query: Stored query field from processed records.
-
-    Returns:
-        Prompt with the expected audio special tokens.
-    """
-    if not isinstance(query, str):
-        return PROMPT_TEMPLATE
-
-    text = " ".join(query.strip().split())
-    if not text:
-        return PROMPT_TEMPLATE
-    if AUDIO_PLACEHOLDER in text:
-        return text.replace(AUDIO_PLACEHOLDER, AUDIO_SPECIAL)
-    if "<|AUDIO|>" in text:
-        return text
-    return f"{AUDIO_SPECIAL}{text}"
 
 
 def extract_ground_truth_interval(

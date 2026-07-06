@@ -43,8 +43,8 @@ class ASAModel(str):
     # Full supervised fine-tune (standard single-audio quality assessment)
     SFT = "Leng2beat/speech-quality-assessement-qwen2audio-full-sft"
 
-    # AALD distillation variant
-    AALD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
+    # ALLD distillation variant
+    ALLD = "Leng2beat/speech-quality-assessement-qwen2audio-aald"  # TODO: update when pushed
 
 
 def load_model(
