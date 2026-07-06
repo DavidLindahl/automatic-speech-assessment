@@ -25,29 +25,8 @@ from asa.modeling_timeaudio import (
     Qwen2AudioTimeForConditionalGeneration,
     install_time_tokens,
 )
-from asa.temporal_loss import TemporalLossConfig, compute_temporal_loss
 
 app = typer.Typer()
-
-
-class TemporalLossTrainer(Trainer):
-    """Trainer with timestamp-weighted, distance-aware cross-entropy.
-
-    Phase-1 of the temporal loss redesign (see asa.temporal_loss). Behaves
-    exactly like the stock Trainer when the config is inactive.
-    """
-
-    def __init__(self, temporal_loss_config: TemporalLossConfig, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.temporal_loss_config = temporal_loss_config
-
-    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
-        return compute_temporal_loss(
-            model,
-            inputs,
-            self.temporal_loss_config,
-            return_outputs=return_outputs,
-        )
 
 
 @app.command()
@@ -133,23 +112,6 @@ def train(
             "on anchor-offset-localization targets."
         ),
     ),
-    time_token_loss_weight: float = typer.Option(
-        1.0,
-        help=(
-            "Multiplier on the CE loss at time-token label positions (Phase-1 "
-            "temporal loss, L1). 1.0 = vanilla CE. Requires "
-            "--install-time-tokens."
-        ),
-    ),
-    time_token_soft_sigma: float = typer.Option(
-        0.0,
-        help=(
-            "Gaussian width (in 1 s anchor / 0.1 s offset buckets) for "
-            "distance-aware soft targets over the ordered time-token groups "
-            "(Phase-1 temporal loss, L2). 0 = one-hot targets. Requires "
-            "--install-time-tokens."
-        ),
-    ),
 ):
     """Run supervised fine-tuning on Qwen2-Audio."""
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
@@ -174,8 +136,6 @@ def train(
                 "gradient_accumulation_steps": gradient_accumulation_steps,
                 "weight_decay": weight_decay,
                 "label_smoothing_factor": label_smoothing_factor,
-                "time_token_loss_weight": time_token_loss_weight,
-                "time_token_soft_sigma": time_token_soft_sigma,
                 "val_split": val_split,
                 "max_samples": max_samples,
                 "dtype": "bf16" if bf16 else "fp16" if fp16 else "fp32",
@@ -306,45 +266,14 @@ def train(
         push_to_hub=False,
     )
     # ── 5. Train ─────────────────────────────────────────────────────────
-    temporal_loss_active = time_token_loss_weight != 1.0 or time_token_soft_sigma > 0
-    if temporal_loss_active:
-        if not install_time_tokens_flag:
-            raise ValueError(
-                "--time-token-loss-weight / --time-token-soft-sigma require "
-                "--install-time-tokens (the loss needs the anchor/offset "
-                "vocabulary)."
-            )
-        temporal_config = TemporalLossConfig.from_tokenizer(
-            processor.tokenizer,
-            time_weight=time_token_loss_weight,
-            soft_sigma=time_token_soft_sigma,
-        )
-        if is_main:
-            print(
-                "Temporal loss ACTIVE: "
-                f"time_token_loss_weight={time_token_loss_weight}, "
-                f"soft_sigma={time_token_soft_sigma} "
-                f"({len(temporal_config.anchor_ids)} anchors, "
-                f"{len(temporal_config.offset_ids)} offsets)."
-            )
-        trainer = TemporalLossTrainer(
-            temporal_loss_config=temporal_config,
-            model=model,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            data_collator=collator,
-            processing_class=processor,
-        )
-    else:
-        trainer = Trainer(
-            model=model,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            data_collator=collator,
-            processing_class=processor,
-        )
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        data_collator=collator,
+        processing_class=processor,
+    )
     if is_main:
         print("Starting training...")
     if resume_from_checkpoint is None:

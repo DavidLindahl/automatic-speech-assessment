@@ -24,7 +24,7 @@ skipped automatically off-HPC and should be run on a DTU GPU node.
 | Data I/O + audio | `test_processed_data`, `test_audio_loading` |
 | Datasets + collators | `test_dataset`, `test_collator`, `test_dpo_meta_prompt` |
 | Data builders | `test_build_nisqa_temporal_json`, `test_build_dpo_cycle_splices`, `test_generate_dpo_temporal_factor` |
-| Temporal mechanism | `test_temporal_tokens`, `test_temporal_loss`, `test_modeling_timeaudio`, `test_frame_probe` |
+| Temporal mechanism | `test_temporal_tokens`, `test_modeling_timeaudio`, `test_frame_probe` |
 | Eval CLIs | `test_evaluate_cli`, `test_evaluate_temporal`, `test_evaluate_gemini_temporal` |
 | Training smoke (GPU) | `test_sft_forwardpass`, `test_sft_full`, `test_alld_pipeline`, `test_deepspeed`, `test_inference` |
 | Job-script validity | `test_jobs` (every `jobs/**/*.sh` parses and obeys the LSF mem rule) |
